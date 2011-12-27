@@ -1,0 +1,9 @@
+pyramid
+pyramid_zodbconn
+pyramid_tm
+pyramid_debugtoolbar
+ZODB3
+webError
+docutils
+passlib
+webtest

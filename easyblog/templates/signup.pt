@@ -1,0 +1,13 @@
+<div metal:use-macro="layout">
+    <div metal:fill-slot="content">
+        <p> ${message} </p>
+        <form action="${url}" method="post">
+          <label for="username">Username:</label>
+          <input type="text" name="username" value="${username}"/><br/>
+          <label for="password">Password:</label>
+          <input type="password" name="password"
+                 value=""/><br/>
+          <input type="submit" name="form.submitted" value="Register"/>
+        </form>
+    </div>
+</div>
