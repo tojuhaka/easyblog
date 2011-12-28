@@ -1,16 +1,15 @@
 from passlib.context import CryptContext
-from pyramid.view import view_config
 from pyramid.security import Allow, Everyone
-
-USERS = {'editor':'editor',
-          'viewer':'viewer'}
-GROUPS = {'editor':['group:editors']}
-
+from pyramid.view import view_config
+from pyramid_zodbconn import get_connection
 
 acl = [ (Allow, Everyone, 'view'),
-        (Allow, 'group:editors', 'edit') ]
+        (Allow, 'group:members', 'edit'),
+        (Allow, 'group:admins', 'edit_all'),
+       (Allow, 'group:admins', 'edit')]
+
 # Salt for pasword hashes
-salt = 'torpedo'
+salt = u'torpedo'
 # Crypt config for password hashes
 pwd_context = CryptContext(
     #replace this list with the hash(es) you wish to support.
@@ -28,11 +27,10 @@ pwd_context = CryptContext(
     pbkdf2_sha256__default_rounds = 8000,
     )
 
-@view_config(context='easyblog.models.Main')
-def users(context):
-    return context['users']
+# TODO: BETTER SOLUTION
 
 def groupfinder(userid, request):
-    if userid in users:
-        return GROUPS.get(userid, [])
+    context = get_connection(request).root()['app_root']
+    if userid in context['users']:
+        return context['groups'].get(userid, [])
 

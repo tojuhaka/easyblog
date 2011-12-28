@@ -1,9 +1,12 @@
-from pyramid.httpexceptions import HTTPFound
+from pyramid.httpexceptions import HTTPFound, HTTPForbidden
 from pyramid.view import view_config
 from pyramid.renderers import get_renderer
-from easyblog.models import Main, User
 from pyramid.url import resource_url
-from pyramid.security import authenticated_userid, remember, forget
+from pyramid.security import authenticated_userid, remember, forget, has_permission
+
+from easyblog.models import Main, User
+from easyblog.config import members_group
+
 
 # Define main layout for page
 def site_layout():
@@ -28,6 +31,7 @@ def signup(context, request):
         username = request.params['username']
         password = request.params['password']
         context['users'].add(username, password)
+        context['groups'].add(username, members_group)
         message = 'Successfully added user: ' + username
 
     return {
@@ -56,7 +60,7 @@ def login(context, request):
             if context['users'][username].validate_password(password):
                 headers = remember(request, username)
                 return HTTPFound(location = came_from,
-                             headers = headers)
+                                 headers = headers)
         except KeyError:
             pass
         message = 'Failed username'
@@ -74,27 +78,40 @@ def login(context, request):
 def logout(request):
     headers = forget(request)
     return HTTPFound(location = resource_url(request.context, request),
-                     headers = headers)
+                    headers=headers)
 
 @view_config(context=User, renderer='easyblog:templates/user_view.pt')
 def user_view(context, request):
     username = context.username
+    print authenticated_userid(request)
     return {
         'layout': site_layout(),
         'project':'easyblog',
         'username': username,
     }
 
-@view_config(context=User, renderer='easyblog:templates/user_edit.pt', 
-    name='edit', permission='edit')
+@view_config(name='edit', context=User, renderer='templates/user_edit.pt',
+    permission='edit')
 def user_edit(context, request):
     username = context.username
     logged_in = authenticated_userid(request)
-    import pdb; pdb.set_trace()
+
+    # Allow access only for the user of the page
+    if logged_in != username and not has_permission('edit_all', context,request):
+        return HTTPForbidden()
     return {
         'layout': site_layout(),
         'project':'easyblog',
         'username': username,
     }
+
+@view_config(context='.models.Page',
+             renderer='templates/page.pt', permission='edit')
+def view_page(context, request):
+    wiki = context.__parent__
+
+    logged_in = authenticated_userid(request)
+
+    return dict(page = context, logged_in = logged_in, layout = site_layout())
 
 

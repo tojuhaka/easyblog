@@ -29,6 +29,7 @@ class ViewTests(unittest.TestCase):
         # Adding the user should work
         info = signup(self.context, self.dummy_request)
         self.assertEqual(info['message'], 'Successfully added user: user')
+        self.assertEqual(self.context['groups']['user'], ['group:members'])
 
         # Username should be already in use
         self.assertRaises(UsernameAlreadyInUseException, 
@@ -79,13 +80,13 @@ class FunctionalTests(unittest.TestCase):
     # admin_signup = '/signup?username=admin&password=adminpw' \
     #                '&form.submitted=Signup'
 
-    admin_login = '/login?login=admin&password=adminpw#' \
+    admin_login = '/login?username=admin&password=adminpw#' \
                    '&came_from=Home&form.submitted=Login'
 
     member_signup = '/signup?username=member&password=memberpw' \
                    '&form.submitted=Signup'
 
-    member_login = '/login?username=member&password=memberpw#' \
+    member_login = '/login?username=member&password=memberpw' \
                    '&came_from=Home&form.submitted=Login'
 
     
@@ -117,7 +118,7 @@ class FunctionalTests(unittest.TestCase):
         self.testapp.get(self.member_signup)
         self.testapp.get(self.second_member_signup)
 
-    def test_member_edit(self):
+    def test_user_edit_without_loggin_in(self):
         res = self.testapp.get('/users/admin/edit', status=403)
         self.assertEquals(res.status, '403 Forbidden')
         res = self.testapp.get('/users/member/edit', status=403)
@@ -125,11 +126,6 @@ class FunctionalTests(unittest.TestCase):
         res = self.testapp.get('/users/second_member/edit', status=403)
         self.assertEquals(res.status, '403 Forbidden')
 
-    def test_admin(self):
-        res = self.testapp.get('/users/admin', status=403)
-        self.assertEquals(res.status, '403 Forbidden')
-
-        
     def test_logout_page(self):
         res = self.testapp.get(self.admin_login, status=200)
         res = self.testapp.get('/logout', status=302)
@@ -141,11 +137,33 @@ class FunctionalTests(unittest.TestCase):
     def test_login_link_present_after_logout(self):
         pass
 
-    def test_member_access_to_member_user(self):
-        pass
-        res = self.testapp.get(self.member_login, status=200)
-        res = self.testapp.get('/users/member', status=200)
-        self.assertEquals('member' in res.body.lower())
+    def test_user_edit(self):
+        #login as member
+        res = self.testapp.post(self.member_login)
+        res = self.testapp.get('/users/member/edit', status=200)
+        self.assertTrue('member' in res.body.lower())
+    
+        # after logout, ../edit should be forbidden
+        self.testapp.get('/logout')
+        res = self.testapp.get('/users/member/edit', status=403)
+        self.assertEquals(res.status, '403 Forbidden')
+
+    def test_forbidden_user_to_admin_edit(self):
+        #login as member
+        res = self.testapp.post(self.member_login)
+
+        # try to access admin edit-view (should fail)
+        res = self.testapp.get('/users/second_member/edit', status=403)
+        self.assertEquals(res.status, '403 Forbidden')
+
+        # admin has the permission "edit_all" so it should be able to access
+        # the content
+        res = self.testapp.post('/logout')
+        res = self.testapp.post(self.admin_login)
+        res = self.testapp.get('/users/second_member/edit', status=200)
+        self.assertEquals(res.status, '200 OK')
+
+
         
 
     def test_admin_access_to_all_users(self):

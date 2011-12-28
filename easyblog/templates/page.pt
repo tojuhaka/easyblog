@@ -1,5 +1,5 @@
 <div metal:use-macro="layout">
     <div metal:fill-slot="content">
-        <h1>${username}</h1>
+        <p>VIEW PAGE</p>
     </div>
 </div>
