@@ -1,6 +1,6 @@
 from formencode import Schema, validators
 
-class UserSchema(Schema):
+class SignUpSchema(Schema):
     filter_extra_fields = True
     allow_extra_fields = True
 

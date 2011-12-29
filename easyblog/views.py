@@ -3,7 +3,7 @@ from pyramid.view import view_config
 from pyramid.renderers import get_renderer
 from pyramid.url import resource_url
 from pyramid.security import authenticated_userid, remember, forget, has_permission
-from easyblog.interfaces import UserSchema
+from easyblog.schemas import SignUpSchema
 
 from easyblog.models import Main, User
 from easyblog.config import members_group
@@ -35,7 +35,7 @@ def signup(context, request):
     username = u''
     password = u''
 
-    form = Form(request, schema=UserSchema)
+    form = Form(request, schema=SignUpSchema)
     
     if form.validate():
         import pdb; pdb.set_trace()
