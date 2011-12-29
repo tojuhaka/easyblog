@@ -108,11 +108,12 @@ def logout(request):
 @view_config(context=User, renderer='easyblog:templates/user_view.pt')
 def user_view(context, request):
     username = context.username
-    print authenticated_userid(request)
+    logged_in = authenticated_userid(request)
     return {
         'layout': site_layout(),
         'project':'easyblog',
         'username': username,
+        'logged_in': logged_in,
     }
 
 @view_config(name='edit', context=User, renderer='templates/user_edit.pt',
@@ -141,5 +142,6 @@ def view_page(context, request):
         'logged_in':logged_in, 
         'layout': site_layout(),
     }
+
 
 

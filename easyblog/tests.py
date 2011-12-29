@@ -117,12 +117,6 @@ class FunctionalTests(unittest.TestCase):
         res = self.testapp.get('/logout', status=302)
         self.assertEquals(res.location, 'http://localhost/')
 
-    def test_logout_link_present_after_login(self):
-        pass
-    
-    def test_login_link_present_after_logout(self):
-        pass
-
     def test_user_edit(self):
         #login as member
         res = self._login('member', 'memberpw#')
@@ -137,6 +131,10 @@ class FunctionalTests(unittest.TestCase):
     def test_forbidden_user_to_admin_edit(self):
         #login as member
         res = self._login('member', 'memberpw#')
+
+        # should return 200 ok for normal view
+        res = self.testapp.get('/users/member', status=200)
+        self.assertEquals(res.status, '200 OK')
 
         # try to access admin edit-view (should fail)
         res = self.testapp.get('/users/second_member/edit', status=403)

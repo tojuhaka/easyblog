@@ -1,6 +1,5 @@
 <div metal:use-macro="layout">
     <div metal:fill-slot="content">
-        <h1>${username}</h1>
-        <p> EDIT USER HERE </p>
+        <p>You've successfully registered.</p>
     </div>
 </div>
