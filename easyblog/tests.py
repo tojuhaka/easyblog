@@ -16,6 +16,7 @@ class ViewTests(unittest.TestCase):
         self.dummy_request = testing.DummyRequest()
         self.dummy_request.params['username'] = 'user'
         self.dummy_request.params['password'] = 'password'
+        self.dummy_request.params['email'] = 'user@user.com'
         self.dummy_request.params['form.submitted'] = ''
 
         self.context = appmaker({})
@@ -67,37 +68,30 @@ class ModelTests(unittest.TestCase):
 
     def test_password_validation(self):
         from easyblog.models import User
-        user = User('user', 'password', 1234)
+        user = User('user', 'password', 'user@user.com', 1234)
         self.assertEquals(True, user.validate_password('password'))
         self.assertEquals(False, user.validate_password('PaSsword'))
 
 class FunctionalTests(unittest.TestCase):
-    viewer_login = '/login?login=viewer&password=viewer' \
-                   '&came_from=FrontPage&form.submitted=Login'
-    viewer_wrong_login = '/login?login=viewer&password=incorrect' \
-                   '&came_from=FrontPage&form.submitted=Login'
-
-    # admin_signup = '/signup?username=admin&password=adminpw' \
-    #                '&form.submitted=Signup'
-
     admin_login = '/login?username=admin&password=adminpw#' \
-                   '&came_from=Home&form.submitted=Login'
+                   '&email=admin@admin.com&came_from=Home&form.submitted=Login'
 
     member_signup = '/signup?username=member&password=memberpw' \
-                   '&form.submitted=Signup'
+                   '&email=member@member.com&form.submitted=Signup'
 
     member_login = '/login?username=member&password=memberpw' \
-                   '&came_from=Home&form.submitted=Login'
+                   '&email=member@member.com&came_from=Home&form.submitted=Login'
 
     
     second_member_signup = '/signup?username=second_member&password=secondmemberpw' \
-                   '&form.submitted=Login'
+                   '&email=second.member@member.com&form.submitted=Login'
 
     second_member_login = '/login?username=second_member&password=secondmemberpw' \
-                   '&came_from=Home&form.submitted=Login'
+                   '&email=second.member@member.com&came_from=Home&form.submitted=Login'
     
 
     def setUp(self):
+        # Build testing environment
         import tempfile
         import os.path
         from easyblog import main
@@ -113,18 +107,17 @@ class FunctionalTests(unittest.TestCase):
         from webtest import TestApp
         self.testapp = TestApp(app)
 
-        # init three test users
-        #self.testapp.get(self.admin_signup)
+        # init two test users, admin is already defined
         self.testapp.get(self.member_signup)
         self.testapp.get(self.second_member_signup)
 
     def test_user_edit_without_loggin_in(self):
-        res = self.testapp.get('/users/admin/edit', status=403)
-        self.assertEquals(res.status, '403 Forbidden')
-        res = self.testapp.get('/users/member/edit', status=403)
-        self.assertEquals(res.status, '403 Forbidden')
-        res = self.testapp.get('/users/second_member/edit', status=403)
-        self.assertEquals(res.status, '403 Forbidden')
+        res = self.testapp.get('/users/admin/edit', status=200)
+        self.assertTrue('Login' in res.body)
+        res = self.testapp.get('/users/member/edit', status=200)
+        self.assertTrue('Login' in res.body)
+        res = self.testapp.get('/users/second_member/edit', status=200)
+        self.assertTrue('Login' in res.body)
 
     def test_logout_page(self):
         res = self.testapp.get(self.admin_login, status=200)
@@ -143,10 +136,10 @@ class FunctionalTests(unittest.TestCase):
         res = self.testapp.get('/users/member/edit', status=200)
         self.assertTrue('member' in res.body.lower())
     
-        # after logout, ../edit should be forbidden
+        # after logout, edit should show login window
         self.testapp.get('/logout')
-        res = self.testapp.get('/users/member/edit', status=403)
-        self.assertEquals(res.status, '403 Forbidden')
+        res = self.testapp.get('/users/member/edit', status=200)
+        self.assertTrue('Login' in res.body)
 
     def test_forbidden_user_to_admin_edit(self):
         #login as member
@@ -161,13 +154,24 @@ class FunctionalTests(unittest.TestCase):
         res = self.testapp.post('/logout')
         res = self.testapp.post(self.admin_login)
         res = self.testapp.get('/users/second_member/edit', status=200)
-        self.assertEquals(res.status, '200 OK')
+        self.assertTrue('second_member' in res.body)
 
 
-        
+    def test_logout_link_when_logged_in(self):
+        res = self.testapp.post(self.member_login)
+        res = self.testapp.get('/', status=200)
+        self.assertTrue('Logout' in res.body)
 
-    def test_admin_access_to_all_users(self):
+    def test_logout_link_not_present_after_logged_out(self):
+        res = self.testapp.get('/', status=200)
+        self.assertFalse('Logout' in res.body)
+
+    def test_member_email_change(self):
         pass
+
+    def test_email_validation(self):
+        pass
+
 
     def test_member_access_denied_to_different_user(self):
         pass

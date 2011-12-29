@@ -8,6 +8,12 @@
     <title>EasyBlog 2000</title>
 </head>
 <body>
+  <div id="login_link">
+    <span tal:condition="logged_in">
+        <p> Logged in as ${logged_in}.</p>
+        <a href="${request.application_url}/logout">Logout</a>
+    </span>
+  </div>
 <ul>
     <li><a href="/">Home</a></li>
     <li><a href="/about.html">About Projector</a></li>

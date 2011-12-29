@@ -1,9 +1,12 @@
 <div metal:use-macro="layout">
     <div metal:fill-slot="content">
+    <h1> Login </h1>
     <p> ${message} </p>
         <form action="${url}" method="post">
           <input type="hidden" name="came_from" value="${came_from}"/>
+          <label for="Username">Username: </label>
           <input type="text" name="username" value="${username}"/><br/>
+          <label for="Password: ">Password: </label>
           <input type="password" name="password"
                  value=""/><br/>
           <input type="submit" name="form.submitted" value="Log In"/>

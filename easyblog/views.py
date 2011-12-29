@@ -3,10 +3,13 @@ from pyramid.view import view_config
 from pyramid.renderers import get_renderer
 from pyramid.url import resource_url
 from pyramid.security import authenticated_userid, remember, forget, has_permission
+from easyblog.interfaces import UserSchema
 
 from easyblog.models import Main, User
 from easyblog.config import members_group
 
+from pyramid_simpleform.renderers import FormRenderer
+from pyramid_simpleform import Form
 
 # Define main layout for page
 def site_layout():
@@ -15,22 +18,32 @@ def site_layout():
     return layout
 
 # Frontpage
-@view_config(name='index', renderer='templates/index.pt')
+@view_config(context=Main, renderer='templates/index.pt')
 def main_view(request):
+    logged_in = authenticated_userid(request)
     return {
         'layout': site_layout(),
-        'project':'easyblog'
+        'project':'easyblog',
+        'logged_in': logged_in
     }
+
 
 @view_config(context=Main, renderer='templates/signup.pt', name='signup')
 def signup(context, request):
+    logged_in = authenticated_userid(request)
     message = u''
     username = u''
     password = u''
+
+    form = Form(request, schema=UserSchema)
+    
+    if form.validate():
+        import pdb; pdb.set_trace()
     if 'form.submitted' in request.params:
         username = request.params['username']
         password = request.params['password']
-        context['users'].add(username, password)
+        email = request.params['email']
+        context['users'].add(username, password, email)
         context['groups'].add(username, members_group)
         message = 'Successfully added user: ' + username
 
@@ -39,13 +52,17 @@ def signup(context, request):
         'layout': site_layout(),
         'url': request.application_url + '/signup',
         'username': username,
+        'logged_in': logged_in,
         'password': password,
+        'form': FormRenderer(form)
     }
 
 
 @view_config(context=Main, renderer='templates/login.pt', name='login')
+@view_config(context='pyramid.exceptions.Forbidden', renderer='templates/login.pt')
 def login(context, request):
-    username_url = resource_url(request.context, request, 'username')
+    logged_in = authenticated_userid(request)
+    username_url = resource_url(request.context, request, 'login')
     referrer = request.url
     if referrer == username_url:
         referrer = '/' # never use the username form itself as came_from
@@ -64,6 +81,9 @@ def login(context, request):
         except KeyError:
             pass
         message = 'Failed username'
+    
+    if logged_in:
+        message = "You are already logged in as " + logged_in + "."
 
     return {
         'message': message,
@@ -72,6 +92,7 @@ def login(context, request):
         'came_from': came_from,
         'username': username,
         'password': password,
+        'logged_in': logged_in
     }
 
 @view_config(context=Main, renderer='templates/logout.pt', name='logout')
@@ -103,15 +124,18 @@ def user_edit(context, request):
         'layout': site_layout(),
         'project':'easyblog',
         'username': username,
+        'logged_in': logged_in
     }
 
 @view_config(context='.models.Page',
              renderer='templates/page.pt', permission='edit')
 def view_page(context, request):
-    wiki = context.__parent__
-
     logged_in = authenticated_userid(request)
 
-    return dict(page = context, logged_in = logged_in, layout = site_layout())
+    return {
+        'page': context,
+        'logged_in':logged_in, 
+        'layout': site_layout(),
+    }
 
 

@@ -9,6 +9,7 @@ from easyblog.config import admins_group
 from pyramid.security import Allow
 from pyramid.security import Everyone
 
+
 # Main root object in our ZODB database
 class Main(PersistentMapping):
     __name__ = None
@@ -23,23 +24,24 @@ class Users(PersistentMapping):
     def has_user(self, username):
         return username in self.keys()
 
-    def add(self, username, password):
+    def add(self, username, password, email):
         if self.has_user(username):
             raise UsernameAlreadyInUseException(username)
         if not username or not password:
             raise FieldsNotDefinedException()
 
-        user = User(username, password, self._generate_id())
+        user = User(username, password, email, self._generate_id())
         user.__name__ = username
         user.__parent__ = self
         self[user.username] = user
 
 # Single user, TODO: passwords and other information
 class User(Persistent):
-    def __init__(self, username, password, id):
+    def __init__(self, username, password, email, id):
         self.username = username
         self.password = pwd_context.encrypt(password + salt)
         self.id = id
+        self.email = email
 
     def validate_password(self, password):
         return pwd_context.verify(password + salt, self.password)
@@ -88,10 +90,11 @@ def appmaker(zodb_root):
         app_root['FrontPage'] = frontpage
 
         users.__parent__ = app_root
+        users.__name__ = 'users'
         blog.__parent__ = app_root
         groups.__parent__ = app_root
 
-        users.add('admin', 'adminpw#')
+        users.add('admin', 'adminpw#', 'admin@admin.com')
         groups.add('admin', admins_group)
 
         zodb_root['app_root'] = app_root
