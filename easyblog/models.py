@@ -22,14 +22,11 @@ class Users(PersistentMapping):
         return len(self.keys()) + 1
 
     def has_user(self, username):
-        return username in self.keys()
+        if username in self.keys():
+            return True
+        return False
 
     def add(self, username, password, email):
-        if self.has_user(username):
-            raise UsernameAlreadyInUseException(username)
-        if not username or not password:
-            raise FieldsNotDefinedException()
-
         user = User(username, password, email, self._generate_id())
         user.__name__ = username
         user.__parent__ = self

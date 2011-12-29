@@ -17,43 +17,12 @@ class ViewTests(unittest.TestCase):
         self.dummy_request.params['username'] = 'user'
         self.dummy_request.params['password'] = 'password'
         self.dummy_request.params['email'] = 'user@user.com'
-        self.dummy_request.params['form.submitted'] = ''
+        self.dummy_request.params['submit'] = 'Submit'
 
         self.context = appmaker({})
 
     def tearDown(self):
         testing.tearDown()
-
-    def test_signup(self):
-        from easyblog.views import signup
-        from easyblog.exceptions import UsernameAlreadyInUseException
-        # Adding the user should work
-        info = signup(self.context, self.dummy_request)
-        self.assertEqual(info['message'], 'Successfully added user: user')
-        self.assertEqual(self.context['groups']['user'], ['group:members'])
-
-        # Username should be already in use
-        self.assertRaises(UsernameAlreadyInUseException, 
-                        signup, self.context,self.dummy_request )
-
-        # Add another user to test user id
-        self.dummy_request.params['username'] = 'another_user'
-        self.dummy_request.params['password'] = 'another_password'
-        signup(self.context, self.dummy_request)
-        self.assertEqual(self.context['users'][self.dummy_request.params['username']].id, 3)
-
-    def test_login(self):
-        from easyblog.views import login, signup
-        from pyramid.httpexceptions import HTTPFound
-        signup(self.context, self.dummy_request)
-        info = login(self.context, self.dummy_request)
-        self.assertEquals(type(info), HTTPFound)
-
-        self.dummy_request.params['username'] = 'another_user'
-        self.dummy_request.params['password'] = 'another_password'
-        info = login(self.context, self.dummy_request)
-        self.assertNotEquals(type(info), HTTPFound)
-
 
 
 class ModelTests(unittest.TestCase):
@@ -72,23 +41,42 @@ class ModelTests(unittest.TestCase):
         self.assertEquals(True, user.validate_password('password'))
         self.assertEquals(False, user.validate_password('PaSsword'))
 
+    def test_set_group(self):
+        pass
+        
+
 class FunctionalTests(unittest.TestCase):
     admin_login = '/login?username=admin&password=adminpw#' \
-                   '&email=admin@admin.com&came_from=Home&form.submitted=Login'
+                   '&email=admin@admin.com&came_from=Home&submit=Submit'
 
-    member_signup = '/signup?username=member&password=memberpw' \
-                   '&email=member@member.com&form.submitted=Signup'
+    member_signup = '/signup?username=member&password=memberpw&confirm_password=memberpw' \
+                   '&email=member@member.com&submit=Submit'
 
     member_login = '/login?username=member&password=memberpw' \
-                   '&email=member@member.com&came_from=Home&form.submitted=Login'
+                   '&email=member@member.com&came_from=Home&submit=Submit'
 
     
     second_member_signup = '/signup?username=second_member&password=secondmemberpw' \
-                   '&email=second.member@member.com&form.submitted=Login'
+                   '&email=second.member@member.com&submit=Submit'
 
     second_member_login = '/login?username=second_member&password=secondmemberpw' \
-                   '&email=second.member@member.com&came_from=Home&form.submitted=Login'
+                   '&email=second.member@member.com&submit=Submit'
     
+    def _signup(self, username, password, password_confirm, email):
+        res = self.testapp.get('/signup')
+        form = res.forms[0]
+        form['username'] = username
+        form['password'] = password
+        form['password_confirm'] = password_confirm
+        form['email'] = email
+        return form.submit()
+
+    def _login(self, username, password):
+        res = self.testapp.get('/login')
+        form = res.forms[0]
+        form['username'] = username
+        form['password'] = password
+        return form.submit()
 
     def setUp(self):
         # Build testing environment
@@ -108,8 +96,8 @@ class FunctionalTests(unittest.TestCase):
         self.testapp = TestApp(app)
 
         # init two test users, admin is already defined
-        self.testapp.get(self.member_signup)
-        self.testapp.get(self.second_member_signup)
+        self._signup('member', 'memberpw#', 'memberpw#', 'member@member.com')
+        self._signup('second_member', 'second_memberpw#', 'second_memberpw#', 'second_member@member.com')
 
     def test_user_edit_without_loggin_in(self):
         res = self.testapp.get('/users/admin/edit', status=200)
@@ -119,8 +107,13 @@ class FunctionalTests(unittest.TestCase):
         res = self.testapp.get('/users/second_member/edit', status=200)
         self.assertTrue('Login' in res.body)
 
+    def test_signup_username_already_in_use(self):
+        res = self._signup('member', 'memberpw#', 'memberpw#', 'member@member.com')
+        self.assertTrue('already exists' in res.body)
+
+
     def test_logout_page(self):
-        res = self.testapp.get(self.admin_login, status=200)
+        res = self._login('admin', 'adminpw#')
         res = self.testapp.get('/logout', status=302)
         self.assertEquals(res.location, 'http://localhost/')
 
@@ -132,7 +125,7 @@ class FunctionalTests(unittest.TestCase):
 
     def test_user_edit(self):
         #login as member
-        res = self.testapp.post(self.member_login)
+        res = self._login('member', 'memberpw#')
         res = self.testapp.get('/users/member/edit', status=200)
         self.assertTrue('member' in res.body.lower())
     
@@ -143,7 +136,7 @@ class FunctionalTests(unittest.TestCase):
 
     def test_forbidden_user_to_admin_edit(self):
         #login as member
-        res = self.testapp.post(self.member_login)
+        res = self._login('member', 'memberpw#')
 
         # try to access admin edit-view (should fail)
         res = self.testapp.get('/users/second_member/edit', status=403)
@@ -152,13 +145,13 @@ class FunctionalTests(unittest.TestCase):
         # admin has the permission "edit_all" so it should be able to access
         # the content
         res = self.testapp.post('/logout')
-        res = self.testapp.post(self.admin_login)
+        res = self._login('admin', 'adminpw#')
         res = self.testapp.get('/users/second_member/edit', status=200)
         self.assertTrue('second_member' in res.body)
 
 
     def test_logout_link_when_logged_in(self):
-        res = self.testapp.post(self.member_login)
+        res = self._login('member', 'memberpw#')
         res = self.testapp.get('/', status=200)
         self.assertTrue('Logout' in res.body)
 

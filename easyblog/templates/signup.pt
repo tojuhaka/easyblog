@@ -3,24 +3,26 @@
         <h1> Signup </h1>
         <p> ${message} </p>
         ${form.begin(request.resource_url(request.root, 'signup'))}
-        <table class="fields">
-          <tr>
-            <td>${form.text("username")}</td>
-            <td>${form.errors_for("username")}</td>
-          </tr>
-          <tr>
-            <td>${form.password("password")}</td>
-            <td>${form.errors_for("password")}</td>
-          </tr>
-          <tr>
-            <td>${form.password("password_confirm")}</td>
-            <td>${form.errors_for("password_confirm")}</td>
-          </tr>
-          <tr>
-            <td>${form.text("email")}</td>
-            <td>${form.errors_for("email")}</td>
-          </tr>
-        </table>
+        <div class="field">
+          ${form.label("username")}
+          ${form.errorlist("username")}
+          ${form.text("username")}
+        </div>
+        <div class="field">
+          ${form.label("password")}
+          ${form.errors_for("password")}
+          ${form.password("password")}
+        </div>
+        <div class="field">
+          ${form.label("password_confirm")}
+          ${form.errors_for("password_confirm")}
+          ${form.password("password_confirm")}
+        </div>
+        <div class="field">
+          ${form.label("email")}
+          ${form.errors_for("email")}
+          ${form.text("email")}
+        </div>
         <div class="buttons">
             ${form.submit("submit", "Submit")}
         </div>

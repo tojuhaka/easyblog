@@ -1,14 +1,14 @@
 from passlib.context import CryptContext
 from pyramid.security import Allow, Everyone
-from pyramid.view import view_config
 from pyramid_zodbconn import get_connection
 
+# TODO: make GUI for groups
 acl = [ (Allow, Everyone, 'view'),
         (Allow, 'group:members', 'edit'),
         (Allow, 'group:admins', 'edit_all'),
        (Allow, 'group:admins', 'edit')]
 
-# Salt for pasword hashes
+# Salt for pasword hashes, move to database or somewhere safe (and change it )
 salt = u'torpedo'
 # Crypt config for password hashes
 pwd_context = CryptContext(

@@ -3,13 +3,12 @@ from pyramid.view import view_config
 from pyramid.renderers import get_renderer
 from pyramid.url import resource_url
 from pyramid.security import authenticated_userid, remember, forget, has_permission
-from easyblog.schemas import SignUpSchema
-
+from easyblog.schemas import SignUpSchema, LoginSchema
 from easyblog.models import Main, User
 from easyblog.config import members_group
 
 from pyramid_simpleform.renderers import FormRenderer
-from pyramid_simpleform import Form
+from pyramid_simpleform import Form, State
 
 # Define main layout for page
 def site_layout():
@@ -35,11 +34,11 @@ def signup(context, request):
     username = u''
     password = u''
 
-    form = Form(request, schema=SignUpSchema)
+    # Create form by using schemas with validations
+    form = Form(request, schema=SignUpSchema, state = State(request = request))
     
+    # form.validate() doesn't work with tests that use url-parameters
     if form.validate():
-        import pdb; pdb.set_trace()
-    if 'form.submitted' in request.params:
         username = request.params['username']
         password = request.params['password']
         email = request.params['email']
@@ -70,7 +69,11 @@ def login(context, request):
     message = ''
     username = ''
     password = ''
-    if 'form.submitted' in request.params:
+
+    # Create form by using schemas with validations
+    form = Form(request, schema=LoginSchema, state = State(request = request))
+
+    if form.validate():
         username = request.params['username']
         password = request.params['password']
         try:
@@ -92,7 +95,8 @@ def login(context, request):
         'came_from': came_from,
         'username': username,
         'password': password,
-        'logged_in': logged_in
+        'logged_in': logged_in,
+        'form': FormRenderer(form)
     }
 
 @view_config(context=Main, renderer='templates/logout.pt', name='logout')
