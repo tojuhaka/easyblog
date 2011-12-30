@@ -40,6 +40,10 @@ class User(Persistent):
         self.id = id
         self.email = email
 
+    def edit(self, password, email):
+        self.password = pwd_context.encrypt(password + salt)
+        self.email = email
+
     def validate_password(self, password):
         return pwd_context.verify(password + salt, self.password)
 

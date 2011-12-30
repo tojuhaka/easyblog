@@ -38,9 +38,18 @@ class ModelTests(unittest.TestCase):
     def test_password_validation(self):
         from easyblog.models import User
         user = User('user', 'password', 'user@user.com', 1234)
+        self.assertNotEquals('password', user.password)
         self.assertEquals(True, user.validate_password('password'))
         self.assertEquals(False, user.validate_password('PaSsword'))
-
+    
+    def test_user_edit(self):
+        from easyblog.models import User
+        user = User('user', 'password', 'user@user.com', 1234)
+        tmp_pw = user.password 
+        user.edit('password2', 'user@user.com')
+        self.assertNotEquals('password2', user.password)
+        self.assertNotEquals(tmp_pw, user.password)
+        
     def test_set_group(self):
         pass
         
@@ -76,6 +85,15 @@ class FunctionalTests(unittest.TestCase):
         form = res.forms[0]
         form['username'] = username
         form['password'] = password
+        return form.submit()
+
+    def _edit_user(self, res, password, 
+                    new_password, new_password_confirm, email):
+        form = res.forms[0]
+        form['password'] = password
+        form['new_password'] = new_password
+        form['new_password_confirm'] = new_password_confirm
+        form['email'] = email
         return form.submit()
 
     def setUp(self):
@@ -157,14 +175,37 @@ class FunctionalTests(unittest.TestCase):
         res = self.testapp.get('/', status=200)
         self.assertFalse('Logout' in res.body)
 
-    def test_member_email_change(self):
-        pass
+    def test_member_email_edit(self):
+        res = self._login('member', 'memberpw#')
+        res = self.testapp.get('/users/member/edit')
 
-    def test_email_validation(self):
-        pass
+        # Try to change with invalid password, should fail
+        res = self._edit_user(res, 'member', 'memberpw#2', 
+                            'memberpw#2', 'member@changed.com')
 
+        self.assertTrue('invalid password' in res.body)
+
+        # Try to change with incorrect email and password confirm, should fail
+        res = self._edit_user(res, 'memberpw#', 'memberpw#2', 'memberpw#asd2', 'member@')
+        self.assertTrue('do not match' in res.body)
+        self.assertTrue('email address is invalid' in res.body)
+
+        res = self._edit_user(res, 'memberpw#', 
+                                'memberpw#2', 'memberpw#2', 'member@changed.com')
+        self.assertTrue('succesfully saved' in res.body)
+
+    def test_email_and_pw_validation(self):
+        res = self._signup('emailfail', 'emailfailpw', 'emailfailpw23', 'fail@')
+        self.assertTrue('do not match' in res.body)
+        self.assertTrue('email address is invalid' in res.body)
+
+    def test_username_already_in_use(self):
+        res = self._signup('member', 'memberpw', 'memberpw', 'member@member.com')
+        self.assertTrue('already in use' in res.body)
 
     def test_member_access_denied_to_different_user(self):
         pass
+
+        
         
         

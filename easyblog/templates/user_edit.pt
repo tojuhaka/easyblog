@@ -1,6 +1,30 @@
 <div metal:use-macro="layout">
     <div metal:fill-slot="content">
         <h1>${username}</h1>
-        <p> EDIT USER HERE </p>
+        ${form.begin(request.url)}
+        <div class="field">
+          ${form.label("password")}
+          ${form.errorslist("password")}
+          ${form.password("password")}
+        </div>
+        <div class="field">
+          ${form.label("password_confirm")}
+          ${form.errorslist("password_confirm")}
+          ${form.password("password_confirm")}
+        </div>
+        <div class="field">
+          ${form.label("email")}
+          ${form.errorslist("email")}
+          ${form.text("email", value="testi")}
+        </div>
+        <div class="field">
+          ${form.label("password")}
+          ${form.errors_for("password")}
+          ${form.password("password")}
+        </div>
+        <div class="buttons">
+            ${form.submit("submit", "Submit")}
+        </div>
+        ${form.end()}
     </div>
 </div>

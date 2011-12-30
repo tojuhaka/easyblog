@@ -3,7 +3,7 @@ from pyramid.view import view_config
 from pyramid.renderers import get_renderer
 from pyramid.url import resource_url
 from pyramid.security import authenticated_userid, remember, forget, has_permission
-from easyblog.schemas import SignUpSchema, LoginSchema
+from easyblog.schemas import SignUpSchema, LoginSchema, UserEditSchema
 from easyblog.models import Main, User
 from easyblog.config import members_group
 
@@ -26,7 +26,7 @@ def main_view(request):
         'logged_in': logged_in
     }
 
-
+# Register form for new users that aren't signed up yet
 @view_config(context=Main, renderer='templates/signup.pt', name='signup')
 def signup(context, request):
     logged_in = authenticated_userid(request)
@@ -56,7 +56,7 @@ def signup(context, request):
         'form': FormRenderer(form)
     }
 
-
+# Handle's user login
 @view_config(context=Main, renderer='templates/login.pt', name='login')
 @view_config(context='pyramid.exceptions.Forbidden', renderer='templates/login.pt')
 def login(context, request):
@@ -99,12 +99,14 @@ def login(context, request):
         'form': FormRenderer(form)
     }
 
+# Logout current user
 @view_config(context=Main, renderer='templates/logout.pt', name='logout')
 def logout(request):
     headers = forget(request)
     return HTTPFound(location = resource_url(request.context, request),
                     headers=headers)
 
+# Page of the user. Some information about the user is rendered here.
 @view_config(context=User, renderer='easyblog:templates/user_view.pt')
 def user_view(context, request):
     username = context.username
@@ -116,20 +118,30 @@ def user_view(context, request):
         'logged_in': logged_in,
     }
 
+# View for editing single user
 @view_config(name='edit', context=User, renderer='templates/user_edit.pt',
     permission='edit')
 def user_edit(context, request):
     username = context.username
     logged_in = authenticated_userid(request)
+    message = ''
 
     # Allow access only for the user of the page
     if logged_in != username and not has_permission('edit_all', context,request):
         return HTTPForbidden()
+
+    form = Form(request, schema=UserEditSchema, state = State(request = request))
+
+    if form.validate():
+        message = "successfully saved"
+
     return {
+        'message': message,
         'layout': site_layout(),
         'project':'easyblog',
         'username': username,
-        'logged_in': logged_in
+        'logged_in': logged_in,
+        'form': form
     }
 
 @view_config(context='.models.Page',

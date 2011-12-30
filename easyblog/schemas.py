@@ -39,6 +39,8 @@ class SignUpSchema(BaseSchema):
     chained_validators = [validators.FieldsMatch('password', 'password_confirm')]
 
 class LoginSchema(BaseSchema):
-    filter_extra_fields = True
-    allow_extra_fields = True
     pass
+
+class UserEditSchema(BaseSchema):
+    pass
+
