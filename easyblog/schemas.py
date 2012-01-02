@@ -24,8 +24,6 @@ class UniqueEmail(FancyValidator):
                 )
         return value
 
-
-
 class BaseSchema(Schema):
     filter_extra_fields = True
     allow_extra_fields = True
@@ -41,6 +39,11 @@ class SignUpSchema(BaseSchema):
 class LoginSchema(BaseSchema):
     pass
 
+# Schema for user editform
 class UserEditSchema(BaseSchema):
-    pass
+    email = All(validators.Email(not_empty=True), UniqueEmail())
+    new_password = validators.MinLength(6, not_empty=False)
+    new_password_confirm = validators.MinLength(6, not_empty=False)
+    chained_validators = [validators.FieldsMatch('new_password', 'new_password_confirm')]
+
 

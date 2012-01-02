@@ -182,8 +182,7 @@ class FunctionalTests(unittest.TestCase):
         # Try to change with invalid password, should fail
         res = self._edit_user(res, 'member', 'memberpw#2', 
                             'memberpw#2', 'member@changed.com')
-
-        self.assertTrue('invalid password' in res.body)
+        self.assertTrue('Password is invalid' in res.body)
 
         # Try to change with incorrect email and password confirm, should fail
         res = self._edit_user(res, 'memberpw#', 'memberpw#2', 'memberpw#asd2', 'member@')
@@ -192,7 +191,8 @@ class FunctionalTests(unittest.TestCase):
 
         res = self._edit_user(res, 'memberpw#', 
                                 'memberpw#2', 'memberpw#2', 'member@changed.com')
-        self.assertTrue('succesfully saved' in res.body)
+        #TODO: NAME RIGHT
+        self.assertTrue('Successfully saved' in res.body)
 
     def test_email_and_pw_validation(self):
         res = self._signup('emailfail', 'emailfailpw', 'emailfailpw23', 'fail@')
@@ -201,11 +201,21 @@ class FunctionalTests(unittest.TestCase):
 
     def test_username_already_in_use(self):
         res = self._signup('member', 'memberpw', 'memberpw', 'member@member.com')
-        self.assertTrue('already in use' in res.body)
+        self.assertTrue('already exists' in res.body)
 
-    def test_member_access_denied_to_different_user(self):
+    
+    def test_create_blogpage(self):
+        res = self.testapp.get('/blog/create_blog')
+        self.assertTrue('Login' in res.body())
+
+        res = self._login('member', 'memberpw#')
+        res = self.testapp.get('/blog/create_blog')
+        self.assertTrue('Create blog' in res.body())
+        
+
         pass
-
+    
+    
         
         
         

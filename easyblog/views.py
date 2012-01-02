@@ -16,6 +16,9 @@ def site_layout():
     layout = renderer.implementation().macros['layout']
     return layout
 
+@view_config(context=Main, name='hello')
+def hello(context, request):
+    return "Hello World!"
 # Frontpage
 @view_config(context=Main, renderer='templates/index.pt')
 def main_view(request):
@@ -61,10 +64,10 @@ def signup(context, request):
 @view_config(context='pyramid.exceptions.Forbidden', renderer='templates/login.pt')
 def login(context, request):
     logged_in = authenticated_userid(request)
-    username_url = resource_url(request.context, request, 'login')
+    login_url = resource_url(request.context, request, 'login')
     referrer = request.url
-    if referrer == username_url:
-        referrer = '/' # never use the username form itself as came_from
+    if referrer == login_url:
+        referrer = '/' # never use the login form itself as came_from
     came_from = request.params.get('came_from', referrer)
     message = ''
     username = ''
@@ -87,7 +90,6 @@ def login(context, request):
     
     if logged_in:
         message = "You are already logged in as " + logged_in + "."
-
     return {
         'message': message,
         'layout': site_layout(),
@@ -133,15 +135,23 @@ def user_edit(context, request):
     form = Form(request, schema=UserEditSchema, state = State(request = request))
 
     if form.validate():
-        message = "successfully saved"
-
+        password = request.params['password']
+        if context.validate_password(password):
+            if request.params['new_password']:
+                password = request.params['new_password']
+            message = 'Successfully saved'
+            email = request.params['email']
+            context.edit(password, email)
+        else:
+            message = 'Not allowed to save. Password is invalid.'
     return {
         'message': message,
         'layout': site_layout(),
         'project':'easyblog',
         'username': username,
         'logged_in': logged_in,
-        'form': form
+        'form': FormRenderer(form),
+        'email': context.email
     }
 
 @view_config(context='.models.Page',

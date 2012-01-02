@@ -1,29 +1,32 @@
 <div metal:use-macro="layout">
     <div metal:fill-slot="content">
         <h1>${username}</h1>
+        <div class="message">
+          <p> ${message} </p>
+        </div>
         ${form.begin(request.url)}
         <div class="field">
-          ${form.label("password")}
-          ${form.errorslist("password")}
-          ${form.password("password")}
+          ${form.label("new_password")}
+          ${form.errorlist("new_password")}
+          ${form.password("new_password")}
         </div>
         <div class="field">
-          ${form.label("password_confirm")}
-          ${form.errorslist("password_confirm")}
-          ${form.password("password_confirm")}
+          ${form.label("new_password_confirm")}
+          ${form.errorlist("new_password_confirm")}
+          ${form.password("new_password_confirm")}
         </div>
         <div class="field">
           ${form.label("email")}
-          ${form.errorslist("email")}
-          ${form.text("email", value="testi")}
+          ${form.errorlist("email")}
+          ${form.text("email", value=email)}
         </div>
         <div class="field">
           ${form.label("password")}
-          ${form.errors_for("password")}
+          ${form.errorlist("password")}
           ${form.password("password")}
         </div>
         <div class="buttons">
-            ${form.submit("submit", "Submit")}
+            ${form.submit("submit", "Save changes")}
         </div>
         ${form.end()}
     </div>

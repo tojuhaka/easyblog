@@ -64,8 +64,8 @@ class BlogPage(Persistent):
 
 # Single post. Blog page contains multiple Blog posts.
 class BlogPost(Persistent):
-    def __init__(self, subject, text, user):
-        self.user = user
+    def __init__(self, subject, text, username):
+        self.owner = username
         self.subject = subject
         self.text = text
 
