@@ -1,0 +1,18 @@
+<div metal:use-macro="layout">
+    <div metal:fill-slot="content">
+        <h1>Create Blog</h1>
+        <div class="message">
+          <p> ${message} </p>
+        </div>
+        ${form.begin(request.url)}
+        <div class="field">
+          ${form.label("blogname")}
+          ${form.errorlist("blogname")}
+          ${form.password("blogname")}
+        </div>
+        <div class="buttons">
+            ${form.submit("submit", "Save changes")}
+        </div>
+        ${form.end()}
+    </div>
+</div>

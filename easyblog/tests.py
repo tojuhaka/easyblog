@@ -29,11 +29,11 @@ class ModelTests(unittest.TestCase):
     def test_blogpost(self):
         from easyblog.models import BlogPost
         instance = BlogPost(subject=u'subject', text=u'text', 
-                            user=u'id')
+                            owner=u'admin')
 
         self.assertEqual(instance.subject, u'subject')
         self.assertEqual(instance.text, u'text')
-        self.assertEqual(instance.user, u'id')
+        self.assertEqual(instance.owner, u'admin')
 
     def test_password_validation(self):
         from easyblog.models import User
@@ -52,6 +52,12 @@ class ModelTests(unittest.TestCase):
         
     def test_set_group(self):
         pass
+
+    def test_has_blogname(self):
+        from easyblog.models import Blogs
+        blogs = Blogs()
+        blogs.add("test test")
+        self.assertTrue(blogs.has_blog("test test"))
         
 
 class FunctionalTests(unittest.TestCase):
@@ -95,6 +101,12 @@ class FunctionalTests(unittest.TestCase):
         form['new_password_confirm'] = new_password_confirm
         form['email'] = email
         return form.submit()
+
+    def _create_blog(self, res,  blogname):
+        form = res.forms[0]
+        form['blogname'] = blogname
+        return form.submit()
+
 
     def setUp(self):
         # Build testing environment
@@ -204,18 +216,20 @@ class FunctionalTests(unittest.TestCase):
         self.assertTrue('already exists' in res.body)
 
     
-    def test_create_blogpage(self):
-        res = self.testapp.get('/blog/create_blog')
-        self.assertTrue('Login' in res.body())
+    def test_blog_create(self):
+        res = self.testapp.get('/blogs/create')
+        self.assertTrue('Login' in res.body)
 
         res = self._login('member', 'memberpw#')
-        res = self.testapp.get('/blog/create_blog')
-        self.assertTrue('Create blog' in res.body())
+        res = self.testapp.get('/blogs/create')
+        self.assertTrue('Create Blog' in res.body)
+        self._create_blog(res, 'My Blog')
+        res = self.testapp.get(repr('/blogs/My%20Blog')[0:-1])
+        self.assertTrue('My Blog' in res.body)
+
+
+
+
+
         
 
-        pass
-    
-    
-        
-        
-        

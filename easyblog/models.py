@@ -1,14 +1,11 @@
 from persistent.mapping import PersistentMapping
 from persistent import Persistent
 
-from easyblog.exceptions import UsernameAlreadyInUseException 
-from easyblog.exceptions import FieldsNotDefinedException
 
 from easyblog.security import pwd_context, salt, acl
 from easyblog.config import admins_group
-from pyramid.security import Allow
-from pyramid.security import Everyone
 
+import urllib
 
 # Main root object in our ZODB database
 class Main(PersistentMapping):
@@ -52,20 +49,29 @@ class Groups(PersistentMapping):
         self[username] = group
 
 # Blog mapper cointaingin all the blogs
-class Blog(PersistentMapping):
-        pass
+class Blogs(PersistentMapping):
+    def add(self, name):
+        page = Blog(name)
+        self[page.url_name] = page
+
+    def has_blog(self, name):
+        url_name = urllib.pathname2url(name)
+        if url_name in self.keys():
+            return True
+        return False
 
 # Page for single blog
-class BlogPage(Persistent):
-    def __init(self,name,user):
+class Blog(Persistent):
+    def __init__(self,name):
         self.name = name
-        self.user = user
         self.blogposts = []
+        # Convert name for path. This is also the id of the page.
+        self.url_name = urllib.pathname2url(name)
 
 # Single post. Blog page contains multiple Blog posts.
 class BlogPost(Persistent):
-    def __init__(self, subject, text, username):
-        self.owner = username
+    def __init__(self, subject, text, owner):
+        self.owner = owner
         self.subject = subject
         self.text = text
 
@@ -78,10 +84,10 @@ def appmaker(zodb_root):
     if not 'app_root' in zodb_root:
         app_root = Main()
         users = Users()
-        blog = Blog()
+        blogs = Blogs()
         groups = Groups()
         app_root['users'] = users
-        app_root['blog'] = blog
+        app_root['blogs'] = blogs
         app_root['groups'] = groups
 
         #TODO: REMOVE
@@ -92,7 +98,8 @@ def appmaker(zodb_root):
 
         users.__parent__ = app_root
         users.__name__ = 'users'
-        blog.__parent__ = app_root
+        blogs.__name__ = 'blogs'
+        blogs.__parent__ = app_root
         groups.__parent__ = app_root
 
         users.add('admin', 'adminpw#', 'admin@admin.com')

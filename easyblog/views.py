@@ -3,8 +3,8 @@ from pyramid.view import view_config
 from pyramid.renderers import get_renderer
 from pyramid.url import resource_url
 from pyramid.security import authenticated_userid, remember, forget, has_permission
-from easyblog.schemas import SignUpSchema, LoginSchema, UserEditSchema
-from easyblog.models import Main, User
+from easyblog.schemas import SignUpSchema, LoginSchema, UserEditSchema, BlogCreateSchema
+from easyblog.models import Main, User, Blog, Page, Blogs
 from easyblog.config import members_group
 
 from pyramid_simpleform.renderers import FormRenderer
@@ -16,12 +16,9 @@ def site_layout():
     layout = renderer.implementation().macros['layout']
     return layout
 
-@view_config(context=Main, name='hello')
-def hello(context, request):
-    return "Hello World!"
 # Frontpage
 @view_config(context=Main, renderer='templates/index.pt')
-def main_view(request):
+def view_main(request):
     logged_in = authenticated_userid(request)
     return {
         'layout': site_layout(),
@@ -31,7 +28,7 @@ def main_view(request):
 
 # Register form for new users that aren't signed up yet
 @view_config(context=Main, renderer='templates/signup.pt', name='signup')
-def signup(context, request):
+def view_signup(context, request):
     logged_in = authenticated_userid(request)
     message = u''
     username = u''
@@ -62,7 +59,7 @@ def signup(context, request):
 # Handle's user login
 @view_config(context=Main, renderer='templates/login.pt', name='login')
 @view_config(context='pyramid.exceptions.Forbidden', renderer='templates/login.pt')
-def login(context, request):
+def view_login(context, request):
     logged_in = authenticated_userid(request)
     login_url = resource_url(request.context, request, 'login')
     referrer = request.url
@@ -103,14 +100,14 @@ def login(context, request):
 
 # Logout current user
 @view_config(context=Main, renderer='templates/logout.pt', name='logout')
-def logout(request):
+def view_logout(request):
     headers = forget(request)
     return HTTPFound(location = resource_url(request.context, request),
                     headers=headers)
 
 # Page of the user. Some information about the user is rendered here.
 @view_config(context=User, renderer='easyblog:templates/user_view.pt')
-def user_view(context, request):
+def view_user(context, request):
     username = context.username
     logged_in = authenticated_userid(request)
     return {
@@ -123,7 +120,7 @@ def user_view(context, request):
 # View for editing single user
 @view_config(name='edit', context=User, renderer='templates/user_edit.pt',
     permission='edit')
-def user_edit(context, request):
+def view_user_edit(context, request):
     username = context.username
     logged_in = authenticated_userid(request)
     message = ''
@@ -154,7 +151,7 @@ def user_edit(context, request):
         'email': context.email
     }
 
-@view_config(context='.models.Page',
+@view_config(context=Page,
              renderer='templates/page.pt', permission='edit')
 def view_page(context, request):
     logged_in = authenticated_userid(request)
@@ -165,5 +162,34 @@ def view_page(context, request):
         'layout': site_layout(),
     }
 
+@view_config(context=Blog,
+             renderer='templates/blog_view.pt')
+def view_blog(context, request):
+    logged_in = authenticated_userid(request)
 
+    return {
+        'page': context,
+        'logged_in':logged_in, 
+        'layout': site_layout(),
+        'blogname': context.name
+    }
+
+@view_config(context=Blogs,
+             renderer='templates/blog_create.pt', permission='edit', name="create")
+def view_blog_create(context, request):
+    logged_in = authenticated_userid(request)
+
+    form = Form(request, schema=BlogCreateSchema, state = State(request = request))
+    message = ''
+
+    if form.validate():
+        context.add('My Blog')
+
+    return {
+        'page': context,
+        'logged_in':logged_in, 
+        'layout': site_layout(),
+        'form': FormRenderer(form),
+        'message': message
+    }
 
