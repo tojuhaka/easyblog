@@ -1,6 +1,7 @@
 import unittest
 from easyblog.models import appmaker
 
+import urllib
 from pyramid import testing
 
 class AppMakerTests(unittest.TestCase):
@@ -29,11 +30,11 @@ class ModelTests(unittest.TestCase):
     def test_blogpost(self):
         from easyblog.models import BlogPost
         instance = BlogPost(subject=u'subject', text=u'text', 
-                            owner=u'admin')
+                            username=u'admin')
 
         self.assertEqual(instance.subject, u'subject')
         self.assertEqual(instance.text, u'text')
-        self.assertEqual(instance.owner, u'admin')
+        self.assertEqual(instance.username, u'admin')
 
     def test_password_validation(self):
         from easyblog.models import User
@@ -56,7 +57,7 @@ class ModelTests(unittest.TestCase):
     def test_has_blogname(self):
         from easyblog.models import Blogs
         blogs = Blogs()
-        blogs.add("test test")
+        blogs.add("test test", 'admin')
         self.assertTrue(blogs.has_blog("test test"))
         
 
@@ -218,14 +219,27 @@ class FunctionalTests(unittest.TestCase):
     
     def test_blog_create(self):
         res = self.testapp.get('/blogs/create')
-        self.assertTrue('Login' in res.body)
+        self.assertTrue('Username' in res.body)
 
         res = self._login('member', 'memberpw#')
         res = self.testapp.get('/blogs/create')
         self.assertTrue('Create Blog' in res.body)
+
         self._create_blog(res, 'My Blog')
-        res = self.testapp.get(repr('/blogs/My%20Blog')[0:-1])
+        res = self.testapp.get(urllib.quote('/blogs/My%20Blog'))
         self.assertTrue('My Blog' in res.body)
+
+    def test_blog_edit(self):
+        res = self._login('member', 'memberpw#')
+        res = self.testapp.get('/blogs/create')
+        self._create_blog(res, 'My Blog')
+        res = self.testapp.get('/logout')
+        res = self.testapp.get(urllib.quote('/blogs/My%20Blog/edit'))
+        self.assertTrue('Username' in res.body)
+
+        res = self._login('member', 'memberpw#')
+        res = self.testapp.get(urllib.quote('/blogs/My%20Blog/edit'))
+        self.assertTrue('Edit My Blog' in res.body)
 
 
 

@@ -50,28 +50,31 @@ class Groups(PersistentMapping):
 
 # Blog mapper cointaingin all the blogs
 class Blogs(PersistentMapping):
-    def add(self, name):
-        page = Blog(name)
+    def add(self, name, username):
+        page = Blog(name, username)
         self[page.url_name] = page
+        page.__name__ = name
+        page.__parent__ = self
 
     def has_blog(self, name):
-        url_name = urllib.pathname2url(name)
+        url_name = urllib.quote(name)
         if url_name in self.keys():
             return True
         return False
 
 # Page for single blog
 class Blog(Persistent):
-    def __init__(self,name):
+    def __init__(self,name, username):
         self.name = name
+        self.username = username
         self.blogposts = []
         # Convert name for path. This is also the id of the page.
-        self.url_name = urllib.pathname2url(name)
+        self.url_name = urllib.quote(name)
 
 # Single post. Blog page contains multiple Blog posts.
 class BlogPost(Persistent):
-    def __init__(self, subject, text, owner):
-        self.owner = owner
+    def __init__(self, subject, text, username):
+        self.username = username
         self.subject = subject
         self.text = text
 

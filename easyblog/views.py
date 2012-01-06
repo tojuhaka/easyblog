@@ -1,14 +1,17 @@
-from pyramid.httpexceptions import HTTPFound, HTTPForbidden
+from pyramid.httpexceptions import HTTPFound
 from pyramid.view import view_config
 from pyramid.renderers import get_renderer
 from pyramid.url import resource_url
-from pyramid.security import authenticated_userid, remember, forget, has_permission
+from pyramid.security import authenticated_userid
+from pyramid.security import remember, forget
 from easyblog.schemas import SignUpSchema, LoginSchema, UserEditSchema, BlogCreateSchema
 from easyblog.models import Main, User, Blog, Page, Blogs
 from easyblog.config import members_group
+from easyblog.security import user_access
 
 from pyramid_simpleform.renderers import FormRenderer
 from pyramid_simpleform import Form, State
+
 
 # Define main layout for page
 def site_layout():
@@ -107,28 +110,21 @@ def view_logout(request):
 
 # Page of the user. Some information about the user is rendered here.
 @view_config(context=User, renderer='easyblog:templates/user_view.pt')
-def view_user(context, request):
-    username = context.username
-    logged_in = authenticated_userid(request)
+@user_access(login_required=False)
+def view_user(context, request, user):
     return {
         'layout': site_layout(),
         'project':'easyblog',
-        'username': username,
-        'logged_in': logged_in,
+        'username': context.username,
+        'logged_in': user,
     }
 
 # View for editing single user
 @view_config(name='edit', context=User, renderer='templates/user_edit.pt',
     permission='edit')
-def view_user_edit(context, request):
-    username = context.username
-    logged_in = authenticated_userid(request)
+@user_access(login_required=True)
+def view_user_edit(context, request, user):
     message = ''
-
-    # Allow access only for the user of the page
-    if logged_in != username and not has_permission('edit_all', context,request):
-        return HTTPForbidden()
-
     form = Form(request, schema=UserEditSchema, state = State(request = request))
 
     if form.validate():
@@ -145,8 +141,8 @@ def view_user_edit(context, request):
         'message': message,
         'layout': site_layout(),
         'project':'easyblog',
-        'username': username,
-        'logged_in': logged_in,
+        'username': context.username,
+        'logged_in': user,
         'form': FormRenderer(form),
         'email': context.email
     }
@@ -164,32 +160,47 @@ def view_page(context, request):
 
 @view_config(context=Blog,
              renderer='templates/blog_view.pt')
-def view_blog(context, request):
-    logged_in = authenticated_userid(request)
+@user_access(login_required=False)
+def view_blog(context, request, user):
 
     return {
         'page': context,
-        'logged_in':logged_in, 
+        'logged_in':user,
         'layout': site_layout(),
         'blogname': context.name
     }
 
+
+
 @view_config(context=Blogs,
              renderer='templates/blog_create.pt', permission='edit', name="create")
-def view_blog_create(context, request):
-    logged_in = authenticated_userid(request)
-
+@user_access(login_required=False)
+def view_blog_create(context, request, user):
     form = Form(request, schema=BlogCreateSchema, state = State(request = request))
     message = ''
 
     if form.validate():
-        context.add('My Blog')
+        context.add('My Blog', user)
 
     return {
         'page': context,
-        'logged_in':logged_in, 
+        'logged_in':user, 
         'layout': site_layout(),
         'form': FormRenderer(form),
         'message': message
     }
+
+@view_config(context=Blog,
+             renderer='templates/blog_edit.pt', permission='edit', name='edit')
+@user_access(login_required=True)
+def view_blog_edit(context, request, user):
+    message = "Edit %s" % context.name 
+    return {
+        'page': context,
+        'logged_in':user,
+        'layout': site_layout(),
+        'blogname': context.name,
+        'message': message
+    }
+
 

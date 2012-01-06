@@ -1,6 +1,9 @@
 from passlib.context import CryptContext
 from pyramid.security import Allow, Everyone
 from pyramid_zodbconn import get_connection
+from pyramid.security import authenticated_userid, has_permission
+from pyramid.httpexceptions import HTTPForbidden
+
 
 # TODO: make GUI for groups
 acl = [ (Allow, Everyone, 'view'),
@@ -33,4 +36,20 @@ def groupfinder(userid, request):
     context = get_connection(request).root()['app_root']
     if userid in context['users']:
         return context['groups'].get(userid, [])
+
+# Check if the user is logged in and allow access to admin
+def user_access(login_required=True):
+    def wrap(f):
+        def wrapped_f(*args, **kwargs):
+            context, request = args
+            logged_in = authenticated_userid(request)
+
+
+            if login_required:
+                # If the owner (or admin) isn't logged in: access denied
+                if logged_in != context.username and not has_permission('edit_all', context,request):
+                    return HTTPForbidden()
+            return f(*args, user=logged_in)
+        return wrapped_f
+    return wrap
 
