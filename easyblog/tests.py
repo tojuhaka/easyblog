@@ -107,6 +107,8 @@ class FunctionalTests(unittest.TestCase):
         form = res.forms[0]
         form['blogname'] = blogname
         return form.submit()
+    def _add_post(self,res,blogname):
+        pass
 
 
     def setUp(self):
@@ -230,16 +232,27 @@ class FunctionalTests(unittest.TestCase):
         self.assertTrue('My Blog' in res.body)
 
     def test_blog_edit(self):
+        # login as member and create a new blog
         res = self._login('member', 'memberpw#')
         res = self.testapp.get('/blogs/create')
         self._create_blog(res, 'My Blog')
+
+        # logout and test permission
         res = self.testapp.get('/logout')
         res = self.testapp.get(urllib.quote('/blogs/My%20Blog/edit'))
         self.assertTrue('Username' in res.body)
 
+        # login as member and test permission
         res = self._login('member', 'memberpw#')
         res = self.testapp.get(urllib.quote('/blogs/My%20Blog/edit'))
         self.assertTrue('Edit My Blog' in res.body)
+
+    def test_blogpost(self):
+        # login as member and create a new blog
+        res = self._login('member', 'memberpw#')
+        res = self.testapp.get('/blogs/create')
+        self._create_blog(res, 'My Blog')
+        res = self.testapp.get(urllib.quote('/blogs/My%20Blog/add_post'))
 
 
 

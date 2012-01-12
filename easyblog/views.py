@@ -4,14 +4,13 @@ from pyramid.renderers import get_renderer
 from pyramid.url import resource_url
 from pyramid.security import authenticated_userid
 from pyramid.security import remember, forget
-from easyblog.schemas import SignUpSchema, LoginSchema, UserEditSchema, BlogCreateSchema
+from easyblog.schemas import SignUpSchema, LoginSchema
+from easyblog.schemas import UserEditSchema, BlogCreateSchema
 from easyblog.models import Main, User, Blog, Page, Blogs
 from easyblog.config import members_group
 from easyblog.security import user_access
-
 from pyramid_simpleform.renderers import FormRenderer
 from pyramid_simpleform import Form, State
-
 
 # Define main layout for page
 def site_layout():
@@ -21,11 +20,12 @@ def site_layout():
 
 # Frontpage
 @view_config(context=Main, renderer='templates/index.pt')
+
 def view_main(request):
     logged_in = authenticated_userid(request)
     return {
         'layout': site_layout(),
-        'project':'easyblog',
+        'project': 'easyblog',
         'logged_in': logged_in
     }
 
@@ -58,12 +58,13 @@ def view_signup(context, request):
         'password': password,
         'form': FormRenderer(form)
     }
+    return None
 
 # Handle's user login
 @view_config(context=Main, renderer='templates/login.pt', name='login')
 @view_config(context='pyramid.exceptions.Forbidden', renderer='templates/login.pt')
-def view_login(context, request):
-    logged_in = authenticated_userid(request)
+@user_access(login_required=False)
+def view_login(context, request, user):
     login_url = resource_url(request.context, request, 'login')
     referrer = request.url
     if referrer == login_url:
@@ -88,8 +89,8 @@ def view_login(context, request):
             pass
         message = 'Failed username'
     
-    if logged_in:
-        message = "You are already logged in as " + logged_in + "."
+    if user:
+        message = "You are already logged in as " + user+ "."
     return {
         'message': message,
         'layout': site_layout(),
@@ -97,13 +98,14 @@ def view_login(context, request):
         'came_from': came_from,
         'username': username,
         'password': password,
-        'logged_in': logged_in,
+        'logged_in': user,
         'form': FormRenderer(form)
     }
 
 # Logout current user
 @view_config(context=Main, renderer='templates/logout.pt', name='logout')
-def view_logout(request):
+@user_access(login_required=False)
+def view_logout(context, request, user):
     headers = forget(request)
     return HTTPFound(location = resource_url(request.context, request),
                     headers=headers)
