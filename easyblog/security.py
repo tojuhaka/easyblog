@@ -3,6 +3,7 @@ from pyramid.security import Allow, Everyone
 from pyramid_zodbconn import get_connection
 from pyramid.security import authenticated_userid, has_permission
 from pyramid.httpexceptions import HTTPForbidden
+from pyramid.events import NewRequest, subscriber
 
 
 # TODO: make GUI for groups
@@ -49,7 +50,17 @@ def user_access(login_required=True):
                 # If the owner (or admin) isn't logged in: access denied
                 if logged_in != context.username and not has_permission(
                                             'edit_all', context, request):
-                    return HTTPForbidden()
+                    raise HTTPForbidden()
             return f(*args, user=logged_in)
         return wrapped_f
     return wrap
+
+
+#Protect sessions from Cross-site request forgery attacks
+@subscriber(NewRequest)
+def csrf_validation(event):
+    if event.request.method == "POST":
+        token = event.request.POST.get("_csrf")
+        if token is None or token != event.request.session.get_csrf_token():
+            print "ASDSFDAFSFFASFDS"
+            raise HTTPForbidden("CSRF token is missing or invalid")

@@ -3,6 +3,7 @@
     <h1> Login </h1>
     <p> ${message} </p>
         ${form.begin(request.resource_url(request.root, '/login'))}
+        ${form.csrf_token()}
         <div class="field">
           ${form.label("username")}
           ${form.text("username")}

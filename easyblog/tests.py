@@ -114,6 +114,7 @@ class FunctionalTests(unittest.TestCase):
         return form.submit()
 
     def _add_post(self, res, subject, content):
+        form = res.forms[0]
         pass
 
     def setUp(self):
@@ -176,12 +177,12 @@ class FunctionalTests(unittest.TestCase):
         self.assertEquals(res.status, '200 OK')
 
         # try to access admin edit-view (should fail)
-        res = self.testapp.get('/users/second_member/edit', status=403)
-        self.assertEquals(res.status, '403 Forbidden')
+        res = self.testapp.get('/users/second_member/edit')
+        self.assertTrue('Username' in res.body)
 
         # admin has the permission "edit_all" so it should be able to access
         # the content
-        res = self.testapp.post('/logout')
+        res = self.testapp.get('/logout')
         res = self._login('admin', 'adminpw#')
         res = self.testapp.get('/users/second_member/edit', status=200)
         self.assertTrue('second_member' in res.body)
@@ -258,7 +259,7 @@ class FunctionalTests(unittest.TestCase):
         res = self.testapp.get(urllib.quote('/blogs/My%20Blog/edit'))
         self.assertTrue('Edit My Blog' in res.body)
 
-    def test_blogpost(self):
+    def test_blog_add_post(self):
         # login as member and create a new blog
         res = self._login('member', 'memberpw#')
         res = self.testapp.get('/blogs/create')

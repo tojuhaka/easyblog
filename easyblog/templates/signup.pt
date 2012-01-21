@@ -3,6 +3,7 @@
         <h2> Signup </h2>
         <p> ${message} </p>
         ${form.begin(request.resource_url(request.root, 'signup'))}
+        ${form.csrf_token()}
         <div class="field">
           ${form.label("username")}
           ${form.errorlist("username")}

@@ -6,6 +6,7 @@ from pyramid.security import authenticated_userid
 from pyramid.security import remember, forget
 from easyblog.schemas import SignUpSchema, LoginSchema
 from easyblog.schemas import UserEditSchema, BlogCreateSchema
+from easyblog.schemas import BlogAddPostSchema
 from easyblog.models import Main, User, Blog, Page, Blogs
 from easyblog.config import members_group
 from easyblog.security import user_access
@@ -64,10 +65,10 @@ def view_signup(context, request):
 @view_config(context='pyramid.exceptions.Forbidden', renderer='templates/login.pt')
 @user_access(login_required=False)
 def view_login(context, request, user):
-    login_url = resource_url(request.context, request, 'login')
+    # login_url = resource_url(request.context, request, 'login')
     referrer = request.url
-    if referrer == login_url:
-        referrer = '/' # never use the login form itself as came_from
+    # if referrer == login_url:
+    #     referrer = '/' # never use the login form itself as came_from
     came_from = request.params.get('came_from', referrer)
     message = ''
     username = ''
@@ -89,7 +90,7 @@ def view_login(context, request, user):
         message = 'Failed username'
     
     if user:
-        message = "You are already logged in as " + user+ "."
+        message = "You are logged in as " + user+ "."
     return {
         'message': message,
         'layout': site_layout(),
@@ -218,12 +219,14 @@ def view_blog_edit(context, request, user):
              renderer='templates/blog_add_post.pt', permission='edit', name='add_post')
 @user_access(login_required=True)
 def view_blog_add_post(context, request, user):
+    form = Form(request, schema=BlogAddPostSchema, state = State(request = request))
     message = "Edit %s" % context.name 
     return {
         'page': context,
         'logged_in':user,
         'layout': site_layout(),
         'blogname': context.name,
-        'message': message
+        'message': message,
+        'form': FormRenderer(form)
     }
 

@@ -5,6 +5,7 @@
           <p> ${message} </p>
         </div>
         ${form.begin(request.url)}
+        ${form.csrf_token()}
         <div class="field">
           ${form.label("new_password")}
           ${form.errorlist("new_password")}
