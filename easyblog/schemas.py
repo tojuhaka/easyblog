@@ -23,7 +23,6 @@ class UniqueEmail(FancyValidator):
                     value, state
                 )
         return value
-
 class BaseSchema(Schema):
     filter_extra_fields = True
     allow_extra_fields = True

@@ -1,6 +1,6 @@
 <div metal:use-macro="layout">
     <div metal:fill-slot="content">
-        <h1>${username}</h1>
+        <h2>${username}</h2>
         <div class="message">
           <p> ${message} </p>
         </div>

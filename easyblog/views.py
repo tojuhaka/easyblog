@@ -20,7 +20,6 @@ def site_layout():
 
 # Frontpage
 @view_config(context=Main, renderer='templates/index.pt')
-
 def view_main(request):
     logged_in = authenticated_userid(request)
     return {
@@ -164,7 +163,6 @@ def view_page(context, request):
              renderer='templates/blog_view.pt')
 @user_access(login_required=False)
 def view_blog(context, request, user):
-
     return {
         'page': context,
         'logged_in':user,
@@ -172,6 +170,16 @@ def view_blog(context, request, user):
         'blogname': context.name
     }
 
+@view_config(context=Blogs,
+             renderer='templates/blogs_view.pt')
+@user_access(login_required=False)
+def view_blogs(context, request, user):
+    return {
+        'page': context,
+        'logged_in':user,
+        'layout': site_layout(),
+        'blogs': context
+    }
 
 
 @view_config(context=Blogs,
@@ -182,7 +190,7 @@ def view_blog_create(context, request, user):
     message = ''
 
     if form.validate():
-        context.add('My Blog', user)
+        context.add(request.params['blogname'], user)
 
     return {
         'page': context,
@@ -205,4 +213,17 @@ def view_blog_edit(context, request, user):
         'message': message
     }
 
+
+@view_config(context=Blog,
+             renderer='templates/blog_add_post.pt', permission='edit', name='add_post')
+@user_access(login_required=True)
+def view_blog_add_post(context, request, user):
+    message = "Edit %s" % context.name 
+    return {
+        'page': context,
+        'logged_in':user,
+        'layout': site_layout(),
+        'blogname': context.name,
+        'message': message
+    }
 

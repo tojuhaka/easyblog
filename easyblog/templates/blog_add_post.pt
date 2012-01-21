@@ -1,0 +1,10 @@
+<div metal:use-macro="layout">
+    <div metal:fill-slot="content">
+        <h1> ${blogname} </h1>
+        <h2> Add Post </h2>
+        <div class="message">
+          <p> ${message} </p>
+        </div>
+
+    </div>
+</div>

@@ -5,22 +5,25 @@
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       metal:define-macro="layout">
 <head>
-    <title>EasyBlog 2000</title>
+  <title>EasyBlog 2000</title>
 </head>
 <body>
+  <h1>EasyBlog 2000</h1>
   <div id="login_link">
     <span tal:condition="logged_in">
-        <p> Logged in as ${logged_in}.</p>
-        <a href="${request.application_url}/logout">Logout</a>
+      <p> Logged in as ${logged_in}.</p>
+      <a href="${request.application_url}/logout">Logout</a>
     </span>
   </div>
-<ul>
+  <ul>
     <li><a href="/">Home</a></li>
     <li><a href="/about.html">About Projector</a></li>
     <li><a href="/acme">ACME, Inc.</a></li>
-    <li><a href="/people">People</a></li>
-</ul>
-<div metal:define-slot="content">
-</div>
+    <li><a href="/blogs">Blogs</a></li>
+    <span tal:condition="not: logged_in">
+      <li><a href="/login">Login</a></li>
+    </span>
+  </ul>
+  <div metal:define-slot="content"></div>
 </body>
 </html>

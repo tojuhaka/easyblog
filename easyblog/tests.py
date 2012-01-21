@@ -4,12 +4,15 @@ from easyblog.models import appmaker
 import urllib
 from pyramid import testing
 
+
 class AppMakerTests(unittest.TestCase):
     def test_it(self):
         root = {}
         appmaker(root)
         self.assertEqual(root['app_root']['users']['admin'].username,
                          'admin')
+
+
 class ViewTests(unittest.TestCase):
     def setUp(self):
         self.config = testing.setUp()
@@ -29,8 +32,8 @@ class ViewTests(unittest.TestCase):
 class ModelTests(unittest.TestCase):
     def test_blogpost(self):
         from easyblog.models import BlogPost
-        instance = BlogPost(subject=u'subject', text=u'text', 
-                            username=u'admin')
+        instance = BlogPost(subject=u'subject', text=u'text',
+                username=u'admin')
 
         self.assertEqual(instance.subject, u'subject')
         self.assertEqual(instance.text, u'text')
@@ -42,15 +45,15 @@ class ModelTests(unittest.TestCase):
         self.assertNotEquals('password', user.password)
         self.assertEquals(True, user.validate_password('password'))
         self.assertEquals(False, user.validate_password('PaSsword'))
-    
+
     def test_user_edit(self):
         from easyblog.models import User
         user = User('user', 'password', 'user@user.com', 1234)
-        tmp_pw = user.password 
+        tmp_pw = user.password
         user.edit('password2', 'user@user.com')
         self.assertNotEquals('password2', user.password)
         self.assertNotEquals(tmp_pw, user.password)
-        
+
     def test_set_group(self):
         pass
 
@@ -59,25 +62,27 @@ class ModelTests(unittest.TestCase):
         blogs = Blogs()
         blogs.add("test test", 'admin')
         self.assertTrue(blogs.has_blog("test test"))
-        
+
 
 class FunctionalTests(unittest.TestCase):
     admin_login = '/login?username=admin&password=adminpw#' \
                    '&email=admin@admin.com&came_from=Home&submit=Submit'
 
-    member_signup = '/signup?username=member&password=memberpw&confirm_password=memberpw' \
+    member_signup = '/signup?username=member&password=memberpw' \
+                    '&confirm_password=memberpw' \
                    '&email=member@member.com&submit=Submit'
 
     member_login = '/login?username=member&password=memberpw' \
                    '&email=member@member.com&came_from=Home&submit=Submit'
 
-    
-    second_member_signup = '/signup?username=second_member&password=secondmemberpw' \
+    second_member_signup = '/signup?username=second_member' \
+                    '&password=secondmemberpw' \
                    '&email=second.member@member.com&submit=Submit'
 
-    second_member_login = '/login?username=second_member&password=secondmemberpw' \
+    second_member_login = '/login?username=second_member' \
+                    '&password=secondmemberpw' \
                    '&email=second.member@member.com&submit=Submit'
-    
+
     def _signup(self, username, password, password_confirm, email):
         res = self.testapp.get('/signup')
         form = res.forms[0]
@@ -94,7 +99,7 @@ class FunctionalTests(unittest.TestCase):
         form['password'] = password
         return form.submit()
 
-    def _edit_user(self, res, password, 
+    def _edit_user(self, res, password,
                     new_password, new_password_confirm, email):
         form = res.forms[0]
         form['password'] = password
@@ -107,9 +112,9 @@ class FunctionalTests(unittest.TestCase):
         form = res.forms[0]
         form['blogname'] = blogname
         return form.submit()
-    def _add_post(self,res,blogname):
-        pass
 
+    def _add_post(self, res, subject, content):
+        pass
 
     def setUp(self):
         # Build testing environment
@@ -118,10 +123,10 @@ class FunctionalTests(unittest.TestCase):
         from easyblog import main
         self.tmpdir = tempfile.mkdtemp()
 
-        dbpath = os.path.join( self.tmpdir, 'test.db')
+        dbpath = os.path.join(self.tmpdir, 'test.db')
         uri = 'file://' + dbpath
-        settings = { 'zodbconn.uri' : uri ,
-                     'pyramid.includes': ['pyramid_zodbconn', 'pyramid_tm'] }
+        settings = {'zodbconn.uri': uri,
+                     'pyramid.includes': ['pyramid_zodbconn', 'pyramid_tm']}
 
         app = main({}, **settings)
         self.db = app.registry.zodb_database
@@ -130,7 +135,8 @@ class FunctionalTests(unittest.TestCase):
 
         # init two test users, admin is already defined
         self._signup('member', 'memberpw#', 'memberpw#', 'member@member.com')
-        self._signup('second_member', 'second_memberpw#', 'second_memberpw#', 'second_member@member.com')
+        self._signup('second_member', 'second_memberpw#',
+                     'second_memberpw#', 'second_member@member.com')
 
     def test_user_edit_without_loggin_in(self):
         res = self.testapp.get('/users/admin/edit', status=200)
@@ -141,9 +147,9 @@ class FunctionalTests(unittest.TestCase):
         self.assertTrue('Login' in res.body)
 
     def test_signup_username_already_in_use(self):
-        res = self._signup('member', 'memberpw#', 'memberpw#', 'member@member.com')
+        res = self._signup('member', 'memberpw#', 'memberpw#',
+                           'member@member.com')
         self.assertTrue('already exists' in res.body)
-
 
     def test_logout_page(self):
         res = self._login('admin', 'adminpw#')
@@ -155,7 +161,7 @@ class FunctionalTests(unittest.TestCase):
         res = self._login('member', 'memberpw#')
         res = self.testapp.get('/users/member/edit', status=200)
         self.assertTrue('member' in res.body.lower())
-    
+
         # after logout, edit should show login window
         self.testapp.get('/logout')
         res = self.testapp.get('/users/member/edit', status=200)
@@ -180,7 +186,6 @@ class FunctionalTests(unittest.TestCase):
         res = self.testapp.get('/users/second_member/edit', status=200)
         self.assertTrue('second_member' in res.body)
 
-
     def test_logout_link_when_logged_in(self):
         res = self._login('member', 'memberpw#')
         res = self.testapp.get('/', status=200)
@@ -195,30 +200,36 @@ class FunctionalTests(unittest.TestCase):
         res = self.testapp.get('/users/member/edit')
 
         # Try to change with invalid password, should fail
-        res = self._edit_user(res, 'member', 'memberpw#2', 
+        res = self._edit_user(res, 'member', 'memberpw#2',
                             'memberpw#2', 'member@changed.com')
         self.assertTrue('Password is invalid' in res.body)
 
         # Try to change with incorrect email and password confirm, should fail
-        res = self._edit_user(res, 'memberpw#', 'memberpw#2', 'memberpw#asd2', 'member@')
+        res = self._edit_user(res, 'memberpw#', 'memberpw#2',
+                              'memberpw#asd2', 'member@')
         self.assertTrue('do not match' in res.body)
         self.assertTrue('email address is invalid' in res.body)
 
-        res = self._edit_user(res, 'memberpw#', 
-                                'memberpw#2', 'memberpw#2', 'member@changed.com')
+        res = self._edit_user(res, 'memberpw#', 'memberpw#2',
+                              'memberpw#2', 'member@changed.com')
         #TODO: NAME RIGHT
         self.assertTrue('Successfully saved' in res.body)
 
     def test_email_and_pw_validation(self):
-        res = self._signup('emailfail', 'emailfailpw', 'emailfailpw23', 'fail@')
+        res = self._signup('emailfail', 'emailfailpw',
+                           'emailfailpw23', 'fail@')
         self.assertTrue('do not match' in res.body)
         self.assertTrue('email address is invalid' in res.body)
 
     def test_username_already_in_use(self):
-        res = self._signup('member', 'memberpw', 'memberpw', 'member@member.com')
+        res = self._signup('member', 'memberpw', 'memberpw',
+                           'member@member.com')
         self.assertTrue('already exists' in res.body)
 
-    
+    def test_blogs_page(self):
+        res = self.testapp.get('/blogs')
+        self.assertTrue('List of blogs' in res.body)
+
     def test_blog_create(self):
         res = self.testapp.get('/blogs/create')
         self.assertTrue('Username' in res.body)
@@ -251,12 +262,8 @@ class FunctionalTests(unittest.TestCase):
         # login as member and create a new blog
         res = self._login('member', 'memberpw#')
         res = self.testapp.get('/blogs/create')
-        self._create_blog(res, 'My Blog')
-        res = self.testapp.get(urllib.quote('/blogs/My%20Blog/add_post'))
-
-
-
-
-
-        
-
+        self._create_blog(res, 'myblogi')
+        res = self.testapp.get('/blogs/myblogi')
+        self._add_post(res, 'subject', 'content')
+        res = self.testapp.get('/blogs/myblogi')
+        self.assertTrue('subject' in res.body)

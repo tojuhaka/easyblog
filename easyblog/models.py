@@ -1,17 +1,18 @@
 from persistent.mapping import PersistentMapping
 from persistent import Persistent
 
-
 from easyblog.security import pwd_context, salt, acl
 from easyblog.config import admins_group
 
 import urllib
+
 
 # Main root object in our ZODB database
 class Main(PersistentMapping):
     __name__ = None
     __parent__ = None
     __acl__ = acl
+
 
 # Contains all the users
 class Users(PersistentMapping):
@@ -29,6 +30,7 @@ class Users(PersistentMapping):
         user.__parent__ = self
         self[user.username] = user
 
+
 # Single user, TODO: passwords and other information
 class User(Persistent):
     def __init__(self, username, password, email, id):
@@ -44,11 +46,13 @@ class User(Persistent):
     def validate_password(self, password):
         return pwd_context.verify(password + salt, self.password)
 
+
 class Groups(PersistentMapping):
     def add(self, username, group):
         self[username] = group
 
-# Blog mapper cointaingin all the blogs
+
+# Blog mapper which cointains all the blogs
 class Blogs(PersistentMapping):
     def add(self, name, username):
         page = Blog(name, username)
@@ -62,14 +66,16 @@ class Blogs(PersistentMapping):
             return True
         return False
 
+
 # Page for single blog
 class Blog(Persistent):
-    def __init__(self,name, username):
+    def __init__(self, name, username):
         self.name = name
         self.username = username
         self.blogposts = []
         # Convert name for path. This is also the id of the page.
         self.url_name = urllib.quote(name)
+
 
 # Single post. Blog page contains multiple Blog posts.
 class BlogPost(Persistent):
@@ -78,10 +84,12 @@ class BlogPost(Persistent):
         self.subject = subject
         self.text = text
 
+
 #TODO REMOVE
 class Page(Persistent):
-    def __init__(self,data):
+    def __init__(self, data):
         self.data = data
+
 
 def appmaker(zodb_root):
     if not 'app_root' in zodb_root:
@@ -94,7 +102,7 @@ def appmaker(zodb_root):
         app_root['groups'] = groups
 
         #TODO: REMOVE
-        frontpage=Page('this is the front page')
+        frontpage = Page('this is the front page')
         frontpage.__name__ = 'FrontPage'
         frontpage.__parent__ = app_root
         app_root['FrontPage'] = frontpage
