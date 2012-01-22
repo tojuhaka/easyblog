@@ -1,5 +1,5 @@
 <div metal:use-macro="layout">
     <div metal:fill-slot="content">
-        <h2> List of blogs </h2>
+        <h2 i18n:translate="blogs_topic"> List of blogs </h2>
     </div>
 </div>

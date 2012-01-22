@@ -8,6 +8,7 @@ from .models import appmaker
 from .security import groupfinder
 from pyramid.session import UnencryptedCookieSessionFactoryConfig
 
+
 def root_factory(request):
     conn = get_connection(request)
     return appmaker(conn.root())

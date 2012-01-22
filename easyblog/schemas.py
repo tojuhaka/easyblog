@@ -51,5 +51,6 @@ class BlogCreateSchema(BaseSchema):
 
 # Schema for adding post to blog
 class BlogAddPostSchema(BaseSchema):
-    pass
+    subject = validators.MinLength(3, not_empty=True)
+    text = validators.MinLength(10, not_empty=True)
 

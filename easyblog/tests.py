@@ -115,7 +115,9 @@ class FunctionalTests(unittest.TestCase):
 
     def _add_post(self, res, subject, content):
         form = res.forms[0]
-        pass
+        form['subject'] = subject
+        form['content'] = content
+        return form.submit()
 
     def setUp(self):
         # Build testing environment

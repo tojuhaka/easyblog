@@ -5,6 +5,22 @@
         <div class="message">
           <p> ${message} </p>
         </div>
+        ${form.begin(request.url)}
+        ${form.csrf_token()}
+        <div class="field">
+          ${form.label("subject")}
+          ${form.errorlist("subject")}
+          ${form.text("subject")}
+        </div>
+        <div class="field">
+          ${form.label("text")}
+          ${form.errorlist("text")}
+          ${form.text("text")}
+        </div>
+        <div class="buttons">
+            ${form.submit("submit", "Create Post")}
+        </div>
+        ${form.end()}
 
     </div>
 </div>

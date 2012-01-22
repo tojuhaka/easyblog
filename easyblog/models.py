@@ -68,13 +68,19 @@ class Blogs(PersistentMapping):
 
 
 # Page for single blog
-class Blog(Persistent):
+class Blog(PersistentMapping):
     def __init__(self, name, username):
         self.name = name
         self.username = username
-        self.blogposts = []
         # Convert name for path. This is also the id of the page.
         self.url_name = urllib.quote(name)
+
+    
+    def add(self, subject, content, username):
+        #TODO: Esacape characters, handle input
+        #TODO: m45 has for id, maybe for users also
+        post = BlogPost(subject, content, username)
+        self.blogposts.append(post)
 
 
 # Single post. Blog page contains multiple Blog posts.
@@ -83,6 +89,8 @@ class BlogPost(Persistent):
         self.username = username
         self.subject = subject
         self.text = text
+        self.timestamp = "TODO: TIME"
+        self.number 
 
 
 #TODO REMOVE

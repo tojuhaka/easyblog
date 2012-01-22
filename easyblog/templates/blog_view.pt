@@ -1,5 +1,9 @@
 <div metal:use-macro="layout">
     <div metal:fill-slot="content">
         <p>${blogname}</p>
+        <div class="blogpost" tal:repeat="post posts">
+            <p tal:content="post.subject"> lol </p>
+            <p tal:content="post.text"> lol </p>
+        </div>
     </div>
 </div>

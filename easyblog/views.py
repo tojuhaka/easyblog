@@ -123,16 +123,18 @@ def view_logout(context, request, user):
     return HTTPFound(location=resource_url(request.context, request),
                     headers=headers)
 
+
 # Page of the user. Some information about the user is rendered here.
 @view_config(context=User, renderer='easyblog:templates/user_view.pt')
 @user_access(login_required=False)
 def view_user(context, request, user):
     return {
         'layout': site_layout(),
-        'project':'easyblog',
+        'project': 'easyblog',
         'username': context.username,
         'logged_in': user,
     }
+
 
 # View for editing single user
 @view_config(name='edit', context=User, renderer='templates/user_edit.pt',
@@ -140,7 +142,7 @@ def view_user(context, request, user):
 @user_access(login_required=True)
 def view_user_edit(context, request, user):
     message = ''
-    form = Form(request, schema=UserEditSchema, state = State(request = request))
+    form = Form(request, schema=UserEditSchema, state=State(request=request))
 
     if form.validate():
         password = request.params['password']
@@ -155,12 +157,13 @@ def view_user_edit(context, request, user):
     return {
         'message': message,
         'layout': site_layout(),
-        'project':'easyblog',
+        'project': 'easyblog',
         'username': context.username,
         'logged_in': user,
         'form': FormRenderer(form),
         'email': context.email
     }
+
 
 @view_config(context=Page,
              renderer='templates/page.pt', permission='edit')
@@ -169,20 +172,22 @@ def view_page(context, request):
 
     return {
         'page': context,
-        'logged_in':logged_in,
+        'logged_in': logged_in,
         'layout': site_layout(),
     }
+
 
 @view_config(context=Blog,
              renderer='templates/blog_view.pt')
 @user_access(login_required=False)
 def view_blog(context, request, user):
     return {
-        'page': context,
-        'logged_in':user,
+        'logged_in': user,
         'layout': site_layout(),
-        'blogname': context.name
+        'blogname': context.name,
+        'posts': context.blogposts
     }
+
 
 @view_config(context=Blogs,
              renderer='templates/blogs_view.pt')
@@ -190,17 +195,17 @@ def view_blog(context, request, user):
 def view_blogs(context, request, user):
     return {
         'page': context,
-        'logged_in':user,
+        'logged_in': user,
         'layout': site_layout(),
         'blogs': context
     }
 
 
-@view_config(context=Blogs,
-             renderer='templates/blog_create.pt', permission='edit', name="create")
+@view_config(context=Blogs, renderer='templates/blog_create.pt',
+             permission='edit', name="create")
 @user_access(login_required=False)
 def view_blog_create(context, request, user):
-    form = Form(request, schema=BlogCreateSchema, state = State(request = request))
+    form = Form(request, schema=BlogCreateSchema, state=State(request=request))
     message = ''
 
     if form.validate():
@@ -208,38 +213,44 @@ def view_blog_create(context, request, user):
 
     return {
         'page': context,
-        'logged_in':user,
+        'logged_in': user,
         'layout': site_layout(),
         'form': FormRenderer(form),
         'message': message
     }
 
-@view_config(context=Blog,
-             renderer='templates/blog_edit.pt', permission='edit', name='edit')
+
+@view_config(context=Blog, renderer='templates/blog_edit.pt',
+             permission='edit', name='edit')
 @user_access(login_required=True)
 def view_blog_edit(context, request, user):
     message = "Edit %s" % context.name
     return {
         'page': context,
-        'logged_in':user,
+        'logged_in': user,
         'layout': site_layout(),
         'blogname': context.name,
         'message': message
     }
 
 
-@view_config(context=Blog,
-             renderer='templates/blog_add_post.pt', permission='edit', name='add_post')
+@view_config(context=Blog, renderer='templates/blog_add_post.pt',
+             permission='edit', name='add_post')
 @user_access(login_required=True)
 def view_blog_add_post(context, request, user):
-    form = Form(request, schema=BlogAddPostSchema, state = State(request = request))
+    form = Form(request, schema=BlogAddPostSchema,
+                state=State(request=request))
     message = "Edit %s" % context.name
+
+    if form.validate():
+        context.add(request.params['subject'], request.params['text'], user)
+        return HTTPFound(location=resource_url(context, request))
+
     return {
         'page': context,
-        'logged_in':user,
+        'logged_in': user,
         'layout': site_layout(),
         'blogname': context.name,
         'message': message,
         'form': FormRenderer(form)
     }
-
