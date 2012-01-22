@@ -12,6 +12,10 @@ class AppMakerTests(unittest.TestCase):
         self.assertEqual(root['app_root']['users']['admin'].username,
                          'admin')
 
+    def test_has_special_method(self):
+        from easyblog.security import has_special
+        self.assertTrue(has_special("testi%$|") != None)
+        self.assertEqual(has_special("testi"), None)
 
 class ViewTests(unittest.TestCase):
     def setUp(self):
@@ -60,8 +64,27 @@ class ModelTests(unittest.TestCase):
     def test_has_blogname(self):
         from easyblog.models import Blogs
         blogs = Blogs()
-        blogs.add("test test", 'admin')
-        self.assertTrue(blogs.has_blog("test test"))
+        blogs.add(u'test test', u'admin')
+        self.assertTrue(blogs.has_blog(u'test test'))
+
+    def test_blog_timestamp(self):
+        from easyblog.models import Blog
+        blog = Blog(u'My Blog', u'member', 1)
+        blog.add(u'subject', u'here is some text', 'member')
+        for key in blog:
+            self.assertTrue(blog[key].timestamp != "")
+
+    def test_blog_post_add(self):
+        from easyblog.models import Blog
+        blog = Blog(u'My Blog', u'member', 1)
+        blog.add(u'subject', u'here is some text', 'member')
+        for key in blog:
+            import hashlib
+            m = hashlib.md5()
+            m.update(blog[key].username)
+            m.update(blog[key].timestamp.isoformat())
+            test_id = m.digest()
+            self.assertEquals(blog[key].id, test_id)
 
 
 class FunctionalTests(unittest.TestCase):
@@ -113,10 +136,10 @@ class FunctionalTests(unittest.TestCase):
         form['blogname'] = blogname
         return form.submit()
 
-    def _add_post(self, res, subject, content):
+    def _add_post(self, res, subject, text):
         form = res.forms[0]
         form['subject'] = subject
-        form['content'] = content
+        form['text'] = text
         return form.submit()
 
     def setUp(self):
@@ -153,6 +176,10 @@ class FunctionalTests(unittest.TestCase):
         res = self._signup('member', 'memberpw#', 'memberpw#',
                            'member@member.com')
         self.assertTrue('already exists' in res.body)
+        res = self._signup('member{}', 'memberpw#2l', 'memberpw#2l',
+                           'member@member.comas')
+        self.assertTrue('special' in res.body)
+
 
     def test_logout_page(self):
         res = self._login('admin', 'adminpw#')
@@ -241,8 +268,10 @@ class FunctionalTests(unittest.TestCase):
         res = self.testapp.get('/blogs/create')
         self.assertTrue('Create Blog' in res.body)
 
-        self._create_blog(res, 'My Blog')
-        res = self.testapp.get(urllib.quote('/blogs/My%20Blog'))
+        res = self._create_blog(res, 'My Blog')
+        self.assertTrue('List of blogs' in res.body or 
+                        'should be redirected' in res.body)
+        res = self.testapp.get(urllib.quote('/blogs/b0'))
         self.assertTrue('My Blog' in res.body)
 
     def test_blog_edit(self):
@@ -253,12 +282,12 @@ class FunctionalTests(unittest.TestCase):
 
         # logout and test permission
         res = self.testapp.get('/logout')
-        res = self.testapp.get(urllib.quote('/blogs/My%20Blog/edit'))
+        res = self.testapp.get(urllib.quote('/blogs/b0/edit'))
         self.assertTrue('Username' in res.body)
 
         # login as member and test permission
         res = self._login('member', 'memberpw#')
-        res = self.testapp.get(urllib.quote('/blogs/My%20Blog/edit'))
+        res = self.testapp.get(urllib.quote('/blogs/b0/edit'))
         self.assertTrue('Edit My Blog' in res.body)
 
     def test_blog_add_post(self):
@@ -266,7 +295,7 @@ class FunctionalTests(unittest.TestCase):
         res = self._login('member', 'memberpw#')
         res = self.testapp.get('/blogs/create')
         self._create_blog(res, 'myblogi')
+        res = self.testapp.get('/blogs/myblogi/add_post')
+        self._add_post(res, u'thisisasubject', 'Here is some text for testing.')
         res = self.testapp.get('/blogs/myblogi')
-        self._add_post(res, 'subject', 'content')
-        res = self.testapp.get('/blogs/myblogi')
-        self.assertTrue('subject' in res.body)
+        self.assertTrue('thisisasubject' in res.body)

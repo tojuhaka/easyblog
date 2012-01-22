@@ -1,9 +1,11 @@
 <div metal:use-macro="layout">
     <div metal:fill-slot="content">
         <p>${blogname}</p>
-        <div class="blogpost" tal:repeat="post posts">
-            <p tal:content="post.subject"> lol </p>
-            <p tal:content="post.text"> lol </p>
+        <div class="blogpost" tal:repeat="post context">
+            <p> ${posts[post].time} 
+                ${posts[post].username} wrote  </p>
+            <p tal:content="context[post].subject"> Subject </p>
+            <p tal:content="context[post].text"> Text </p>
         </div>
     </div>
 </div>

@@ -5,6 +5,7 @@ from easyblog.security import pwd_context, salt, acl
 from easyblog.config import admins_group
 
 import urllib
+from datetime import datetime
 
 
 # Main root object in our ZODB database
@@ -38,6 +39,7 @@ class User(Persistent):
         self.password = pwd_context.encrypt(password + salt)
         self.id = id
         self.email = email
+        #TODO: Timestamp, hash?
 
     def edit(self, password, email):
         self.password = pwd_context.encrypt(password + salt)
@@ -54,33 +56,46 @@ class Groups(PersistentMapping):
 
 # Blog mapper which cointains all the blogs
 class Blogs(PersistentMapping):
+    def __init__(self):
+        super(PersistentMapping, self).__init__() 
+
+        # Use running number as id for blog
+        self.blog_number = 0
+
     def add(self, name, username):
-        page = Blog(name, username)
-        self[page.url_name] = page
-        page.__name__ = name
-        page.__parent__ = self
+        blog = Blog(name, username, u'b%i' % self.blog_number)
+        self[blog.id] = blog
+        self.blog_number += 1
+        blog.__parent__ = self
+        blog.__name__ = blog.id
 
     def has_blog(self, name):
-        url_name = urllib.quote(name)
-        if url_name in self.keys():
-            return True
+        for key in self.keys():
+            if self[key].name == name:
+                return True
         return False
 
 
 # Page for single blog
 class Blog(PersistentMapping):
-    def __init__(self, name, username):
+    def __init__(self, name, username, id):
+        super(PersistentMapping, self).__init__() 
         self.name = name
         self.username = username
         # Convert name for path. This is also the id of the page.
-        self.url_name = urllib.quote(name)
-
+        # TODO: Check encode
+        self.id = id
+        safe_name = safe_url(name)
+        self.url_name = urllib.quote_plus(safe_name, safe="%/:=&?~#+!$,;'@()*[]")
     
-    def add(self, subject, content, username):
+    def add(self, subject, text, username):
         #TODO: Esacape characters, handle input
-        #TODO: m45 has for id, maybe for users also
-        post = BlogPost(subject, content, username)
-        self.blogposts.append(post)
+        #TODO: m45 has for id
+
+        post = BlogPost(subject, text, username)
+        self[post.id] = post
+        post.__name__ = id
+        post.__parent__ = self
 
 
 # Single post. Blog page contains multiple Blog posts.
@@ -89,8 +104,19 @@ class BlogPost(Persistent):
         self.username = username
         self.subject = subject
         self.text = text
-        self.timestamp = "TODO: TIME"
-        self.number 
+        self.timestamp = datetime.now()
+
+        # Create md5 hash from username and timestamp
+        # to act as id for the BlogPost
+        import hashlib
+        m = hashlib.md5()
+        m.update(username)
+        m.update(self.timestamp.isoformat())
+        self.id = m.digest()
+
+    def time(self):
+        return "%s %s" % (self.timestamp.strftime("%x"),
+        self.timestamp.strftime("%X"))
 
 
 #TODO REMOVE
@@ -128,3 +154,14 @@ def appmaker(zodb_root):
         import transaction
         transaction.commit()
     return zodb_root['app_root']
+
+def safe_url(url):
+    url = url.replace(u'\xe4', u'a')
+    url = url.replace(u'\xf6', u'o')
+    url = url.replace(u'\xe5', u'a')
+    url = url.replace(u'\xc4', u'a')
+    url = url.replace(u'\xd6', u'o')
+    url = url.replace(u'\xc5', u'a')
+    return url
+
+

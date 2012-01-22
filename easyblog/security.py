@@ -31,7 +31,12 @@ pwd_context = CryptContext(
     pbkdf2_sha256__default_rounds=8000,
     )
 
-
+# Pattern for matching string without special characters
+# TODO: Put in utilities if there are more stuff
+def has_special(string):
+    import re
+    return re.search(r"[^A-Za-z0-9_]+", string)
+    
 # TODO: BETTER SOLUTION
 def groupfinder(userid, request):
     context = get_connection(request).root()['app_root']

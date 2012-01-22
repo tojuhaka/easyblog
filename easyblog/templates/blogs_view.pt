@@ -1,5 +1,11 @@
 <div metal:use-macro="layout">
     <div metal:fill-slot="content">
         <h2 i18n:translate="blogs_topic"> List of blogs </h2>
+        <div class="blogpost" tal:repeat="blog context">
+            <a tal:content="context[blog].name" 
+               tal:attributes="href string: ${context_url}${context[blog].url_name}">
+               Blogname
+            </a>
+        </div>
     </div>
 </div>

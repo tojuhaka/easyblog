@@ -181,23 +181,25 @@ def view_page(context, request):
              renderer='templates/blog_view.pt')
 @user_access(login_required=False)
 def view_blog(context, request, user):
+    
     return {
         'logged_in': user,
         'layout': site_layout(),
         'blogname': context.name,
-        'posts': context.blogposts
+        'posts': context
     }
-
 
 @view_config(context=Blogs,
              renderer='templates/blogs_view.pt')
 @user_access(login_required=False)
 def view_blogs(context, request, user):
+        
     return {
         'page': context,
         'logged_in': user,
         'layout': site_layout(),
-        'blogs': context
+        'context_url': resource_url(context, request),
+        'resource_url': resource_url
     }
 
 
@@ -210,6 +212,7 @@ def view_blog_create(context, request, user):
 
     if form.validate():
         context.add(request.params['blogname'], user)
+        return HTTPFound(location=resource_url(context, request))
 
     return {
         'page': context,
