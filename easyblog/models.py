@@ -83,15 +83,9 @@ class Blog(PersistentMapping):
         self.name = name
         self.username = username
         # Convert name for path. This is also the id of the page.
-        # TODO: Check encode
         self.id = id
-        safe_name = safe_url(name)
-        self.url_name = urllib.quote_plus(safe_name, safe="%/:=&?~#+!$,;'@()*[]")
     
     def add(self, subject, text, username):
-        #TODO: Esacape characters, handle input
-        #TODO: m45 has for id
-
         post = BlogPost(subject, text, username)
         self[post.id] = post
         post.__name__ = id
