@@ -6,25 +6,51 @@
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       metal:define-macro="layout">
 <head>
+  <link href="/static/stylesheets/screen.css" media="screen, projection" 
+        rel="stylesheet" type="text/css" />
+  <link href="/static/stylesheets/print.css" media="print" rel="stylesheet" 
+        type="text/css" />
+  <!--[if IE]>
+    <link href="/static/stylesheets/ie.css" media="screen, projection"
+          rel="stylesheet" type="text/css" />
+  <![endif]-->
   <title>EasyBlog 2000</title>
 </head>
 <body>
-  <h1>EasyBlog 2000</h1>
-  <div id="login_link">
-    <span tal:condition="logged_in">
-      <p> Logged in as ${logged_in}.</p>
-      <a href="${request.application_url}/logout">Logout</a>
-    </span>
+  <div id="main">
+   <div id="links">
+     <span tal:condition="logged_in">
+       <a i18n:translate="login_link" href="${request.application_url}/logout">Logout</a> | 
+     </span>
+      <span tal:condition="not: logged_in">
+        <a href="/login">Login</a> |
+      </span>
+     <a href="#">Contact</a> | 
+     <a href="#">another link</a> | 
+     <a href="#">another link</a>
+   <div>
+    <h1>EasyBlog 2000</h1>
+    <div id="login_link">
+      <span tal:condition="logged_in">
+        <p> Logged in as ${logged_in}.</p>
+        <a href="${request.application_url}/logout">Logout</a>
+      </span>
+    </div>
+    <div id="wrapper">
+      <div id="navbar">
+        <ul>
+          <li><a i18n:translate="home_link" href="/">Home</a></li>
+          <li><a i18n:translate="" href="/about.html">About Projector</a></li>
+          <li><a i18n:translate="" href="/acme">ACME, Inc.</a></li>
+          <li><a i18n:translate="blogs_link" href="/blogs">Blogs</a></li>
+          <span tal:condition="not: logged_in">
+          <li><a href="/login">Login</a></li>
+          </span>
+        </ul>
+      </div>
+    <div metal:define-slot="content"></div>
+    </div>
+      <div id="footer"></div>
   </div>
-  <ul>
-    <li><a i18n:translate="home_link" href="/">Home</a></li>
-    <li><a i18n:translate="" href="/about.html">About Projector</a></li>
-    <li><a i18n:translate="" href="/acme">ACME, Inc.</a></li>
-    <li><a i18n:translate="blogs_link" href="/blogs">Blogs</a></li>
-    <span tal:condition="not: logged_in">
-      <li><a href="/login">Login</a></li>
-    </span>
-  </ul>
-  <div metal:define-slot="content"></div>
 </body>
 </html>

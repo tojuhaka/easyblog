@@ -4,7 +4,6 @@ from persistent import Persistent
 from easyblog.security import pwd_context, salt, acl
 from easyblog.config import admins_group
 
-import urllib
 from datetime import datetime
 
 
@@ -57,7 +56,7 @@ class Groups(PersistentMapping):
 # Blog mapper which cointains all the blogs
 class Blogs(PersistentMapping):
     def __init__(self):
-        super(PersistentMapping, self).__init__() 
+        super(PersistentMapping, self).__init__()
 
         # Use running number as id for blog
         self.blog_number = 0
@@ -79,12 +78,13 @@ class Blogs(PersistentMapping):
 # Page for single blog
 class Blog(PersistentMapping):
     def __init__(self, name, username, id):
-        super(PersistentMapping, self).__init__() 
+        super(PersistentMapping, self).__init__()
         self.name = name
         self.username = username
         # Convert name for path. This is also the id of the page.
+        # TODO: Check encode
         self.id = id
-    
+
     def add(self, subject, text, username):
         post = BlogPost(subject, text, username)
         self[post.id] = post
@@ -148,14 +148,3 @@ def appmaker(zodb_root):
         import transaction
         transaction.commit()
     return zodb_root['app_root']
-
-def safe_url(url):
-    url = url.replace(u'\xe4', u'a')
-    url = url.replace(u'\xf6', u'o')
-    url = url.replace(u'\xe5', u'a')
-    url = url.replace(u'\xc4', u'a')
-    url = url.replace(u'\xd6', u'o')
-    url = url.replace(u'\xc5', u'a')
-    return url
-
-

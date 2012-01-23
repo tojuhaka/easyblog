@@ -299,3 +299,4 @@ class FunctionalTests(unittest.TestCase):
         self._add_post(res, u'thisisasubject', 'Here is some text for testing.')
         res = self.testapp.get('/blogs/b0')
         self.assertTrue('thisisasubject' in res.body)
+        self.assertTrue('member wrote' in res.body)

@@ -14,6 +14,7 @@ acl = [(Allow, Everyone, 'view'),
 
 # Salt for pasword hashes, move to database or somewhere safe (and change it )
 salt = u'torpedo'
+
 # Crypt config for password hashes
 pwd_context = CryptContext(
     #replace this list with the hash(es) you wish to support.
@@ -31,12 +32,14 @@ pwd_context = CryptContext(
     pbkdf2_sha256__default_rounds=8000,
     )
 
+
 # Pattern for matching string without special characters
 # TODO: Put in utilities if there are more stuff
 def has_special(string):
     import re
     return re.search(r"[^A-Za-z0-9_]+", string)
-    
+
+
 # TODO: BETTER SOLUTION
 def groupfinder(userid, request):
     context = get_connection(request).root()['app_root']
@@ -67,5 +70,4 @@ def csrf_validation(event):
     if event.request.method == "POST":
         token = event.request.POST.get("_csrf")
         if token is None or token != event.request.session.get_csrf_token():
-            print "ASDSFDAFSFFASFDS"
             raise HTTPForbidden("CSRF token is missing or invalid")
