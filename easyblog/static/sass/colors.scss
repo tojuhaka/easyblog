@@ -1,0 +1,44 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+
+@import "compass/reset";
+
+$text-color: #5A6370;
+$link-color: #D1D3D7;
+
+/* Mixins for re-use */
+@mixin menu-layout {
+  background: #FFFFFF image-url('menu.png');
+  color: #D1D3D7;
+  border-color: #D7D7D7;
+}
+
+body {
+  background: #6F7A86;
+  color: $text-color;
+}
+
+#main {
+  background: white image-url("back.png") repeat-y;
+  color: $text-color;
+}
+
+#links {
+  @include menu_layout
+}
+
+#menu { 
+  @include menu-layout;
+  li {
+    a {
+      @include menu-layout;
+      /* TODO: Add #selected with javascript */
+      &:hover {
+        background: #FFFFFF image-url('menu_hover.png');
+        color: #484E56;
+      }
+    }
+  }
+} 

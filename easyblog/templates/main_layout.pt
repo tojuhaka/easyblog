@@ -18,26 +18,20 @@
 </head>
 <body>
   <div id="main">
-   <div id="links">
-     <span tal:condition="logged_in">
-       <a i18n:translate="login_link" href="${request.application_url}/logout">Logout</a> | 
-     </span>
+    <div id="links">
+      <span tal:condition="logged_in">
+        <a i18n:translate="login_link" 
+              href="${request.application_url}/logout">Logout</a> | 
+      </span>
       <span tal:condition="not: logged_in">
         <a href="/login">Login</a> |
       </span>
-     <a href="#">Contact</a> | 
-     <a href="#">another link</a> | 
-     <a href="#">another link</a>
-   <div>
-    <h1>EasyBlog 2000</h1>
-    <div id="login_link">
-      <span tal:condition="logged_in">
-        <p> Logged in as ${logged_in}.</p>
-        <a href="${request.application_url}/logout">Logout</a>
-      </span>
-    </div>
+      <a href="#">Contact</a> | 
+      <a href="#">another link</a> | 
+      <a href="#">another link</a>
+    </div> <!-- links -->
     <div id="wrapper">
-      <div id="navbar">
+      <div id="menu">
         <ul>
           <li><a i18n:translate="home_link" href="/">Home</a></li>
           <li><a i18n:translate="" href="/about.html">About Projector</a></li>
@@ -48,9 +42,9 @@
           </span>
         </ul>
       </div>
-    <div metal:define-slot="content"></div>
+      <div id="content" metal:define-slot="content"></div>
     </div>
-      <div id="footer"></div>
+      <div id="footer">COPIRAITTI MEITILLE :DD</div>
   </div>
 </body>
 </html>
