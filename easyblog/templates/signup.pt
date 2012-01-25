@@ -1,32 +1,33 @@
 <div metal:use-macro="layout">
-    <div metal:fill-slot="content">
+  <div id="column1" metal:fill-slot="content">
         <h2> Signup </h2>
         <p> ${message} </p>
         ${form.begin(request.resource_url(request.root, 'signup'))}
         ${form.csrf_token()}
         <div class="field">
-          ${form.label("username")}
-          ${form.errorlist("username")}
-          ${form.text("username")}
+          <!-- TODO: Tests -->
+          <div tal:omit-tag="not: python: form.errorlist('username')"
+           class="error-input">
+            <span class="formlabel">${form.label("username")}</span>
+            <span class="forminput">${form.text("username")}</span>
+          </div>
         </div>
         <div class="field">
-          ${form.label("password")}
+          <span class="formlabel">${form.label("password")}</span>
           ${form.errors_for("password")}
-          ${form.password("password")}
+          <span class="forminput">${form.password("password")}</span>
         </div>
         <div class="field">
-          ${form.label("password_confirm")}
+          <span class="formlabel">${form.label("password_confirm")}</span>
           ${form.errors_for("password_confirm")}
-          ${form.password("password_confirm")}
+          <span class="forminput">${form.password("password_confirm")}</span>
         </div>
         <div class="field">
-          ${form.label("email")}
+          <span class="formlabel">${form.label("email")}</span>
           ${form.errors_for("email")}
-          ${form.text("email")}
+          <span class="forminput">${form.text("email")}</span>
         </div>
-        <div class="buttons">
-            ${form.submit("submit", "Submit")}
-        </div>
+        <span class="forminput">${form.submit("submit", "Submit")}</span>
         ${form.end()}
     </div>
 </div>

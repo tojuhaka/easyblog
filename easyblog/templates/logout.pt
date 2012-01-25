@@ -1,5 +1,5 @@
 <div metal:use-macro="layout">
-    <div metal:fill-slot="content">
+  <div id="column1" metal:fill-slot="content">
         <p>${message}</p>
     </div>
 </div>

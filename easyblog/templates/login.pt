@@ -1,19 +1,23 @@
 <div metal:use-macro="layout">
-    <div metal:fill-slot="content">
+  <div id="column1" metal:fill-slot="content">
     <h1> Login </h1>
-    <p> ${message} </p>
+    <div class="message"> 
+      ${message} 
+    </div>
         ${form.begin(request.resource_url(request.root, '/login'))}
         ${form.csrf_token()}
         <div class="field">
-          ${form.label("username")}
-          ${form.text("username")}
+          <span class="formlabel">${form.label("username")}</span>
+          <span class="forminput">${form.text("username")}</span>
         </div>
         <div class="field">
-          ${form.label("password")}
-          ${form.password("password")}
+          <div class="formlabel">${form.label("password")}</div>
+          <div class="forminput">${form.password("password")}</div>
         </div>
-        <div class="buttons">
-            ${form.submit("submit", "Submit")}
+        <div class="spacer">&nbsp;</div>
+        <div class="field">
+            <span class="formlabel"></span>
+            <span class="forminput">${form.submit("submit", "Submit")} </span>
         </div>
         ${form.hidden("came_from", came_from)}
         ${form.end()}

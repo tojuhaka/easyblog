@@ -7,16 +7,21 @@
 
 $text-color: #5A6370;
 $link-color: #D1D3D7;
+$bg-color: #6F7A86;
+$column1-header-color: #1775D5;
+$menu-border-color: #D7D7D7;
+$sbi-header-color: #484E56;
+
 
 /* Mixins for re-use */
 @mixin menu-layout {
   background: #FFFFFF image-url('menu.png');
-  color: #D1D3D7;
-  border-color: #D7D7D7;
+  color: $link-color;
+  border-color: $menu-border-color;
 }
 
 body {
-  background: #6F7A86;
+  background: $bg-color;
   color: $text-color;
 }
 
@@ -25,11 +30,21 @@ body {
   color: $text-color;
 }
 
-#links {
-  @include menu_layout
+#links, #footer {
+  @include menu_layout;
+  color: $link-color;
+  a {
+    background: transparent;
+    color: $link-color;
+  }
 }
 
-#menu { 
+#logo {
+  background: #FFFFFF image-url("logo.jpg") no-repeat;
+  color: white;
+}
+
+#menu {
   @include menu-layout;
   li {
     a {
@@ -42,3 +57,61 @@ body {
     }
   }
 } 
+
+#column1 {
+  h1 {
+    background: transparent;
+    color: $column1-header-color;
+    border-color: #89A9C7;
+  }
+  
+  a {
+    background: transparent;
+    color: $text-color;
+  }
+}
+
+.sbitem {
+  color: $link-color;
+  a {
+    background: transparent;
+    color: $link-color;
+  }
+}
+
+.sbihead {
+  background: #FFFFFF image-url('sbi_header.png');
+  color: $sbi-header-color;
+
+  h1 {
+    background: transparent;
+    color: $sbi-header-color;
+  }
+}
+
+.sbilinks {
+  li {
+    a {
+      background: #FFFFFF url(link.png);
+      color: $link-color;
+
+      &:hover {
+        background: #B7B7B7;
+        color: #1775D5;
+      }
+    }
+  }
+}
+
+/* form and input area */
+input, textarea
+{ background: #FFFFFF;
+  color: #5A6370;
+  border-color: #89A9C7;
+}
+
+/* Errors and messsages */
+.error-input {
+  padding: 1em;
+  border: 1px solid red;
+}

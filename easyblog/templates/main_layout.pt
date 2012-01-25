@@ -30,21 +30,43 @@
       <a href="#">another link</a> | 
       <a href="#">another link</a>
     </div> <!-- links -->
+    <div id="logo"><h1> Saapas RY</h1></div>
     <div id="wrapper">
       <div id="menu">
         <ul>
           <li><a i18n:translate="home_link" href="/">Home</a></li>
-          <li><a i18n:translate="" href="/about.html">About Projector</a></li>
-          <li><a i18n:translate="" href="/acme">ACME, Inc.</a></li>
+          <li><a i18n:translate="news_link" href="/news">News</a></li>
           <li><a i18n:translate="blogs_link" href="/blogs">Blogs</a></li>
-          <span tal:condition="not: logged_in">
-          <li><a href="/login">Login</a></li>
-          </span>
+          <li><a i18n:translate="about_link" href="/about">About</a></li>
         </ul>
       </div>
-      <div id="content" metal:define-slot="content"></div>
+      <div id="column1" metal:define-slot="content"></div>
+      <div id="column2">
+        <div class="sbitem">
+          <div class="sbihead">
+            <h1 i18n:translate="news_label"> Latest News </h1>
+          </div>
+          <div class="sbicontent">
+
+             <div class="newsitem">
+               <h2> 01.01.2012 </h2>
+               <p>This is where you can put your latest news.</p>
+               <p><a href="#">read more ...</a></p>
+             </div>
+
+             <div class="newsitem">
+               <h2> 01.01.2012 </h2>
+               <p>This is where you can put your latest news.</p>
+               <p><a href="#">read more ...</a></p>
+             </div>
+
+          </div> <!-- sbicontent -->
+        </div><!-- sbitem -->
+      </div><!-- column2 -->
+    </div> <!-- wrapper -->
+    <div id="footer">
+      copyright &copy; 2006 your name | <a href="#">email@emailaddress</a> | <a href="http://validator.w3.org/check?uri=referer">XHTML 1.1</a> | <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a> | <a href="http://www.dcarter.co.uk">design by dcarter</a>
     </div>
-      <div id="footer">COPIRAITTI MEITILLE :DD</div>
   </div>
 </body>
 </html>

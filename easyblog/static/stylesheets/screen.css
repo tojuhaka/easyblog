@@ -137,53 +137,124 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 }
 
 /* Mixins for re-use */
-/* line 18, /Users/tojuhaka/Dropbox/pyramid/easyblog/easyblog/static/sass/colors.scss */
+/* line 23, ../sass/colors.scss */
 body {
-  background: #6F7A86;
+  background: #6f7a86;
   color: #5a6370;
 }
 
-/* line 23, /Users/tojuhaka/Dropbox/pyramid/easyblog/easyblog/static/sass/colors.scss */
+/* line 28, ../sass/colors.scss */
 #main {
   background: white url('../images/back.png?1327415984') repeat-y;
   color: #5a6370;
 }
 
-/* line 28, /Users/tojuhaka/Dropbox/pyramid/easyblog/easyblog/static/sass/colors.scss */
-#links {
+/* line 33, ../sass/colors.scss */
+#links, #footer, #footer {
   background: white url('../images/menu.png?1327413603');
-  color: #D1D3D7;
-  border-color: #D7D7D7;
+  color: #d1d3d7;
+  border-color: #d7d7d7;
+  color: #d1d3d7;
+}
+/* line 36, ../sass/colors.scss */
+#links a, #footer a, #footer a {
+  background: transparent;
+  color: #d1d3d7;
 }
 
-/* line 32, /Users/tojuhaka/Dropbox/pyramid/easyblog/easyblog/static/sass/colors.scss */
+/* line 42, ../sass/colors.scss */
+#logo {
+  background: white url('../images/logo.jpg?1327435258') no-repeat;
+  color: white;
+}
+
+/* line 47, ../sass/colors.scss */
 #menu {
   background: white url('../images/menu.png?1327413603');
-  color: #D1D3D7;
-  border-color: #D7D7D7;
+  color: #d1d3d7;
+  border-color: #d7d7d7;
 }
-/* line 35, /Users/tojuhaka/Dropbox/pyramid/easyblog/easyblog/static/sass/colors.scss */
+/* line 50, ../sass/colors.scss */
 #menu li a {
   background: white url('../images/menu.png?1327413603');
-  color: #D1D3D7;
-  border-color: #D7D7D7;
+  color: #d1d3d7;
+  border-color: #d7d7d7;
   /* TODO: Add #selected with javascript */
 }
-/* line 38, /Users/tojuhaka/Dropbox/pyramid/easyblog/easyblog/static/sass/colors.scss */
+/* line 53, ../sass/colors.scss */
 #menu li a:hover {
   background: white url('../images/menu_hover.png?1327413626');
   color: #484E56;
 }
 
+/* line 62, ../sass/colors.scss */
+#column1 h1 {
+  background: transparent;
+  color: #1775d5;
+  border-color: #89A9C7;
+}
+/* line 68, ../sass/colors.scss */
+#column1 a {
+  background: transparent;
+  color: #5a6370;
+}
+
+/* line 74, ../sass/colors.scss */
+.sbitem {
+  color: #d1d3d7;
+}
+/* line 76, ../sass/colors.scss */
+.sbitem a {
+  background: transparent;
+  color: #d1d3d7;
+}
+
+/* line 82, ../sass/colors.scss */
+.sbihead {
+  background: white url('../images/sbi_header.png?1327514773');
+  color: #484e56;
+}
+/* line 86, ../sass/colors.scss */
+.sbihead h1 {
+  background: transparent;
+  color: #484e56;
+}
+
+/* line 94, ../sass/colors.scss */
+.sbilinks li a {
+  background: white url(link.png);
+  color: #d1d3d7;
+}
+/* line 98, ../sass/colors.scss */
+.sbilinks li a:hover {
+  background: #B7B7B7;
+  color: #1775D5;
+}
+
+/* form and input area */
+/* line 108, ../sass/colors.scss */
+input, textarea {
+  background: #FFFFFF;
+  color: #5A6370;
+  border-color: #89A9C7;
+}
+
+/* Errors and messsages */
+/* line 114, ../sass/colors.scss */
+.error-input {
+  padding: 1em;
+  border: 1px solid red;
+}
+
 /* Default font */
 /* Mixins */
 /* Basic */
-/* line 21, ../sass/screen.scss */
+/* line 32, ../sass/screen.scss */
 html {
   height: 100%;
 }
 
-/* line 25, ../sass/screen.scss */
+/* line 36, ../sass/screen.scss */
 body {
   padding: 0px;
   margin: 0px;
@@ -191,21 +262,87 @@ body {
   font-family: verdana, arial, sans-serif;
 }
 
-/* line 34, ../sass/screen.scss */
+/* line 45, ../sass/screen.scss */
+p {
+  margin: 0px;
+  padding: 0px 0px 16px 0px;
+  line-height: 1.7em;
+}
+
+/* line 51, ../sass/screen.scss */
+h1 {
+  font-family: arial, sans-serif;
+  letter-spacing: .1em;
+}
+
+/* line 56, ../sass/screen.scss */
+h2 {
+  margin: 0px;
+  padding: 0px 0px 4px 0px;
+  font-size: 100%;
+}
+
+/* line 62, ../sass/screen.scss */
 a {
   outline: none;
 }
 
+/* image positioning - left, right and center */
+/* line 65, ../sass/screen.scss */
+.left {
+  float: left;
+  padding: 0px 8px 0px 0px;
+}
+
+/* line 70, ../sass/screen.scss */
+.right {
+  float: right;
+  padding: 0px 0px 0px 8px;
+}
+
+/* line 75, ../sass/screen.scss */
+.center {
+  display: block;
+  text-align: center;
+  margin: 0 auto;
+}
+
+/* unordered list */
+/* line 83, ../sass/screen.scss */
+ul {
+  margin: 8px 0px 0px 16px;
+  padding: 0px;
+}
+
+/* line 88, ../sass/screen.scss */
+ul li {
+  list-style-type: square;
+  margin: 0px 0px 11px 0px;
+  padding: 0px;
+}
+
+/* ordered list */
+/* line 95, ../sass/screen.scss */
+ol {
+  margin: 8px 0px 0px 24px;
+  padding: 0px;
+}
+
+/* line 100, ../sass/screen.scss */
+ol li {
+  margin: 0px 0px 11px 0px;
+  padding: 0px;
+}
+
 /* Main sections */
-/* line 37, ../sass/screen.scss */
+/* line 105, ../sass/screen.scss */
 #main {
   margin-left: auto;
   margin-right: auto;
-  max-width: 780px;
-  width: 80%;
+  width: 780px;
 }
 
-/* line 44, ../sass/screen.scss */
+/* line 111, ../sass/screen.scss */
 #links, #footer {
   margin-left: auto;
   margin-right: auto;
@@ -216,24 +353,21 @@ a {
   text-transform: uppercase;
   text-align: right;
 }
-/* line 47, ../sass/screen.scss */
+/* line 114, ../sass/screen.scss */
 #links a, #footer a {
+  background: transparent;
   text-decoration: none;
 }
-/* line 49, ../sass/screen.scss */
+/* line 117, ../sass/screen.scss */
 #links a:hover, #footer a:hover {
   text-decoration: underline;
 }
-/* line 50, ../sass/screen.scss */
+/* line 118, ../sass/screen.scss */
 #links a:visited, #footer a:visited {
   color: #d1d3d7;
 }
-/* line 60, ../sass/screen.scss */
-#links #footer, #footer #footer {
-  text-align: center;
-}
 
-/* line 65, ../sass/screen.scss */
+/* line 129, ../sass/screen.scss */
 #wrapper {
   margin-left: auto;
   margin-right: auto;
@@ -243,7 +377,7 @@ a {
   overflow: hidden;
 }
 
-/* line 73, ../sass/screen.scss */
+/* line 137, ../sass/screen.scss */
 #wrapper {
   margin-left: auto;
   margin-right: auto;
@@ -253,29 +387,217 @@ a {
   overflow: hidden;
 }
 
-/* line 81, ../sass/screen.scss */
+/* line 145, ../sass/screen.scss */
+#logo {
+  margin-left: auto;
+  margin-right: auto;
+  width: 760px;
+  height: 100px;
+  text-align: left;
+}
+/* line 151, ../sass/screen.scss */
+#logo h1 {
+  margin: 0px;
+  padding: 41px 0px 0px 19px;
+  font-size: 150%;
+  letter-spacing: .2em;
+}
+
+/* line 160, ../sass/screen.scss */
 #menu {
   margin-left: auto;
   margin-right: auto;
-  height: 42px;
+  height: 38px;
   width: 760px;
 }
-/* line 86, ../sass/screen.scss */
+/* line 165, ../sass/screen.scss */
 #menu ul {
   margin: 0px auto;
 }
-/* line 90, ../sass/screen.scss */
+/* line 169, ../sass/screen.scss */
 #menu li {
   float: left;
   margin: 0px;
   padding: 0px;
 }
-/* line 96, ../sass/screen.scss */
+/* line 175, ../sass/screen.scss */
 #menu a {
   display: block;
   float: left;
-  height: 37px;
+  height: 26px;
   text-decoration: none;
-  padding: 3px 19px 2px 19px;
+  padding: 10px 19px 2px 19px;
   text-transform: uppercase;
+}
+
+/* column 1 - Main content */
+/* line 186, ../sass/screen.scss */
+#column1 {
+  text-align: justify;
+  width: 512px;
+  float: left;
+  padding: 12px 3px 15px 19px;
+}
+/* line 21, ../sass/screen.scss */
+#column1 a {
+  padding: 0px 0px 2px 0px;
+  text-decoration: none;
+  border-bottom: 1px dashed;
+}
+/* line 25, ../sass/screen.scss */
+#column1 a:hover {
+  border-bottom: 1px solid;
+}
+/* line 193, ../sass/screen.scss */
+#column1 h1 {
+  padding: 6px 0px 4px 0px;
+  margin: 0px 0px 12px 0px;
+  border-bottom: 1px solid;
+  font-size: 150%;
+  text-transform: uppercase;
+  font-weight: normal;
+}
+
+/* Column 2 - Sidebar */
+/* line 204, ../sass/screen.scss */
+#column2 {
+  width: 207px;
+  float: right;
+  padding: 16px 0px 15px 0px;
+}
+/* line 21, ../sass/screen.scss */
+#column2 a {
+  padding: 0px 0px 2px 0px;
+  text-decoration: none;
+  border-bottom: 1px dashed;
+}
+/* line 25, ../sass/screen.scss */
+#column2 a:hover {
+  border-bottom: 1px solid;
+}
+
+/* line 211, ../sass/screen.scss */
+.sbitem {
+  text-align: left;
+  width: 188px;
+  float: left;
+  margin: 0px 0px 25px 0px;
+}
+/* line 21, ../sass/screen.scss */
+.sbitem a {
+  padding: 0px 0px 2px 0px;
+  text-decoration: none;
+  border-bottom: 1px dashed;
+}
+/* line 25, ../sass/screen.scss */
+.sbitem a:hover {
+  border-bottom: 1px solid;
+}
+
+/* line 219, ../sass/screen.scss */
+.sbihead {
+  height: 14px;
+  width: 188px;
+  padding: 5px 0px 5px 19px;
+  text-transform: uppercase;
+}
+/* line 225, ../sass/screen.scss */
+.sbihead h1 {
+  padding: 0px;
+  margin: 0px;
+  font-weight: bold;
+  font-size: 112%;
+}
+
+/* line 233, ../sass/screen.scss */
+.sbicontent {
+  padding: 14px 8px 8px 19px;
+}
+/* line 236, ../sass/screen.scss */
+.sbicontent p {
+  line-height: 14px;
+  padding: 0px 0px 8px 0px;
+}
+
+/* line 242, ../sass/screen.scss */
+.sblinks {
+  padding: 0px;
+}
+/* line 245, ../sass/screen.scss */
+.sblinks ul {
+  margin: 0px auto;
+}
+/* line 249, ../sass/screen.scss */
+.sblinks li {
+  margin: 0px;
+  float: left;
+  list-style: none;
+}
+/* line 254, ../sass/screen.scss */
+.sblinks li a, .sblinks li a:hover {
+  float: left;
+  height: 16px;
+  text-decoration: none;
+  padding: 5px 0px 4px 19px;
+  width: 188px;
+  border: 0px;
+}
+
+/* contact page - form layout */
+/* line 266, ../sass/screen.scss */
+form {
+  margin-top: 0px;
+}
+
+/* line 268, ../sass/screen.scss */
+div.field {
+  clear: both;
+  width: 448px;
+  margin-top: 5px;
+}
+/* line 272, ../sass/screen.scss */
+div.field span.formlabel {
+  display: block;
+}
+/* line 275, ../sass/screen.scss */
+div.field span.forminput {
+  display: block;
+}
+
+/* line 280, ../sass/screen.scss */
+div.spacer {
+  clear: both;
+  width: 80px;
+}
+
+/* line 285, ../sass/screen.scss */
+input, textarea {
+  width: 259px;
+  font-family: verdana, arial, sans-serif;
+  border: 1px solid;
+  font-size: 100%;
+}
+
+/* Errors and messsages */
+/* line 293, ../sass/screen.scss */
+.error-input {
+  max-width: 259px;
+  padding: 1em;
+  border: 1px solid red;
+}
+
+/* line 299, ../sass/screen.scss */
+#submit {
+  font-family: verdana, arial, sans-serif;
+  border: 1px solid;
+  width: 70px;
+  height: 22px;
+  cursor: pointer;
+  font-size: 100%;
+}
+
+/* Bottom of the page */
+/* line 308, ../sass/screen.scss */
+#footer {
+  text-align: center;
 }

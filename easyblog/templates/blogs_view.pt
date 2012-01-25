@@ -1,5 +1,5 @@
 <div metal:use-macro="layout">
-    <div metal:fill-slot="content">
+  <div id="column1" metal:fill-slot="content">
         <h2 i18n:translate="blogs_topic"> List of blogs </h2>
         <div class="blogpost" tal:repeat="blog context">
             <a tal:content="context[blog].name" 

@@ -17,6 +17,17 @@ $font-family: verdana, arial, sans-serif;
   }
 }
 
+@mixin content-link {
+  a {
+    padding: 0px 0px 2px 0px;
+    text-decoration: none;
+    border-bottom: 1px dashed;
+    &:hover {
+      border-bottom: 1px solid;
+    }
+  }
+}
+
 /* Basic */
 html {
   height: 100%;
@@ -31,20 +42,77 @@ body {
   } 
 }
 
+p { 
+  margin: 0px;
+  padding: 0px 0px 16px 0px;
+  line-height: 1.7em;
+}
+
+h1 { 
+  font-family: arial, sans-serif;
+  letter-spacing: .1em;
+}
+
+h2 {
+  margin: 0px;
+  padding: 0px 0px 4px 0px;
+  font-size: 100%;
+}
+
 a { outline: none; }
+
+/* image positioning - left, right and center */
+.left { 
+  float: left; 
+  padding: 0px 8px 0px 0px;
+}
+
+.right { 
+  float: right; 
+  padding: 0px 0px 0px 8px;
+}
+
+.center { 
+  display: block;
+  text-align: center;
+  margin: 0 auto;
+}
+
+/* unordered list */
+ul
+{ margin: 8px 0px 0px 16px;
+  padding: 0px;
+}
+
+ul li
+{ list-style-type: square;
+  margin: 0px 0px 11px 0px; 
+  padding: 0px;
+}
+
+/* ordered list */
+ol
+{ margin: 8px 0px 0px 24px;
+  padding: 0px;
+}
+
+ol li
+{ margin: 0px 0px 11px 0px; 
+  padding: 0px;
+}
 
 /* Main sections */
 #main {
   @include auto-margin;
-  max-width: 780px;
-  width: 80%;
+  width: 780px;
 }
 
 
-#links, #footer  { 
+#links  { 
   @include auto-margin;
 
   a {
+    background: transparent;
     text-decoration: none;
     &:hover { text-decoration: underline; }
     &:visited { color: $link-color }
@@ -56,10 +124,6 @@ a { outline: none; }
   font-size: 94%;
   text-transform: uppercase;
   text-align: right;
-
-  #footer {
-    text-align: center;
-  }
 }
 
 #wrapper { 
@@ -78,16 +142,24 @@ a { outline: none; }
   overflow: hidden;
 } 
 
-#logo{
+#logo {
   @include auto-margin;
   width: 760px;
   height: 100px;
   text-align: left;
+
+  h1 {
+    margin: 0px;
+    padding: 41px 0px 0px 19px;
+    font-size: 150%;
+    letter-spacing: .2em;
+
+  }
 }
 
 #menu {
   @include auto-margin;
-  height: 42px;
+  height: 38px;
   width: 760px;
 
   ul {
@@ -103,14 +175,140 @@ a { outline: none; }
   a {
     display: block; 
     float: left; 
-    height: 37px;
+    height: 26px;
     text-decoration: none; 
-    padding: 3px 19px 2px 19px;
+    padding: 10px 19px 2px 19px;
     text-transform: uppercase;
   }
 }
 
+/* column 1 - Main content */
+#column1 { 
+  @include content-link;
+  text-align: justify;
+  width: 512px;
+  float: left;
+  padding: 12px 3px 15px 19px;
 
+  h1 {
+    padding: 6px 0px 4px 0px; 
+    margin: 0px 0px 12px 0px; 
+    border-bottom: 1px solid;
+    font-size: 150%;
+    text-transform: uppercase;
+    font-weight: normal;
+  }
+}
+
+/* Column 2 - Sidebar */
+#column2 { 
+  @include content-link;
+  width: 207px;
+  float: right;
+  padding: 16px 0px 15px 0px;
+}
+
+.sbitem {
+  @include content-link;
+  text-align: left;
+  width: 188px;
+  float: left;
+  margin: 0px 0px 25px 0px;
+}
+
+.sbihead {
+  height: 14px;
+  width: 188px;
+  padding: 5px 0px 5px 19px;
+  text-transform: uppercase;
+  
+  h1 { 
+    padding: 0px; 
+    margin: 0px; 
+    font-weight: bold;
+    font-size: 112%;
+  }
+}
+
+.sbicontent {
+  padding: 14px 8px 8px 19px;
+
+  p {
+    line-height: 14px; 
+    padding: 0px 0px 8px 0px;
+  }
+}
+
+.sblinks {
+  padding: 0px;
+
+  ul {
+    margin: 0px auto;
+  }
+
+  li {
+    margin: 0px;
+    float: left;
+    list-style: none;
+    
+    a, a:hover {
+      float: left; 
+      height: 16px;
+      text-decoration: none; 
+      padding: 5px 0px 4px 19px;
+      width: 188px;
+      border: 0px;
+    }
+  }
+}
+
+/* contact page - form layout */
+form{margin-top: 0px;}
+
+div.field { 
+  clear: both;
+  width: 448px; 
+  margin-top: 5px;
+  span.formlabel {
+    display: block;
+  }
+  span.forminput {
+    display: block;
+  }
+}
+
+div.spacer { 
+  clear: both;
+  width: 80px;
+}
+
+input, textarea { 
+  width: 259px; 
+  font-family: verdana, arial, sans-serif;
+  border: 1px solid;
+  font-size: 100%;
+}
+
+/* Errors and messsages */
+.error-input {
+  max-width: 259px;
+  padding: 1em;
+  border: 1px solid red;
+}
+
+#submit {
+  font-family: verdana, arial, sans-serif;
+  border: 1px solid;
+  width: 70px;
+  height: 22px;
+  cursor: pointer;
+  font-size: 100%;
+}
+/* Bottom of the page */
+#footer {
+  @extend #links;
+  text-align: center;
+}
 
 
 

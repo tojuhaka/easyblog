@@ -24,6 +24,10 @@ def site_layout():
     layout = renderer.implementation().macros['layout']
     return layout
 
+# Handle news
+def news():
+    return u'news'
+
 
 # Frontpage
 @view_config(context=Main, renderer='templates/index.pt')
@@ -32,7 +36,8 @@ def view_main(request):
     return {
         'layout': site_layout(),
         'project': 'easyblog',
-        'logged_in': logged_in
+        'logged_in': logged_in,
+        'news': news()
     }
 
 
