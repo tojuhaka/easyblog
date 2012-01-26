@@ -1,0 +1,11 @@
+<div metal:use-macro="layout">
+    <div id="column1" metal:fill-slot="content">
+        <h2 i18n:translate="confirm_delete">
+           Are you sure you want to remove ${blogname}?
+        </h2>
+        ${form.begin(request.url)}
+        ${form.csrf_token()}
+        <span class="forminput">${form.submit("submit", "Remove Blog")}</span>
+        ${form.end()}
+    </div>
+</div>

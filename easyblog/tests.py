@@ -142,6 +142,7 @@ class FunctionalTests(unittest.TestCase):
         form['text'] = text
         return form.submit()
 
+
     def setUp(self):
         # Build testing environment
         import tempfile
@@ -176,6 +177,8 @@ class FunctionalTests(unittest.TestCase):
         res = self._signup('member', 'memberpw#', 'memberpw#',
                            'member@member.com')
         self.assertTrue('already exists' in res.body)
+
+    def test_signup_username_special_characters(self):
         res = self._signup('member{}', 'memberpw#2l', 'memberpw#2l',
                            'member@member.comas')
         self.assertTrue('special' in res.body)
@@ -191,6 +194,10 @@ class FunctionalTests(unittest.TestCase):
         res = self._login('member', 'memberpw#')
         res = self.testapp.get('/users/member/edit', status=200)
         self.assertTrue('member' in res.body.lower())
+        self.assertFalse('Login' in res.body)
+        
+        res = self.testapp.get('/users/second_member/edit', status=200)
+        self.assertTrue('Login' in res.body)
 
         # after logout, edit should show login window
         self.testapp.get('/logout')
@@ -261,10 +268,11 @@ class FunctionalTests(unittest.TestCase):
         self.assertTrue('List of blogs' in res.body)
 
     def test_blog_create(self):
-        res = self.testapp.get('/blogs/create')
-        self.assertTrue('Username' in res.body)
-
         res = self._login('member', 'memberpw#')
+        res = self.testapp.get('/blogs/create')
+        self.assertTrue('Login' in res.body)
+
+        res = self._login('admin', 'adminpw#')
         res = self.testapp.get('/blogs/create')
         self.assertTrue('Create Blog' in res.body)
 
@@ -276,7 +284,8 @@ class FunctionalTests(unittest.TestCase):
 
     def test_blog_edit(self):
         # login as member and create a new blog
-        res = self._login('member', 'memberpw#')
+
+        res = self._login('admin', 'adminpw#')
         res = self.testapp.get('/blogs/create')
         self._create_blog(res, 'My Blog')
 
@@ -285,34 +294,38 @@ class FunctionalTests(unittest.TestCase):
         res = self.testapp.get(urllib.quote('/blogs/b0/edit'))
         self.assertTrue('Username' in res.body)
 
-        # login as member and test permission
-        res = self._login('member', 'memberpw#')
+        # login as admin and test permission
+        res = self._login('admin', 'adminpw#')
         res = self.testapp.get(urllib.quote('/blogs/b0/edit'))
         self.assertTrue('Edit My Blog' in res.body)
 
     def test_blog_add_post(self):
         # login as member and create a new blog
-        res = self._login('member', 'memberpw#')
+        res = self._login('admin', 'adminpw#')
         res = self.testapp.get('/blogs/create')
         self._create_blog(res, 'myblogi')
         res = self.testapp.get('/blogs/b0/add_post')
         self._add_post(res, u'thisisasubject', 'Here is some text for testing.')
         res = self.testapp.get('/blogs/b0')
         self.assertTrue('thisisasubject' in res.body)
-        self.assertTrue('member wrote' in res.body)
+        self.assertTrue('admin wrote' in res.body)
 
         # Test single 
         res = self.testapp.get('/blogs/b0/p0')
-
         
 
     def test_blog_remove(self):
-        res = self._login('member', 'memberpw#')
+        # Login as admin and create blog
+        res = self._login('admin', 'adminpw#')
         res = self.testapp.get('/blogs/create')
         self._create_blog(res, 'myblogi')
         
         res = self.testapp.get('/blogs/b0/remove')
-        self.assertTrue('myblogi successfully removed' in res.body)
+        # Press Remove button
+        form = res.forms[0]
+        res = form.submit()
+        self.assertTrue('List of blogs' in res.body or 
+                        'should be redirected' in res.body)
 
 
 

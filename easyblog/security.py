@@ -9,8 +9,7 @@ from pyramid.events import NewRequest, subscriber
 # TODO: make GUI for groups
 acl = [(Allow, Everyone, 'view'),
         (Allow, 'group:members', 'edit'),
-        (Allow, 'group:admins', 'edit_all'),
-       (Allow, 'group:admins', 'edit')]
+        (Allow, 'group:admins', 'edit_all')]
 
 # Salt for pasword hashes, move to database or somewhere safe (and change it )
 salt = u'torpedo'
@@ -44,7 +43,7 @@ def has_special(string):
 def groupfinder(userid, request):
     context = get_connection(request).root()['app_root']
     if userid in context['users']:
-        return context['groups'].get(userid, [])
+        return context['groups'][userid]
 
 
 # Check if the user is logged in and allow access to admin

@@ -4,12 +4,12 @@ from pyramid.renderers import get_renderer
 from pyramid.url import resource_url
 from pyramid.security import authenticated_userid
 from pyramid.security import remember, forget
+#TODO: move to easyblog.security
+from easyblog.config import members_group
 from easyblog.schemas import SignUpSchema, LoginSchema
 from easyblog.schemas import UserEditSchema, BlogCreateSchema
-from easyblog.schemas import BlogAddPostSchema
+from easyblog.schemas import BlogAddPostSchema, BaseSchema
 from easyblog.models import Main, User, Blog, Page, Blogs
-from easyblog.config import members_group
-from easyblog.security import user_access
 from pyramid_simpleform.renderers import FormRenderer
 from pyramid_simpleform import Form, State
 from pyramid.httpexceptions import HTTPForbidden
@@ -59,6 +59,7 @@ def view_signup(context, request):
         email = request.params['email']
         context['users'].add(username, password, email)
         context['groups'].add(username, members_group)
+        
         message = msg['succeed_add_user'] + username
 
     return {
@@ -77,8 +78,8 @@ def view_signup(context, request):
 @view_config(context=Main, renderer='templates/login.pt', name='login')
 @view_config(context='pyramid.exceptions.Forbidden',
              renderer='templates/login.pt')
-@user_access(login_required=False)
-def view_login(context, request, user):
+def view_login(context, request):
+    logged_in = authenticated_userid(request)
     login_url = resource_url(request.context, request, 'login')
     referrer = request.url
     if referrer == login_url:
@@ -104,8 +105,8 @@ def view_login(context, request, user):
             pass
         message = 'Failed username'
 
-    if user:
-        message = msg['logged_in_as'] + user + "."
+    if logged_in:
+        message = msg['logged_in_as'] + logged_in + "."
     if context == HTTPForbidden:
         message += msg['content_forbidden']
     return {
@@ -115,15 +116,14 @@ def view_login(context, request, user):
         'came_from': came_from,
         'username': username,
         'password': password,
-        'logged_in': user,
+        'logged_in': logged_in,
         'form': FormRenderer(form)
     }
 
 
 # Logout current user
 @view_config(context=Main, renderer='templates/logout.pt', name='logout')
-@user_access(login_required=False)
-def view_logout(context, request, user):
+def view_logout(context, request):
     headers = forget(request)
     return HTTPFound(location=resource_url(request.context, request),
                     headers=headers)
@@ -131,21 +131,21 @@ def view_logout(context, request, user):
 
 # Page of the user. Some information about the user is rendered here.
 @view_config(context=User, renderer='easyblog:templates/user_view.pt')
-@user_access(login_required=False)
-def view_user(context, request, user):
+def view_user(context, request):
+    logged_in = authenticated_userid(request)
     return {
         'layout': site_layout(),
         'project': 'easyblog',
         'username': context.username,
-        'logged_in': user,
+        'logged_in': logged_in,
     }
 
 
 # View for editing single user
 @view_config(name='edit', context=User, renderer='templates/user_edit.pt',
-    permission='edit')
-@user_access(login_required=True)
-def view_user_edit(context, request, user):
+    permission='edit_user')
+def view_user_edit(context, request):
+    logged_in = authenticated_userid(request)
     message = ''
     form = Form(request, schema=UserEditSchema, state=State(request=request))
 
@@ -164,12 +164,12 @@ def view_user_edit(context, request, user):
         'layout': site_layout(),
         'project': 'easyblog',
         'username': context.username,
-        'logged_in': user,
+        'logged_in': logged_in,
         'form': FormRenderer(form),
         'email': context.email
     }
 
-
+# TODO: Remove
 @view_config(context=Page,
              renderer='templates/page.pt', permission='edit')
 def view_page(context, request):
@@ -184,11 +184,11 @@ def view_page(context, request):
 
 @view_config(context=Blog,
              renderer='templates/blog_view.pt')
-@user_access(login_required=False)
-def view_blog(context, request, user):
-    
+def view_blog(context, request):
+    logged_in = authenticated_userid(request)
+      
     return {
-        'logged_in': user,
+        'logged_in': logged_in,
         'layout': site_layout(),
         'blogname': context.name,
         'posts': context
@@ -196,12 +196,11 @@ def view_blog(context, request, user):
 
 @view_config(context=Blogs,
              renderer='templates/blogs_view.pt')
-@user_access(login_required=False)
-def view_blogs(context, request, user):
-        
+def view_blogs(context, request):
+    logged_in = authenticated_userid(request)
     return {
         'page': context,
-        'logged_in': user,
+        'logged_in': logged_in,
         'layout': site_layout(),
         'context_url': resource_url(context, request),
         'resource_url': resource_url
@@ -209,19 +208,19 @@ def view_blogs(context, request, user):
 
 
 @view_config(context=Blogs, renderer='templates/blog_create.pt',
-             permission='edit', name="create")
-@user_access(login_required=False)
-def view_blog_create(context, request, user):
+             permission='edit_all', name="create")
+def view_blog_create(context, request):
+    logged_in = authenticated_userid(request)
     form = Form(request, schema=BlogCreateSchema, state=State(request=request))
     message = ''
 
     if form.validate():
-        context.add(request.params['blogname'], user)
+        context.add(request.params['blogname'], logged_in)
         return HTTPFound(location=resource_url(context, request))
 
     return {
         'page': context,
-        'logged_in': user,
+        'logged_in': logged_in,
         'layout': site_layout(),
         'form': FormRenderer(form),
         'message': message
@@ -229,13 +228,13 @@ def view_blog_create(context, request, user):
 
 
 @view_config(context=Blog, renderer='templates/blog_edit.pt',
-             permission='edit', name='edit')
-@user_access(login_required=True)
-def view_blog_edit(context, request, user):
+             permission='edit_blog', name='edit')
+def view_blog_edit(context, request):
+    logged_in = authenticated_userid(request)
     message = "Edit %s" % context.name
     return {
         'page': context,
-        'logged_in': user,
+        'logged_in': logged_in,
         'layout': site_layout(),
         'blogname': context.name,
         'message': message
@@ -243,22 +242,43 @@ def view_blog_edit(context, request, user):
 
 
 @view_config(context=Blog, renderer='templates/blog_add_post.pt',
-             permission='edit', name='add_post')
-@user_access(login_required=True)
-def view_blog_add_post(context, request, user):
+             permission='edit_blog', name='add_post')
+def view_blog_add_post(context, request):
+    logged_in = authenticated_userid(request)
     form = Form(request, schema=BlogAddPostSchema,
                 state=State(request=request))
     message = "Edit %s" % context.name
 
     if form.validate():
-        context.add(request.params['subject'], request.params['text'], user)
+        context.add(request.params['subject'], request.params['text'], logged_in)
         return HTTPFound(location=resource_url(context, request))
 
     return {
         'page': context,
-        'logged_in': user,
+        'logged_in': logged_in,
         'layout': site_layout(),
         'blogname': context.name,
         'message': message,
         'form': FormRenderer(form)
     }
+
+@view_config(context=Blog, renderer='templates/blog_remove.pt',
+             permission='edit_blog', name='remove')
+def view_blog_remove(context, request):
+    logged_in = authenticated_userid(request)
+    form = Form(request, schema=BaseSchema,
+                state=State(request=request))
+    message = "Edit %s" % context.name
+
+    if form.validate():
+        return HTTPFound(location=resource_url(context.__parent__, request))
+
+    return {
+        'page': context,
+        'logged_in': logged_in,
+        'layout': site_layout(),
+        'blogname': context.name,
+        'message': message,
+        'form': FormRenderer(form)
+    }
+

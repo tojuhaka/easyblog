@@ -5,6 +5,7 @@
         ${form.begin(request.resource_url(request.root, 'signup'))}
         ${form.csrf_token()}
         <div class="field">
+          ${form.errorlist("username")}
           <!-- TODO: Tests -->
           <div tal:omit-tag="not: python: form.errorlist('username')"
            class="error-input">

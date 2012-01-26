@@ -34,18 +34,17 @@ class Users(PersistentMapping):
 
 # Single user, TODO: passwords and other information
 class User(Persistent):
-    #TODO: DO IT!
-    # @property
-    # def __acl__(self):
-    #     acls = [(Allow, 'u:%d' % o.id, 'edit') for o in self.owners]
-    #     return acls
+    @property
+    def __acl__(self):
+        acls = [(Allow, 'u:%s' % o, 'edit_user') for o in self.owners]
+        return acls
 
     def __init__(self, username, password, email, id):
         self.username = username
         self.password = pwd_context.encrypt(password + salt)
         self.id = id
         self.email = email
-        self.owners = [username]
+        self.owners = [username, 'admin']
         #TODO: Timestamp, hash?
 
     def edit(self, password, email):
@@ -58,7 +57,7 @@ class User(Persistent):
 
 class Groups(PersistentMapping):
     def add(self, username, group):
-        self[username] = group
+        self[username] = group + ['u:%s' % username]
 
 
 # Blog mapper which cointains all the blogs
@@ -85,10 +84,15 @@ class Blogs(PersistentMapping):
 
 # Page for single blog
 class Blog(PersistentMapping):
+    @property
+    def __acl__(self):
+        acls = [(Allow, 'u:%s' % o, 'edit_blog') for o in self.owners]
+        return acls
+
     def __init__(self, name, username, id):
         super(PersistentMapping, self).__init__()
         self.name = name
-        self.username = username
+        self.owners = [username, 'admin']
         # Convert name for path. This is also the id of the page.
         # TODO: Check encode
         self.id = id

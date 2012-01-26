@@ -26,8 +26,8 @@
       <span tal:condition="not: logged_in">
         <a href="/login">Login</a> |
       </span>
-      <a href="#">Contact</a> | 
-      <a href="#">another link</a> | 
+      <a i18n:translate="signup_link" href="/signup">Signup</a> | 
+      <a i18n:translate="account_link" href="#">Account</a> | 
       <a href="#">another link</a>
     </div> <!-- links -->
     <div id="logo"><h1> Saapas RY</h1></div>

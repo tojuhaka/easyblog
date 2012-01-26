@@ -16,6 +16,9 @@ requires = [
     'docutils',
     'passlib',
     'webtest',
+    'pyramid_simpleform',
+    'formencode',
+    'nose'
     ]
 
 setup(name='easyblog',
