@@ -300,3 +300,20 @@ class FunctionalTests(unittest.TestCase):
         res = self.testapp.get('/blogs/b0')
         self.assertTrue('thisisasubject' in res.body)
         self.assertTrue('member wrote' in res.body)
+
+        # Test single 
+        res = self.testapp.get('/blogs/b0/p0')
+
+        
+
+    def test_blog_remove(self):
+        res = self._login('member', 'memberpw#')
+        res = self.testapp.get('/blogs/create')
+        self._create_blog(res, 'myblogi')
+        
+        res = self.testapp.get('/blogs/b0/remove')
+        self.assertTrue('myblogi successfully removed' in res.body)
+
+
+
+        

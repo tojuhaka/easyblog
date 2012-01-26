@@ -5,6 +5,7 @@ from easyblog.security import pwd_context, salt, acl
 from easyblog.config import admins_group
 
 from datetime import datetime
+from pyramid.security import Allow, Everyone
 
 
 # Main root object in our ZODB database
@@ -33,11 +34,18 @@ class Users(PersistentMapping):
 
 # Single user, TODO: passwords and other information
 class User(Persistent):
+    #TODO: DO IT!
+    # @property
+    # def __acl__(self):
+    #     acls = [(Allow, 'u:%d' % o.id, 'edit') for o in self.owners]
+    #     return acls
+
     def __init__(self, username, password, email, id):
         self.username = username
         self.password = pwd_context.encrypt(password + salt)
         self.id = id
         self.email = email
+        self.owners = [username]
         #TODO: Timestamp, hash?
 
     def edit(self, password, email):
