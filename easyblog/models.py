@@ -1,8 +1,9 @@
 from persistent.mapping import PersistentMapping
 from persistent import Persistent
 
-from easyblog.security import pwd_context, salt, acl
-from easyblog.config import admins_group
+from easyblog.security import pwd_context, salt, acl, groupfinder
+from easyblog.config import admins_group, members_group, editors_group
+
 
 from datetime import datetime
 from pyramid.security import Allow, Everyone
@@ -45,7 +46,6 @@ class User(Persistent):
         self.id = id
         self.email = email
         self.owners = [username, 'admin']
-        #TODO: Timestamp, hash?
 
     def edit(self, password, email):
         self.password = pwd_context.encrypt(password + salt)
@@ -54,10 +54,17 @@ class User(Persistent):
     def validate_password(self, password):
         return pwd_context.verify(password + salt, self.password)
 
+    def get_groups(self, request):
+        return groupfinder(self.username, request)
 
+# TODO: name better or change the order
 class Groups(PersistentMapping):
     def add(self, username, group):
         self[username] = group + ['u:%s' % username]
+
+    def get_groups(self):
+        # TODO: change from config, by index is baaad
+        return [admins_group[0], editors_group[0], members_group[0]]
 
 
 # Blog mapper which cointains all the blogs

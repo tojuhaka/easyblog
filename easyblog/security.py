@@ -6,10 +6,13 @@ from pyramid.httpexceptions import HTTPForbidden
 from pyramid.events import NewRequest, subscriber
 
 
-# TODO: make GUI for groups
+# TODO: HIDE?
 acl = [(Allow, Everyone, 'view'),
         (Allow, 'group:members', 'edit'),
-        (Allow, 'group:admins', 'edit_all')]
+        (Allow, 'group:admins', 'edit_all'),
+        (Allow, 'group:admins', 'edit'),
+        (Allow, 'group:admins', 'create_blog'),
+        (Allow, 'group:editors', 'create_blog')]
 
 # Salt for pasword hashes, move to database or somewhere safe (and change it )
 salt = u'torpedo'
@@ -39,7 +42,6 @@ def has_special(string):
     return re.search(r"[^A-Za-z0-9_]+", string)
 
 
-# TODO: BETTER SOLUTION
 def groupfinder(userid, request):
     context = get_connection(request).root()['app_root']
     if userid in context['users']:
@@ -47,20 +49,20 @@ def groupfinder(userid, request):
 
 
 # Check if the user is logged in and allow access to admin
-def user_access(login_required=True):
-    def wrap(f):
-        def wrapped_f(*args, **kwargs):
-            context, request = args
-            logged_in = authenticated_userid(request)
-
-            if login_required:
-                # If the owner (or admin) isn't logged in: access denied
-                if logged_in != context.username and not has_permission(
-                                            'edit_all', context, request):
-                    raise HTTPForbidden()
-            return f(*args, user=logged_in)
-        return wrapped_f
-    return wrap
+# def user_access(login_required=True):
+#     def wrap(f):
+#         def wrapped_f(*args, **kwargs):
+#             context, request = args
+#             logged_in = authenticated_userid(request)
+# 
+#             if login_required:
+#                 # If the owner (or admin) isn't logged in: access denied
+#                 if logged_in != context.username and not has_permission(
+#                                             'edit_all', context, request):
+#                     raise HTTPForbidden()
+#             return f(*args, user=logged_in)
+#         return wrapped_f
+#     return wrap
 
 
 #Protect sessions from Cross-site request forgery attacks

@@ -5,11 +5,13 @@ from pyramid.url import resource_url
 from pyramid.security import authenticated_userid
 from pyramid.security import remember, forget
 #TODO: move to easyblog.security
-from easyblog.config import members_group
+from easyblog.config import members_group, admins_group, editors_group
 from easyblog.schemas import SignUpSchema, LoginSchema
 from easyblog.schemas import UserEditSchema, BlogCreateSchema
 from easyblog.schemas import BlogAddPostSchema, BaseSchema
-from easyblog.models import Main, User, Blog, Page, Blogs
+from easyblog.schemas import UsersEditSchema
+from easyblog.models import Main, User, Blog, Page, Blogs, Users
+from easyblog.config import get_tool
 from pyramid_simpleform.renderers import FormRenderer
 from pyramid_simpleform import Form, State
 from pyramid.httpexceptions import HTTPForbidden
@@ -28,6 +30,20 @@ def site_layout():
 def news():
     return u'news'
 
+# Return checked if matches
+# TODO: Find out how to do this right
+def create_checkbox_dict(user, groups, request):
+    user_groups = user.get_groups(request)
+    groups = groups.get_groups()
+
+    _dict = {}
+    for group in groups:
+        if group in user_groups:
+            _dict[group] = 'checked'
+        else:
+            _dict[group] = None
+    return _dict
+            
 
 # Frontpage
 @view_config(context=Main, renderer='templates/index.pt')
@@ -280,5 +296,37 @@ def view_blog_remove(context, request):
         'blogname': context.name,
         'message': message,
         'form': FormRenderer(form)
+    }
+
+# Admin view
+@view_config(context=Users, renderer='templates/users_edit.pt',
+             permission='edit_all', name='edit')
+def view_users_edit(context, request):
+    logged_in = authenticated_userid(request)
+    form = Form(request, schema=UsersEditSchema,
+                state=State(request=request))
+
+    message = "No search results"
+    search_results = {}
+
+    if form.validate():
+        search = request.params['search']
+        for user in context:
+            if search in context[user].username:
+                groups = get_tool('groups', request)
+                checkbox_dict = create_checkbox_dict(context[user],
+                                    groups, request)
+                search_results[context[user].username] = checkbox_dict
+
+    if search_results:
+        message = "%d results found" % len(search_results)
+
+    return {
+        'page': context,
+        'logged_in': logged_in,
+        'layout': site_layout(),
+        'form': FormRenderer(form),
+        'search_results': search_results,
+        'message': message,
     }
 

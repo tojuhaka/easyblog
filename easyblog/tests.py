@@ -4,6 +4,19 @@ from easyblog.models import appmaker
 import urllib
 from pyramid import testing
 
+class UtilitiesTest(unittest.TestCase):
+    pass
+    # def test_create_checkbox_dict(self):
+    #     from easyblog.views import create_checkbox_dict
+    #     from easyblog.models import User
+    #     from easyblog.config import get_tool
+    #     user = User('user', 'password', 'user@user.com', 1234)
+    #     dummy_request = testing.DummyRequest()
+    #     create_checkbox_dict(user, get_tool('groups', 
+    #             dummy_request), dummy_request)
+    #     import pdb; pdb.set_trace()
+
+
 
 class AppMakerTests(unittest.TestCase):
     def test_it(self):
@@ -326,6 +339,18 @@ class FunctionalTests(unittest.TestCase):
         res = form.submit()
         self.assertTrue('List of blogs' in res.body or 
                         'should be redirected' in res.body)
+
+    def test_admin_view(self):
+        res = self.testapp.get('/users/edit')
+        self.assertTrue('Login' in res.body and 'username' in res.body.lower())
+
+        # Login as admin and go admin view
+        res = self._login('admin', 'adminpw#')
+        res = self.testapp.get('/users/edit')
+        self.assertTrue('Edit users' in res.body)
+
+
+        
 
 
 

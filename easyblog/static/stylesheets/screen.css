@@ -578,15 +578,20 @@ input, textarea {
   font-size: 100%;
 }
 
-/* Errors and messsages */
 /* line 293, ../sass/screen.scss */
+.checkbox {
+  width: 50px;
+}
+
+/* Errors and messsages */
+/* line 297, ../sass/screen.scss */
 .error-input {
   max-width: 259px;
   padding: 1em;
   border: 1px solid red;
 }
 
-/* line 299, ../sass/screen.scss */
+/* line 303, ../sass/screen.scss */
 #submit {
   font-family: verdana, arial, sans-serif;
   border: 1px solid;
@@ -597,7 +602,7 @@ input, textarea {
 }
 
 /* Bottom of the page */
-/* line 308, ../sass/screen.scss */
+/* line 312, ../sass/screen.scss */
 #footer {
   text-align: center;
 }

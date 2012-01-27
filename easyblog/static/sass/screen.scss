@@ -287,8 +287,12 @@ input, textarea {
   font-family: verdana, arial, sans-serif;
   border: 1px solid;
   font-size: 100%;
+
 }
 
+.checkbox {
+    width: 50px;
+}
 /* Errors and messsages */
 .error-input {
   max-width: 259px;

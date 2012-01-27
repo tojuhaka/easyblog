@@ -5,7 +5,7 @@
         </h2>
         ${form.begin(request.url)}
         ${form.csrf_token()}
-        <span class="forminput">${form.submit("submit", "Remove Blog")}</span>
+        <span class="forminput">${form.submit("submit", "Remove")}</span>
         ${form.end()}
     </div>
 </div>

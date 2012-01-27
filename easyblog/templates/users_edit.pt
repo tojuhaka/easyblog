@@ -1,0 +1,55 @@
+<div metal:use-macro="layout">
+  <div id="column1" metal:fill-slot="content">
+    <h1 i18n:translate="edit_user_header"> Edit users </h1>
+    <div class="message"> ${message} </div>
+    
+    ${form.begin(request.url)}
+    ${form.csrf_token()}
+      <div class="field">
+        <span class="formlabel">${form.label("search")}</span>
+        <span class="forminput">${form.text("search")}</span>
+      </div>
+      <div class="buttons">
+        <span class="forminput">${form.submit("submit", "Search")}</span>
+      </div>
+    ${form.end()}
+   
+    <div tal:condition="search_results" class="result-div">
+      ${form.begin(request.url)}
+      ${form.csrf_token()}
+        <table class="result-table">
+        <tr>
+          <th></th>
+          <th i18n:translate="admin_label">Admin</th>
+          <th i18n:translate="editor_label">Editor</th>
+          <th i18n:translate="member_label">Member</th>
+        </tr>
+        <tr tal:repeat="username search_results.keys()">
+          <td tal:content="username">Username</td>
+          <td><input tal:attributes="checked 
+                    search_results[username]['group:admins']" 
+                    class="checkbox" type="checkbox" name="admin" 
+                    value="admin" /></td>
+
+          <td><input tal:attributes="checked 
+                    search_results[username]['group:editors']" 
+                    class="checkbox" type="checkbox" name="editors" 
+                    value="editors" /></td>
+
+          <td><input tal:attributes="checked 
+                    search_results[username]['group:members']" 
+                    class="checkbox" type="checkbox" name="members" 
+                    value="members" /></td>
+        </tr>
+
+      </table>
+      <div class="buttons">
+        <span class="forminput">${form.submit("submit", "Save")}</span>
+      </div>
+      ${form.end()}
+    </div>
+
+        <!-- <div class="blogpost" tal:repeat="post context"> -->
+        <!-- </div> -->
+    </div>
+</div>

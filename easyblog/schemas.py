@@ -57,6 +57,10 @@ class UserEditSchema(BaseSchema):
     new_password_confirm = validators.MinLength(6, not_empty=False)
     chained_validators = [validators.FieldsMatch('new_password', 'new_password_confirm')]
 
+# Schema for users edit. Admin's view.
+class UsersEditSchema(BaseSchema):
+    search = validators.MinLength(1, not_empty=True)
+
 # Schema for blogpage creation
 class BlogCreateSchema(BaseSchema):
     blogname = validators.MinLength(6, not_empty=True)
