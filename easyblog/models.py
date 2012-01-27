@@ -33,7 +33,6 @@ class Users(PersistentMapping):
         self[user.username] = user
 
 
-# Single user, TODO: passwords and other information
 class User(Persistent):
     @property
     def __acl__(self):
@@ -60,11 +59,10 @@ class User(Persistent):
 # TODO: name better or change the order
 class Groups(PersistentMapping):
     def add(self, username, group):
-        self[username] = group + ['u:%s' % username]
+        self[username] = [group] + ['u:%s' % username]
 
     def get_groups(self):
-        # TODO: change from config, by index is baaad
-        return [admins_group[0], editors_group[0], members_group[0]]
+        return [admins_group, editors_group, members_group]
 
 
 # Blog mapper which cointains all the blogs

@@ -4,19 +4,6 @@ from easyblog.models import appmaker
 import urllib
 from pyramid import testing
 
-class UtilitiesTest(unittest.TestCase):
-    pass
-    # def test_create_checkbox_dict(self):
-    #     from easyblog.views import create_checkbox_dict
-    #     from easyblog.models import User
-    #     from easyblog.config import get_tool
-    #     user = User('user', 'password', 'user@user.com', 1234)
-    #     dummy_request = testing.DummyRequest()
-    #     create_checkbox_dict(user, get_tool('groups', 
-    #             dummy_request), dummy_request)
-    #     import pdb; pdb.set_trace()
-
-
 
 class AppMakerTests(unittest.TestCase):
     def test_it(self):
@@ -26,7 +13,7 @@ class AppMakerTests(unittest.TestCase):
                          'admin')
 
     def test_has_special_method(self):
-        from easyblog.security import has_special
+        from easyblog.utilities import has_special
         self.assertTrue(has_special("testi%$|") != None)
         self.assertEqual(has_special("testi"), None)
 

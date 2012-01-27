@@ -2,7 +2,7 @@ from formencode import Schema, validators, All
 from formencode import FancyValidator, Invalid
 from pyramid_zodbconn import get_connection
 
-from easyblog.security import has_special
+from easyblog.utilities import has_special
 
 # Validate username
 class UniqueUsername(FancyValidator):

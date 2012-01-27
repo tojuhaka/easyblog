@@ -11,7 +11,7 @@ from easyblog.schemas import UserEditSchema, BlogCreateSchema
 from easyblog.schemas import BlogAddPostSchema, BaseSchema
 from easyblog.schemas import UsersEditSchema
 from easyblog.models import Main, User, Blog, Page, Blogs, Users
-from easyblog.config import get_tool
+from easyblog.utilities import get_tool
 from pyramid_simpleform.renderers import FormRenderer
 from pyramid_simpleform import Form, State
 from pyramid.httpexceptions import HTTPForbidden
