@@ -4,13 +4,14 @@ from pyramid.renderers import get_renderer
 from pyramid.url import resource_url
 from pyramid.security import authenticated_userid
 from pyramid.security import remember, forget
-#TODO: move to easyblog.security
-from easyblog.config import members_group, admins_group, editors_group
+from easyblog.config import members_group
 from easyblog.schemas import SignUpSchema, LoginSchema
 from easyblog.schemas import UserEditSchema, BlogCreateSchema
 from easyblog.schemas import BlogAddPostSchema, BaseSchema
 from easyblog.schemas import UsersEditSchema
+from easyblog.security import group_names
 from easyblog.models import Main, User, Blog, Page, Blogs, Users
+from easyblog.security import groupfinder
 from easyblog.utilities import get_tool
 from pyramid_simpleform.renderers import FormRenderer
 from pyramid_simpleform import Form, State
@@ -39,9 +40,9 @@ def create_checkbox_dict(user, groups, request):
     _dict = {}
     for group in groups:
         if group in user_groups:
-            _dict[group] = 'checked'
+            _dict[group] = True
         else:
-            _dict[group] = None
+            _dict[group] = False
     return _dict
             
 
@@ -307,16 +308,28 @@ def view_users_edit(context, request):
                 state=State(request=request))
 
     message = "No search results"
-    search_results = {}
-
+    search_results = []
     if form.validate():
         search = request.params['search']
+        
+        # Loop through all the users and create dict of groups
+        # 
         for user in context:
             if search in context[user].username:
-                groups = get_tool('groups', request)
-                checkbox_dict = create_checkbox_dict(context[user],
-                                    groups, request)
-                search_results[context[user].username] = checkbox_dict
+                search_results.append(context[user])
+
+        if request.params['submit'] == 'Save':
+            # Filter checkbox-parameters from request
+            cbs = [p for p in request.params.keys() 
+                        if u'checkbox' in p]
+               
+            for cb in cbs:
+                username = cb.split(':')[1]
+
+
+    # function for checking the group of the user
+    def has_group(group, user, request):
+        return group_names[group] in groupfinder(user.username, request)
 
     if search_results:
         message = "%d results found" % len(search_results)
@@ -328,5 +341,7 @@ def view_users_edit(context, request):
         'form': FormRenderer(form),
         'search_results': search_results,
         'message': message,
+        'group_names': group_names,
+        'has_group': has_group
     }
 

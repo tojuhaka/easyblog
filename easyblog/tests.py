@@ -4,7 +4,6 @@ from easyblog.models import appmaker
 import urllib
 from pyramid import testing
 
-
 class AppMakerTests(unittest.TestCase):
     def test_it(self):
         root = {}

@@ -13,6 +13,12 @@ acl = [(Allow, Everyone, 'view'),
         (Allow, 'group:admins', 'create_blog'),
         (Allow, 'group:editors', 'create_blog')]
 
+group_names = {
+    'admin': 'group:admins',
+    'editor': 'group:editors',
+    'member': 'group:members'
+}
+
 # Salt for pasword hashes, move to database or somewhere safe (and change it )
 salt = u'torpedo'
 
@@ -33,12 +39,9 @@ pwd_context = CryptContext(
     pbkdf2_sha256__default_rounds=8000,
     )
 
-
-
-
-def groupfinder(userid, request):
-    if userid in get_tool('users', request):
-        return get_tool('groups', request)[userid]
+def groupfinder(username, request):
+    if username in get_tool('users', request):
+        return get_tool('groups', request)[username]
 
 #Protect sessions from Cross-site request forgery attacks
 @subscriber(NewRequest)

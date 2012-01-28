@@ -1,12 +1,11 @@
 from persistent.mapping import PersistentMapping
 from persistent import Persistent
 
-from easyblog.security import pwd_context, salt, acl, groupfinder
+from easyblog.security import pwd_context, salt, acl
 from easyblog.config import admins_group, members_group, editors_group
 
-
 from datetime import datetime
-from pyramid.security import Allow, Everyone
+from pyramid.security import Allow
 
 
 # Main root object in our ZODB database
@@ -52,9 +51,6 @@ class User(Persistent):
 
     def validate_password(self, password):
         return pwd_context.verify(password + salt, self.password)
-
-    def get_groups(self, request):
-        return groupfinder(self.username, request)
 
 # TODO: name better or change the order
 class Groups(PersistentMapping):

@@ -1,4 +1,3 @@
-
 members_group = 'group:members'
 admins_group = 'group:admins'
 editors_group = 'group:editors'

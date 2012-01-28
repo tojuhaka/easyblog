@@ -12,11 +12,8 @@
       <div class="buttons">
         <span class="forminput">${form.submit("submit", "Search")}</span>
       </div>
-    ${form.end()}
    
     <div tal:condition="search_results" class="result-div">
-      ${form.begin(request.url)}
-      ${form.csrf_token()}
         <table class="result-table">
         <tr>
           <th></th>
@@ -24,22 +21,26 @@
           <th i18n:translate="editor_label">Editor</th>
           <th i18n:translate="member_label">Member</th>
         </tr>
-        <tr tal:repeat="username search_results.keys()">
-          <td tal:content="username">Username</td>
-          <td><input tal:attributes="checked 
-                    search_results[username]['group:admins']" 
-                    class="checkbox" type="checkbox" name="admin" 
-                    value="admin" /></td>
-
-          <td><input tal:attributes="checked 
-                    search_results[username]['group:editors']" 
-                    class="checkbox" type="checkbox" name="editors" 
-                    value="editors" /></td>
-
-          <td><input tal:attributes="checked 
-                    search_results[username]['group:members']" 
-                    class="checkbox" type="checkbox" name="members" 
-                    value="members" /></td>
+        <tr tal:repeat="user search_results">
+          <td tal:content="user.username">Username</td>
+          <td><input tal:attributes="
+                    checked has_group('admin', user, request);
+                    value group_names['admin'];
+                    name string:checkbox:${user.username}"
+                    class="checkbox" type="checkbox"/>
+          </td>
+          <td><input tal:attributes="
+                    checked has_group('editor', user, request);
+                    value group_names['editor'];
+                    name string:checkbox:${user.username}"
+                    class="checkbox" type="checkbox"/>
+          </td>
+          <td><input tal:attributes="
+                    checked has_group('member', user, request);
+                    value group_names['member'];
+                    name string:checkbox:${user.username}"
+                    class="checkbox" type="checkbox"/>
+          </td>
         </tr>
 
       </table>
