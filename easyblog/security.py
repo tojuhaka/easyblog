@@ -13,7 +13,7 @@ acl = [(Allow, Everyone, 'view'),
         (Allow, 'group:admins', 'create_blog'),
         (Allow, 'group:editors', 'create_blog')]
 
-group_names = {
+group_name = {
     'admin': 'group:admins',
     'editor': 'group:editors',
     'member': 'group:members'

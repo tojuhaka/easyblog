@@ -1,7 +1,7 @@
 from persistent.mapping import PersistentMapping
 from persistent import Persistent
 
-from easyblog.security import pwd_context, salt, acl
+from easyblog.security import pwd_context, salt, acl, group_name
 from easyblog.config import admins_group, members_group, editors_group
 
 from datetime import datetime
@@ -35,7 +35,8 @@ class Users(PersistentMapping):
 class User(Persistent):
     @property
     def __acl__(self):
-        acls = [(Allow, 'u:%s' % o, 'edit_user') for o in self.owners]
+        acls = [(Allow, 'u:%s' % self.username, 'edit_user'),
+                (Allow, group_name['admin'], 'edit_user')]
         return acls
 
     def __init__(self, username, password, email, id):
@@ -43,7 +44,6 @@ class User(Persistent):
         self.password = pwd_context.encrypt(password + salt)
         self.id = id
         self.email = email
-        self.owners = [username, 'admin']
 
     def edit(self, password, email):
         self.password = pwd_context.encrypt(password + salt)
@@ -55,7 +55,17 @@ class User(Persistent):
 # TODO: name better or change the order
 class Groups(PersistentMapping):
     def add(self, username, group):
-        self[username] = [group] + ['u:%s' % username]
+        try:
+            self[username]
+        except KeyError:
+            self[username] = []
+
+        if not group in self[username]:
+            self[username] += [group]
+
+    def remove(self, username, group):
+        if group in self[username]:
+            self[username].remove(group)
 
     def get_groups(self):
         return [admins_group, editors_group, members_group]
@@ -88,6 +98,8 @@ class Blog(PersistentMapping):
     @property
     def __acl__(self):
         acls = [(Allow, 'u:%s' % o, 'edit_blog') for o in self.owners]
+        #TODO: remove admin
+        acls.append((Allow, group_name['admin'], 'edit_blog'))
         return acls
 
     def __init__(self, name, username, id):

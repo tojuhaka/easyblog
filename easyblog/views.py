@@ -9,7 +9,7 @@ from easyblog.schemas import SignUpSchema, LoginSchema
 from easyblog.schemas import UserEditSchema, BlogCreateSchema
 from easyblog.schemas import BlogAddPostSchema, BaseSchema
 from easyblog.schemas import UsersEditSchema
-from easyblog.security import group_names
+from easyblog.security import group_name
 from easyblog.models import Main, User, Blog, Page, Blogs, Users
 from easyblog.security import groupfinder
 from easyblog.utilities import get_tool
@@ -30,21 +30,6 @@ def site_layout():
 # Handle news
 def news():
     return u'news'
-
-# Return checked if matches
-# TODO: Find out how to do this right
-def create_checkbox_dict(user, groups, request):
-    user_groups = user.get_groups(request)
-    groups = groups.get_groups()
-
-    _dict = {}
-    for group in groups:
-        if group in user_groups:
-            _dict[group] = True
-        else:
-            _dict[group] = False
-    return _dict
-            
 
 # Frontpage
 @view_config(context=Main, renderer='templates/index.pt')
@@ -76,6 +61,7 @@ def view_signup(context, request):
         email = request.params['email']
         context['users'].add(username, password, email)
         context['groups'].add(username, members_group)
+        context['groups'].add(username, u'u:%s' % username)
         
         message = msg['succeed_add_user'] + username
 
@@ -325,11 +311,12 @@ def view_users_edit(context, request):
                
             for cb in cbs:
                 username = cb.split(':')[1]
+                groups = get_tool('groups', request)
 
 
     # function for checking the group of the user
     def has_group(group, user, request):
-        return group_names[group] in groupfinder(user.username, request)
+        return group_name[group] in groupfinder(user.username, request)
 
     if search_results:
         message = "%d results found" % len(search_results)
@@ -341,7 +328,7 @@ def view_users_edit(context, request):
         'form': FormRenderer(form),
         'search_results': search_results,
         'message': message,
-        'group_names': group_names,
+        'group_name': group_name,
         'has_group': has_group
     }
 

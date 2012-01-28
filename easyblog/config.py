@@ -1,3 +1,4 @@
+#TODO: REMOVE these and use group_names in security
 members_group = 'group:members'
 admins_group = 'group:admins'
 editors_group = 'group:editors'

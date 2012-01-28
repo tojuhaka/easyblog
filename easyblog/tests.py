@@ -1,5 +1,8 @@
 import unittest
+
 from easyblog.models import appmaker
+from mock import Mock
+from pyramid.interfaces import IMultiDict
 
 import urllib
 from pyramid import testing
@@ -10,6 +13,7 @@ class AppMakerTests(unittest.TestCase):
         appmaker(root)
         self.assertEqual(root['app_root']['users']['admin'].username,
                          'admin')
+        self.assertTrue(root['app_root']['blogs'].__name__)
 
     def test_has_special_method(self):
         from easyblog.utilities import has_special
@@ -26,11 +30,45 @@ class ViewTests(unittest.TestCase):
         self.dummy_request.params['email'] = 'user@user.com'
         self.dummy_request.params['submit'] = 'Submit'
 
-        self.context = appmaker({})
+        self.zodb = appmaker({})
+
+    def get_csrf_request(self, post=None):
+        csrf = 'abc'
+
+        if not u'_csrf' in post.keys():
+            post.update({
+                '_csrf': csrf
+            })
+
+        # We can't use dummyrequest cause the simpleform
+        # needs MultiDict and NestedMultiDict from WebOb request
+        # This is the 'real' request.
+        from pyramid.request import Request
+        request = Request.blank('/', method="POST") 
+
+        for key in post.keys():
+            request.POST[key] = post[key]
+
+        request.session = Mock()
+        csrf_token = Mock()
+        csrf_token.return_value = csrf
+
+        request.session.get_csrf_token = csrf_token
+
+        return request
 
     def tearDown(self):
         testing.tearDown()
 
+    def test_users_edit_view_search(self):
+        from easyblog.views import view_users_edit
+        request = self.get_csrf_request(post= {
+            u'submit': u'Search',
+            u'search': u'adm' 
+        })
+        context = self.zodb['users']
+        result = view_users_edit(context, request)
+        self.assertEqual(1, len(result['search_results']))
 
 class ModelTests(unittest.TestCase):
     def test_blogpost(self):
@@ -141,7 +179,6 @@ class FunctionalTests(unittest.TestCase):
         form['text'] = text
         return form.submit()
 
-
     def setUp(self):
         # Build testing environment
         import tempfile
@@ -158,11 +195,17 @@ class FunctionalTests(unittest.TestCase):
         self.db = app.registry.zodb_database
         from webtest import TestApp
         self.testapp = TestApp(app)
+        
 
         # init two test users, admin is already defined
         self._signup('member', 'memberpw#', 'memberpw#', 'member@member.com')
         self._signup('second_member', 'second_memberpw#',
                      'second_memberpw#', 'second_member@member.com')
+
+    def tearDown(self):
+        import shutil
+        self.db.close()
+        shutil.rmtree( self.tmpdir )
 
     def test_user_edit_without_loggin_in(self):
         res = self.testapp.get('/users/admin/edit', status=200)
@@ -283,7 +326,6 @@ class FunctionalTests(unittest.TestCase):
 
     def test_blog_edit(self):
         # login as member and create a new blog
-
         res = self._login('admin', 'adminpw#')
         res = self.testapp.get('/blogs/create')
         self._create_blog(res, 'My Blog')
@@ -334,6 +376,7 @@ class FunctionalTests(unittest.TestCase):
         res = self._login('admin', 'adminpw#')
         res = self.testapp.get('/users/edit')
         self.assertTrue('Edit users' in res.body)
+
 
 
         
