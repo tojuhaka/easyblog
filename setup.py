@@ -19,6 +19,7 @@ requires = [
     'pyramid_simpleform',
     'formencode',
     'nose',
+    'pyramid_zcml'
     ]
 
 setup(name='easyblog',

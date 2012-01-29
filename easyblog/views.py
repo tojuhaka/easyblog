@@ -1,6 +1,5 @@
 from pyramid.httpexceptions import HTTPFound
 from pyramid.view import view_config
-from pyramid.renderers import get_renderer
 from pyramid.url import resource_url
 from pyramid.security import authenticated_userid
 from pyramid.security import remember, forget
@@ -9,7 +8,7 @@ from easyblog.schemas import UserEditSchema, BlogCreateSchema
 from easyblog.schemas import BlogAddPostSchema, BaseSchema
 from easyblog.schemas import UsersEditSchema
 from easyblog.security import group_names
-from easyblog.models import Main, User, Blog, Page, Blogs, Users
+from easyblog.models import Main, User, Blog, Blogs, Users
 from easyblog.security import groupfinder
 from easyblog.utilities import get_tool
 from pyramid_simpleform.renderers import FormRenderer
@@ -18,342 +17,362 @@ from pyramid.httpexceptions import HTTPForbidden
 
 # Messages
 from easyblog.config import msg
+from easyblog.interfaces import IComment
 
-
-# Define main layout for page
-def site_layout():
-    renderer = get_renderer("templates/main_layout.pt")
-    layout = renderer.implementation().macros['layout']
-    return layout
 
 # Handle news
 def news():
     return u'news'
 
-# Frontpage
-@view_config(context=Main, renderer='templates/index.pt')
-def view_main(request):
-    logged_in = authenticated_userid(request)
-    return {
-        'layout': site_layout(),
-        'project': 'easyblog',
-        'logged_in': logged_in,
-        'news': news()
-    }
 
-class TestView(object):
-        pass
+# TODO: this was created only for testing ZCA. Use it or remove it.
+class CommentView(object):
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
 
+    @view_config(context=IComment, name="comments")
+    def __call__(self):
+        return {
+            'asdf': 'asdf'
+        }
 
-@view_config(context=Main, renderer='templates/signup.pt', name='signup')
-def view_signup(context, request):
-    """ Register view for new users that aren't signed up yet """
-    logged_in = authenticated_userid(request)
-    message = u''
-    username = u''
-    password = u''
-
-    # Create form by using schemas with validations
-    form = Form(request, schema=SignUpSchema, state=State(request=request))
-
-    # form.validate() doesn't work with tests that use url-parameters
-    if form.validate():
-        username = request.params['username']
-        password = request.params['password']
-        email = request.params['email']
-        context['users'].add(username, password, email)
-        context['groups'].add(username, group_names['member'])
-        context['groups'].add(username, u'u:%s' % username)
-
-        message = msg['succeed_add_user'] + username
-
-    return {
-        'message': message,
-        'layout': site_layout(),
-        'url': request.application_url + '/signup',
-        'username': username,
-        'logged_in': logged_in,
-        'password': password,
-        'form': FormRenderer(form)
-    }
-
-@view_config(context=Main, renderer='templates/login.pt', name='login')
-@view_config(context='pyramid.exceptions.Forbidden',
-             renderer='templates/login.pt')
-def view_login(context, request):
-    """ Login view """
-
-    logged_in = authenticated_userid(request)
-    login_url = resource_url(request.context, request, 'login')
-    referrer = request.url
-    if referrer == login_url:
-        # never use the login form itself as came_from
-        referrer = '/'
-    came_from = request.params.get('came_from', referrer)
-    message = ''
-    username = ''
-    password = ''
-
-    # Create form by using schemas with validations
-    form = Form(request, schema=LoginSchema, state=State(request=request))
-
-    if form.validate():
-        username = request.params['username']
-        password = request.params['password']
-        try:
-            if context['users'][username].validate_password(password):
-                headers = remember(request, username)
-                return HTTPFound(location=came_from,
-                                 headers=headers)
-        except KeyError:
-            pass
-        message = 'Failed username'
-
-    if logged_in:
-        message = msg['logged_in_as'] + logged_in + "."
-    if context == HTTPForbidden:
-        message += msg['content_forbidden']
-    return {
-        'message': message,
-        'layout': site_layout(),
-        'url': request.application_url + '/login',
-        'came_from': came_from,
-        'username': username,
-        'password': password,
-        'logged_in': logged_in,
-        'form': FormRenderer(form)
-    }
+    @view_config(context=IComment, name="add_comment")
+    def add_comment(self):
+        return {
+            'asdf': 'asdf'
+        }
 
 
-# Logout current user
-@view_config(context=Main, renderer='templates/logout.pt', name='logout')
-def view_logout(context, request):
-    headers = forget(request)
-    return HTTPFound(location=resource_url(request.context, request),
-                    headers=headers)
+class MainView(object):
+    """ View for managing Main-object (root, frontpage) """
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
+
+    @view_config(context=Main, renderer='templates/index.pt')
+    def view_frontpage(self):
+        #TODO: make content type for frontpage
+        """ FrontPage """
+        logged_in = authenticated_userid(self.request)
+        return {
+            'project': 'easyblog',
+            'logged_in': logged_in,
+            'news': news()
+        }
+
+    @view_config(context=Main, renderer='templates/signup.pt', name='signup')
+    def view_signup(self):
+        """ Register view for new users that aren't signed up yet """
+        logged_in = authenticated_userid(self.request)
+        message = u''
+        username = u''
+        password = u''
+
+        # Create form by using schemas with validations
+        form = Form(self.request, schema=SignUpSchema, state=State(request=self.request))
+
+        # form.validate() doesn't work with tests that use url-parameters
+        if form.validate():
+            username = self.request.params['username']
+            password = self.request.params['password']
+            email = self.request.params['email']
+            self.context['users'].add(username, password, email)
+            self.context['groups'].add(username, group_names['member'])
+            self.context['groups'].add(username, u'u:%s' % username)
+
+            message = msg['succeed_add_user'] + username
+
+        return {
+            'message': message,
+            'url': self.request.application_url + '/signup',
+            'username': username,
+            'logged_in': logged_in,
+            'password': password,
+            'form': FormRenderer(form)
+        }
+
+    @view_config(context=Main, renderer='templates/login.pt', name='login')
+    @view_config(context='pyramid.exceptions.Forbidden',
+                 renderer='templates/login.pt')
+    def view_login(self):
+        """ Login view """
+
+        logged_in = authenticated_userid(self.request)
+        login_url = resource_url(self.request.context, self.request, 'login')
+        referrer = self.request.url
+        if referrer == login_url:
+            # never use the login form itself as came_from
+            referrer = '/'
+        came_from = self.request.params.get('came_from', referrer)
+        message = ''
+        username = ''
+        password = ''
+
+        # Create form by using schemas with validations
+        form = Form(self.request, schema=LoginSchema, state=State(request=self.request))
+
+        if form.validate():
+            username = self.request.params['username']
+            password = self.request.params['password']
+            try:
+                if self.context['users'][username].validate_password(password):
+                    headers = remember(self.request, username)
+                    return HTTPFound(location=came_from,
+                                     headers=headers)
+            except KeyError:
+                pass
+            message = 'Failed username'
+
+        if logged_in:
+            message = msg['logged_in_as'] + logged_in + "."
+        if self.context == HTTPForbidden:
+            message += msg['content_forbidden']
+        return {
+            'message': message,
+            'url': self.request.application_url + '/login',
+            'came_from': came_from,
+            'username': username,
+            'password': password,
+            'logged_in': logged_in,
+            'form': FormRenderer(form)
+        }
 
 
-# Page of the user. Some information about the user is rendered here.
-@view_config(context=User, renderer='easyblog:templates/user_view.pt')
-def view_user(context, request):
-    logged_in = authenticated_userid(request)
-    return {
-        'layout': site_layout(),
-        'project': 'easyblog',
-        'username': context.username,
-        'logged_in': logged_in,
-    }
+    @view_config(context=Main, renderer='templates/logout.pt', name='logout')
+    def view_logout(self):
+        """ Logout current user """
+        headers = forget(self.request)
+        return HTTPFound(location=resource_url(self.request.context, self.request),
+                        headers=headers)
+
+class UserView(object):
+    """ View for single user """
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
 
 
-@view_config(name='edit', context=User, renderer='templates/user_edit.pt',
-    permission='edit_user')
-def view_user_edit(context, request):
-    """ View for editing a single user """
+    @view_config(context=User, renderer='easyblog:templates/user_view.pt')
+    def view_user(self):
+        """ Main view for user """
 
-    logged_in = authenticated_userid(request)
-    message = ''
-    form = Form(request, schema=UserEditSchema, state=State(request=request))
-
-    if form.validate():
-        password = request.params['password']
-        if context.validate_password(password):
-            if request.params['new_password']:
-                password = request.params['new_password']
-            message = 'Successfully saved'
-            email = request.params['email']
-            context.edit(password, email)
-        else:
-            message = msg['password_invalid']
-    return {
-        'message': message,
-        'layout': site_layout(),
-        'project': 'easyblog',
-        'username': context.username,
-        'logged_in': logged_in,
-        'form': FormRenderer(form),
-        'email': context.email
-    }
-
-# TODO: Remove
-@view_config(context=Page,
-             renderer='templates/page.pt', permission='edit')
-def view_page(context, request):
-    logged_in = authenticated_userid(request)
-
-    return {
-        'page': context,
-        'logged_in': logged_in,
-        'layout': site_layout(),
-    }
+        logged_in = authenticated_userid(self.request)
+        return {
+            'project': 'easyblog',
+            'username': self.context.username,
+            'logged_in': logged_in,
+        }
 
 
-@view_config(context=Blog,
-             renderer='templates/blog_view.pt')
-def view_blog(context, request):
-    logged_in = authenticated_userid(request)
+    @view_config(name='edit', context=User, renderer='templates/user_edit.pt',
+        permission='edit_user')
+    def view_user_edit(self):
+        """ View for editing a single user """
 
-    return {
-        'logged_in': logged_in,
-        'layout': site_layout(),
-        'blogname': context.name,
-        'posts': context
-    }
+        logged_in = authenticated_userid(self.request)
+        message = ''
+        form = Form(self.request, schema=UserEditSchema, state=State(request=self.request))
 
-@view_config(context=Blogs,
-             renderer='templates/blogs_view.pt')
-def view_blogs(context, request):
+        if form.validate():
+            password = self.request.params['password']
+            if self.context.validate_password(password):
+                if self.request.params['new_password']:
+                    password = self.request.params['new_password']
+                message = 'Successfully saved'
+                email = self.request.params['email']
+                self.context.edit(password, email)
+            else:
+                message = msg['password_invalid']
+        return {
+            'message': message,
+            'project': 'easyblog',
+            'username': self.context.username,
+            'logged_in': logged_in,
+            'form': FormRenderer(form),
+            'email': self.context.email
+        }
+
+
+class BlogView(object):
+    """ View for single blog """
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
+
+    @view_config(context=Blog,
+                 renderer='templates/blog_view.pt')
+    def view_blog(self):
+        logged_in = authenticated_userid(self.request)
+
+        return {
+            'logged_in': logged_in,
+            'blogname': self.context.name,
+            'posts': self.context
+        }
+
+    @view_config(context=Blogs, renderer='templates/blog_create.pt',
+                 permission='edit_all', name="create")
+    def view_blog_create(self):
+        """ View for creating a single blog """
+        logged_in = authenticated_userid(self.request)
+        form = Form(self.request, schema=BlogCreateSchema,
+                    state=State(request=self.request))
+        message = ''
+
+        if form.validate():
+            self.context.add(self.request.params['blogname'], logged_in)
+            return HTTPFound(location=resource_url(self.context, self.request))
+
+        return {
+            'page': self.context,
+            'logged_in': logged_in,
+            'form': FormRenderer(form),
+            'message': message
+        }
+
+    @view_config(context=Blog, renderer='templates/blog_edit.pt',
+                 permission='edit_blog', name='edit')
+    def view_blog_edit(self):
+        logged_in = authenticated_userid(self.request)
+        message = "Edit %s" % self.context.name
+        return {
+            'page': self.context,
+            'logged_in': logged_in,
+            'blogname': self.context.name,
+            'message': message
+        }
+
+    @view_config(context=Blog, renderer='templates/blog_add_post.pt',
+                 permission='edit_blog', name='add_post')
+    def view_blog_add_post(self):
+        logged_in = authenticated_userid(self.request)
+        form = Form(self.request, schema=BlogAddPostSchema,
+                    state=State(request=self.request))
+        message = "Edit %s" % self.context.name
+
+        if form.validate():
+            self.context.add(self.request.params['subject'], self.request.params['text'], logged_in)
+            return HTTPFound(location=resource_url(self.context, self.request))
+
+        return {
+            'page': self.context,
+            'logged_in': logged_in,
+            'blogname': self.context.name,
+            'message': message,
+            'form': FormRenderer(form)
+        }
+
+
+    @view_config(context=Blog, renderer='templates/blog_remove.pt',
+                 permission='edit_blog', name='remove')
+    def view_blog_remove(self):
+        """ The Blog can be removed from this view """
+
+        logged_in = authenticated_userid(self.request)
+        form = Form(self.request, schema=BaseSchema,
+                    state=State(request=self.request))
+        message = "Edit %s" % self.context.name
+
+        if form.validate():
+            return HTTPFound(location=resource_url(self.context.__parent__, self.request))
+
+        return {
+            'page': self.context,
+            'logged_in': logged_in,
+            'blogname': self.context.name,
+            'message': message,
+            'form': FormRenderer(form)
+        }
+
+
+class BlogsView(object):
     """ View for all the blogs """
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
 
-    logged_in = authenticated_userid(request)
-    return {
-        'page': context,
-        'logged_in': logged_in,
-        'layout': site_layout(),
-        'context_url': resource_url(context, request),
-        'resource_url': resource_url
-    }
+    @view_config(context=Blogs,
+                 renderer='templates/blogs_view.pt')
+    def view_blogs(self):
+        """ View for all the blogs """
 
+        logged_in = authenticated_userid(self.request)
+        return {
+            'page': self.context,
+            'logged_in': logged_in,
+            'context_url': resource_url(self.context, self.request),
+            'resource_url': resource_url
+        }
 
-@view_config(context=Blogs, renderer='templates/blog_create.pt',
-             permission='edit_all', name="create")
-def view_blog_create(context, request):
-    """ View for creating a single blog """
-    logged_in = authenticated_userid(request)
-    form = Form(request, schema=BlogCreateSchema, state=State(request=request))
-    message = ''
+class UsersView(object):
+    """ View for all the users """
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
 
-    if form.validate():
-        context.add(request.params['blogname'], logged_in)
-        return HTTPFound(location=resource_url(context, request))
+    @view_config(context=Users, renderer='templates/users_edit.pt',
+                 permission='edit_all', name='edit')
+    def view_users_edit(self):
+        """ View for editing users. Includes permission handling. """
 
-    return {
-        'page': context,
-        'logged_in': logged_in,
-        'layout': site_layout(),
-        'form': FormRenderer(form),
-        'message': message
-    }
+        logged_in = authenticated_userid(self.request)
+        form = Form(self.request, schema=UsersEditSchema,
+                    state=State(request=self.request))
 
+        search_results = []
+        message = u""
+        search = u""
 
-@view_config(context=Blog, renderer='templates/blog_edit.pt',
-             permission='edit_blog', name='edit')
-def view_blog_edit(context, request):
-    logged_in = authenticated_userid(request)
-    message = "Edit %s" % context.name
-    return {
-        'page': context,
-        'logged_in': logged_in,
-        'layout': site_layout(),
-        'blogname': context.name,
-        'message': message
-    }
+        if form.validate():
+            search = self.request.params['search']
 
+            # Loop through all the users and create dict of groups
+            for user in self.context:
+                if search in self.context[user].username:
+                    search_results.append(self.context[user])
 
-@view_config(context=Blog, renderer='templates/blog_add_post.pt',
-             permission='edit_blog', name='add_post')
-def view_blog_add_post(context, request):
-    logged_in = authenticated_userid(request)
-    form = Form(request, schema=BlogAddPostSchema,
-                state=State(request=request))
-    message = "Edit %s" % context.name
+            if self.request.params['submit'] == 'Save':
+                message = msg['saved']
+                # Filter checkbox-parameters from request
+                cbs = [p for p in self.request.params.keys()
+                            if u'checkbox' in p]
 
-    if form.validate():
-        context.add(request.params['subject'], request.params['text'], logged_in)
-        return HTTPFound(location=resource_url(context, request))
+                # new policy for groups
+                updated = {}
 
-    return {
-        'page': context,
-        'logged_in': logged_in,
-        'layout': site_layout(),
-        'blogname': context.name,
-        'message': message,
-        'form': FormRenderer(form)
-    }
+                # check all the checkbox-parameters and
+                # parse them
+                for cb in cbs:
+                    username = cb.split(':')[1]
+                    try:
+                        updated[username]
+                    except KeyError:
+                        updated[username] = []
+                    updated[username] += [self.request.params[cb]]
 
-@view_config(context=Blog, renderer='templates/blog_remove.pt',
-             permission='edit_blog', name='remove')
-def view_blog_remove(context, request):
-    """ The Blog can be removed from this view """
+                groups_tool = get_tool('groups', self.request)
+                groups_tool.add_policy(updated)
 
-    logged_in = authenticated_userid(request)
-    form = Form(request, schema=BaseSchema,
-                state=State(request=request))
-    message = "Edit %s" % context.name
+        def has_group(group, user, request):
+            """ Check if the user belongs to the group """
+            return group_names[group] in groupfinder(user.username, request)
 
-    if form.validate():
-        return HTTPFound(location=resource_url(context.__parent__, request))
+        def sorted_gnames():
+            """ Sort list of keys to make sure they are in right order """
+            return sorted(group_names.keys())
 
-    return {
-        'page': context,
-        'logged_in': logged_in,
-        'layout': site_layout(),
-        'blogname': context.name,
-        'message': message,
-        'form': FormRenderer(form)
-    }
+        return {
+            'page': self.context,
+            'logged_in': logged_in,
+            'form': FormRenderer(form),
+            'search_results': search_results,
+            'message': message,
+            'group_names': group_names,
+            'has_group': has_group,
+            'sorted_gnames': sorted_gnames(),
+            'result_count': len(search_results),
+            'search_term': search
 
-@view_config(context=Users, renderer='templates/users_edit.pt',
-             permission='edit_all', name='edit')
-def view_users_edit(context, request):
-    """ View for editing users. Includes permission handling. """
+        }
 
-    logged_in = authenticated_userid(request)
-    form = Form(request, schema=UsersEditSchema,
-                state=State(request=request))
-
-    search_results = []
-    message = u""
-    search = u""
-
-    if form.validate():
-        search = request.params['search']
-
-        # Loop through all the users and create dict of groups
-        for user in context:
-            if search in context[user].username:
-                search_results.append(context[user])
-
-        if request.params['submit'] == 'Save':
-            message = msg['saved']
-            # Filter checkbox-parameters from request
-            cbs = [p for p in request.params.keys()
-                        if u'checkbox' in p]
-
-            # new policy for groups
-            updated = {}
-
-            # check all the checkbox-parameters and
-            # parse them
-            for cb in cbs:
-                username = cb.split(':')[1]
-                try:
-                    updated[username]
-                except KeyError:
-                    updated[username] = []
-                updated[username] += [request.params[cb]]
-
-            groups_tool = get_tool('groups', request)
-            groups_tool.add_policy(updated)
-
-    def has_group(group, user, request):
-        """ Check if the user belongs to the group """
-        return group_names[group] in groupfinder(user.username, request)
-
-    def sorted_gnames():
-        """ Sort list of keys to make sure they are in right order """
-        return sorted(group_names.keys())
-
-    return {
-        'page': context,
-        'logged_in': logged_in,
-        'layout': site_layout(),
-        'form': FormRenderer(form),
-        'search_results': search_results,
-        'message': message,
-        'group_names': group_names,
-        'has_group': has_group,
-        'sorted_gnames': sorted_gnames(),
-        'result_count': len(search_results),
-        'search_term': search
-
-    }

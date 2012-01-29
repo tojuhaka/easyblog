@@ -65,17 +65,18 @@ class ViewTests(unittest.TestCase):
         testing.tearDown()
 
     def test_users_edit_view_search(self):
-        from easyblog.views import view_users_edit
+        from easyblog.views import UsersView
         request = self.get_csrf_request(post={
             u'submit': u'Search',
             u'search': u'adm'
         })
         context = self.zodb['users']
-        result = view_users_edit(context, request)
+        view = UsersView(context, request)
+        result = view.view_users_edit()
         self.assertEqual(1, len(result['search_results']))
 
     def test_users_edit_view_add_permission(self):
-        from easyblog.views import view_users_edit
+        from easyblog.views import UsersView
         from easyblog.security import group_names
         request = self.get_csrf_request(post={
             u'submit': u'Save',
@@ -84,7 +85,8 @@ class ViewTests(unittest.TestCase):
             u'checkbox:admin': group_names['member']
         })
         context = self.zodb['users']
-        view_users_edit(context, request)
+        view = UsersView(context, request)
+        view.view_users_edit()
         self.assertTrue(group_names['member'] in self.zodb['groups']['admin'])
 
 

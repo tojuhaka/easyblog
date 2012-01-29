@@ -7,3 +7,7 @@ webError
 docutils
 passlib
 webtest
+pyramid_simpleform
+formencode
+nose
+pyramid_zcml

@@ -6,6 +6,8 @@ from easyblog.security import pwd_context, salt, acl, group_names
 from datetime import datetime
 from pyramid.security import Allow
 
+from easyblog.interfaces import IComment
+from zope.interface import implements
 
 # Main root object in our ZODB database
 class Main(PersistentMapping):
@@ -13,7 +15,6 @@ class Main(PersistentMapping):
     __name__ = None
     __parent__ = None
     __acl__ = acl
-
 
 class Users(PersistentMapping):
     """ Contains all the users """
@@ -34,6 +35,7 @@ class Users(PersistentMapping):
 
 
 class User(Persistent):
+    implements(IComment)
     @property
     def __acl__(self):
         acls = [(Allow, 'u:%s' % self.username, 'edit_user'),
@@ -149,13 +151,6 @@ class BlogPost(Persistent):
         return "%s %s" % (self.timestamp.strftime("%x"),
         self.timestamp.strftime("%X"))
 
-
-#TODO REMOVE
-class Page(Persistent):
-    def __init__(self, data):
-        self.data = data
-
-
 def appmaker(zodb_root):
     if not 'app_root' in zodb_root:
         app_root = Main()
@@ -165,12 +160,6 @@ def appmaker(zodb_root):
         app_root['users'] = users
         app_root['blogs'] = blogs
         app_root['groups'] = groups
-
-        #TODO: REMOVE
-        frontpage = Page('this is the front page')
-        frontpage.__name__ = 'FrontPage'
-        frontpage.__parent__ = app_root
-        app_root['FrontPage'] = frontpage
 
         users.__parent__ = app_root
         users.__name__ = 'users'

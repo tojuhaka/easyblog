@@ -1,5 +1,8 @@
-<div metal:use-macro="layout">
-  <div id="column1" metal:fill-slot="content">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      metal:use-macro="base">
+  <tal:block  metal:fill-slot="content">
     <h1> Login </h1>
     <div class="message"> 
       ${message} 
@@ -21,5 +24,5 @@
         </div>
         ${form.hidden("came_from", came_from)}
         ${form.end()}
-    </div>
-</div>
+  </tal:block>
+</html>

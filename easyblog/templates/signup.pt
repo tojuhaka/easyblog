@@ -1,5 +1,8 @@
-<div metal:use-macro="layout">
-  <div id="column1" metal:fill-slot="content">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      metal:use-macro="base">
+  <tal:block  metal:fill-slot="content">
         <h2> Signup </h2>
         <p> ${message} </p>
         ${form.begin(request.resource_url(request.root, 'signup'))}
@@ -30,5 +33,5 @@
         </div>
         <span class="forminput">${form.submit("submit", "Submit")}</span>
         ${form.end()}
-    </div>
-</div>
+    </tal:block>
+</html>

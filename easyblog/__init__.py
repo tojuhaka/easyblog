@@ -7,6 +7,7 @@ from pyramid.authorization import ACLAuthorizationPolicy
 from .models import appmaker
 from .security import groupfinder
 from pyramid.session import UnencryptedCookieSessionFactoryConfig
+import pyramid_zcml
 
 
 def root_factory(request):
@@ -26,6 +27,14 @@ def main(global_config, **settings):
                           root_factory=root_factory, settings=settings,
                           authentication_policy=authn_policy,
                           authorization_policy=authz_policy)
+    config.hook_zca()
+    config.include(pyramid_zcml)
+    config.load_zcml('configure.zcml')
+    
+    # Add base template
+    config.add_subscriber('easyblog.subscribers.add_base_template',
+                      'pyramid.events.BeforeRender')
+
     config.add_static_view('static', 'static', cache_max_age=3600)
     config.scan()
     return config.make_wsgi_app()

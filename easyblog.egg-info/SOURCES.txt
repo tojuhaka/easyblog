@@ -13,6 +13,7 @@ easyblog/models.py
 easyblog/schemas.py
 easyblog/security.py
 easyblog/tests.py
+easyblog/utilities.py
 easyblog/views.py
 easyblog.egg-info/PKG-INFO
 easyblog.egg-info/SOURCES.txt
@@ -21,6 +22,7 @@ easyblog.egg-info/entry_points.txt
 easyblog.egg-info/not-zip-safe
 easyblog.egg-info/requires.txt
 easyblog.egg-info/top_level.txt
+easyblog/skins/main_layout.pt
 easyblog/static/favicon.ico
 easyblog/static/footerbg.png
 easyblog/static/headerbg.png
@@ -30,10 +32,21 @@ easyblog/static/pylons.css
 easyblog/static/pyramid-small.png
 easyblog/static/pyramid.png
 easyblog/static/transparent.gif
+easyblog/static/images/back.png
+easyblog/static/images/logo.jpg
+easyblog/static/images/menu.png
+easyblog/static/images/menu_hover.png
+easyblog/static/images/sbi_header.png
+easyblog/static/stylesheets/colors.css
+easyblog/static/stylesheets/ie.css
+easyblog/static/stylesheets/print.css
+easyblog/static/stylesheets/screen.css
 easyblog/templates/blog_add_post.pt
 easyblog/templates/blog_create.pt
 easyblog/templates/blog_edit.pt
+easyblog/templates/blog_remove.pt
 easyblog/templates/blog_view.pt
+easyblog/templates/blogs_view.pt
 easyblog/templates/index.pt
 easyblog/templates/login.pt
 easyblog/templates/logout.pt
@@ -43,3 +56,4 @@ easyblog/templates/signup.pt
 easyblog/templates/signup_succeed.pt
 easyblog/templates/user_edit.pt
 easyblog/templates/user_view.pt
+easyblog/templates/users_edit.pt

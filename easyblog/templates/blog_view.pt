@@ -1,11 +1,14 @@
-<div metal:use-macro="layout">
-  <div id="column1" metal:fill-slot="content">
-        <p>${blogname}</p>
-        <div class="blogpost" tal:repeat="post context">
-            <p> ${posts[post].time()} 
-                ${posts[post].username} wrote  </p>
-            <p tal:content="context[post].subject"> Subject </p>
-            <p tal:content="context[post].text"> Text </p>
-        </div>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      metal:use-macro="base">
+  <tal:block metal:fill-slot="content">
+    <p>${blogname}</p>
+    <div class="blogpost" tal:repeat="post context">
+      <p> ${posts[post].time()} 
+            ${posts[post].username} wrote  </p>
+      <p tal:content="context[post].subject"> Subject </p>
+      <p tal:content="context[post].text"> Text </p>
     </div>
-</div>
+  </tal:block>
+</html>
