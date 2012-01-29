@@ -11,7 +11,8 @@ $bg-color: #6F7A86;
 $column1-header-color: #1775D5;
 $menu-border-color: #D7D7D7;
 $sbi-header-color: #484E56;
-
+$bg-message-color: #77AFEA;
+$bg-odd-row: #F2F8FE;
 
 /* Mixins for re-use */
 @mixin menu-layout {
@@ -114,4 +115,32 @@ input, textarea
 .error-input {
   padding: 1em;
   border: 1px solid red;
+}
+
+.message {
+    background: $bg-message-color;
+    border: 1px solid $column1-header-color;
+    padding: 0.5em;
+    margin-bottom: 1em;
+    color: black;
+}
+
+/* Admin edit users view */
+#results {
+    table {
+        .odd {
+            background: $bg-odd-row;
+        }
+
+        th {
+        }
+
+        tr {
+        }
+
+        td {
+        }
+
+    }
+
 }

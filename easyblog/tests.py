@@ -76,16 +76,16 @@ class ViewTests(unittest.TestCase):
 
     def test_users_edit_view_add_permission(self):
         from easyblog.views import view_users_edit
-        from easyblog.security import group_name
+        from easyblog.security import group_names
         request = self.get_csrf_request(post={
             u'submit': u'Save',
             u'search': u'adm',
-            u'checkbox:admin': group_name['admin'],
-            u'checkbox:admin': group_name['member']
+            u'checkbox:admin': group_names['admin'],
+            u'checkbox:admin': group_names['member']
         })
         context = self.zodb['users']
         view_users_edit(context, request)
-        self.assertTrue(group_name['member'] in self.zodb['groups']['admin'])
+        self.assertTrue(group_names['member'] in self.zodb['groups']['admin'])
 
 
 class ModelTests(unittest.TestCase):

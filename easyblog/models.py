@@ -1,8 +1,7 @@
 from persistent.mapping import PersistentMapping
 from persistent import Persistent
 
-from easyblog.security import pwd_context, salt, acl, group_name
-from easyblog.config import admins_group, members_group, editors_group
+from easyblog.security import pwd_context, salt, acl, group_names
 
 from datetime import datetime
 from pyramid.security import Allow
@@ -18,6 +17,7 @@ class Main(PersistentMapping):
 
 class Users(PersistentMapping):
     """ Contains all the users """
+
     def _generate_id(self):
         return len(self.keys()) + 1
 
@@ -37,7 +37,7 @@ class User(Persistent):
     @property
     def __acl__(self):
         acls = [(Allow, 'u:%s' % self.username, 'edit_user'),
-                (Allow, group_name['admin'], 'edit_user')]
+                (Allow, group_names['admin'], 'edit_user')]
         return acls
 
     def __init__(self, username, password, email, id):
@@ -55,7 +55,7 @@ class User(Persistent):
 
 
 class Groups(PersistentMapping):
-    """ Contains the information about the groups of 
+    """ Contains the information about the groups of
     the users """
 
     def add(self, username, group):
@@ -80,9 +80,6 @@ class Groups(PersistentMapping):
         usernames and list of groups behind it """
         for username in policy.keys():
             self[username] = policy[username] + [u'u:%s' % username]
-
-    def group_list(self):
-        return [admins_group, editors_group, members_group]
 
 
 class Blogs(PersistentMapping):
@@ -114,7 +111,7 @@ class Blog(PersistentMapping):
     def __acl__(self):
         acls = [(Allow, 'u:%s' % o, 'edit_blog') for o in self.owners]
         #TODO: remove admin
-        acls.append((Allow, group_name['admin'], 'edit_blog'))
+        acls.append((Allow, group_names['admin'], 'edit_blog'))
         return acls
 
     def __init__(self, name, username, id):
@@ -182,7 +179,7 @@ def appmaker(zodb_root):
         groups.__parent__ = app_root
 
         users.add('admin', 'adminpw#', 'admin@admin.com')
-        groups.add('admin', admins_group)
+        groups.add('admin', group_names['admin'])
 
         zodb_root['app_root'] = app_root
         import transaction

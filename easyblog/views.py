@@ -4,12 +4,11 @@ from pyramid.renderers import get_renderer
 from pyramid.url import resource_url
 from pyramid.security import authenticated_userid
 from pyramid.security import remember, forget
-from easyblog.config import members_group
 from easyblog.schemas import SignUpSchema, LoginSchema
 from easyblog.schemas import UserEditSchema, BlogCreateSchema
 from easyblog.schemas import BlogAddPostSchema, BaseSchema
 from easyblog.schemas import UsersEditSchema
-from easyblog.security import group_name
+from easyblog.security import group_names
 from easyblog.models import Main, User, Blog, Page, Blogs, Users
 from easyblog.security import groupfinder
 from easyblog.utilities import get_tool
@@ -42,6 +41,9 @@ def view_main(request):
         'news': news()
     }
 
+class TestView(object):
+        pass
+
 
 @view_config(context=Main, renderer='templates/signup.pt', name='signup')
 def view_signup(context, request):
@@ -60,7 +62,7 @@ def view_signup(context, request):
         password = request.params['password']
         email = request.params['email']
         context['users'].add(username, password, email)
-        context['groups'].add(username, members_group)
+        context['groups'].add(username, group_names['member'])
         context['groups'].add(username, u'u:%s' % username)
 
         message = msg['succeed_add_user'] + username
@@ -74,7 +76,6 @@ def view_signup(context, request):
         'password': password,
         'form': FormRenderer(form)
     }
-    return None
 
 @view_config(context=Main, renderer='templates/login.pt', name='login')
 @view_config(context='pyramid.exceptions.Forbidden',
@@ -300,8 +301,10 @@ def view_users_edit(context, request):
     form = Form(request, schema=UsersEditSchema,
                 state=State(request=request))
 
-    message = "No search results"
     search_results = []
+    message = u""
+    search = u""
+
     if form.validate():
         search = request.params['search']
 
@@ -311,6 +314,7 @@ def view_users_edit(context, request):
                 search_results.append(context[user])
 
         if request.params['submit'] == 'Save':
+            message = msg['saved']
             # Filter checkbox-parameters from request
             cbs = [p for p in request.params.keys()
                         if u'checkbox' in p]
@@ -331,12 +335,13 @@ def view_users_edit(context, request):
             groups_tool = get_tool('groups', request)
             groups_tool.add_policy(updated)
 
-    # function for checking the group of the user
     def has_group(group, user, request):
-        return group_name[group] in groupfinder(user.username, request)
+        """ Check if the user belongs to the group """
+        return group_names[group] in groupfinder(user.username, request)
 
-    if search_results:
-        message = "%d results found" % len(search_results)
+    def sorted_gnames():
+        """ Sort list of keys to make sure they are in right order """
+        return sorted(group_names.keys())
 
     return {
         'page': context,
@@ -345,6 +350,10 @@ def view_users_edit(context, request):
         'form': FormRenderer(form),
         'search_results': search_results,
         'message': message,
-        'group_name': group_name,
-        'has_group': has_group
+        'group_names': group_names,
+        'has_group': has_group,
+        'sorted_gnames': sorted_gnames(),
+        'result_count': len(search_results),
+        'search_term': search
+
     }

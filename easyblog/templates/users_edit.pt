@@ -1,8 +1,23 @@
 <div metal:use-macro="layout">
   <div id="column1" metal:fill-slot="content">
     <h1 i18n:translate="edit_user_header"> Edit users </h1>
-    <div class="message"> ${message} </div>
-    
+
+    <div tal:condition="message" class="message"> 
+      <span class="message_str"> ${message} </span> 
+    </div>
+
+    <div tal:condition="search_term">
+      <div tal:condition="search_results" class="result-count">
+        <h2>${result_count} 
+          <span i18n:translate="results_found" class="result">results found</span>
+         <h2>
+      </div>
+      <div tal:condition="not: search_results" class="result-count">
+          <span i18n:translate="no_results" class="result_not_found">
+                No results found</span>
+      </div>
+    </div>
+
     ${form.begin(request.url)}
     ${form.csrf_token()}
       <div class="field">
@@ -13,44 +28,35 @@
         <span class="forminput">${form.submit("submit", "Search")}</span>
       </div>
    
-    <div tal:condition="search_results" class="result-div">
-        <table class="result-table">
+      <div tal:condition="search_results" id="results">
+      <table border=1>
+        <thead>
         <tr>
           <th></th>
-          <th i18n:translate="admin_label">Admin</th>
-          <th i18n:translate="editor_label">Editor</th>
-          <th i18n:translate="member_label">Member</th>
+          <th tal:attributes="i18n:translate string:${gname}_label" 
+              tal:repeat="gname sorted_gnames" tal:content="gname"></th>
         </tr>
-        <tr tal:repeat="user search_results">
-          <td tal:content="user.username">Username</td>
-          <td><input tal:attributes="
-                    checked has_group('admin', user, request);
-                    value group_name['admin'];
-                    name string:checkbox-admin:${user.username}"
-                    class="checkbox" type="checkbox"/>
-          </td>
-          <td><input tal:attributes="
-                    checked has_group('editor', user, request);
-                    value group_name['editor'];
-                    name string:checkbox-editor:${user.username}"
-                    class="checkbox" type="checkbox"/>
-          </td>
-          <td><input tal:attributes="
-                    checked has_group('member', user, request);
-                    value group_name['member'];
-                    name string:checkbox-member:${user.username}"
-                    class="checkbox" type="checkbox"/>
-          </td>
-        </tr>
-
-      </table>
+        </thead>
+          <tbody>
+            <tal:block repeat="user search_results">
+                <tr tal:define="odd repeat.user.odd"
+                    tal:attributes="class python: odd and 'odd' or 'even'">
+              <!-- <tr tal:repeat="user search_results" > -->
+                <td tal:content="user.username">Username</td>
+                <td tal:repeat="gname sorted_gnames">
+                   <input tal:attributes="checked has_group(gname, user, request);
+                            value group_names[gname];
+                            name string:checkbox-${gname}:${user.username}"
+                            class="checkbox" type="checkbox"/>
+                </td>
+              </tr>
+            </tal:block>
+          </tbody>
+        </table>
       <div class="buttons">
         <span class="forminput">${form.submit("submit", "Save")}</span>
       </div>
       ${form.end()}
     </div>
-
-        <!-- <div class="blogpost" tal:repeat="post context"> -->
-        <!-- </div> -->
-    </div>
+  </div>
 </div>

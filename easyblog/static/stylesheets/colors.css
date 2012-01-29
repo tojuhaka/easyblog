@@ -68,102 +68,102 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 }
 
 /* Mixins for re-use */
-/* line 23, ../sass/colors.scss */
+/* line 24, ../sass/colors.scss */
 body {
   background: #6f7a86;
   color: #5a6370;
 }
 
-/* line 28, ../sass/colors.scss */
+/* line 29, ../sass/colors.scss */
 #main {
   background: white url('../images/back.png?1327415984') repeat-y;
   color: #5a6370;
 }
 
-/* line 33, ../sass/colors.scss */
+/* line 34, ../sass/colors.scss */
 #links, #footer {
   background: white url('../images/menu.png?1327413603');
   color: #d1d3d7;
   border-color: #d7d7d7;
   color: #d1d3d7;
 }
-/* line 36, ../sass/colors.scss */
+/* line 37, ../sass/colors.scss */
 #links a, #footer a {
   background: transparent;
   color: #d1d3d7;
 }
 
-/* line 42, ../sass/colors.scss */
+/* line 43, ../sass/colors.scss */
 #logo {
   background: white url('../images/logo.jpg?1327435258') no-repeat;
   color: white;
 }
 
-/* line 47, ../sass/colors.scss */
+/* line 48, ../sass/colors.scss */
 #menu {
   background: white url('../images/menu.png?1327413603');
   color: #d1d3d7;
   border-color: #d7d7d7;
 }
-/* line 50, ../sass/colors.scss */
+/* line 51, ../sass/colors.scss */
 #menu li a {
   background: white url('../images/menu.png?1327413603');
   color: #d1d3d7;
   border-color: #d7d7d7;
   /* TODO: Add #selected with javascript */
 }
-/* line 53, ../sass/colors.scss */
+/* line 54, ../sass/colors.scss */
 #menu li a:hover {
   background: white url('../images/menu_hover.png?1327413626');
   color: #484E56;
 }
 
-/* line 62, ../sass/colors.scss */
+/* line 63, ../sass/colors.scss */
 #column1 h1 {
   background: transparent;
   color: #1775d5;
   border-color: #89A9C7;
 }
-/* line 68, ../sass/colors.scss */
+/* line 69, ../sass/colors.scss */
 #column1 a {
   background: transparent;
   color: #5a6370;
 }
 
-/* line 74, ../sass/colors.scss */
+/* line 75, ../sass/colors.scss */
 .sbitem {
   color: #d1d3d7;
 }
-/* line 76, ../sass/colors.scss */
+/* line 77, ../sass/colors.scss */
 .sbitem a {
   background: transparent;
   color: #d1d3d7;
 }
 
-/* line 82, ../sass/colors.scss */
+/* line 83, ../sass/colors.scss */
 .sbihead {
   background: white url('../images/sbi_header.png?1327514773');
   color: #484e56;
 }
-/* line 86, ../sass/colors.scss */
+/* line 87, ../sass/colors.scss */
 .sbihead h1 {
   background: transparent;
   color: #484e56;
 }
 
-/* line 94, ../sass/colors.scss */
+/* line 95, ../sass/colors.scss */
 .sbilinks li a {
   background: white url(link.png);
   color: #d1d3d7;
 }
-/* line 98, ../sass/colors.scss */
+/* line 99, ../sass/colors.scss */
 .sbilinks li a:hover {
   background: #B7B7B7;
   color: #1775D5;
 }
 
 /* form and input area */
-/* line 108, ../sass/colors.scss */
+/* line 109, ../sass/colors.scss */
 input, textarea {
   background: #FFFFFF;
   color: #5A6370;
@@ -171,8 +171,23 @@ input, textarea {
 }
 
 /* Errors and messsages */
-/* line 114, ../sass/colors.scss */
+/* line 115, ../sass/colors.scss */
 .error-input {
   padding: 1em;
   border: 1px solid red;
+}
+
+/* line 120, ../sass/colors.scss */
+.message {
+  background: #77afea;
+  border: 1px solid #1775d5;
+  padding: 0.5em;
+  margin-bottom: 1em;
+  color: black;
+}
+
+/* Admin edit users view */
+/* line 131, ../sass/colors.scss */
+#results table .odd {
+  background: #f2f8fe;
 }
