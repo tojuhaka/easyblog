@@ -18,7 +18,7 @@ requires = [
     'webtest',
     'pyramid_simpleform',
     'formencode',
-    'nose'
+    'nose',
     ]
 
 setup(name='easyblog',

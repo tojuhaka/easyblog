@@ -7,16 +7,16 @@ from easyblog.utilities import get_tool
 
 # TODO: HIDE?
 acl = [(Allow, Everyone, 'view'),
-        (Allow, 'group:members', 'edit'),
-        (Allow, 'group:admins', 'edit_all'),
-        (Allow, 'group:admins', 'edit'),
-        (Allow, 'group:admins', 'create_blog'),
-        (Allow, 'group:editors', 'create_blog')]
+        (Allow, u'group:members', 'edit'),
+        (Allow, u'group:admins', 'edit_all'),
+        (Allow, u'group:admins', 'edit'),
+        (Allow, u'group:admins', 'create_blog'),
+        (Allow, u'group:editors', 'create_blog')]
 
 group_name = {
-    'admin': 'group:admins',
-    'editor': 'group:editors',
-    'member': 'group:members'
+    'admin': u'group:admins',
+    'editor': u'group:editors',
+    'member': u'group:members'
 }
 
 # Salt for pasword hashes, move to database or somewhere safe (and change it )

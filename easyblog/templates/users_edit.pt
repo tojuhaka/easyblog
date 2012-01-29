@@ -26,19 +26,19 @@
           <td><input tal:attributes="
                     checked has_group('admin', user, request);
                     value group_name['admin'];
-                    name string:checkbox:${user.username}"
+                    name string:checkbox-admin:${user.username}"
                     class="checkbox" type="checkbox"/>
           </td>
           <td><input tal:attributes="
                     checked has_group('editor', user, request);
                     value group_name['editor'];
-                    name string:checkbox:${user.username}"
+                    name string:checkbox-editor:${user.username}"
                     class="checkbox" type="checkbox"/>
           </td>
           <td><input tal:attributes="
                     checked has_group('member', user, request);
                     value group_name['member'];
-                    name string:checkbox:${user.username}"
+                    name string:checkbox-member:${user.username}"
                     class="checkbox" type="checkbox"/>
           </td>
         </tr>

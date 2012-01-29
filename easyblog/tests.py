@@ -2,10 +2,10 @@ import unittest
 
 from easyblog.models import appmaker
 from mock import Mock
-from pyramid.interfaces import IMultiDict
 
 import urllib
 from pyramid import testing
+
 
 class AppMakerTests(unittest.TestCase):
     def test_it(self):
@@ -19,6 +19,7 @@ class AppMakerTests(unittest.TestCase):
         from easyblog.utilities import has_special
         self.assertTrue(has_special("testi%$|") != None)
         self.assertEqual(has_special("testi"), None)
+
 
 class ViewTests(unittest.TestCase):
     def setUp(self):
@@ -43,18 +44,21 @@ class ViewTests(unittest.TestCase):
         # We can't use dummyrequest cause the simpleform
         # needs MultiDict and NestedMultiDict from WebOb request
         # This is the 'real' request.
-        from pyramid.request import Request
-        request = Request.blank('/', method="POST") 
-
+        from webob.multidict import MultiDict, NestedMultiDict
+        multidict = MultiDict()
+        # This is my own invention. Use with caution :)
+        # request = Request.blank('/', method="POST", registry=registry)
+        
         for key in post.keys():
-            request.POST[key] = post[key]
+            multidict[key] = post[key]
 
+        request = testing.DummyRequest(post=multidict, params=NestedMultiDict(multidict))
         request.session = Mock()
         csrf_token = Mock()
         csrf_token.return_value = csrf
 
         request.session.get_csrf_token = csrf_token
-
+        request.root = self.zodb
         return request
 
     def tearDown(self):
@@ -62,13 +66,27 @@ class ViewTests(unittest.TestCase):
 
     def test_users_edit_view_search(self):
         from easyblog.views import view_users_edit
-        request = self.get_csrf_request(post= {
+        request = self.get_csrf_request(post={
             u'submit': u'Search',
-            u'search': u'adm' 
+            u'search': u'adm'
         })
         context = self.zodb['users']
         result = view_users_edit(context, request)
         self.assertEqual(1, len(result['search_results']))
+
+    def test_users_edit_view_add_permission(self):
+        from easyblog.views import view_users_edit
+        from easyblog.security import group_name
+        request = self.get_csrf_request(post={
+            u'submit': u'Save',
+            u'search': u'adm',
+            u'checkbox:admin': group_name['admin'],
+            u'checkbox:admin': group_name['member']
+        })
+        context = self.zodb['users']
+        view_users_edit(context, request)
+        self.assertTrue(group_name['member'] in self.zodb['groups']['admin'])
+
 
 class ModelTests(unittest.TestCase):
     def test_blogpost(self):
@@ -195,7 +213,6 @@ class FunctionalTests(unittest.TestCase):
         self.db = app.registry.zodb_database
         from webtest import TestApp
         self.testapp = TestApp(app)
-        
 
         # init two test users, admin is already defined
         self._signup('member', 'memberpw#', 'memberpw#', 'member@member.com')
@@ -205,7 +222,7 @@ class FunctionalTests(unittest.TestCase):
     def tearDown(self):
         import shutil
         self.db.close()
-        shutil.rmtree( self.tmpdir )
+        shutil.rmtree(self.tmpdir)
 
     def test_user_edit_without_loggin_in(self):
         res = self.testapp.get('/users/admin/edit', status=200)
@@ -225,7 +242,6 @@ class FunctionalTests(unittest.TestCase):
                            'member@member.comas')
         self.assertTrue('special' in res.body)
 
-
     def test_logout_page(self):
         res = self._login('admin', 'adminpw#')
         res = self.testapp.get('/logout', status=302)
@@ -237,7 +253,7 @@ class FunctionalTests(unittest.TestCase):
         res = self.testapp.get('/users/member/edit', status=200)
         self.assertTrue('member' in res.body.lower())
         self.assertFalse('Login' in res.body)
-        
+
         res = self.testapp.get('/users/second_member/edit', status=200)
         self.assertTrue('Login' in res.body)
 
@@ -319,7 +335,7 @@ class FunctionalTests(unittest.TestCase):
         self.assertTrue('Create Blog' in res.body)
 
         res = self._create_blog(res, 'My Blog')
-        self.assertTrue('List of blogs' in res.body or 
+        self.assertTrue('List of blogs' in res.body or
                         'should be redirected' in res.body)
         res = self.testapp.get(urllib.quote('/blogs/b0'))
         self.assertTrue('My Blog' in res.body)
@@ -346,26 +362,26 @@ class FunctionalTests(unittest.TestCase):
         res = self.testapp.get('/blogs/create')
         self._create_blog(res, 'myblogi')
         res = self.testapp.get('/blogs/b0/add_post')
-        self._add_post(res, u'thisisasubject', 'Here is some text for testing.')
+        self._add_post(res, u'thisisasubject',
+                    'Here is some text for testing.')
         res = self.testapp.get('/blogs/b0')
         self.assertTrue('thisisasubject' in res.body)
         self.assertTrue('admin wrote' in res.body)
 
-        # Test single 
+        # Test single
         res = self.testapp.get('/blogs/b0/p0')
-        
 
     def test_blog_remove(self):
         # Login as admin and create blog
         res = self._login('admin', 'adminpw#')
         res = self.testapp.get('/blogs/create')
         self._create_blog(res, 'myblogi')
-        
+
         res = self.testapp.get('/blogs/b0/remove')
         # Press Remove button
         form = res.forms[0]
         res = form.submit()
-        self.assertTrue('List of blogs' in res.body or 
+        self.assertTrue('List of blogs' in res.body or
                         'should be redirected' in res.body)
 
     def test_admin_view(self):
@@ -376,11 +392,3 @@ class FunctionalTests(unittest.TestCase):
         res = self._login('admin', 'adminpw#')
         res = self.testapp.get('/users/edit')
         self.assertTrue('Edit users' in res.body)
-
-
-
-        
-
-
-
-        

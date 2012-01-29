@@ -43,9 +43,9 @@ def view_main(request):
     }
 
 
-# Register form for new users that aren't signed up yet
 @view_config(context=Main, renderer='templates/signup.pt', name='signup')
 def view_signup(context, request):
+    """ Register view for new users that aren't signed up yet """
     logged_in = authenticated_userid(request)
     message = u''
     username = u''
@@ -62,7 +62,7 @@ def view_signup(context, request):
         context['users'].add(username, password, email)
         context['groups'].add(username, members_group)
         context['groups'].add(username, u'u:%s' % username)
-        
+
         message = msg['succeed_add_user'] + username
 
     return {
@@ -76,12 +76,12 @@ def view_signup(context, request):
     }
     return None
 
-
-# Handle's user login
 @view_config(context=Main, renderer='templates/login.pt', name='login')
 @view_config(context='pyramid.exceptions.Forbidden',
              renderer='templates/login.pt')
 def view_login(context, request):
+    """ Login view """
+
     logged_in = authenticated_userid(request)
     login_url = resource_url(request.context, request, 'login')
     referrer = request.url
@@ -144,10 +144,11 @@ def view_user(context, request):
     }
 
 
-# View for editing single user
 @view_config(name='edit', context=User, renderer='templates/user_edit.pt',
     permission='edit_user')
 def view_user_edit(context, request):
+    """ View for editing a single user """
+
     logged_in = authenticated_userid(request)
     message = ''
     form = Form(request, schema=UserEditSchema, state=State(request=request))
@@ -189,7 +190,7 @@ def view_page(context, request):
              renderer='templates/blog_view.pt')
 def view_blog(context, request):
     logged_in = authenticated_userid(request)
-      
+
     return {
         'logged_in': logged_in,
         'layout': site_layout(),
@@ -200,6 +201,8 @@ def view_blog(context, request):
 @view_config(context=Blogs,
              renderer='templates/blogs_view.pt')
 def view_blogs(context, request):
+    """ View for all the blogs """
+
     logged_in = authenticated_userid(request)
     return {
         'page': context,
@@ -213,6 +216,7 @@ def view_blogs(context, request):
 @view_config(context=Blogs, renderer='templates/blog_create.pt',
              permission='edit_all', name="create")
 def view_blog_create(context, request):
+    """ View for creating a single blog """
     logged_in = authenticated_userid(request)
     form = Form(request, schema=BlogCreateSchema, state=State(request=request))
     message = ''
@@ -268,6 +272,8 @@ def view_blog_add_post(context, request):
 @view_config(context=Blog, renderer='templates/blog_remove.pt',
              permission='edit_blog', name='remove')
 def view_blog_remove(context, request):
+    """ The Blog can be removed from this view """
+
     logged_in = authenticated_userid(request)
     form = Form(request, schema=BaseSchema,
                 state=State(request=request))
@@ -285,10 +291,11 @@ def view_blog_remove(context, request):
         'form': FormRenderer(form)
     }
 
-# Admin view
 @view_config(context=Users, renderer='templates/users_edit.pt',
              permission='edit_all', name='edit')
 def view_users_edit(context, request):
+    """ View for editing users. Includes permission handling. """
+
     logged_in = authenticated_userid(request)
     form = Form(request, schema=UsersEditSchema,
                 state=State(request=request))
@@ -297,22 +304,32 @@ def view_users_edit(context, request):
     search_results = []
     if form.validate():
         search = request.params['search']
-        
+
         # Loop through all the users and create dict of groups
-        # 
         for user in context:
             if search in context[user].username:
                 search_results.append(context[user])
 
         if request.params['submit'] == 'Save':
             # Filter checkbox-parameters from request
-            cbs = [p for p in request.params.keys() 
+            cbs = [p for p in request.params.keys()
                         if u'checkbox' in p]
-               
+
+            # new policy for groups
+            updated = {}
+
+            # check all the checkbox-parameters and
+            # parse them
             for cb in cbs:
                 username = cb.split(':')[1]
-                groups = get_tool('groups', request)
+                try:
+                    updated[username]
+                except KeyError:
+                    updated[username] = []
+                updated[username] += [request.params[cb]]
 
+            groups_tool = get_tool('groups', request)
+            groups_tool.add_policy(updated)
 
     # function for checking the group of the user
     def has_group(group, user, request):
@@ -331,4 +348,3 @@ def view_users_edit(context, request):
         'group_name': group_name,
         'has_group': has_group
     }
-

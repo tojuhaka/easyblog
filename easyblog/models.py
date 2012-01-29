@@ -10,13 +10,14 @@ from pyramid.security import Allow
 
 # Main root object in our ZODB database
 class Main(PersistentMapping):
+    """ Root object for ZODB """
     __name__ = None
     __parent__ = None
     __acl__ = acl
 
 
-# Contains all the users
 class Users(PersistentMapping):
+    """ Contains all the users """
     def _generate_id(self):
         return len(self.keys()) + 1
 
@@ -52,9 +53,13 @@ class User(Persistent):
     def validate_password(self, password):
         return pwd_context.verify(password + salt, self.password)
 
-# TODO: name better or change the order
+
 class Groups(PersistentMapping):
+    """ Contains the information about the groups of 
+    the users """
+
     def add(self, username, group):
+        """ Add a single group to username """
         try:
             self[username]
         except KeyError:
@@ -67,12 +72,22 @@ class Groups(PersistentMapping):
         if group in self[username]:
             self[username].remove(group)
 
-    def get_groups(self):
+    def flush(self, username):
+        self[username] = []
+    
+    def add_policy(self, policy):
+        """ Updates the group-policy with dict that contains
+        usernames and list of groups behind it """
+        for username in policy.keys():
+            self[username] = policy[username] + [u'u:%s' % username]
+
+    def group_list(self):
         return [admins_group, editors_group, members_group]
 
 
-# Blog mapper which cointains all the blogs
 class Blogs(PersistentMapping):
+    """ Blog mapper which contains all the logs """
+
     def __init__(self):
         super(PersistentMapping, self).__init__()
 

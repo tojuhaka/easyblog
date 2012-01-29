@@ -9,7 +9,7 @@ def has_special(string):
 # Use this whenever you must get a specific object from ZODB
 # instead of travelling with __parent__ attributes
 def get_tool(tool, request):
-    root = get_connection(request).root()['app_root']
+    root = request.root
     options = {
         'groups': root['groups'],
         'users': root['users']
