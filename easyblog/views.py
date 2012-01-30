@@ -8,40 +8,16 @@ from easyblog.schemas import UserEditSchema, BlogCreateSchema
 from easyblog.schemas import BlogAddPostSchema, BaseSchema
 from easyblog.schemas import UsersEditSchema
 from easyblog.security import group_names
-from easyblog.models import Main, User, Blog, Blogs, Users
+from easyblog.models import Main, User, Blog, Blogs, Users, News
 from easyblog.security import groupfinder
-from easyblog.utilities import get_tool
+from easyblog.utilities import get_resource
 from pyramid_simpleform.renderers import FormRenderer
 from pyramid_simpleform import Form, State
 from pyramid.httpexceptions import HTTPForbidden
 
 # Messages
 from easyblog.config import msg
-from easyblog.interfaces import IComment
-
-
-# Handle news
-def news():
-    return u'news'
-
-
-# TODO: this was created only for testing ZCA. Use it or remove it.
-class CommentView(object):
-    def __init__(self, context, request):
-        self.context = context
-        self.request = request
-
-    @view_config(context=IComment, name="comments")
-    def __call__(self):
-        return {
-            'asdf': 'asdf'
-        }
-
-    @view_config(context=IComment, name="add_comment")
-    def add_comment(self):
-        return {
-            'asdf': 'asdf'
-        }
+from easyblog.interfaces import ISite, IComment
 
 
 class MainView(object):
@@ -58,7 +34,6 @@ class MainView(object):
         return {
             'project': 'easyblog',
             'logged_in': logged_in,
-            'news': news()
         }
 
     @view_config(context=Main, renderer='templates/signup.pt', name='signup')
@@ -70,9 +45,9 @@ class MainView(object):
         password = u''
 
         # Create form by using schemas with validations
-        form = Form(self.request, schema=SignUpSchema, state=State(request=self.request))
+        form = Form(self.request, schema=SignUpSchema,
+                state=State(request=self.request))
 
-        # form.validate() doesn't work with tests that use url-parameters
         if form.validate():
             username = self.request.params['username']
             password = self.request.params['password']
@@ -110,7 +85,8 @@ class MainView(object):
         password = ''
 
         # Create form by using schemas with validations
-        form = Form(self.request, schema=LoginSchema, state=State(request=self.request))
+        form = Form(self.request, schema=LoginSchema,
+                state=State(request=self.request))
 
         if form.validate():
             username = self.request.params['username']
@@ -138,20 +114,19 @@ class MainView(object):
             'form': FormRenderer(form)
         }
 
-
     @view_config(context=Main, renderer='templates/logout.pt', name='logout')
     def view_logout(self):
         """ Logout current user """
         headers = forget(self.request)
-        return HTTPFound(location=resource_url(self.request.context, self.request),
-                        headers=headers)
+        return HTTPFound(location=resource_url(self.request.context,
+                        self.request), headers=headers)
+
 
 class UserView(object):
     """ View for single user """
     def __init__(self, context, request):
         self.context = context
         self.request = request
-
 
     @view_config(context=User, renderer='easyblog:templates/user_view.pt')
     def view_user(self):
@@ -164,7 +139,6 @@ class UserView(object):
             'logged_in': logged_in,
         }
 
-
     @view_config(name='edit', context=User, renderer='templates/user_edit.pt',
         permission='edit_user')
     def view_user_edit(self):
@@ -172,7 +146,8 @@ class UserView(object):
 
         logged_in = authenticated_userid(self.request)
         message = ''
-        form = Form(self.request, schema=UserEditSchema, state=State(request=self.request))
+        form = Form(self.request, schema=UserEditSchema,
+                state=State(request=self.request))
 
         if form.validate():
             password = self.request.params['password']
@@ -204,31 +179,12 @@ class BlogView(object):
                  renderer='templates/blog_view.pt')
     def view_blog(self):
         logged_in = authenticated_userid(self.request)
-
+        from pyramid_viewgroup import Provider
         return {
             'logged_in': logged_in,
             'blogname': self.context.name,
-            'posts': self.context
-        }
-
-    @view_config(context=Blogs, renderer='templates/blog_create.pt',
-                 permission='edit_all', name="create")
-    def view_blog_create(self):
-        """ View for creating a single blog """
-        logged_in = authenticated_userid(self.request)
-        form = Form(self.request, schema=BlogCreateSchema,
-                    state=State(request=self.request))
-        message = ''
-
-        if form.validate():
-            self.context.add(self.request.params['blogname'], logged_in)
-            return HTTPFound(location=resource_url(self.context, self.request))
-
-        return {
-            'page': self.context,
-            'logged_in': logged_in,
-            'form': FormRenderer(form),
-            'message': message
+            'posts': self.context,
+            'provider': Provider(self.context, self.request)
         }
 
     @view_config(context=Blog, renderer='templates/blog_edit.pt',
@@ -252,7 +208,8 @@ class BlogView(object):
         message = "Edit %s" % self.context.name
 
         if form.validate():
-            self.context.add(self.request.params['subject'], self.request.params['text'], logged_in)
+            self.context.add(self.request.params['subject'],
+                        self.request.params['text'], logged_in)
             return HTTPFound(location=resource_url(self.context, self.request))
 
         return {
@@ -262,7 +219,6 @@ class BlogView(object):
             'message': message,
             'form': FormRenderer(form)
         }
-
 
     @view_config(context=Blog, renderer='templates/blog_remove.pt',
                  permission='edit_blog', name='remove')
@@ -275,7 +231,8 @@ class BlogView(object):
         message = "Edit %s" % self.context.name
 
         if form.validate():
-            return HTTPFound(location=resource_url(self.context.__parent__, self.request))
+            return HTTPFound(location=resource_url(self.context.__parent__,
+                        self.request))
 
         return {
             'page': self.context,
@@ -304,6 +261,27 @@ class BlogsView(object):
             'context_url': resource_url(self.context, self.request),
             'resource_url': resource_url
         }
+
+    @view_config(context=Blogs, renderer='templates/blog_create.pt',
+                 permission='edit_content', name="create")
+    def view_blog_create(self):
+        """ View for creating a single blog """
+        logged_in = authenticated_userid(self.request)
+        form = Form(self.request, schema=BlogCreateSchema,
+                    state=State(request=self.request))
+        message = ''
+
+        if form.validate():
+            self.context.add(self.request.params['blogname'], logged_in)
+            return HTTPFound(location=resource_url(self.context, self.request))
+
+        return {
+            'page': self.context,
+            'logged_in': logged_in,
+            'form': FormRenderer(form),
+            'message': message
+        }
+
 
 class UsersView(object):
     """ View for all the users """
@@ -351,7 +329,7 @@ class UsersView(object):
                         updated[username] = []
                     updated[username] += [self.request.params[cb]]
 
-                groups_tool = get_tool('groups', self.request)
+                groups_tool = get_resource('groups', self.request)
                 groups_tool.add_policy(updated)
 
         def has_group(group, user, request):
@@ -376,3 +354,44 @@ class UsersView(object):
 
         }
 
+
+class NewsWidget(object):
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
+
+    @view_config(context=ISite, name="news_widget",
+            renderer='templates/news_widget.pt')
+    def __call__(self):
+        return {'comments': 'COMMENTS :DD'}
+
+
+class NewsView(object):
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
+
+    @view_config(context=News, name="news", renderer='templates/news.pt')
+    def __call__(self):
+        return {
+            'comments': 'Put comments here'
+        }
+
+
+class CommentView(object):
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
+
+    @view_config(context=IComment, name="comments",
+            renderer='templates/comments.pt')
+    def __call__(self):
+        return {
+            'comments': 'Put comments here'
+        }
+
+    @view_config(context=IComment, name="add_comment")
+    def add_comment(self):
+        return {
+            'asdf': 'asdf'
+        }

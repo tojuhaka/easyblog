@@ -19,7 +19,8 @@ requires = [
     'pyramid_simpleform',
     'formencode',
     'nose',
-    'pyramid_zcml'
+    'pyramid_zcml',
+    'pyramid_viewgroup'
     ]
 
 setup(name='easyblog',

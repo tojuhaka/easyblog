@@ -2,16 +2,15 @@ from passlib.context import CryptContext
 from pyramid.security import Allow, Everyone
 from pyramid.httpexceptions import HTTPForbidden
 from pyramid.events import NewRequest, subscriber
-from easyblog.utilities import get_tool
+from easyblog.utilities import get_resource
 
 
 # TODO: HIDE?
 acl = [(Allow, Everyone, 'view'),
         (Allow, u'group:members', 'edit'),
         (Allow, u'group:admins', 'edit_all'),
-        (Allow, u'group:admins', 'edit'),
-        (Allow, u'group:admins', 'create_blog'),
-        (Allow, u'group:editors', 'create_blog')]
+        (Allow, u'group:admins', 'edit_content'),
+        (Allow, u'group:editors', 'edit_content')]
 
 group_names = {
     'admin': u'group:admins',
@@ -40,8 +39,8 @@ pwd_context = CryptContext(
     )
 
 def groupfinder(username, request):
-    if username in get_tool('users', request):
-        return get_tool('groups', request)[username]
+    if username in get_resource('users', request):
+        return get_resource('groups', request)[username]
 
 #Protect sessions from Cross-site request forgery attacks
 @subscriber(NewRequest)

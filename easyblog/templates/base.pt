@@ -43,12 +43,14 @@
 
       <div id="column1">
         <tal:block metal:define-slot="content"></tal:block>
-        <div id="comments" tal:condition="comments"> Comments here  Comments here </div>
-        <span metal:use-macro="comments_template.macros['hello']" />
       </div>
 
 
       <div id="column2">
+
+        <!--<div id="news_widget" tal:condition="comments"> Comments here  Comments here </div>-->
+        <!--<span metal:use-macro="news_wdiget.macros['hello']" />-->
+
         <div class="sbitem">
           <div class="sbihead">
             <h1 i18n:translate="news_label"> Latest News </h1>

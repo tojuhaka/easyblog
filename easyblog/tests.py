@@ -143,6 +143,24 @@ class ModelTests(unittest.TestCase):
             test_id = m.digest()
             self.assertEquals(blog[key].id, test_id)
 
+    def test_news_add(self):
+        from easyblog.models import News
+        news = News()
+        news.add(u'Title for news', u'Here we write some content for the news',
+                 u'admin')
+        self.assertTrue(news.has_item(u'Title for news'))
+        
+    def test_news_by_owner(self):
+        from easyblog.models import News
+        news = News()
+        news.add(u'Title for news', u'Here we write some content for the news',
+                 u'admin')
+        news.add(u'Title for news4', u'Here we write some content for thsadfas fe news',
+                 u'admin')
+        news.add(u'Titldsafse for news', u'dfasasdfHere we write some content for the news',
+                 u'member')
+        self.assertEqual(len(news.items_by_owner('admin')), 2)
+
 
 class FunctionalTests(unittest.TestCase):
     admin_login = '/login?username=admin&password=adminpw#' \

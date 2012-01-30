@@ -30,7 +30,9 @@ def main(global_config, **settings):
     config.hook_zca()
     config.include(pyramid_zcml)
     config.load_zcml('configure.zcml')
-    
+
+    config.include('pyramid_viewgroup')
+
     config.add_static_view('static', 'static', cache_max_age=3600)
     config.scan()
     return config.make_wsgi_app()
