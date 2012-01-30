@@ -40,9 +40,14 @@
           <li><a i18n:translate="about_link" href="/about">About</a></li>
         </ul>
       </div>
+
       <div id="column1">
         <tal:block metal:define-slot="content"></tal:block>
+        <div id="comments" tal:condition="comments"> Comments here  Comments here </div>
+        <span metal:use-macro="comments_template.macros['hello']" />
       </div>
+
+
       <div id="column2">
         <div class="sbitem">
           <div class="sbihead">

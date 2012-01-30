@@ -31,10 +31,6 @@ def main(global_config, **settings):
     config.include(pyramid_zcml)
     config.load_zcml('configure.zcml')
     
-    # Add base template
-    config.add_subscriber('easyblog.subscribers.add_base_template',
-                      'pyramid.events.BeforeRender')
-
     config.add_static_view('static', 'static', cache_max_age=3600)
     config.scan()
     return config.make_wsgi_app()

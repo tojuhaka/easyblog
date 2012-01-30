@@ -35,7 +35,6 @@ class Users(PersistentMapping):
 
 
 class User(Persistent):
-    implements(IComment)
     @property
     def __acl__(self):
         acls = [(Allow, 'u:%s' % self.username, 'edit_user'),
@@ -109,6 +108,7 @@ class Blogs(PersistentMapping):
 
 # Page for single blog
 class Blog(PersistentMapping):
+    implements(IComment)
     @property
     def __acl__(self):
         acls = [(Allow, 'u:%s' % o, 'edit_blog') for o in self.owners]
@@ -120,9 +120,11 @@ class Blog(PersistentMapping):
         super(PersistentMapping, self).__init__()
         self.name = name
         self.owners = [username, 'admin']
+        self.comments = "HERE IS SOME COMMENTS"
         # Convert name for path. This is also the id of the page.
         # TODO: Check encode
         self.id = id
+        
 
     def add(self, subject, text, username):
         post = BlogPost(subject, text, username)

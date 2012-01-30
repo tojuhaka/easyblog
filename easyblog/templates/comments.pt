@@ -1,0 +1,21 @@
+<!-- <html xmlns="http://www.w3.org/1999/xhtml" -->
+<!--       xmlns:tal="http://xml.zope.org/namespaces/tal" -->
+<!--       xmlns:metal="http://xml.zope.org/namespaces/metal" -->
+<!--       metal:use-macro="base"> -->
+<!--   <tal:block  metal:fill-slot="comments"> -->
+<!--     <div id="comments" tal:condition="comments"> Comments here  Comments here </div> -->
+<!--   </tal:block> -->
+<!-- </html> -->
+<!-- <tal:block metal:define-macro="sidebar"> -->
+<!-- <p> LOLOLOLOOLOL </p> -->
+<!-- </tal:block> -->
+ <html xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:tal="http://xml.zope.org/namespaces/tal"
+       xmlns:metal="http://xml.zope.org/namespaces/metal">
+   <span metal:define-macro="hello">
+     <h1>
+       Hello <span metal:define-slot="name">Fred</span>!
+       <p tal:condition="comments"> ${comments} </p>
+     </h1>
+   </span>
+ </html>
