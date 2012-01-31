@@ -6,7 +6,7 @@ from pyramid.security import remember, forget
 from easyblog.schemas import SignUpSchema, LoginSchema
 from easyblog.schemas import UserEditSchema, BlogCreateSchema
 from easyblog.schemas import BlogAddPostSchema, BaseSchema
-from easyblog.schemas import UsersEditSchema
+from easyblog.schemas import UsersEditSchema, NewsCreateSchema
 from easyblog.security import group_names
 from easyblog.models import Main, User, Blog, Blogs, Users, News
 from easyblog.security import groupfinder
@@ -208,6 +208,7 @@ class BlogView(object):
         message = "Edit %s" % self.context.name
 
         if form.validate():
+            #TODO: Change 'subject' to 'title'
             self.context.add(self.request.params['subject'],
                         self.request.params['text'], logged_in)
             return HTTPFound(location=resource_url(self.context, self.request))
@@ -371,10 +372,33 @@ class NewsView(object):
         self.context = context
         self.request = request
 
-    @view_config(context=News, name="news", renderer='templates/news.pt')
+    @view_config(context=News, renderer='templates/news.pt')
     def __call__(self):
+        logged_in = authenticated_userid(self.request)
         return {
-            'comments': 'Put comments here'
+            'page': self.context,
+            'logged_in': logged_in,
+            'context_url': resource_url(self.context, self.request),
+            'resource_url': resource_url
+        }
+
+    @view_config(context=News, name="create", renderer='templates/news_create.pt', permission="edit_content")
+    def view_news_create(self):
+        logged_in = authenticated_userid(self.request)
+        form = Form(self.request, schema=NewsCreateSchema,
+                    state=State(request=self.request))
+
+        if form.validate():
+            self.context.add(self.request.params['title'],
+                        self.request.params['text'], logged_in)
+            return HTTPFound(location=resource_url(self.context, self.request))
+
+        return {
+            'page': self.context,
+            'logged_in': logged_in,
+            'context_url': resource_url(self.context, self.request),
+            'resource_url': resource_url,
+            'form': FormRenderer(form)
         }
 
 

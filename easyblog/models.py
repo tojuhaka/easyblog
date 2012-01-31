@@ -76,7 +76,7 @@ class Groups(PersistentMapping):
         if not group in self[username]:
             self[username] += [group]
 
-    def remove(self, username, group):
+    def remove_group(self, username, group):
         if group in self[username]:
             self[username].remove(group)
 
@@ -85,7 +85,9 @@ class Groups(PersistentMapping):
 
     def add_policy(self, policy):
         """ Updates the group-policy with dict that contains
-        usernames and list of groups behind it """
+        usernames and list of groups behind it. Add also the user-marker "u:user"
+        to group. We need it for __acl__ inside class. """
+
         for username in policy.keys():
             self[username] = policy[username] + [u'u:%s' % username]
 
@@ -232,7 +234,9 @@ def appmaker(zodb_root):
         news.__parent__ = app_root
 
         users.add('admin', 'adminpw#', 'admin@admin.com')
+        users.add('editor', 'editorpw#', 'editor@editor.com')
         groups.add('admin', group_names['admin'])
+        groups.add('editor', group_names['editor'])
 
         zodb_root['app_root'] = app_root
         import transaction

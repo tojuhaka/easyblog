@@ -59,7 +59,7 @@
       <div class="buttons">
         <span class="forminput">${form.submit("submit", "Save")}</span>
       </div>
-      ${form.end()}
-    </div>
+      </div>
+    ${form.end()}
   </tal:block>
 </html>

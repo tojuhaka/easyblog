@@ -107,6 +107,14 @@ class ModelTests(unittest.TestCase):
         self.assertEquals(True, user.validate_password('password'))
         self.assertEquals(False, user.validate_password('PaSsword'))
 
+    def test_user_add(self):
+        from easyblog.models import Users
+        users = Users()
+        users.add('user', 'password', 'user@user.com')
+        users.add('admin', 'password', 'admin@user.com')
+        self.assertTrue(users.has_user('user'))
+        self.assertFalse(users.has_user('user2'))
+
     def test_user_edit(self):
         from easyblog.models import User
         user = User('user', 'password', 'user@user.com', 1234)
@@ -115,8 +123,22 @@ class ModelTests(unittest.TestCase):
         self.assertNotEquals('password2', user.password)
         self.assertNotEquals(tmp_pw, user.password)
 
-    def test_set_group(self):
-        pass
+    def test_group_remove_group(self):
+        from easyblog.models import Groups
+        groups = Groups()
+        groups.add(u'admin', u'group:admins')
+        groups.add(u'member', u'group:members')
+        groups.add(u'editor', u'group:editors')
+        groups.remove_group(u'member', u'group:members')
+        self.assertTrue(groups['member'] == [])
+    
+    def test_group_policy_add(self):
+        from easyblog.models import Groups
+        groups = Groups()
+        policy = {u'admin': [u'group:admins', u'group:editors'],
+                  u'member': [u'group:members', u'group:editors']}
+        groups.add_policy(policy)
+        self.assertEqual(len(groups[u'member']), 3)
 
     def test_has_blogname(self):
         from easyblog.models import Blogs
@@ -217,6 +239,7 @@ class FunctionalTests(unittest.TestCase):
         form['text'] = text
         return form.submit()
 
+
     def setUp(self):
         # Build testing environment
         import tempfile
@@ -237,7 +260,7 @@ class FunctionalTests(unittest.TestCase):
         # init two test users, admin is already defined
         self._signup('member', 'memberpw#', 'memberpw#', 'member@member.com')
         self._signup('second_member', 'second_memberpw#',
-                     'second_memberpw#', 'second_member@member.com')
+                    'second_memberpw#', 'second_member@member.com')
 
     def tearDown(self):
         import shutil
@@ -350,14 +373,14 @@ class FunctionalTests(unittest.TestCase):
         res = self.testapp.get('/blogs/create')
         self.assertTrue('Login' in res.body)
 
-        res = self._login('admin', 'adminpw#')
+        res = self._login('editor', 'editorpw#')
         res = self.testapp.get('/blogs/create')
         self.assertTrue('Create Blog' in res.body)
 
         res = self._create_blog(res, 'My Blog')
         self.assertTrue('List of blogs' in res.body or
                         'should be redirected' in res.body)
-        res = self.testapp.get(urllib.quote('/blogs/b0'))
+        res = self.testapp.get('/blogs/b0')
         self.assertTrue('My Blog' in res.body)
 
     def test_blog_edit(self):
@@ -412,3 +435,33 @@ class FunctionalTests(unittest.TestCase):
         res = self._login('admin', 'adminpw#')
         res = self.testapp.get('/users/edit')
         self.assertTrue('Edit users' in res.body)
+
+    def test_users_edit(self):
+        # login as admin
+        res = self._login('admin', 'adminpw#')
+        res = self.testapp.get('/users/edit')
+
+        # Use search form to look for 'member' user
+        form = res.forms[0]
+        form['search'] = 'memb'
+        res = form.submit('submit')
+
+        self.assertTrue(u'member' in res.body)
+
+    def test_news_view(self):
+        res = self._login('member', 'memberpw#')
+        res = self.testapp.get('/news')
+        self.assertTrue('List of News' in res.body)
+        
+    def test_news_add(self):
+        res = self._login('editor', 'editorpw#')
+        res = self.testapp.get('/news/create')
+        self.assertTrue('Create a single news item' in res.body)
+        
+
+        
+
+
+
+
+
