@@ -3,12 +3,12 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       metal:use-macro="base">
   <tal:block metal:fill-slot="content">
-        <h2 i18n:translate="blogs_topic"> List of blogs </h2>
+        <h1 i18n:translate="blogs_topic"> List of blogs </h1>
         <div tal:repeat="blog context">
-            <a tal:content="context[blog].name" 
+            <p><a tal:content="context[blog].name" 
                tal:attributes="href resource_url(context[blog], request)">
                Blogname
-            </a>
+            </a> created by ${context[blog].owner} </p>
         </div>
   </tal:block>
 </html>

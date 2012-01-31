@@ -7,17 +7,17 @@
         ${form.begin(request.url)}
         ${form.csrf_token()}
         <div class="field">
-          ${form.label("title")}
-          ${form.errorlist("title")}
-          ${form.text("title")}
+          <span class="formlabel">${form.label("title")}</span>
+          ${form.errors_for("title")}
+          <span class="forminput">${form.text("title")}</span>
         </div>
         <div class="field">
-          ${form.label("text")}
+          <span class="formlabel">${form.label("text")}</span>
           ${form.errorlist("text")}
-          ${form.text("text")}
+          <span class="forminput">${form.text("text")}</span>
         </div>
         <div class="buttons">
-            ${form.submit("submit", "Create")}
+          <span class="forminput">${form.submit("submit", "Create")}</span>
         </div>
         ${form.end()}
   </tal:block>

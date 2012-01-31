@@ -8,7 +8,8 @@ from easyblog.schemas import UserEditSchema, BlogCreateSchema
 from easyblog.schemas import BlogAddPostSchema, BaseSchema
 from easyblog.schemas import UsersEditSchema, NewsCreateSchema
 from easyblog.security import group_names
-from easyblog.models import Main, User, Blog, Blogs, Users, News
+from easyblog.models import Main, User, Blog, Blogs
+from easyblog.models import Users, News, BlogPost, NewsItem
 from easyblog.security import groupfinder
 from easyblog.utilities import get_resource
 from pyramid_simpleform.renderers import FormRenderer
@@ -101,9 +102,11 @@ class MainView(object):
             message = 'Failed username'
 
         if logged_in:
-            message = msg['logged_in_as'] + logged_in + "."
-        if self.context == HTTPForbidden:
+            message = msg['logged_in_as'] + logged_in + ". "
+
+        if  type(self.context) == HTTPForbidden:
             message += msg['content_forbidden']
+
         return {
             'message': message,
             'url': self.request.application_url + '/login',
@@ -169,6 +172,25 @@ class UserView(object):
         }
 
 
+class BlogPost(object):
+    """ View for single blogpost """
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
+    
+    @view_config(context=BlogPost,
+                 renderer='templates/blogpost.pt')
+    def __call__(self):
+        logged_in = authenticated_userid(self.request)
+        from pyramid_viewgroup import Provider
+        return {
+            'logged_in': logged_in,
+            'title': self.context.title,
+            'text': self.context.text,
+            'provider': Provider(self.context, self.request)
+        }
+
+
 class BlogView(object):
     """ View for single blog """
     def __init__(self, context, request):
@@ -205,20 +227,21 @@ class BlogView(object):
         logged_in = authenticated_userid(self.request)
         form = Form(self.request, schema=BlogAddPostSchema,
                     state=State(request=self.request))
-        message = "Edit %s" % self.context.name
+        message = ""
 
         if form.validate():
-            #TODO: Change 'subject' to 'title'
-            self.context.add(self.request.params['subject'],
+            post_context = self.context.add(self.request.params['title'],
                         self.request.params['text'], logged_in)
-            return HTTPFound(location=resource_url(self.context, self.request))
+
+            return HTTPFound(location=resource_url(post_context, self.request))
 
         return {
             'page': self.context,
             'logged_in': logged_in,
             'blogname': self.context.name,
             'message': message,
-            'form': FormRenderer(form)
+            'form': FormRenderer(form),
+            'resource_url': resource_url
         }
 
     @view_config(context=Blog, renderer='templates/blog_remove.pt',
@@ -273,8 +296,9 @@ class BlogsView(object):
         message = ''
 
         if form.validate():
-            self.context.add(self.request.params['blogname'], logged_in)
-            return HTTPFound(location=resource_url(self.context, self.request))
+            blog_context = self.context.add(self.request.params['blogname'],
+                            logged_in)
+            return HTTPFound(location=resource_url(blog_context, self.request))
 
         return {
             'page': self.context,
@@ -364,7 +388,22 @@ class NewsWidget(object):
     @view_config(context=ISite, name="news_widget",
             renderer='templates/news_widget.pt')
     def __call__(self):
-        return {'comments': 'COMMENTS :DD'}
+        return {'news_data': 'NEWS :DD'}
+
+class NewsItem(object):
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
+
+    @view_config(context=NewsItem, renderer='templates/news_item.pt')
+    def __call__(self):
+        logged_in = authenticated_userid(self.request)
+        return {
+            'title': self.context.title,
+            'text': self.context.text,
+            'logged_in': logged_in,
+            'resource_url': resource_url,
+        }
 
 
 class NewsView(object):
@@ -378,8 +417,7 @@ class NewsView(object):
         return {
             'page': self.context,
             'logged_in': logged_in,
-            'context_url': resource_url(self.context, self.request),
-            'resource_url': resource_url
+            'resource_url': resource_url,
         }
 
     @view_config(context=News, name="create", renderer='templates/news_create.pt', permission="edit_content")
@@ -389,9 +427,9 @@ class NewsView(object):
                     state=State(request=self.request))
 
         if form.validate():
-            self.context.add(self.request.params['title'],
+            item_context = self.context.add(self.request.params['title'],
                         self.request.params['text'], logged_in)
-            return HTTPFound(location=resource_url(self.context, self.request))
+            return HTTPFound(location=resource_url(item_context, self.request))
 
         return {
             'page': self.context,
@@ -411,7 +449,7 @@ class CommentView(object):
             renderer='templates/comments.pt')
     def __call__(self):
         return {
-            'comments': 'Put comments here'
+            'comments': self.context.comments
         }
 
     @view_config(context=IComment, name="add_comment")

@@ -119,46 +119,50 @@ class Blogs(PersistentMapping):
 # Page for single blog
 class Blog(PersistentMapping):
     """ Blog which contains posts from user """
-    implements(ISite, IComment)
+    implements(ISite)
 
     @property
     def __acl__(self):
-        acls = [(Allow, 'u:%s' % o, 'edit_blog') for o in self.owners]
+        acls = [(Allow, 'u:%s' % self.owner, 'edit_blog')]
         acls.append((Allow, group_names['admin'], 'edit_blog'))
+        acls.append((Allow, group_names['editor'], 'edit_blog'))
         return acls
 
     def __init__(self, name, owner, id):
         super(PersistentMapping, self).__init__()
+        self.post_number = 0
         self.name = name
-        self.owners = [owner]
+        self.owner = owner
         self.comments = "HERE IS SOME COMMENTS"
         self.id = id
 
     def add(self, subject, text, username):
-        post = BlogPost(subject, text, username)
+        post = BlogPost(subject, text, username, u'p%i' % self.post_number)
         self[post.id] = post
         post.__name__ = id
         post.__parent__ = self
+        self.post_number += 1
+        return post
 
 
 # Single post. Blog page contains multiple Blog posts.
 class BlogPost(Persistent):
     """ Single post inside blog """
-    implements(ISite)
+    implements(ISite, IComment)
 
-    def __init__(self, subject, text, username):
-        self.username = username
-        self.subject = subject
+    @property
+    def __acl__(self):
+        acls = [(Allow, 'u:%s' % self.owner, 'edit_blog')]
+        acls.append((Allow, group_names['admin'], 'edit_blog'))
+        return acls
+
+    def __init__(self, title, text, owner, id):
+        self.owner = owner
+        self.title = title
         self.text = text
         self.timestamp = datetime.now()
-
-        # Create md5 hash from username and timestamp
-        # to act as id for the BlogPost
-        import hashlib
-        m = hashlib.md5()
-        m.update(username)
-        m.update(self.timestamp.isoformat())
-        self.id = m.digest()
+        self.comments = "COMMENTS FROM BLOGPOST"
+        self.id = id
 
     def time(self):
         return "%s %s" % (self.timestamp.strftime("%x"),
@@ -195,12 +199,13 @@ class News(PersistentMapping):
         self.item_number = 0
 
     def add(self, title, text, owner):
-        """ Add single news item """
+        """ Add single news item and return it """
         item = NewsItem(title, text, owner, u'n%i' % self.item_number)
         self[item.id] = item
         self.item_number += 1
         item.__parent__ = self
         item.__name__ = item.id
+        return item
 
     def has_item(self, title):
         for key in self.keys():

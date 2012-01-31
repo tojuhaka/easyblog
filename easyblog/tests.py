@@ -89,16 +89,32 @@ class ViewTests(unittest.TestCase):
         view.view_users_edit()
         self.assertTrue(group_names['member'] in self.zodb['groups']['admin'])
 
+    def test_news_add_item(self):
+        from easyblog.views import NewsView
+        request = self.get_csrf_request(post={
+            u'submit': u'Create',
+            u'title': u'We\'re gonna celebrate soon!',
+            u'text': u'Bowmore whiskey is the best, that\'s why we\'re gonna \
+                    celebrate soon'
+        })
+        view = NewsView(self.zodb['news'], request)
+        view.view_news_create()
+        self.assertTrue('gonna celebrate' in self.zodb['news']['n0'].title)
+
+    def test_blogpost_edit(self):
+        pass
+
+
 
 class ModelTests(unittest.TestCase):
     def test_blogpost(self):
         from easyblog.models import BlogPost
-        instance = BlogPost(subject=u'subject', text=u'text',
-                username=u'admin')
+        instance = BlogPost(title=u'subject', text=u'text',
+                owner=u'admin', id='p0')
 
-        self.assertEqual(instance.subject, u'subject')
+        self.assertEqual(instance.title, u'subject')
         self.assertEqual(instance.text, u'text')
-        self.assertEqual(instance.username, u'admin')
+        self.assertEqual(instance.owner, u'admin')
 
     def test_password_validation(self):
         from easyblog.models import User
@@ -153,17 +169,12 @@ class ModelTests(unittest.TestCase):
         for key in blog:
             self.assertTrue(blog[key].timestamp != "")
 
-    def test_blog_post_add(self):
+    def test_blogpost_add(self):
         from easyblog.models import Blog
         blog = Blog(u'My Blog', u'member', 1)
         blog.add(u'subject', u'here is some text', 'member')
-        for key in blog:
-            import hashlib
-            m = hashlib.md5()
-            m.update(blog[key].username)
-            m.update(blog[key].timestamp.isoformat())
-            test_id = m.digest()
-            self.assertEquals(blog[key].id, test_id)
+        self.assertEquals(blog['p0'].id, 'p0')
+
 
     def test_news_add(self):
         from easyblog.models import News
@@ -233,9 +244,15 @@ class FunctionalTests(unittest.TestCase):
         form['blogname'] = blogname
         return form.submit()
 
-    def _add_post(self, res, subject, text):
+    def _create_news(self, res, title, text):
         form = res.forms[0]
-        form['subject'] = subject
+        form['title'] = title
+        form['text'] = text
+        return form.submit()
+
+    def _add_post(self, res, title, text):
+        form = res.forms[0]
+        form['title'] = title
         form['text'] = text
         return form.submit()
 
@@ -323,6 +340,10 @@ class FunctionalTests(unittest.TestCase):
         res = self._login('admin', 'adminpw#')
         res = self.testapp.get('/users/second_member/edit', status=200)
         self.assertTrue('second_member' in res.body)
+   
+    # TODO: TEST IT
+    def test_password_change(self):
+        pass
 
     def test_logout_link_when_logged_in(self):
         res = self._login('member', 'memberpw#')
@@ -380,8 +401,9 @@ class FunctionalTests(unittest.TestCase):
         res = self._create_blog(res, 'My Blog')
         self.assertTrue('List of blogs' in res.body or
                         'should be redirected' in res.body)
-        res = self.testapp.get('/blogs/b0')
+        res = self.testapp.get('/blogs')
         self.assertTrue('My Blog' in res.body)
+        self.assertTrue('created by editor' in res.body)
 
     def test_blog_edit(self):
         # login as member and create a new blog
@@ -400,8 +422,7 @@ class FunctionalTests(unittest.TestCase):
         self.assertTrue('Edit My Blog' in res.body)
 
     def test_blog_add_post(self):
-        # login as member and create a new blog
-        res = self._login('admin', 'adminpw#')
+        res = self._login('editor', 'editorpw#')
         res = self.testapp.get('/blogs/create')
         self._create_blog(res, 'myblogi')
         res = self.testapp.get('/blogs/b0/add_post')
@@ -409,7 +430,11 @@ class FunctionalTests(unittest.TestCase):
                     'Here is some text for testing.')
         res = self.testapp.get('/blogs/b0')
         self.assertTrue('thisisasubject' in res.body)
-        self.assertTrue('admin wrote' in res.body)
+
+        
+        res = self.testapp.get('/blogs/b0/p0')
+        self.assertTrue('thisisasubject' in res.body)
+
 
         # Test single
         res = self.testapp.get('/blogs/b0/p0')
@@ -428,8 +453,9 @@ class FunctionalTests(unittest.TestCase):
                         'should be redirected' in res.body)
 
     def test_admin_view(self):
+        res = self._login('editor', 'editorpw#')
         res = self.testapp.get('/users/edit')
-        self.assertTrue('Login' in res.body and 'username' in res.body.lower())
+        self.assertTrue('review this content' in res.body and 'username' in res.body.lower())
 
         # Login as admin and go admin view
         res = self._login('admin', 'adminpw#')
@@ -453,10 +479,34 @@ class FunctionalTests(unittest.TestCase):
         res = self.testapp.get('/news')
         self.assertTrue('List of News' in res.body)
         
-    def test_news_add(self):
+    def test_news_create(self):
         res = self._login('editor', 'editorpw#')
         res = self.testapp.get('/news/create')
         self.assertTrue('Create a single news item' in res.body)
+        res = self._create_news(res, 'Title for our news', 
+                        'Here is some text for the news')
+        self.assertTrue('Title for our news' or
+                        'should be redirected' in res.body)
+
+    def test_news_widget(self):
+        self.test_news_create(self)
+        res = self.testapp.get('/blogs')
+        self.assertTrue('Title for our news' in res.body)
+
+
+    def test_blogs_view(self):
+        res = self.testapp.get('/blogs/')
+        self.assertTrue(u'List of blogs' in res.body)
+
+    
+    # TODO: Test spam bot protection by using a field which is hidden 
+    # in css 'display: none;'. Spam bot fills the field but users don't.
+    # Yes users can use firebug but so what, this covers most of the cases
+    def test_spam_bot_protection(self):
+        """docstring for test_spam_bot_protection"""
+        pass
+
+
         
 
         

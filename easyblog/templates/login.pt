@@ -4,7 +4,7 @@
       metal:use-macro="base">
   <tal:block  metal:fill-slot="content">
     <h1> Login </h1>
-    <div class="message"> 
+    <div tal:condition="message" class="message"> 
       ${message} 
     </div>
         ${form.begin(request.resource_url(request.root, '/login'))}

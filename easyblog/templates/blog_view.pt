@@ -6,8 +6,8 @@
     <p>${blogname}</p>
     <div class="blogpost" tal:repeat="post context">
       <p> ${posts[post].time()} 
-            ${posts[post].username} wrote  </p>
-      <p tal:content="context[post].subject"> Subject </p>
+            ${posts[post].owner} wrote  </p>
+      <p tal:content="context[post].title"> Subject </p>
       <p tal:content="context[post].text"> Text </p>
     </div>
     <hr size="1" />

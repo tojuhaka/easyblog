@@ -11,9 +11,9 @@
         ${form.begin(request.url)}
         ${form.csrf_token()}
         <div class="field">
-          ${form.label("subject")}
-          ${form.errorlist("subject")}
-          ${form.text("subject")}
+          ${form.label("title")}
+          ${form.errorlist("title")}
+          ${form.text("title")}
         </div>
         <div class="field">
           ${form.label("text")}
