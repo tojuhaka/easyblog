@@ -36,6 +36,8 @@ Small code-explanation:
         events goes here
     utilities.py 
         some tools we've created to support views and models
+    security.py 
+        contains security-related code like permission handling, password hashing etc
 
 Installation
 ------------
