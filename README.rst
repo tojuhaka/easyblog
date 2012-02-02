@@ -39,22 +39,22 @@ Small code-explanation:
 Installation
 ------------
 
-Just clone or use buildout configuration:
+Just clone or use buildout configuration::
 
-[buildout]
-eggs-directory = ${buildout:directory}/eggs
-parts = easyblog
+    [buildout]
+    eggs-directory = ${buildout:directory}/eggs
+    parts = easyblog
 
-extensions = mr.developer
-auto-checkout = easyblog
-sources = sources
+    extensions = mr.developer
+    auto-checkout = easyblog
+    sources = sources
 
-[sources]
-easyblog = git http://github.com/tojuhaka/easyblog.git
+    [sources]
+    easyblog = git http://github.com/tojuhaka/easyblog.git
 
-[easyblog]
-recipe = zc.recipe.egg
-eggs = easyblog
-entry-points = pserve=pyramid.scripts.pserve:main
+    [easyblog]
+    recipe = zc.recipe.egg
+    eggs = easyblog
+    entry-points = pserve=pyramid.scripts.pserve:main
 
 
