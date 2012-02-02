@@ -20,7 +20,15 @@ from pyramid.httpexceptions import HTTPForbidden
 from easyblog.config import msg
 from easyblog.interfaces import ISite, IComment
 
+from pyramid.view import render_view
+class Provider(object):
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
 
+    def __call__(self, name='', secure=True):
+        return render_view(self.context, self.request, name, secure)
+            
 class MainView(object):
     """ View for managing Main-object (root, frontpage) """
     def __init__(self, context, request):
@@ -35,6 +43,7 @@ class MainView(object):
         return {
             'project': 'easyblog',
             'logged_in': logged_in,
+            
         }
 
     @view_config(context=Main, renderer='templates/signup.pt', name='signup')
@@ -381,6 +390,8 @@ class UsersView(object):
 
 
 class NewsWidget(object):
+    """ Widget for news. It's shown in every page inside 
+    base template"""
     def __init__(self, context, request):
         self.context = context
         self.request = request
@@ -388,7 +399,18 @@ class NewsWidget(object):
     @view_config(context=ISite, name="news_widget",
             renderer='templates/news_widget.pt')
     def __call__(self):
-        return {'news_data': 'NEWS :DD'}
+        news = get_resource('news', self.request)
+        widget_news = []
+
+        for key in news.keys():
+            news_item = news[key]
+            widget_news.append({
+                'title': news_item.title,
+                'date': news_item.date(),
+                'url': resource_url(news_item, self.request)
+            })
+        return {'news': widget_news,
+                'test': 'NEWS :DD'}
 
 class NewsItem(object):
     def __init__(self, context, request):

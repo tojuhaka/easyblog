@@ -170,6 +170,7 @@ class BlogPost(Persistent):
 
 
 class NewsItem(Persistent):
+    implements(ISite)
     """ Contains all the information about
     one news item """
     def __acl__(self):
@@ -186,6 +187,14 @@ class NewsItem(Persistent):
         self.owners = [username]
         self.id = id
         self.timestamp = datetime.now()
+
+    def date(self):
+        return u"%s %s" % (self.timestamp.strftime("%x"),
+        self.timestamp.strftime("%X"))
+
+    def date_and_time(self):
+        return u"%s %s" % (self.timestamp.strftime("%x"),
+        self.timestamp.strftime("%X"))
 
 
 class News(PersistentMapping):

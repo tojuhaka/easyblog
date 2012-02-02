@@ -52,7 +52,7 @@
         <!--<span metal:use-macro="news_wdiget.macros['hello']" />-->
 
         <div class="sbitem">
-        <span tal:condition="provider" tal:replace="structure provider('news_widget')">
+        <span tal:condition="provider" tal:replace="structure provider('news_widget')" />
           <div class="sbihead">
             <h1 i18n:translate="news_label"> Latest News </h1>
           </div>

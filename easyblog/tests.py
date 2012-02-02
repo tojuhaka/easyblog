@@ -489,8 +489,8 @@ class FunctionalTests(unittest.TestCase):
                         'should be redirected' in res.body)
 
     def test_news_widget(self):
-        self.test_news_create(self)
-        res = self.testapp.get('/blogs')
+        self.test_news_create()
+        res = self.testapp.get('/')
         self.assertTrue('Title for our news' in res.body)
 
 

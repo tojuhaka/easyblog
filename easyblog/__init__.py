@@ -27,6 +27,8 @@ def main(global_config, **settings):
                           root_factory=root_factory, settings=settings,
                           authentication_policy=authn_policy,
                           authorization_policy=authz_policy)
+    config.add_settings(encoding="UTF-8")
+    config.add_settings(default_encoding="UTF-8")
     config.hook_zca()
     config.include(pyramid_zcml)
     config.load_zcml('configure.zcml')

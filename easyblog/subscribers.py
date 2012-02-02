@@ -1,7 +1,25 @@
 from pyramid.renderers import get_renderer
 from pyramid.interfaces import IBeforeRender
 from pyramid.events import subscriber
-from pyramid_viewgroup import Provider
+
+from pyramid.view import render_view
+
+
+class Provider(object):
+    """ Provides rendered pages inside other templates """
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
+
+    def __call__(self, name='', secure=True):
+        # Decode to utf8, else it's gonna throw UnicodeDecodeError
+        try:
+            return render_view(self.context, self.request, name, secure).decode("utf8")
+        except AttributeError:
+            #Handle none object
+            return None
+        return None
+
 
 @subscriber(IBeforeRender)
 def add_base_template(event):
