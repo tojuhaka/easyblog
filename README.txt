@@ -18,5 +18,22 @@ __init__.py - configuration for our project.
 subscribers.py - events goes here
 utilities.py - some tools we've created to support views and models
 
+buildout configuration for project:
+
+[buildout]
+eggs-directory = ${buildout:directory}/eggs
+parts = easyblog
+
+extensions = mr.developer
+auto-checkout = easyblog
+sources = sources
+
+[sources]
+easyblog = git http://github.com/tojuhaka/easyblog.git
+
+[easyblog]
+recipe = zc.recipe.egg
+eggs = easyblog
+entry-points = pserve=pyramid.scripts.pserve:main
 
 
