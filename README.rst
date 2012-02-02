@@ -13,8 +13,9 @@ EasyBlog uses ZODB and traversal. Main reason for that is my experience from Plo
 Layout is taken from freewebtemplates.com and is designed by Dcarter Design. So let's give them some credits for that. The layout is integrated to pyramid using compass (CSS-framework that uses SASS). 
 
 Products I've used for developing:
-- pyramid_simpleform 
-- compass
+    * pyramid_simpleform 
+    * compass
+
 
 Small code-explanation:
     models.py 
