@@ -72,7 +72,7 @@ class BlogAddPostSchema(BaseSchema):
 
 # Schema for adding post to blog
 class NewsCreateSchema(BaseSchema):
-    title = validators.MinLength(3, not_empty=True)
+    title = validators.MaxLength(60, not_empty=True)
     text = validators.MinLength(10, not_empty=True)
 
 

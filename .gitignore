@@ -1,4 +1,11 @@
+.coverage
+*.egg-nfo
+*.egg
 *.pyc
-*.fs
-*.fs.*
-*.sass-cache*
+*$py.class
+*.swp
+dist/
+env26/
+.tox/
+coverage.xml
+nosetests.xml
