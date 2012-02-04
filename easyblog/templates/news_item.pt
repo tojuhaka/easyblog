@@ -5,5 +5,6 @@
   <tal:block metal:fill-slot="content">
         <h1> ${title} </h1>
         <p> ${text} </p>
+        <span tal:condition="provider" tal:replace="structure provider('comments')" />
   </tal:block>
 </html>

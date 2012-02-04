@@ -137,102 +137,110 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 }
 
 /* Mixins for re-use */
-/* line 24, ../sass/colors.scss */
+/* line 24, /Users/tojuhaka/Dropbox/pyramid/easyblog/easyblog/static/sass/colors.scss */
 body {
   background: #6f7a86;
   color: #5a6370;
 }
 
-/* line 29, ../sass/colors.scss */
+/* line 29, /Users/tojuhaka/Dropbox/pyramid/easyblog/easyblog/static/sass/colors.scss */
 #main {
   background: white url('../images/back.png?1327415984') repeat-y;
   color: #5a6370;
 }
 
-/* line 34, ../sass/colors.scss */
+/* line 34, /Users/tojuhaka/Dropbox/pyramid/easyblog/easyblog/static/sass/colors.scss */
 #links, #footer, #footer {
   background: white url('../images/menu.png?1327413603');
   color: #d1d3d7;
   border-color: #d7d7d7;
   color: #d1d3d7;
 }
-/* line 37, ../sass/colors.scss */
+/* line 37, /Users/tojuhaka/Dropbox/pyramid/easyblog/easyblog/static/sass/colors.scss */
 #links a, #footer a, #footer a {
   background: transparent;
   color: #d1d3d7;
 }
 
-/* line 43, ../sass/colors.scss */
+/* line 43, /Users/tojuhaka/Dropbox/pyramid/easyblog/easyblog/static/sass/colors.scss */
 #logo {
   background: white url('../images/logo.jpg?1327435258') no-repeat;
   color: white;
 }
 
-/* line 48, ../sass/colors.scss */
+/* line 48, /Users/tojuhaka/Dropbox/pyramid/easyblog/easyblog/static/sass/colors.scss */
 #menu {
   background: white url('../images/menu.png?1327413603');
   color: #d1d3d7;
   border-color: #d7d7d7;
 }
-/* line 51, ../sass/colors.scss */
+/* line 51, /Users/tojuhaka/Dropbox/pyramid/easyblog/easyblog/static/sass/colors.scss */
 #menu li a {
   background: white url('../images/menu.png?1327413603');
   color: #d1d3d7;
   border-color: #d7d7d7;
   /* TODO: Add #selected with javascript */
 }
-/* line 54, ../sass/colors.scss */
+/* line 54, /Users/tojuhaka/Dropbox/pyramid/easyblog/easyblog/static/sass/colors.scss */
 #menu li a:hover {
   background: white url('../images/menu_hover.png?1327413626');
   color: #484E56;
 }
 
-/* line 63, ../sass/colors.scss */
+/* line 63, /Users/tojuhaka/Dropbox/pyramid/easyblog/easyblog/static/sass/colors.scss */
 #column1 h1 {
   background: transparent;
   color: #1775d5;
   border-color: #89A9C7;
 }
-/* line 69, ../sass/colors.scss */
+/* line 69, /Users/tojuhaka/Dropbox/pyramid/easyblog/easyblog/static/sass/colors.scss */
+#column1 h1 span.edit-content-bar a {
+  color: #1775d5;
+}
+/* line 71, /Users/tojuhaka/Dropbox/pyramid/easyblog/easyblog/static/sass/colors.scss */
+#column1 h1 span.edit-content-bar a:hover {
+  text-decoration: underline;
+}
+/* line 76, /Users/tojuhaka/Dropbox/pyramid/easyblog/easyblog/static/sass/colors.scss */
 #column1 a {
   background: transparent;
   color: #5a6370;
 }
 
-/* line 75, ../sass/colors.scss */
+/* line 82, /Users/tojuhaka/Dropbox/pyramid/easyblog/easyblog/static/sass/colors.scss */
 .sbitem {
   color: #d1d3d7;
 }
-/* line 77, ../sass/colors.scss */
+/* line 84, /Users/tojuhaka/Dropbox/pyramid/easyblog/easyblog/static/sass/colors.scss */
 .sbitem a {
   background: transparent;
   color: #d1d3d7;
 }
 
-/* line 83, ../sass/colors.scss */
+/* line 90, /Users/tojuhaka/Dropbox/pyramid/easyblog/easyblog/static/sass/colors.scss */
 .sbihead {
   background: white url('../images/sbi_header.png?1327514773');
   color: #484e56;
 }
-/* line 87, ../sass/colors.scss */
+/* line 94, /Users/tojuhaka/Dropbox/pyramid/easyblog/easyblog/static/sass/colors.scss */
 .sbihead h1 {
   background: transparent;
   color: #484e56;
 }
 
-/* line 95, ../sass/colors.scss */
+/* line 102, /Users/tojuhaka/Dropbox/pyramid/easyblog/easyblog/static/sass/colors.scss */
 .sbilinks li a {
   background: white url(link.png);
   color: #d1d3d7;
 }
-/* line 99, ../sass/colors.scss */
+/* line 106, /Users/tojuhaka/Dropbox/pyramid/easyblog/easyblog/static/sass/colors.scss */
 .sbilinks li a:hover {
   background: #B7B7B7;
   color: #1775D5;
 }
 
 /* form and input area */
-/* line 109, ../sass/colors.scss */
+/* line 116, /Users/tojuhaka/Dropbox/pyramid/easyblog/easyblog/static/sass/colors.scss */
 input, textarea {
   background: #FFFFFF;
   color: #5A6370;
@@ -240,13 +248,13 @@ input, textarea {
 }
 
 /* Errors and messsages */
-/* line 115, ../sass/colors.scss */
+/* line 122, /Users/tojuhaka/Dropbox/pyramid/easyblog/easyblog/static/sass/colors.scss */
 .error-input {
   padding: 1em;
   border: 1px solid red;
 }
 
-/* line 120, ../sass/colors.scss */
+/* line 127, /Users/tojuhaka/Dropbox/pyramid/easyblog/easyblog/static/sass/colors.scss */
 .message {
   background: #77afea;
   border: 1px solid #1775d5;
@@ -256,7 +264,7 @@ input, textarea {
 }
 
 /* Admin edit users view */
-/* line 131, ../sass/colors.scss */
+/* line 138, /Users/tojuhaka/Dropbox/pyramid/easyblog/easyblog/static/sass/colors.scss */
 #results table .odd {
   background: #f2f8fe;
 }
@@ -472,9 +480,20 @@ ol li {
   text-transform: uppercase;
   font-weight: normal;
 }
+/* line 201, ../sass/screen.scss */
+#column1 h1 span.edit-content-bar {
+  float: right;
+}
+/* line 204, ../sass/screen.scss */
+#column1 h1 span.edit-content-bar a {
+  text-transform: none;
+  text-decoration: none;
+  border: none;
+  font-size: 60%;
+}
 
 /* Column 2 - Sidebar */
-/* line 204, ../sass/screen.scss */
+/* line 216, ../sass/screen.scss */
 #column2 {
   width: 207px;
   float: right;
@@ -491,7 +510,7 @@ ol li {
   border-bottom: 1px solid;
 }
 
-/* line 211, ../sass/screen.scss */
+/* line 223, ../sass/screen.scss */
 .sbitem {
   text-align: left;
   width: 188px;
@@ -509,14 +528,14 @@ ol li {
   border-bottom: 1px solid;
 }
 
-/* line 219, ../sass/screen.scss */
+/* line 231, ../sass/screen.scss */
 .sbihead {
   height: 14px;
   width: 188px;
   padding: 5px 0px 5px 19px;
   text-transform: uppercase;
 }
-/* line 225, ../sass/screen.scss */
+/* line 237, ../sass/screen.scss */
 .sbihead h1 {
   padding: 0px;
   margin: 0px;
@@ -524,35 +543,35 @@ ol li {
   font-size: 112%;
 }
 
-/* line 233, ../sass/screen.scss */
+/* line 245, ../sass/screen.scss */
 .sbicontent {
   padding: 14px 8px 8px 19px;
 }
-/* line 236, ../sass/screen.scss */
+/* line 248, ../sass/screen.scss */
 .sbicontent p {
   line-height: 14px;
   padding: 0px 0px 8px 0px;
 }
-/* line 240, ../sass/screen.scss */
+/* line 252, ../sass/screen.scss */
 .sbicontent p a {
   margin-top: 4px;
 }
 
-/* line 246, ../sass/screen.scss */
+/* line 258, ../sass/screen.scss */
 .sblinks {
   padding: 0px;
 }
-/* line 249, ../sass/screen.scss */
+/* line 261, ../sass/screen.scss */
 .sblinks ul {
   margin: 0px auto;
 }
-/* line 253, ../sass/screen.scss */
+/* line 265, ../sass/screen.scss */
 .sblinks li {
   margin: 0px;
   float: left;
   list-style: none;
 }
-/* line 258, ../sass/screen.scss */
+/* line 270, ../sass/screen.scss */
 .sblinks li a, .sblinks li a:hover {
   float: left;
   height: 16px;
@@ -562,44 +581,44 @@ ol li {
   border: 0px;
 }
 
-/* line 269, ../sass/screen.scss */
+/* line 281, ../sass/screen.scss */
 div.newsitem {
   margin-bottom: 20px;
 }
 
-/* line 273, ../sass/screen.scss */
+/* line 285, ../sass/screen.scss */
 div.news-link {
   margin-bottom: 7px;
 }
 
 /* contact page - form layout */
-/* line 278, ../sass/screen.scss */
+/* line 290, ../sass/screen.scss */
 form {
   margin-top: 0px;
 }
 
-/* line 280, ../sass/screen.scss */
+/* line 292, ../sass/screen.scss */
 div.field {
   clear: both;
   width: 448px;
   margin-top: 5px;
 }
-/* line 284, ../sass/screen.scss */
+/* line 296, ../sass/screen.scss */
 div.field span.formlabel {
   display: block;
 }
-/* line 287, ../sass/screen.scss */
+/* line 299, ../sass/screen.scss */
 div.field span.forminput {
   display: block;
 }
 
-/* line 292, ../sass/screen.scss */
+/* line 304, ../sass/screen.scss */
 div.spacer {
   clear: both;
   width: 80px;
 }
 
-/* line 297, ../sass/screen.scss */
+/* line 309, ../sass/screen.scss */
 input, textarea {
   width: 259px;
   font-family: verdana, arial, sans-serif;
@@ -607,20 +626,20 @@ input, textarea {
   font-size: 100%;
 }
 
-/* line 305, ../sass/screen.scss */
+/* line 317, ../sass/screen.scss */
 .checkbox {
   width: 50px;
 }
 
 /* Errors and messsages */
-/* line 309, ../sass/screen.scss */
+/* line 321, ../sass/screen.scss */
 .error-input {
   max-width: 259px;
   padding: 1em;
   border: 1px solid red;
 }
 
-/* line 315, ../sass/screen.scss */
+/* line 327, ../sass/screen.scss */
 #submit {
   font-family: verdana, arial, sans-serif;
   border: 1px solid;
@@ -631,7 +650,7 @@ input, textarea {
 }
 
 /* Bottom of the page */
-/* line 324, ../sass/screen.scss */
+/* line 336, ../sass/screen.scss */
 #footer {
   text-align: center;
 }

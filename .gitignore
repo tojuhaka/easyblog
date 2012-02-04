@@ -1,7 +1,9 @@
 .coverage
+.sass-cache*
 *.egg-nfo
 *.egg
 *.pyc
+Data*
 *$py.class
 *.swp
 dist/

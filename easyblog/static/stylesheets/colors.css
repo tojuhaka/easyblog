@@ -125,45 +125,53 @@ body {
   border-color: #89A9C7;
 }
 /* line 69, ../sass/colors.scss */
+#column1 h1 span.edit-content-bar a {
+  color: #1775d5;
+}
+/* line 71, ../sass/colors.scss */
+#column1 h1 span.edit-content-bar a:hover {
+  text-decoration: underline;
+}
+/* line 76, ../sass/colors.scss */
 #column1 a {
   background: transparent;
   color: #5a6370;
 }
 
-/* line 75, ../sass/colors.scss */
+/* line 82, ../sass/colors.scss */
 .sbitem {
   color: #d1d3d7;
 }
-/* line 77, ../sass/colors.scss */
+/* line 84, ../sass/colors.scss */
 .sbitem a {
   background: transparent;
   color: #d1d3d7;
 }
 
-/* line 83, ../sass/colors.scss */
+/* line 90, ../sass/colors.scss */
 .sbihead {
   background: white url('../images/sbi_header.png?1327514773');
   color: #484e56;
 }
-/* line 87, ../sass/colors.scss */
+/* line 94, ../sass/colors.scss */
 .sbihead h1 {
   background: transparent;
   color: #484e56;
 }
 
-/* line 95, ../sass/colors.scss */
+/* line 102, ../sass/colors.scss */
 .sbilinks li a {
   background: white url(link.png);
   color: #d1d3d7;
 }
-/* line 99, ../sass/colors.scss */
+/* line 106, ../sass/colors.scss */
 .sbilinks li a:hover {
   background: #B7B7B7;
   color: #1775D5;
 }
 
 /* form and input area */
-/* line 109, ../sass/colors.scss */
+/* line 116, ../sass/colors.scss */
 input, textarea {
   background: #FFFFFF;
   color: #5A6370;
@@ -171,13 +179,13 @@ input, textarea {
 }
 
 /* Errors and messsages */
-/* line 115, ../sass/colors.scss */
+/* line 122, ../sass/colors.scss */
 .error-input {
   padding: 1em;
   border: 1px solid red;
 }
 
-/* line 120, ../sass/colors.scss */
+/* line 127, ../sass/colors.scss */
 .message {
   background: #77afea;
   border: 1px solid #1775d5;
@@ -187,7 +195,7 @@ input, textarea {
 }
 
 /* Admin edit users view */
-/* line 131, ../sass/colors.scss */
+/* line 138, ../sass/colors.scss */
 #results table .odd {
   background: #f2f8fe;
 }

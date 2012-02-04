@@ -493,24 +493,31 @@ class FunctionalTests(unittest.TestCase):
         # create link
         res = self._login('member', 'memberpw#')
         res = self.testapp.get('/news')
-        self.assertFalse('Create' in res.body)
+        self.assertFalse('Edit' in res.body)
     
         # Editor should see it
         res = self._login('editor', 'editorpw#')
         res = self.testapp.get('/news')
-        self.assertTrue('Create' in res.body)
+        self.assertTrue('Edit' in res.body)
 
     def test_blogs_create_link(self):
         # Login as member, there shouldn't be
         # create link
         res = self._login('member', 'memberpw#')
         res = self.testapp.get('/blogs')
-        self.assertFalse('Create' in res.body)
+        self.assertFalse('Edit' in res.body)
     
         # Editor should see it
         res = self._login('editor', 'editorpw#')
         res = self.testapp.get('/blogs')
-        self.assertTrue('Create' in res.body)
+        self.assertTrue('Edit' in res.body)
+
+    def test_news_edit_link(self):
+        # Login as member, there shouldn't be
+        # create link
+        res = self._login('editor', 'editorpw#')
+        res = self.testapp.get('/news/edit')
+        self.assertTrue('Edit news' in res.body)
 
     def test_news_widget(self):
         self.test_news_create()
@@ -521,6 +528,7 @@ class FunctionalTests(unittest.TestCase):
     def test_blogs_view(self):
         res = self.testapp.get('/blogs/')
         self.assertTrue(u'List of blogs' in res.body)
+
 
     
     # TODO: Test spam bot protection by using a field which is hidden 

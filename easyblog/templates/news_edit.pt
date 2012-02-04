@@ -3,7 +3,7 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       metal:use-macro="base">
   <tal:block metal:fill-slot="content">
-        <h1 i18n:translate="news_topic"> List of News 
+        <h1 i18n:translate="news_topic"> Edit news
           <span tal:condition="provider" tal:replace="structure provider('editbar')" />
         </h1>
         <div tal:repeat="news_item context">

@@ -10,7 +10,5 @@
       <p tal:content="context[post].title"> Subject </p>
       <p tal:content="context[post].text"> Text </p>
     </div>
-    <hr size="1" />
-    <span tal:condition="provider" tal:replace="structure provider('comments')">
   </tal:block>
 </html>

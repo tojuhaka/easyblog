@@ -197,6 +197,18 @@ ol li
     font-size: 150%;
     text-transform: uppercase;
     font-weight: normal;
+
+    span.edit-content-bar {
+        float: right;
+
+        a {
+            text-transform: none;
+            text-decoration: none; 
+            border: none;
+            font-size: 60%;
+        }
+    }
+
   }
 }
 

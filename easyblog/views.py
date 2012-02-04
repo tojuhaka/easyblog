@@ -18,7 +18,7 @@ from pyramid.httpexceptions import HTTPForbidden
 
 # Messages
 from easyblog.config import msg
-from easyblog.interfaces import ISite, IComment
+from easyblog.interfaces import ISite, IComment, IContainer
 
 from pyramid.security import has_permission
 
@@ -460,8 +460,45 @@ class NewsView(object):
             'form': FormRenderer(form)
         }
 
+    @view_config(context=News, name="edit",
+                renderer='templates/news_edit.pt', permission="edit_content")
+    def view_news_edit(self):
+        logged_in = authenticated_userid(self.request)
+        form = Form(self.request, schema=NewsCreateSchema,
+                    state=State(request=self.request))
+
+        if form.validate():
+            item_context = self.context.add(self.request.params['title'],
+                        self.request.params['text'], logged_in)
+            return HTTPFound(location=resource_url(item_context, self.request))
+
+        return {
+            'page': self.context,
+            'logged_in': logged_in,
+            'context_url': resource_url(self.context, self.request),
+            'resource_url': resource_url,
+            'form': FormRenderer(form)
+        }
+
+class EditBarView(object):
+    """ View for editbar in container objects """
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
+
+    @view_config(context=IContainer, name="editbar",
+            renderer='templates/container_editbar.pt')
+    def __call__(self):
+        return {
+            'edit_url': resource_url(self.context, self.request) + 'edit',
+            'create_url': resource_url(self.context, self.request) + 'create',
+            'has_permission': has_permission('edit_content',
+                            self.context, self.request)
+        }
+
 
 class CommentView(object):
+    """ View for comments """
     def __init__(self, context, request):
         self.context = context
         self.request = request

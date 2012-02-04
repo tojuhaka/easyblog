@@ -64,6 +64,13 @@ body {
     background: transparent;
     color: $column1-header-color;
     border-color: #89A9C7;
+
+    span.edit-content-bar {
+        a {
+            color: $column1-header-color;
+            &:hover {text-decoration: underline;}
+        }
+    }
   }
   
   a {

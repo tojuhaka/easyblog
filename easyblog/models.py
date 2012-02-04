@@ -6,7 +6,7 @@ from easyblog.security import pwd_context, salt, acl, group_names
 from datetime import datetime
 from pyramid.security import Allow
 
-from easyblog.interfaces import ISite, IComment
+from easyblog.interfaces import ISite, IComment, IContainer
 from zope.interface import implements
 
 
@@ -89,7 +89,7 @@ class Groups(PersistentMapping):
 
 
 class Blogs(PersistentMapping):
-    implements(ISite)
+    implements(ISite, IContainer)
     """ Blog mapper which contains all the logs """
 
     def __init__(self):
@@ -166,7 +166,7 @@ class BlogPost(Persistent):
 
 
 class NewsItem(Persistent):
-    implements(ISite)
+    implements(ISite, IComment)
     """ Contains all the information about
     one news item """
     def __acl__(self):
@@ -183,6 +183,7 @@ class NewsItem(Persistent):
         self.owners = [username]
         self.id = id
         self.timestamp = datetime.now()
+        self.comments = "COMMENTS FROM NEWSITEM"
 
     def date(self):
         return u"%s" % (self.timestamp.strftime("%x"))
@@ -194,7 +195,7 @@ class NewsItem(Persistent):
 
 class News(PersistentMapping):
     """ Contains all the news items """
-    implements(ISite)
+    implements(ISite, IContainer)
 
     def __init__(self):
         super(PersistentMapping, self).__init__()
@@ -220,6 +221,10 @@ class News(PersistentMapping):
     def items_by_owner(self, owner):
         """ Return list of all the items created by owner """
         return [item for item in self.keys() if owner in self[item].owners]
+
+    def remove(self, id):
+       return self.pop(id)
+       
 
 
 def appmaker(zodb_root):
