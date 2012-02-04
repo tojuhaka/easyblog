@@ -23,16 +23,13 @@ class Users(PersistentMapping):
     implements(ISite)
     """ Contains all the users """
 
-    def _generate_id(self):
-        return len(self.keys()) + 1
-
     def has_user(self, username):
         if username in self.keys():
             return True
         return False
 
     def add(self, username, password, email):
-        user = User(username, password, email, self._generate_id())
+        user = User(username, password, email)
         user.__name__ = username
         user.__parent__ = self
         self[user.username] = user
@@ -47,10 +44,9 @@ class User(Persistent):
                 (Allow, group_names['admin'], 'edit_user')]
         return acls
 
-    def __init__(self, username, password, email, id):
+    def __init__(self, username, password, email):
         self.username = username
         self.password = pwd_context.encrypt(password + salt)
-        self.id = id
         self.email = email
 
     def edit(self, password, email):
@@ -189,8 +185,7 @@ class NewsItem(Persistent):
         self.timestamp = datetime.now()
 
     def date(self):
-        return u"%s %s" % (self.timestamp.strftime("%x"),
-        self.timestamp.strftime("%X"))
+        return u"%s" % (self.timestamp.strftime("%x"))
 
     def date_and_time(self):
         return u"%s %s" % (self.timestamp.strftime("%x"),

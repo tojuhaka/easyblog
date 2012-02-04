@@ -47,31 +47,7 @@
 
 
       <div id="column2">
-
-        <!--<div id="news_widget" tal:condition="comments"> Comments here  Comments here </div>-->
-        <!--<span metal:use-macro="news_wdiget.macros['hello']" />-->
-
-        <div class="sbitem">
         <span tal:condition="provider" tal:replace="structure provider('news_widget')" />
-          <div class="sbihead">
-            <h1 i18n:translate="news_label"> Latest News </h1>
-          </div>
-          <div class="sbicontent">
-
-             <div class="newsitem">
-               <h2> 01.01.2012 </h2>
-               <p>This is where you can put your latest news.</p>
-               <p><a href="#">read more ...</a></p>
-             </div>
-
-             <div class="newsitem">
-               <h2> 01.01.2012 </h2>
-               <p>This is where you can put your latest news.</p>
-               <p><a href="#">read more ...</a></p>
-             </div>
-
-          </div> <!-- sbicontent -->
-        </div><!-- sbitem -->
       </div><!-- column2 -->
     </div> <!-- wrapper -->
     <div id="footer">

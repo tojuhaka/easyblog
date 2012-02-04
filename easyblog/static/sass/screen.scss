@@ -236,6 +236,10 @@ ol li
   p {
     line-height: 14px; 
     padding: 0px 0px 8px 0px;
+    
+    a {
+        margin-top: 4px;
+    }
   }
 }
 
@@ -260,6 +264,14 @@ ol li
       border: 0px;
     }
   }
+}
+
+div.newsitem {
+    margin-bottom: 20px;
+}
+
+div.news-link {
+    margin-bottom: 7px;
 }
 
 /* contact page - form layout */

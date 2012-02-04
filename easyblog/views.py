@@ -20,15 +20,9 @@ from pyramid.httpexceptions import HTTPForbidden
 from easyblog.config import msg
 from easyblog.interfaces import ISite, IComment
 
-from pyramid.view import render_view
-class Provider(object):
-    def __init__(self, context, request):
-        self.context = context
-        self.request = request
+from pyramid.security import has_permission
 
-    def __call__(self, name='', secure=True):
-        return render_view(self.context, self.request, name, secure)
-            
+
 class MainView(object):
     """ View for managing Main-object (root, frontpage) """
     def __init__(self, context, request):
@@ -43,7 +37,7 @@ class MainView(object):
         return {
             'project': 'easyblog',
             'logged_in': logged_in,
-            
+
         }
 
     @view_config(context=Main, renderer='templates/signup.pt', name='signup')
@@ -186,7 +180,7 @@ class BlogPost(object):
     def __init__(self, context, request):
         self.context = context
         self.request = request
-    
+
     @view_config(context=BlogPost,
                  renderer='templates/blogpost.pt')
     def __call__(self):
@@ -284,7 +278,7 @@ class BlogsView(object):
 
     @view_config(context=Blogs,
                  renderer='templates/blogs_view.pt')
-    def view_blogs(self):
+    def __call__(self):
         """ View for all the blogs """
 
         logged_in = authenticated_userid(self.request)
@@ -292,7 +286,9 @@ class BlogsView(object):
             'page': self.context,
             'logged_in': logged_in,
             'context_url': resource_url(self.context, self.request),
-            'resource_url': resource_url
+            'resource_url': resource_url,
+            'has_permission': has_permission('edit_content',
+                            self.context, self.request)
         }
 
     @view_config(context=Blogs, renderer='templates/blog_create.pt',
@@ -390,7 +386,7 @@ class UsersView(object):
 
 
 class NewsWidget(object):
-    """ Widget for news. It's shown in every page inside 
+    """ Widget for news. It's shown in every page inside
     base template"""
     def __init__(self, context, request):
         self.context = context
@@ -409,8 +405,8 @@ class NewsWidget(object):
                 'date': news_item.date(),
                 'url': resource_url(news_item, self.request)
             })
-        return {'news': widget_news,
-                'test': 'NEWS :DD'}
+        return {'news': widget_news }
+
 
 class NewsItem(object):
     def __init__(self, context, request):
@@ -440,9 +436,12 @@ class NewsView(object):
             'page': self.context,
             'logged_in': logged_in,
             'resource_url': resource_url,
+            'has_permission': has_permission('edit_content',
+                            self.context, self.request)
         }
 
-    @view_config(context=News, name="create", renderer='templates/news_create.pt', permission="edit_content")
+    @view_config(context=News, name="create",
+                renderer='templates/news_create.pt', permission="edit_content")
     def view_news_create(self):
         logged_in = authenticated_userid(self.request)
         form = Form(self.request, schema=NewsCreateSchema,

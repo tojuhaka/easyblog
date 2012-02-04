@@ -118,7 +118,7 @@ class ModelTests(unittest.TestCase):
 
     def test_password_validation(self):
         from easyblog.models import User
-        user = User('user', 'password', 'user@user.com', 1234)
+        user = User('user', 'password', 'user@user.com')
         self.assertNotEquals('password', user.password)
         self.assertEquals(True, user.validate_password('password'))
         self.assertEquals(False, user.validate_password('PaSsword'))
@@ -133,7 +133,7 @@ class ModelTests(unittest.TestCase):
 
     def test_user_edit(self):
         from easyblog.models import User
-        user = User('user', 'password', 'user@user.com', 1234)
+        user = User('user', 'password', 'user@user.com')
         tmp_pw = user.password
         user.edit('password2', 'user@user.com')
         self.assertNotEquals('password2', user.password)
@@ -487,6 +487,30 @@ class FunctionalTests(unittest.TestCase):
                         'Here is some text for the news')
         self.assertTrue('Title for our news' or
                         'should be redirected' in res.body)
+
+    def test_news_create_link(self):
+        # Login as member, there shouldn't be
+        # create link
+        res = self._login('member', 'memberpw#')
+        res = self.testapp.get('/news')
+        self.assertFalse('Create' in res.body)
+    
+        # Editor should see it
+        res = self._login('editor', 'editorpw#')
+        res = self.testapp.get('/news')
+        self.assertTrue('Create' in res.body)
+
+    def test_blogs_create_link(self):
+        # Login as member, there shouldn't be
+        # create link
+        res = self._login('member', 'memberpw#')
+        res = self.testapp.get('/blogs')
+        self.assertFalse('Create' in res.body)
+    
+        # Editor should see it
+        res = self._login('editor', 'editorpw#')
+        res = self.testapp.get('/blogs')
+        self.assertTrue('Create' in res.body)
 
     def test_news_widget(self):
         self.test_news_create()

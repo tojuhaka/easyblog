@@ -3,7 +3,11 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       metal:use-macro="base">
   <tal:block metal:fill-slot="content">
-        <h1 i18n:translate="blogs_topic"> List of blogs </h1>
+        <h1 i18n:translate="blogs_topic"> List of blogs 
+          <a i18n:translate="create_link" tal:condition="has_permission" href="create">
+            Create
+          </a>
+        </h1>
         <div tal:repeat="blog context">
             <p><a tal:content="context[blog].name" 
                tal:attributes="href resource_url(context[blog], request)">

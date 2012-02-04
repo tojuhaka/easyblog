@@ -10,14 +10,14 @@
         ${form.begin(request.url)}
         ${form.csrf_token()}
         <div class="field">
-          ${form.label("new_password")}
+          <span class="formlabel">${form.label("new_password")} </span>
           ${form.errorlist("new_password")}
-          ${form.password("new_password")}
+          <span class="forminput">${form.password("new_password")}</span>
         </div>
         <div class="field">
-          ${form.label("new_password_confirm")}
+          <span class="formlabel">${form.label("new_password_confirm")}</span>
           ${form.errorlist("new_password_confirm")}
-          ${form.password("new_password_confirm")}
+          <span class="input">${form.password("new_password_confirm")}</span>
         </div>
         <div class="field">
           ${form.label("email")}
