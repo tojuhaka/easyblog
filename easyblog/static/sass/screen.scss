@@ -287,7 +287,12 @@ div.news-link {
 }
 
 /* contact page - form layout */
-form{margin-top: 0px;}
+form{
+    margin-top: 0px;
+    div.buttons {
+        margin-top: 10px;
+    }
+}
 
 div.field { 
   clear: both;
@@ -323,6 +328,7 @@ input, textarea {
   padding: 1em;
   border: 1px solid red;
 }
+
 
 #submit {
   font-family: verdana, arial, sans-serif;
