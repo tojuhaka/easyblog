@@ -519,6 +519,18 @@ class FunctionalTests(unittest.TestCase):
         res = self.testapp.get('/news/edit')
         self.assertTrue('Edit news' in res.body)
 
+    def test_news_remove_news(self):
+        self.test_news_create()
+        res = self.testapp.get('/news/create')
+        res = self._create_news(res, 'Title for another news', 
+                        'Here is some text for the news')
+        res = self.testapp.get('/news/edit')
+        form = res.forms[0]
+        form.set('checkbox-n0', True, 0)
+        res = form.submit()
+        self.assertFalse('Title for our news' in res.body)
+
+
     def test_news_widget(self):
         self.test_news_create()
         res = self.testapp.get('/')

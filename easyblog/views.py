@@ -464,13 +464,20 @@ class NewsView(object):
                 renderer='templates/news_edit.pt', permission="edit_content")
     def view_news_edit(self):
         logged_in = authenticated_userid(self.request)
-        form = Form(self.request, schema=NewsCreateSchema,
+        form = Form(self.request, schema=BaseSchema,
                     state=State(request=self.request))
 
         if form.validate():
-            item_context = self.context.add(self.request.params['title'],
-                        self.request.params['text'], logged_in)
-            return HTTPFound(location=resource_url(item_context, self.request))
+            # Filter checkbox-parameters from request
+            cbs = [p for p in self.request.params.keys()
+                            if u'checkbox' in p]
+
+            # check all the checkbox-parameters and
+            # parse them
+            for cb in cbs:
+                item = self.request.params[cb]
+                self.context.remove(item)
+            return HTTPFound(location=resource_url(self.context, self.request))
 
         return {
             'page': self.context,
