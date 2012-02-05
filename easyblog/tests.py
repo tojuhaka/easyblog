@@ -79,7 +79,7 @@ class ViewTests(unittest.TestCase):
         from easyblog.views import UsersView
         from easyblog.security import group_names
         request = self.get_csrf_request(post={
-            u'submit': u'Save',
+            u'save': u'Save',
             u'search': u'adm',
             u'checkbox:admin': group_names['admin'],
             u'checkbox:admin': group_names['member']
@@ -157,10 +157,19 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(len(groups[u'member']), 3)
 
     def test_has_blogname(self):
-        from easyblog.models import Blogs
+        from .models import Blogs
         blogs = Blogs()
         blogs.add(u'test test', u'admin')
         self.assertTrue(blogs.has_blog(u'test test'))
+        self.assertFalse(blogs.has_blog(u'afsdfas'))
+
+    def test_groups_flusj(self):
+        from .models import Groups
+        groups = Groups()
+        groups.add(u'member', u'members:group')
+        groups.flush(u'member')
+        self.assertTrue(groups[u'member'] == [])
+
 
     def test_blog_timestamp(self):
         from easyblog.models import Blog
@@ -169,7 +178,7 @@ class ModelTests(unittest.TestCase):
         for key in blog:
             self.assertTrue(blog[key].timestamp != "")
 
-    def test_blogpost_add(self):
+    def test_blogpost_create(self):
         from easyblog.models import Blog
         blog = Blog(u'My Blog', u'member', 1)
         blog.add(u'subject', u'here is some text', 'member')
@@ -250,11 +259,31 @@ class FunctionalTests(unittest.TestCase):
         form['text'] = text
         return form.submit()
 
-    def _add_post(self, res, title, text):
+    def _create_post(self, res, title, text):
         form = res.forms[0]
         form['title'] = title
         form['text'] = text
         return form.submit()
+
+    def _search_user(self, res, user):
+        form = res.forms[0]
+        form['search'] = user
+        return form.submit("submit")
+
+    def _create_second_editor(self):
+        self._signup('editor2', 'editor2pw#',
+                    'editor2pw#', 'editor2@editor.com')
+        
+        # Make second editor 
+        res = self._login('admin', 'adminpw#')
+        res = self.testapp.get('/users/edit')
+        res = self._search_user(res, 'editor2')
+        
+        # fill remove editor permission 
+        form = res.forms[0]
+        form.set('checkbox-editor:editor2', True)
+        res = form.submit("save")
+        self.testapp.get('/logout')
 
 
     def setUp(self):
@@ -273,6 +302,7 @@ class FunctionalTests(unittest.TestCase):
         self.db = app.registry.zodb_database
         from webtest import TestApp
         self.testapp = TestApp(app)
+
 
         # init two test users, admin is already defined
         self._signup('member', 'memberpw#', 'memberpw#', 'member@member.com')
@@ -421,23 +451,41 @@ class FunctionalTests(unittest.TestCase):
         res = self.testapp.get(urllib.quote('/blogs/b0/edit'))
         self.assertTrue('Edit My Blog' in res.body)
 
-    def test_blog_add_post(self):
+    def test_blogpost_edit(self):
+        self.test_blogpost_create()
+        res = self.testapp.get('/blogs/b0/p0/edit')
+        self.assertTrue('thisisasubject' in res.body)
+
+    def test_blogpost_edit_link(self):
+        self.test_blogpost_create()
+        res = self.testapp.get('/blogs/b0/p0')
+        self.assertTrue('Edit' in res.body)
+
+    def test_blogpost_create(self):
         res = self._login('editor', 'editorpw#')
         res = self.testapp.get('/blogs/create')
         self._create_blog(res, 'myblogi')
-        res = self.testapp.get('/blogs/b0/add_post')
-        self._add_post(res, u'thisisasubject',
+        res = self.testapp.get('/blogs/b0/create')
+        self._create_post(res, u'thisisasubject',
                     'Here is some text for testing.')
         res = self.testapp.get('/blogs/b0')
         self.assertTrue('thisisasubject' in res.body)
 
-        
         res = self.testapp.get('/blogs/b0/p0')
         self.assertTrue('thisisasubject' in res.body)
+        self.assertTrue('Edit' in res.body)
 
+    def test_blogpost_edit_permission(self):
+        self.test_blogpost_create()
+        self._create_second_editor()
+        self._login(u'editor2', u'editor2pw#')
+        res = self.testapp.get('/blogs/create')
+        self.assertTrue('Create Blog' in res.body)
 
-        # Test single
-        res = self.testapp.get('/blogs/b0/p0')
+    def test_blogpost_owner(self):
+        self.test_blogpost_edit_permission()
+        res = self.testapp.get('/blogs/b0/p0/')
+        self.assertFalse('Edit' in res.body)
 
     def test_blog_remove(self):
         # Login as admin and create blog
@@ -452,6 +500,10 @@ class FunctionalTests(unittest.TestCase):
         self.assertTrue('List of blogs' in res.body or
                         'should be redirected' in res.body)
 
+    def test_newsitem_edit(self):
+        pass
+
+
     def test_admin_view(self):
         res = self._login('editor', 'editorpw#')
         res = self.testapp.get('/users/edit')
@@ -461,6 +513,20 @@ class FunctionalTests(unittest.TestCase):
         res = self._login('admin', 'adminpw#')
         res = self.testapp.get('/users/edit')
         self.assertTrue('Edit users' in res.body)
+
+    def test_users_edit_permission_change(self):
+        res = self._login('admin', 'adminpw#')
+        res = self.testapp.get('/users/edit')
+        res = self._search_user(res, 'editor')
+
+        # fill remove editor permission 
+        form = res.forms[0]
+        form.set('checkbox-editor:editor', False, 0)
+        res = form.submit("save")
+        self._login('editor', 'editorpw#')
+        res = self.testapp.get('/blogs/create')
+        self.assertTrue('Username' in res.body)
+
 
     def test_users_edit(self):
         # login as admin
@@ -487,6 +553,11 @@ class FunctionalTests(unittest.TestCase):
                         'Here is some text for the news')
         self.assertTrue('Title for our news' or
                         'should be redirected' in res.body)
+
+    def test_newsitem_edit_link(self):
+        self.test_news_create()
+        res = self.testapp.get('/news/n0/')
+        self.assertTrue('Edit' in res.body)
 
     def test_news_create_link(self):
         # Login as member, there shouldn't be
@@ -530,12 +601,10 @@ class FunctionalTests(unittest.TestCase):
         res = form.submit()
         self.assertFalse('Title for our news' in res.body)
 
-
     def test_news_widget(self):
         self.test_news_create()
         res = self.testapp.get('/')
         self.assertTrue('Title for our news' in res.body)
-
 
     def test_blogs_view(self):
         res = self.testapp.get('/blogs/')

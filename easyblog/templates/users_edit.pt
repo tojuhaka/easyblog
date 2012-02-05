@@ -42,6 +42,7 @@
         </thead>
           <tbody>
             <tal:block repeat="user search_results">
+                ${form.hidden("user", value=user.username)}
                 <tr tal:define="odd repeat.user.odd"
                     tal:attributes="class python: odd and 'odd' or 'even'">
               <!-- <tr tal:repeat="user search_results" > -->
@@ -57,7 +58,7 @@
           </tbody>
         </table>
       <div class="buttons">
-        <span class="forminput">${form.submit("submit", "Save")}</span>
+        <span class="forminput">${form.submit("save", "Save")}</span>
       </div>
       </div>
     ${form.end()}

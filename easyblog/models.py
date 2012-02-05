@@ -6,7 +6,7 @@ from easyblog.security import pwd_context, salt, acl, group_names
 from datetime import datetime
 from pyramid.security import Allow
 
-from easyblog.interfaces import ISite, IComment, IContainer
+from easyblog.interfaces import ISite, IComment, IContainer, IContent
 from zope.interface import implements
 
 
@@ -40,8 +40,7 @@ class User(Persistent):
 
     @property
     def __acl__(self):
-        acls = [(Allow, 'u:%s' % self.username, 'edit_user'),
-                (Allow, group_names['admin'], 'edit_user')]
+        acls = [(Allow, 'u:%s' % self.username, 'edit_content')]
         return acls
 
     def __init__(self, username, password, email):
@@ -119,9 +118,7 @@ class Blog(PersistentMapping):
 
     @property
     def __acl__(self):
-        acls = [(Allow, 'u:%s' % self.owner, 'edit_blog')]
-        acls.append((Allow, group_names['admin'], 'edit_blog'))
-        acls.append((Allow, group_names['editor'], 'edit_blog'))
+        acls = [(Allow, 'u:%s' % self.owner, 'edit_content')]
         return acls
 
     def __init__(self, name, owner, id):
@@ -144,12 +141,11 @@ class Blog(PersistentMapping):
 # Single post. Blog page contains multiple Blog posts.
 class BlogPost(Persistent):
     """ Single post inside blog """
-    implements(ISite, IComment)
+    implements(ISite, IComment, IContent)
 
     @property
     def __acl__(self):
-        acls = [(Allow, 'u:%s' % self.owner, 'edit_blog')]
-        acls.append((Allow, group_names['admin'], 'edit_blog'))
+        acls = [(Allow, 'u:%s' % self.owner, 'edit_content')]
         return acls
 
     def __init__(self, title, text, owner, id):
@@ -166,13 +162,13 @@ class BlogPost(Persistent):
 
 
 class NewsItem(Persistent):
-    implements(ISite, IComment)
     """ Contains all the information about
     one news item """
+    implements(ISite, IComment, IContent)
+
     def __acl__(self):
-        acls = [(Allow, 'u:%s' % o, 'edit_news') for o in self.owners]
-        acls.append((Allow, group_names['admin'], 'edit_news'))
-        acls.append((Allow, group_names['editor'], 'edit_news'))
+        acls = [(Allow, 'u:%s' % self.username, 'edit_content'),
+                (Allow, group_names['editor'], 'edit_content')]
         return acls
 
     def __init__(self, title, text, username, id):
@@ -180,7 +176,7 @@ class NewsItem(Persistent):
         self.title = title
         self.text = text
 
-        self.owners = [username]
+        self.owner = username
         self.id = id
         self.timestamp = datetime.now()
         self.comments = "COMMENTS FROM NEWSITEM"
@@ -220,7 +216,7 @@ class News(PersistentMapping):
 
     def items_by_owner(self, owner):
         """ Return list of all the items created by owner """
-        return [item for item in self.keys() if owner in self[item].owners]
+        return [item for item in self.keys() if owner == self[item].owner]
 
     def remove(self, id):
        return self.pop(id)
@@ -251,6 +247,9 @@ def appmaker(zodb_root):
         users.add('editor', 'editorpw#', 'editor@editor.com')
         groups.add('admin', group_names['admin'])
         groups.add('editor', group_names['editor'])
+        # TODO: automate 'u:user' group so we don't have to
+        # put it manually
+        groups.add('editor', u'u:editor')
 
         zodb_root['app_root'] = app_root
         import transaction

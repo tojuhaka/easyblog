@@ -3,7 +3,7 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       metal:use-macro="base">
   <tal:block  metal:fill-slot="content">
-        <h2>${username}</h2>
+        <h1>${username}</h1>
         <div class="message">
           <p> ${message} </p>
         </div>

@@ -6,6 +6,9 @@ class IComment(Interface):
 class IContainer(Interface):
     """ Mark the object as container.  """
 
+class IContent(Interface):
+    """ Mark the object as container.  """
+
 class ISite(Interface):
     """ Marker interface. All the site objects must implement
     this interaface."""

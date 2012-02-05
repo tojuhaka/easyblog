@@ -3,22 +3,22 @@ from pyramid.view import view_config
 from pyramid.url import resource_url
 from pyramid.security import authenticated_userid
 from pyramid.security import remember, forget
-from easyblog.schemas import SignUpSchema, LoginSchema
-from easyblog.schemas import UserEditSchema, BlogCreateSchema
-from easyblog.schemas import BlogAddPostSchema, BaseSchema
-from easyblog.schemas import UsersEditSchema, NewsCreateSchema
-from easyblog.security import group_names
-from easyblog.models import Main, User, Blog, Blogs
-from easyblog.models import Users, News, BlogPost, NewsItem
-from easyblog.security import groupfinder
-from easyblog.utilities import get_resource
+from .schemas import SignUpSchema, LoginSchema
+from .schemas import UserEditSchema, BlogCreateSchema
+from .schemas import BlogPostSchema, BaseSchema
+from .schemas import UsersEditSchema, NewsCreateSchema
+from .security import group_names
+from .models import Main, User, Blog, Blogs
+from .models import Users, News, BlogPost, NewsItem
+from .security import groupfinder
+from .utilities import get_resource
 from pyramid_simpleform.renderers import FormRenderer
 from pyramid_simpleform import Form, State
 from pyramid.httpexceptions import HTTPForbidden
 
 # Messages
-from easyblog.config import msg
-from easyblog.interfaces import ISite, IComment, IContainer
+from .config import msg
+from .interfaces import ISite, IComment, IContainer, IContent
 
 from pyramid.security import has_permission
 
@@ -35,7 +35,7 @@ class MainView(object):
         """ FrontPage """
         logged_in = authenticated_userid(self.request)
         return {
-            'project': 'easyblog',
+            'project': '',
             'logged_in': logged_in,
 
         }
@@ -134,19 +134,19 @@ class UserView(object):
         self.context = context
         self.request = request
 
-    @view_config(context=User, renderer='easyblog:templates/user_view.pt')
+    @view_config(context=User, renderer='templates/user_view.pt')
     def view_user(self):
         """ Main view for user """
 
         logged_in = authenticated_userid(self.request)
         return {
-            'project': 'easyblog',
+            'project': '',
             'username': self.context.username,
             'logged_in': logged_in,
         }
 
     @view_config(name='edit', context=User, renderer='templates/user_edit.pt',
-        permission='edit_user')
+        permission='edit_content')
     def view_user_edit(self):
         """ View for editing a single user """
 
@@ -167,7 +167,7 @@ class UserView(object):
                 message = msg['password_invalid']
         return {
             'message': message,
-            'project': 'easyblog',
+            'project': '',
             'username': self.context.username,
             'logged_in': logged_in,
             'form': FormRenderer(form),
@@ -185,12 +185,34 @@ class BlogPost(object):
                  renderer='templates/blogpost.pt')
     def __call__(self):
         logged_in = authenticated_userid(self.request)
-        from pyramid_viewgroup import Provider
         return {
             'logged_in': logged_in,
             'title': self.context.title,
             'text': self.context.text,
-            'provider': Provider(self.context, self.request)
+        }
+
+    @view_config(context=BlogPost,
+                 renderer='templates/blogpost_edit.pt', name="edit",
+                 permission='edit_content')
+    def view_blogpost_edit(self):
+        logged_in = authenticated_userid(self.request)
+        form = Form(self.request, schema=BlogPostSchema,
+                    state=State(request=self.request))
+        message = ""
+        if form.validate():
+            message = msg['saved']
+            title = self.request.params[u'title']
+            text = self.request.params[u'text']
+            self.context.title = title
+            self.context.text = text
+
+        return {
+            'message': message,
+            'project': '',
+            'title': self.context.title,
+            'text': self.context.text,
+            'logged_in': logged_in,
+            'form': FormRenderer(form),
         }
 
 
@@ -213,7 +235,7 @@ class BlogView(object):
         }
 
     @view_config(context=Blog, renderer='templates/blog_edit.pt',
-                 permission='edit_blog', name='edit')
+                 permission='edit_content', name='edit')
     def view_blog_edit(self):
         logged_in = authenticated_userid(self.request)
         message = "Edit %s" % self.context.name
@@ -224,11 +246,12 @@ class BlogView(object):
             'message': message
         }
 
-    @view_config(context=Blog, renderer='templates/blog_add_post.pt',
-                 permission='edit_blog', name='add_post')
+    @view_config(context=Blog, renderer='templates/blog_create_post.pt',
+                 permission='edit_content', name='create')
+    #TODO: rename add_post to create
     def view_blog_add_post(self):
         logged_in = authenticated_userid(self.request)
-        form = Form(self.request, schema=BlogAddPostSchema,
+        form = Form(self.request, schema=BlogPostSchema,
                     state=State(request=self.request))
         message = ""
 
@@ -248,7 +271,7 @@ class BlogView(object):
         }
 
     @view_config(context=Blog, renderer='templates/blog_remove.pt',
-                 permission='edit_blog', name='remove')
+                 permission='edit_content', name='remove')
     def view_blog_remove(self):
         """ The Blog can be removed from this view """
 
@@ -287,12 +310,12 @@ class BlogsView(object):
             'logged_in': logged_in,
             'context_url': resource_url(self.context, self.request),
             'resource_url': resource_url,
-            'has_permission': has_permission('edit_content',
+            'has_permission': has_permission('edit_container',
                             self.context, self.request)
         }
 
     @view_config(context=Blogs, renderer='templates/blog_create.pt',
-                 permission='edit_content', name="create")
+                 permission='edit_container', name="create")
     def view_blog_create(self):
         """ View for creating a single blog """
         logged_in = authenticated_userid(self.request)
@@ -337,14 +360,17 @@ class UsersView(object):
 
             # Loop through all the users and create dict of groups
             for user in self.context:
-                if search in self.context[user].username:
+                if search.lower() in self.context[user].username.lower():
                     search_results.append(self.context[user])
 
-            if self.request.params['submit'] == 'Save':
+            if 'save' in self.request.params.keys() and \
+                    self.request.params['save'] == 'Save':
                 message = msg['saved']
                 # Filter checkbox-parameters from request
                 cbs = [p for p in self.request.params.keys()
                             if u'checkbox' in p]
+                users = [self.request.params[p] for p in self.request.params.keys()
+                            if u'user' == p]
 
                 # new policy for groups
                 updated = {}
@@ -358,8 +384,13 @@ class UsersView(object):
                     except KeyError:
                         updated[username] = []
                     updated[username] += [self.request.params[cb]]
-
+                
                 groups_tool = get_resource('groups', self.request)
+
+                # Init users as empty first, then update with checkbox-data
+                # TODO: add 'u:user' group?
+                for user in users:
+                    groups_tool.flush(user)
                 groups_tool.add_policy(updated)
 
         def has_group(group, user, request):
@@ -381,7 +412,6 @@ class UsersView(object):
             'sorted_gnames': sorted_gnames(),
             'result_count': len(search_results),
             'search_term': search
-
         }
 
 
@@ -436,12 +466,10 @@ class NewsView(object):
             'page': self.context,
             'logged_in': logged_in,
             'resource_url': resource_url,
-            'has_permission': has_permission('edit_content',
-                            self.context, self.request)
         }
 
     @view_config(context=News, name="create",
-                renderer='templates/news_create.pt', permission="edit_content")
+                renderer='templates/news_create.pt', permission="edit_container")
     def view_news_create(self):
         logged_in = authenticated_userid(self.request)
         form = Form(self.request, schema=NewsCreateSchema,
@@ -461,12 +489,12 @@ class NewsView(object):
         }
 
     @view_config(context=News, name="edit",
-                renderer='templates/news_edit.pt', permission="edit_content")
+                renderer='templates/news_edit.pt', permission="edit_container")
     def view_news_edit(self):
         logged_in = authenticated_userid(self.request)
         form = Form(self.request, schema=BaseSchema,
                     state=State(request=self.request))
-
+        message = ""
         if form.validate():
             # Filter checkbox-parameters from request
             cbs = [p for p in self.request.params.keys()
@@ -477,28 +505,42 @@ class NewsView(object):
             for cb in cbs:
                 item = self.request.params[cb]
                 self.context.remove(item)
-            return HTTPFound(location=resource_url(self.context, self.request))
+                message = msg['items_removed']
 
         return {
             'page': self.context,
             'logged_in': logged_in,
             'context_url': resource_url(self.context, self.request),
             'resource_url': resource_url,
-            'form': FormRenderer(form)
+            'form': FormRenderer(form),
+            'message': message
         }
 
+
 class EditBarView(object):
-    """ View for editbar in container objects """
+    """ View for editbars in container and 
+    content objects """
     def __init__(self, context, request):
         self.context = context
         self.request = request
 
     @view_config(context=IContainer, name="editbar",
             renderer='templates/container_editbar.pt')
-    def __call__(self):
+    def view_container_bar(self):
+        """ Bar for container """
         return {
             'edit_url': resource_url(self.context, self.request) + 'edit',
             'create_url': resource_url(self.context, self.request) + 'create',
+            'has_permission': has_permission('edit_container',
+                            self.context, self.request)
+        }
+
+    @view_config(context=IContent, name="editbar",
+            renderer='templates/content_editbar.pt')
+    def view_content_bar(self):
+        """ Bar for single content """
+        return {
+            'edit_url': resource_url(self.context, self.request) + 'edit',
             'has_permission': has_permission('edit_content',
                             self.context, self.request)
         }

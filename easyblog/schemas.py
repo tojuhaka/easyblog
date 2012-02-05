@@ -65,8 +65,8 @@ class UsersEditSchema(BaseSchema):
 class BlogCreateSchema(BaseSchema):
     blogname = validators.MinLength(6, not_empty=True)
 
-# Schema for adding post to blog
-class BlogAddPostSchema(BaseSchema):
+class BlogPostSchema(BaseSchema):
+    """ Schema for blogpost """
     title = validators.MinLength(3, not_empty=True)
     text = validators.MinLength(10, not_empty=True)
 

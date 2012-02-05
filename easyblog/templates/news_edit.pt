@@ -6,6 +6,9 @@
     <h1 i18n:translate="news_topic"> Edit news
       <span tal:condition="provider" tal:replace="structure provider('editbar')" />
     </h1>
+    <div tal:condition="message" class="message"> 
+      <span class="message_str"> ${message} </span> 
+    </div>
     ${form.begin(request.url)}
     ${form.csrf_token()}
     <table border=1>

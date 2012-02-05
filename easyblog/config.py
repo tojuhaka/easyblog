@@ -6,6 +6,7 @@ msg = {
     'succeed_add_user': u"Successfully added user",
     'succeed_news_create': u"Successfully created news item",
     'saved': u"Changes successfully saved",
-    'no_results': u'No search results'
+    'no_results': u'No search results',
+    'items_removed': u'Items successfully removed'
     }
 

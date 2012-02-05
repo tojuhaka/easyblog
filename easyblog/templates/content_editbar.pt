@@ -2,9 +2,6 @@
        xmlns:tal="http://xml.zope.org/namespaces/tal"
        xmlns:metal="http://xml.zope.org/namespaces/metal">
   <span class="edit-content-bar">
-    <a i18n:translate="create_news_link" tal:condition="has_permission" tal:attributes="href create_url">
-      New
-    </a>
     <a i18n:translate="edit_news_link" tal:condition="has_permission" tal:attributes="href edit_url">
       Edit
     </a>
