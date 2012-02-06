@@ -6,12 +6,12 @@
       xmlns:i18n="http://xml.zope.org/namespaces/i18n" >
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <link href="/static/stylesheets/screen.css" media="screen, projection" 
+  <link href="/static/bluespring/stylesheets/screen.css" media="screen, projection" 
         rel="stylesheet" type="text/css" />
-  <link href="/static/stylesheets/print.css" media="print" rel="stylesheet" 
+  <link href="/static/bluesprint/stylesheets/print.css" media="print" rel="stylesheet" 
         type="text/css" />
   <!--[if IE]>
-    <link href="/static/stylesheets/ie.css" media="screen, projection"
+    <link href="/static/bluespring/stylesheets/ie.css" media="screen, projection"
           rel="stylesheet" type="text/css" />
   <![endif]-->
   <title>EasyBlog 2000</title>

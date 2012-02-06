@@ -1,0 +1,348 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+
+@import "compass/reset";
+@import "colors";
+
+/* Default font */
+$font-family: verdana, arial, sans-serif;
+
+/* Mixins */
+@mixin auto-margin {
+  margin: {
+    left: auto; 
+    right: auto;
+  }
+}
+
+@mixin content-link {
+  a {
+    padding: 0px 0px 2px 0px;
+    text-decoration: none;
+    border-bottom: 1px dashed;
+    &:hover {
+      border-bottom: 1px solid;
+    }
+  }
+}
+
+/* Basic */
+html {
+  height: 100%;
+}
+
+body { 
+  padding: 0px;
+  margin: 0px;
+  font: {
+    size: .68em;
+    family: $font-family;
+  } 
+}
+
+p { 
+  margin: 0px;
+  padding: 0px 0px 16px 0px;
+  line-height: 1.7em;
+}
+
+h1 { 
+  font-family: arial, sans-serif;
+  letter-spacing: .1em;
+}
+
+h2 {
+  margin: 0px;
+  padding: 0px 0px 4px 0px;
+  font-size: 100%;
+}
+
+a { outline: none; }
+
+/* image positioning - left, right and center */
+.left { 
+  float: left; 
+  padding: 0px 8px 0px 0px;
+}
+
+.right { 
+  float: right; 
+  padding: 0px 0px 0px 8px;
+}
+
+.center { 
+  display: block;
+  text-align: center;
+  margin: 0 auto;
+}
+
+/* unordered list */
+ul
+{ margin: 8px 0px 0px 16px;
+  padding: 0px;
+}
+
+ul li
+{ list-style-type: square;
+  margin: 0px 0px 11px 0px; 
+  padding: 0px;
+}
+
+/* ordered list */
+ol
+{ margin: 8px 0px 0px 24px;
+  padding: 0px;
+}
+
+ol li
+{ margin: 0px 0px 11px 0px; 
+  padding: 0px;
+}
+
+/* Main sections */
+#main {
+  @include auto-margin;
+  width: 780px;
+}
+
+
+#links  { 
+  @include auto-margin;
+
+  a {
+    background: transparent;
+    text-decoration: none;
+    &:hover { text-decoration: underline; }
+    &:visited { color: $link-color }
+  }
+
+  padding: 10px 21px 0px 19px;
+  width: 720px;
+  height: 26px;
+  font-size: 94%;
+  text-transform: uppercase;
+  text-align: right;
+}
+
+#wrapper { 
+  @include auto-margin;
+  width: 760px;
+  height: auto;
+  padding: 0px;
+  overflow: hidden;
+} 
+
+#wrapper {
+  @include auto-margin;
+  width: 760px;
+  height: auto;
+  padding: 0px;
+  overflow: hidden;
+} 
+
+#logo {
+  @include auto-margin;
+  width: 760px;
+  height: 100px;
+  text-align: left;
+
+  h1 {
+    margin: 0px;
+    padding: 41px 0px 0px 19px;
+    font-size: 150%;
+    letter-spacing: .2em;
+
+  }
+}
+
+#menu {
+  @include auto-margin;
+  height: 38px;
+  width: 760px;
+
+  ul {
+    margin: 0px auto;
+  }
+
+  li {
+    float: left; 
+    margin: 0px; 
+    padding: 0px;
+  }
+
+  a {
+    display: block; 
+    float: left; 
+    height: 26px;
+    text-decoration: none; 
+    padding: 10px 19px 2px 19px;
+    text-transform: uppercase;
+  }
+}
+
+/* column 1 - Main content */
+#column1 { 
+  @include content-link;
+  text-align: justify;
+  width: 512px;
+  float: left;
+  padding: 12px 3px 15px 19px;
+
+  h1 {
+    padding: 6px 0px 4px 0px; 
+    margin: 0px 0px 12px 0px; 
+    border-bottom: 1px solid;
+    font-size: 150%;
+    text-transform: uppercase;
+    font-weight: normal;
+
+    span.edit-content-bar {
+        float: right;
+
+        a {
+            text-transform: none;
+            text-decoration: none; 
+            border: none;
+            font-size: 60%;
+        }
+    }
+
+  }
+}
+
+/* Column 2 - Sidebar */
+#column2 { 
+  @include content-link;
+  width: 207px;
+  float: right;
+  padding: 16px 0px 15px 0px;
+}
+
+.sbitem {
+  @include content-link;
+  text-align: left;
+  width: 188px;
+  float: left;
+  margin: 0px 0px 25px 0px;
+}
+
+.sbihead {
+  height: 14px;
+  width: 188px;
+  padding: 5px 0px 5px 19px;
+  text-transform: uppercase;
+  
+  h1 { 
+    padding: 0px; 
+    margin: 0px; 
+    font-weight: bold;
+    font-size: 112%;
+  }
+}
+
+.sbicontent {
+  padding: 14px 8px 8px 19px;
+
+  p {
+    line-height: 14px; 
+    padding: 0px 0px 8px 0px;
+    
+    a {
+        margin-top: 4px;
+    }
+  }
+}
+
+.sblinks {
+  padding: 0px;
+
+  ul {
+    margin: 0px auto;
+  }
+
+  li {
+    margin: 0px;
+    float: left;
+    list-style: none;
+    
+    a, a:hover {
+      float: left; 
+      height: 16px;
+      text-decoration: none; 
+      padding: 5px 0px 4px 19px;
+      width: 188px;
+      border: 0px;
+    }
+  }
+}
+
+div.newsitem {
+    margin-bottom: 20px;
+}
+
+div.news-link {
+    margin-bottom: 7px;
+}
+
+/* contact page - form layout */
+form{
+    margin-top: 0px;
+    div.buttons {
+        margin-top: 10px;
+    }
+}
+
+div.field { 
+  clear: both;
+  width: 448px; 
+  margin-top: 5px;
+  span.formlabel {
+    display: block;
+  }
+  span.forminput {
+    display: block;
+  }
+}
+
+div.spacer { 
+  clear: both;
+  width: 80px;
+}
+
+input, textarea { 
+  width: 259px; 
+  font-family: verdana, arial, sans-serif;
+  border: 1px solid;
+  font-size: 100%;
+
+}
+
+.checkbox {
+    width: 50px;
+}
+/* Errors and messsages */
+.error-input {
+  max-width: 259px;
+  padding: 1em;
+  border: 1px solid red;
+}
+
+
+#submit {
+  font-family: verdana, arial, sans-serif;
+  border: 1px solid;
+  width: 70px;
+  height: 22px;
+  cursor: pointer;
+  font-size: 100%;
+}
+/* Bottom of the page */
+#footer {
+  @extend #links;
+  text-align: center;
+}
+
+
+
