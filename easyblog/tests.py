@@ -614,6 +614,19 @@ class FunctionalTests(unittest.TestCase):
         res = self.testapp.get('/')
         self.assertTrue('Title for our news' in res.body)
 
+    def test_news_widget_max_items(self):
+        # Test that the news widget contains only 5 items at
+        # time
+        res = self._login('editor', 'editorpw#')
+
+        for i in range(0,5):
+            res = self.testapp.get('/news/create')
+            res = self._create_news(res, 'Title news %i' % i, 
+                        'Here is some text for the news')
+        res = self.testapp.get('/')
+        self.assertTrue('Title news 4' in res.body)
+        self.assertFalse('Title news 5' in res.body)
+
     def test_blogs_view(self):
         res = self.testapp.get('/blogs/')
         self.assertTrue(u'List of blogs' in res.body)
@@ -626,13 +639,3 @@ class FunctionalTests(unittest.TestCase):
     def test_spam_bot_protection(self):
         """docstring for test_spam_bot_protection"""
         pass
-
-
-        
-
-        
-
-
-
-
-

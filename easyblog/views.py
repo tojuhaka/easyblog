@@ -428,13 +428,17 @@ class NewsWidget(object):
         news = get_resource('news', self.request)
         widget_news = []
 
-        for key in news.keys():
+        ordered_keys = sorted(news.keys(),
+            key=lambda news_item: news[news_item].timestamp, reverse=True)
+        for key in ordered_keys:
             news_item = news[key]
             widget_news.append({
                 'title': news_item.title,
                 'date': news_item.date(),
-                'url': resource_url(news_item, self.request)
+                'url': resource_url(news_item, self.request),
             })
+            if len(widget_news) == 5:
+                break
         return {'news': widget_news }
 
 
