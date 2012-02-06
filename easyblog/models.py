@@ -166,8 +166,9 @@ class NewsItem(Persistent):
     one news item """
     implements(ISite, IComment, IContent)
 
+    @property
     def __acl__(self):
-        acls = [(Allow, 'u:%s' % self.username, 'edit_content'),
+        acls = [(Allow, 'u:%s' % self.owner, 'edit_content'),
                 (Allow, group_names['editor'], 'edit_content')]
         return acls
 

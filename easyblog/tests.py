@@ -528,6 +528,7 @@ class FunctionalTests(unittest.TestCase):
         self.assertTrue('Username' in res.body)
 
 
+
     def test_users_edit(self):
         # login as admin
         res = self._login('admin', 'adminpw#')
@@ -556,6 +557,13 @@ class FunctionalTests(unittest.TestCase):
 
     def test_newsitem_edit_link(self):
         self.test_news_create()
+        res = self.testapp.get('/news/n0/')
+        self.assertTrue('Edit' in res.body)
+
+    def test_news_owner(self):
+        self.test_news_create()
+        self._create_second_editor()
+        self._login('editor2', 'editor2pw#')
         res = self.testapp.get('/news/n0/')
         self.assertTrue('Edit' in res.body)
 
