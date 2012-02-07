@@ -48,7 +48,7 @@ class SignUpSchema(BaseSchema):
     chained_validators = [validators.FieldsMatch('password', 'password_confirm')]
 
 class LoginSchema(BaseSchema):
-    pass
+    username = validators.MinLength(3, not_empty=False)
 
 # Schema for user editform
 class UserEditSchema(BaseSchema):

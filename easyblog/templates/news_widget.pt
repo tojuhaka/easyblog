@@ -4,10 +4,28 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n" >
-<head>
-</head>
-  <li class="nav-header">Latest News</li>
-  <li tal:repeat="news_item news"><a tal:content="news_item['title']" 
-         tal:attributes="href news_item['url']">Link</a>
-  </li>
+        <h2 i18n:translate="latest_news">Latest news </h2>
+        <div tal:repeat="news_item news" class="accordion-group">
+          <div class="accordion-heading">
+            <a tal:content="news_item['title']" class="accordion-toggle" href="#collapseOne" data-parent="#accordion2" data-toggle="collapse"> Collapsible Group Item #1 </a>
+          </div>
+          <div id="collapseOne" class="accordion-body collapse" style="height: 0px;">
+            <div tal:content="news_item['text']" class="accordion-inner"> Some text. </div>
+          </div>
+        </div><!-- accordion-group -->
+<!--         <p><a class="btn" href="#">View details &raquo;</a></p> -->
+<!-- <head> -->
+<!--   <meta http-equiv="content-type" content="text/html; charset=utf-8"> -->
+<!-- </head> -->
+<!--               <li class="nav-header">Latest News</li> -->
+<!--               <span tal:repeat="news_item news" class="newsitem"> -->
+<!--               <li><a tal:content="news_item['title']"  -->
+<!--                      tal:attributes="href news_item['url']">Link</a> -->
+<!--               </li> -->
+<!--               </span> -->
+<!--     <p tal:content="news_item['title']"> This is where you can put your latest news.</p> -->
+<!--     <a tal:attributes="href news_item['url']">read more ...</a> -->
+<!--   </div> -->
+<!-- </div> <!-- sbicontent --> 
+<!-- </div><!-- sbitem --> -->
 </html>

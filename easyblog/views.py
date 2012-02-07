@@ -90,7 +90,8 @@ class MainView(object):
 
         # Create form by using schemas with validations
         form = Form(self.request, schema=LoginSchema,
-                state=State(request=self.request))
+                state=State(request=self.request),
+                defaults={'klass': 'class'})
 
         if form.validate():
             username = self.request.params['username']
@@ -434,6 +435,7 @@ class NewsWidget(object):
             news_item = news[key]
             widget_news.append({
                 'title': news_item.title,
+                'text': news_item.text,
                 'date': news_item.date(),
                 'url': resource_url(news_item, self.request),
             })
