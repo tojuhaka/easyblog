@@ -48,6 +48,10 @@ class MainView(object):
         username = u''
         password = u''
 
+        # if logged in don't show the signup form
+        if logged_in:
+            message = msg['logged_in_as'] + " " + logged_in
+            
         # Create form by using schemas with validations
         form = Form(self.request, schema=SignUpSchema,
                 state=State(request=self.request))
@@ -60,7 +64,7 @@ class MainView(object):
             self.context['groups'].add(username, group_names['member'])
             self.context['groups'].add(username, u'u:%s' % username)
 
-            message = msg['succeed_add_user'] + username
+            message = msg['succeed_add_user'] + " " + username
 
         return {
             'message': message,
@@ -437,6 +441,7 @@ class NewsWidget(object):
                 'title': news_item.title,
                 'text': news_item.text,
                 'date': news_item.date(),
+                'id': news_item.id,
                 'url': resource_url(news_item, self.request),
             })
             if len(widget_news) == 5:

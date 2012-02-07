@@ -3,35 +3,34 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       metal:use-macro="base">
   <tal:block  metal:fill-slot="content">
-        <h2> Signup </h2>
-        <p> ${message} </p>
-        ${form.begin(request.resource_url(request.root, 'signup'))}
-        ${form.csrf_token()}
-        <div class="field">
-          ${form.errorlist("username")}
-          <!-- TODO: Tests -->
-          <div tal:omit-tag="not: python: form.errorlist('username')"
-           class="error-input">
-            <span class="formlabel">${form.label("username")}</span>
-            <span class="forminput">${form.text("username")}</span>
-          </div>
-        </div>
-        <div class="field">
-          <span class="formlabel">${form.label("password")}</span>
-          ${form.errors_for("password")}
-          <span class="forminput">${form.password("password")}</span>
-        </div>
-        <div class="field">
-          <span class="formlabel">${form.label("password_confirm")}</span>
-          ${form.errors_for("password_confirm")}
-          <span class="forminput">${form.password("password_confirm")}</span>
-        </div>
-        <div class="field">
-          <span class="formlabel">${form.label("email")}</span>
-          ${form.errors_for("email")}
-          <span class="forminput">${form.text("email")}</span>
-        </div>
-        <span class="forminput">${form.submit("submit", "Submit")}</span>
-        ${form.end()}
+    <div class="page-header"> 
+      <h2> Signup </h2>
+    </div>
+    <div tal:condition="message" class="alert alert-success">
+      ${message}
+    </div>
+    <div tal:condition="not: message">
+      ${form.begin(request.resource_url(request.root, 'signup'))}
+      ${form.csrf_token()}
+      <div tal:condition="form.all_errors()" class="alert alert-error">
+        ${form.errorlist()}
+      </div>
+
+      <label i18n:translate="username">Username</label>
+      <input name="username" type="text" placeholder="Type username…" >
+
+      <label i18n:translate="password">Password</label>
+      <input type="password" name="password" placeholder="Type password…" >
+
+      <label i18n:translate="password_confirm">Password confirmation</label>
+      <input type="password_confirm" name="password_confirm" placeholder="Type password…" >
+
+      <label i18n:translate="email">Email</label>
+      <input type="email" name="email" placeholder="Type email…" >
+
+      <div></div>
+      <button i18n:translate="register" class="btn" type="submit">Register</button>
+      ${form.end()}
+    </div>
     </tal:block>
 </html>

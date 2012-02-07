@@ -7,7 +7,7 @@
       <h1> Login </h1>
     </div>
     <div class="well">
-    <div class="message">
+    <div tal:condition="message" class="alert alert-error">
         ${message}
     </div>
     ${form.begin(request.resource_url(request.root, '/login'))}
