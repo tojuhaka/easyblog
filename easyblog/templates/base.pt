@@ -1,58 +1,127 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n" >
-<head>
-  <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <link href="/static/bluespring/stylesheets/screen.css" media="screen, projection" 
-        rel="stylesheet" type="text/css" />
-  <link href="/static/bluesprint/stylesheets/print.css" media="print" rel="stylesheet" 
-        type="text/css" />
-  <!--[if IE]>
-    <link href="/static/bluespring/stylesheets/ie.css" media="screen, projection"
-          rel="stylesheet" type="text/css" />
-  <![endif]-->
-  <title>EasyBlog 2000</title>
-</head>
-<body>
-  <div id="main">
-    <div id="links">
-      <span tal:condition="logged_in">
-        <a i18n:translate="login_link" 
-              href="${request.application_url}/logout">Logout</a> | 
-      </span>
-      <span tal:condition="not: logged_in">
-        <a href="/login">Login</a> |
-      </span>
-      <a i18n:translate="signup_link" href="/signup">Signup</a> | 
-      <a i18n:translate="account_link" href="#">Account</a> | 
-      <a href="#">another link</a>
-    </div> <!-- links -->
-    <div id="logo"><h1> Saapas RY</h1></div>
-    <div id="wrapper">
-      <div id="menu">
-        <ul>
-          <li><a i18n:translate="home_link" href="/">Home</a></li>
-          <li><a i18n:translate="news_link" href="/news">News</a></li>
-          <li><a i18n:translate="blogs_link" href="/blogs">Blogs</a></li>
-          <li><a i18n:translate="about_link" href="/about">About</a></li>
-        </ul>
-      </div>
+  <head>
 
-      <div id="column1">
-        <tal:block metal:define-slot="content"></tal:block>
-      </div>
+  <link rel="stylesheet/less" href="/static/bootstrap/less/bootstrap.less">
+  <script src="/static/js/less.js"></script>
 
+    <meta charset="utf-8">
+    <title>Bootstrap, from Twitter</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-      <div id="column2">
-        <span tal:condition="provider" tal:replace="structure provider('news_widget')" />
-      </div><!-- column2 -->
-    </div> <!-- wrapper -->
-    <div id="footer">
-      copyright &copy; 2012 Toni Haka-Risku | <a href="#">tojuhaka@gmail.com</a> | <a href="http://validator.w3.org/check?uri=referer">XHTML 1.1</a> | <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a> 
-    </div>
-  </div>
-</body>
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <!-- <style type="text/css"> -->
+    <!--   body { -->
+    <!--     padding-top: 60px; -->
+    <!--     padding-bottom: 40px; -->
+    <!--   } -->
+    <!--   .sidebar-nav { -->
+    <!--     padding: 9px 0; -->
+    <!--   } -->
+    <!-- </style> -->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+  </head>
+
+  <body>
+    <div class="logo"><h1> Saapas Ry </h1></div>
+    <div class="navbar">
+        <div class="navbar-inner">
+          <div class="container" >
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </a>
+            <div class="nav-collapse">
+              <ul class="nav">
+                <li class="active"><a href="/">Home</a></li>
+                <li><a i18n:translate="blogs-link" href="/blogs">Blogs</a></li>
+                <li><a i18n:translate="news-link" href="/news">News</a></li>
+                <li><a i18n:translate="about-link" href="/about">About</a></li>
+              </ul>
+              <!-- <form class="navbar-search pull-left" action=""> -->
+              <!--   <input type="text" class="search-query span2" placeholder="Search"> -->
+              <!-- </form> -->
+              <ul class="nav pull-right" tal:condition="not: logged_in">
+                <li><a href="/login">Login</a></li>
+                <li><a href="/signup">Signup</a></li>
+              </ul>
+              <ul tal:condition="logged_in" class="nav pull-right">
+                <li class="dropdown">
+                  <a i18n:translate="dd-account" href="#" class="dropdown-toggle" data-toggle="dropdown">Account<b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                    <li><a i18n:translate="dd-profile" href="#">Profile</a></li>
+                    <li class="divider"></li>
+                    <li><a i18n:translate="dd-logout" href="#">Logout</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </div><!-- /.nav-collapse -->
+          </div>
+        </div><!-- /navbar-inner -->
+      </div><!-- /navbar -->
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span3">
+
+          <div class="well sidebar-nav">
+            <ul class="nav nav-list">
+              <span tal:condition="provider" tal:replace="structure provider('news_widget')" />
+              <li class="nav-header">Events</li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li class="nav-header">Links</li>
+              <li class="active"><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+            </ul>
+          </div><!--/.well -->
+
+        </div><!--/span-->
+        <div class="span9">
+          <tal:block metal:define-slot="content"></tal:block>
+        </div><!--/span-->
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+        <p>&copy; Company 2012</p>
+      </footer>
+
+    </div><!--/.fluid-container-->
+    
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/static/bootstrap/js/jquery.js"></script>
+    <script src="/static/bootstrap/js/bootstrap-transition.js"></script>
+    <script src="/static/bootstrap/js/bootstrap-alert.js"></script>
+    <script src="/static/bootstrap/js/bootstrap-modal.js"></script>
+    <script src="/static/bootstrap/js/bootstrap-dropdown.js"></script>
+    <script src="/static/bootstrap/js/bootstrap-scrollspy.js"></script>
+    <script src="/static/bootstrap/js/bootstrap-tab.js"></script>
+    <script src="/static/bootstrap/js/bootstrap-tooltip.js"></script>
+    <script src="/static/bootstrap/js/bootstrap-popover.js"></script>
+    <script src="/static/bootstrap/js/bootstrap-button.js"></script>
+    <script src="/static/bootstrap/js/bootstrap-collapse.js"></script>
+    <script src="/static/bootstrap/js/bootstrap-carousel.js"></script>
+    <script src="/static/bootstrap/js/bootstrap-typeahead.js"></script>
+  </body>
 </html>

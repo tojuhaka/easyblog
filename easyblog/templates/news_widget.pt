@@ -5,18 +5,9 @@
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n" >
 <head>
-  <meta http-equiv="content-type" content="text/html; charset=utf-8">
 </head>
-<div class="sbitem">
-  <div class="sbihead">
-    <h1 i18n:translate="news_label"> Latest News </h1>
-  </div>
-  <div class="sbicontent">
-  <div tal:repeat="news_item news" class="newsitem">
-    <h2 tal:content="news_item['date']">01.01.2012 </h2>
-    <p tal:content="news_item['title']"> This is where you can put your latest news.</p>
-    <a tal:attributes="href news_item['url']">read more ...</a>
-  </div>
-</div> <!-- sbicontent -->
-</div><!-- sbitem -->
+  <li class="nav-header">Latest News</li>
+  <li tal:repeat="news_item news"><a tal:content="news_item['title']" 
+         tal:attributes="href news_item['url']">Link</a>
+  </li>
 </html>
