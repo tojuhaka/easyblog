@@ -11,7 +11,7 @@ from .security import group_names
 from .models import Main, User, Blog, Blogs
 from .models import Users, News, BlogPost, NewsItem
 from .security import groupfinder
-from .utilities import get_resource
+from .utilities import get_resource, get_param
 from pyramid_simpleform.renderers import FormRenderer
 from pyramid_simpleform import Form, State
 from pyramid.httpexceptions import HTTPForbidden
@@ -45,7 +45,8 @@ class MainView(object):
         """ Register view for new users that aren't signed up yet """
         logged_in = authenticated_userid(self.request)
         message = u''
-        username = u''
+        username = get_param(self.request, 'username')
+        email = get_param(self.request, 'email')
         password = u''
 
         # if logged in don't show the signup form
@@ -70,9 +71,11 @@ class MainView(object):
             'message': message,
             'url': self.request.application_url + '/signup',
             'username': username,
+            'email': email,
             'logged_in': logged_in,
             'password': password,
-            'form': FormRenderer(form)
+            'form': FormRenderer(form),
+            'params': self.request.params
         }
 
     @view_config(context=Main, renderer='templates/login.pt', name='login')

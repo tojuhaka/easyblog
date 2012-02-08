@@ -14,3 +14,12 @@ def get_resource(resource, request):
     }
     return options[resource]
 
+def get_param(request, name):
+    value = u""
+    try:
+        value = request.params[name]
+    except KeyError:
+        pass
+    return value
+
+
