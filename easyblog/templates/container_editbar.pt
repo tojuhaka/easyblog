@@ -1,12 +1,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
        xmlns:tal="http://xml.zope.org/namespaces/tal"
        xmlns:metal="http://xml.zope.org/namespaces/metal">
-  <span class="edit-content-bar">
-    <a i18n:translate="create_news_link" tal:condition="has_permission" tal:attributes="href create_url">
-      New
+  <div tal:condition="has_permission" class="btn-group pull-right span1 offset7">
+    <a i18n:translate="action_button" 
+       class="btn btn-success dropdown-toggle" data-toggle="dropdown"
+        href="#">Action <span class="caret"></span>
     </a>
-    <a i18n:translate="edit_news_link" tal:condition="has_permission" tal:attributes="href edit_url">
-      Edit
-    </a>
-  </span>
+    <ul class="dropdown-menu">
+      <li><a i18n:translate="dd-new" tal:attributes="href create_url">New</a> </li>
+      <li><a i18n:translate="dd-edit" tal:attributes="href edit_url">Edit</a> </li>
+    </ul>
+  </div><!-- btn-group -->
 </html>

@@ -3,22 +3,45 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       metal:use-macro="base">
   <tal:block  metal:fill-slot="content">
-        <h2>Create a single news item</h2>
-        ${form.begin(request.url)}
-        ${form.csrf_token()}
-        <div class="field">
-          <span class="formlabel">${form.label("title")}</span>
-          ${form.errors_for("title")}
-          <span class="forminput">${form.text("title")}</span>
-        </div>
-        <div class="field">
-          <span class="formlabel">${form.label("text")}</span>
-          ${form.errorlist("text")}
-          <span class="forminput">${form.textarea("text", rows=10)}</span>
-        </div>
-        <div class="buttons">
-          <span class="forminput">${form.submit("submit", "Create")}</span>
-        </div>
-        ${form.end()}
+    <div class="page-header"> 
+      <h1 i18n:translate="create_news_title"> Create a single news item </h1>
+    </div>
+    ${form.begin(request.url)}
+    ${form.csrf_token()}
+    <div i18n:translate="errors" tal:condition="form.all_errors()" class="alert alert-error">
+      There are some errors!
+    </div>
+
+    <!-- Password confrimation -->
+    <div tal:omit-tag="not: form.errorlist('title')"
+            class="control-group error">
+      <label i18n:translate="title">Title</label>
+      <input tal:attributes="value title" class="span6" type="text" name="title" placeholder="Type title…" >
+      <span tal:condition="python: form.errorlist('title')" 
+            tal:content="form.errors_for('title')[0]"
+            class="help-inline">Please correct the error
+      </span>
+    </div>
+
+    <div tal:omit-tag="not: form.errorlist('image_url')"
+            class="control-group error">
+      <label i18n:translate="image_url">Image URL</label>
+      <input tal:attributes="value image_url" class="span6" type="text" name="image_url" placeholder="Type URL of the image" >
+      <span tal:condition="python: form.errorlist('image_url')" 
+            tal:content="form.errors_for('image_url')[0]"
+            class="help-inline">Please correct the error
+      </span>
+    </div>
+
+    <div tal:omit-tag="not: form.errorlist('text')"
+            class="control-group error">
+      <label i18n:translate="text">Text</label>
+      <textarea tal:attributes="value content" id="textarea" 
+            class="input-xlarge span6" rows="10" name="text" placeholder="Type text…"></textarea>
+      <div></div>
+      <button i18n:translate="register" class="btn" type="submit">Register</button>
+    </div>
+
+    ${form.end()}
   </tal:block>
 </html>

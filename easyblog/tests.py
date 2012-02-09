@@ -545,7 +545,8 @@ class FunctionalTests(unittest.TestCase):
         res = self._login('member', 'memberpw#')
         res = self.testapp.get('/news')
         self.assertTrue('List of News' in res.body)
-        
+       
+    # TODO: image url
     def test_news_create(self):
         res = self._login('editor', 'editorpw#')
         res = self.testapp.get('/news/create')
@@ -562,6 +563,7 @@ class FunctionalTests(unittest.TestCase):
 
     def test_news_owner(self):
         self.test_news_create()
+        import pdb; pdb.set_trace()
         self._create_second_editor()
         self._login('editor2', 'editor2pw#')
         res = self.testapp.get('/news/n0/')

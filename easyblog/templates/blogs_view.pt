@@ -3,9 +3,12 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       metal:use-macro="base">
   <tal:block metal:fill-slot="content">
-        <h1 i18n:translate="blogs_topic"> List of blogs 
-          <span tal:condition="provider" tal:replace="structure provider('editbar')" />
-        </h1>
+  <div class="row">
+    <div class="page-header span4">
+        <h1 i18n:translate="blogs_topic"> List of blogs </h1>
+    </div>
+    <span tal:condition="provider" tal:replace="structure provider('editbar')" />
+  </div><!-- row -->
         <div tal:repeat="blog context">
             <p><a tal:content="context[blog].name" 
                tal:attributes="href resource_url(context[blog], request)">

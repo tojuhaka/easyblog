@@ -6,14 +6,17 @@
       xmlns:i18n="http://xml.zope.org/namespaces/i18n" >
   <h2 i18n:translate="latest_news">Latest news </h2>
     <div tal:repeat="news_item news" class="accordion-group">
-      <div class="accordion-heading">
+      <div class="label accordion-heading">
         <a tal:content="news_item['title']" class="accordion-toggle" 
            tal:attributes="href string:#${news_item.id}"
            data-parent="#accordion2" data-toggle="collapse"> Collapsible Group Item #1 
         </a>
       </div>
       <div id="${news_item.id}" class="accordion-body collapse" style="height: 0px;">
-        <div tal:content="news_item['text']" class="accordion-inner"> Some text. </div>
+        <div class="accordion-inner">
+          <p tal:content="news_item['text']" />
+          <a tal:attributes="href news_item.url" class="btn btn-small">Read more &raquo;</a>
+        </div>
       </div>
   </div><!-- accordion-group -->
 </html>

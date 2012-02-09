@@ -3,16 +3,20 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       metal:use-macro="base">
   <tal:block metal:fill-slot="content">
-        <h1 i18n:translate="news_topic"> List of News 
-          <span tal:condition="provider" tal:replace="structure provider('editbar')" />
-        </h1>
-        <div tal:repeat="news_item context">
-          <div class="news-link">
-            <a tal:content="context[news_item].title" 
-               tal:attributes="href resource_url(context[news_item], request)">
-               News
-            </a>
-          </div>
-        </div>
+    <div class="row">
+      <div class="page-header span4">
+        <h1 i18n:translate="news_topic"> List of News </h1>
+      </div>
+      <span tal:condition="provider" tal:replace="structure provider('editbar')" />
+    </div><!-- row -->
+    <div tal:repeat="news_item context">
+    <div class="news-link">
+      <p><a tal:content="context[news_item].title" 
+           tal:attributes="href resource_url(context[news_item], request)">
+           News
+        </a> - created by ${context[news_item].owner}
+      </p>
+    </div>
+    </div>
   </tal:block>
 </html>

@@ -488,6 +488,9 @@ class NewsView(object):
         logged_in = authenticated_userid(self.request)
         form = Form(self.request, schema=NewsCreateSchema,
                     state=State(request=self.request))
+        title = get_param(self.request, 'title')
+        text = get_param(self.request, 'text')
+        image_url = get_param(self.request, 'image_url')
 
         if form.validate():
             item_context = self.context.add(self.request.params['title'],
@@ -499,7 +502,10 @@ class NewsView(object):
             'logged_in': logged_in,
             'context_url': resource_url(self.context, self.request),
             'resource_url': resource_url,
-            'form': FormRenderer(form)
+            'form': FormRenderer(form),
+            'title': title,
+            'content': text,
+            'image_url': image_url,
         }
 
     @view_config(context=News, name="edit",
@@ -527,7 +533,7 @@ class NewsView(object):
             'context_url': resource_url(self.context, self.request),
             'resource_url': resource_url,
             'form': FormRenderer(form),
-            'message': message
+            'message': message,
         }
 
 

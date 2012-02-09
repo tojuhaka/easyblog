@@ -74,6 +74,7 @@ class BlogPostSchema(BaseSchema):
 class NewsCreateSchema(BaseSchema):
     title = validators.MaxLength(60, not_empty=True)
     text = validators.MinLength(10, not_empty=True)
+    image_url = validators.URL(add_http=False, check_exists=True)
 
 
 
