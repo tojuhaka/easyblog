@@ -224,6 +224,7 @@ class FunctionalTests(unittest.TestCase):
                    '&email=second.member@member.com&submit=Submit'
 
     def _signup(self, username, password, password_confirm, email):
+        res = self.testapp.get('/logout')
         res = self.testapp.get('/signup')
         form = res.forms[0]
         form['username'] = username
@@ -563,7 +564,6 @@ class FunctionalTests(unittest.TestCase):
 
     def test_news_owner(self):
         self.test_news_create()
-        import pdb; pdb.set_trace()
         self._create_second_editor()
         self._login('editor2', 'editor2pw#')
         res = self.testapp.get('/news/n0/')
