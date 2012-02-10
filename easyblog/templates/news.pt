@@ -9,14 +9,28 @@
       </div>
       <span tal:condition="provider" tal:replace="structure provider('editbar')" />
     </div><!-- row -->
-    <div tal:repeat="news_item context">
-    <div class="news-link">
-      <p><a tal:content="context[news_item].title" 
-           tal:attributes="href resource_url(context[news_item], request)">
-           News
-        </a> - created by ${context[news_item].owner}
-      </p>
-    </div>
-    </div>
+    <div tal:repeat="news_item context.order_by_time()" class="row">
+    <div class="span8 accordion-group">
+      <div class="accordion-heading">
+        <a tal:content="news_item.title" class="accordion-toggle" 
+           tal:attributes="href string:#${news_item.id}"
+           data-parent="#accordion2" data-toggle="collapse"> Collapsible Group Item #1 
+        </a>
+      </div>
+      <div id="${news_item.id}" class="accordion-body collapse" style="height: 0px;">
+        <div class="accordion-inner">
+        <div class="thumbnail" style="border: none;">
+            <img tal:condition="news_item.image_url" tal:attributes="src news_item.image_url" alt="Image not available"> 
+            <div class="caption">
+              <p  tal:content="structure python: news_item.text.replace('\n', '<br />')"></p>
+              <p><i> - created by ${news_item.owner}</i></p>
+              <a tal:attributes="href resource_url(news_item, request)" class="btn btn-small">Read more &raquo;</a>
+            </div>
+        </div>
+        </div>
+      </div>
+    </div><!-- accordion-group -->
+    </div><!-- row -->
+
   </tal:block>
 </html>

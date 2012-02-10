@@ -18,7 +18,7 @@ from pyramid.httpexceptions import HTTPForbidden
 
 # Messages
 from .config import msg
-from .interfaces import ISite, IComment, IContainer, IContent
+from .interfaces import ISiteRoot, IComment, IContainer, IContent
 
 from pyramid.security import has_permission
 
@@ -52,7 +52,7 @@ class MainView(object):
         # if logged in don't show the signup form
         if logged_in:
             message = msg['logged_in_as'] + " " + logged_in
-            
+
         # Create form by using schemas with validations
         form = Form(self.request, schema=SignUpSchema,
                 state=State(request=self.request))
@@ -377,7 +377,8 @@ class UsersView(object):
                 # Filter checkbox-parameters from request
                 cbs = [p for p in self.request.params.keys()
                             if u'checkbox' in p]
-                users = [self.request.params[p] for p in self.request.params.keys()
+                users = [self.request.params[p] for p in
+                        self.request.params.keys()
                             if u'user' == p]
 
                 # new policy for groups
@@ -392,7 +393,7 @@ class UsersView(object):
                     except KeyError:
                         updated[username] = []
                     updated[username] += [self.request.params[cb]]
-                
+
                 groups_tool = get_resource('groups', self.request)
 
                 # Init users as empty first, then update with checkbox-data
@@ -430,26 +431,18 @@ class NewsWidget(object):
         self.context = context
         self.request = request
 
-    @view_config(context=ISite, name="news_widget",
+    @view_config(context=ISiteRoot, name="news_widget",
             renderer='templates/news_widget.pt')
     def __call__(self):
-        news = get_resource('news', self.request)
-        widget_news = []
-
-        ordered_keys = sorted(news.keys(),
-            key=lambda news_item: news[news_item].timestamp, reverse=True)
-        for key in ordered_keys:
-            news_item = news[key]
-            widget_news.append({
-                'title': news_item.title,
-                'text': news_item.text,
-                'date': news_item.date(),
-                'id': news_item.id,
-                'url': resource_url(news_item, self.request),
-            })
-            if len(widget_news) == 5:
-                break
-        return {'news': widget_news }
+        news = self.context['news'].order_by_time()
+        news_number = 3
+        
+        from .utilities import shorten_text
+        return {
+            'news': news[0:news_number],
+            'resource_url': resource_url,
+            'shorten': shorten_text
+        }
 
 
 class NewsItem(object):
@@ -477,13 +470,14 @@ class NewsView(object):
     def __call__(self):
         logged_in = authenticated_userid(self.request)
         return {
-            'page': self.context,
+            'news': self.context,
             'logged_in': logged_in,
             'resource_url': resource_url,
         }
 
     @view_config(context=News, name="create",
-                renderer='templates/news_create.pt', permission="edit_container")
+                renderer='templates/news_create.pt',
+                permission="edit_container")
     def view_news_create(self):
         logged_in = authenticated_userid(self.request)
         form = Form(self.request, schema=NewsCreateSchema,
@@ -493,8 +487,7 @@ class NewsView(object):
         image_url = get_param(self.request, 'image_url')
 
         if form.validate():
-            item_context = self.context.add(self.request.params['title'],
-                        self.request.params['text'], logged_in)
+            item_context = self.context.add(title, text, image_url, logged_in)
             return HTTPFound(location=resource_url(item_context, self.request))
 
         return {
@@ -538,7 +531,7 @@ class NewsView(object):
 
 
 class EditBarView(object):
-    """ View for editbars in container and 
+    """ View for editbars in container and
     content objects """
     def __init__(self, context, request):
         self.context = context

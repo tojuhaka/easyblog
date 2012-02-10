@@ -95,7 +95,8 @@ class ViewTests(unittest.TestCase):
             u'submit': u'Create',
             u'title': u'We\'re gonna celebrate soon!',
             u'text': u'Bowmore whiskey is the best, that\'s why we\'re gonna \
-                    celebrate soon'
+                    celebrate soon',
+            u'image_url': u'http://www.google.com'
         })
         view = NewsView(self.zodb['news'], request)
         view.view_news_create()
@@ -189,19 +190,25 @@ class ModelTests(unittest.TestCase):
         from easyblog.models import News
         news = News()
         news.add(u'Title for news', u'Here we write some content for the news',
-                 u'admin')
+                 u'', u'admin')
         self.assertTrue(news.has_item(u'Title for news'))
         
     def test_news_by_owner(self):
         from easyblog.models import News
         news = News()
         news.add(u'Title for news', u'Here we write some content for the news',
-                 u'admin')
+                 u'', u'admin')
         news.add(u'Title for news4', u'Here we write some content for thsadfas fe news',
-                 u'admin')
-        news.add(u'Titldsafse for news', u'dfasasdfHere we write some content for the news',
-                 u'member')
+                 u'', u'admin')
+        news.add(u'Latest news_item', u'dfasasdfHere we write some content for the news',
+                 u'', u'member')
         self.assertEqual(len(news.items_by_owner('admin')), 2)
+        return news
+
+    def test_news_ordering(self):
+        news = self.test_news_by_owner()
+        _list = news.order_by_time()
+        self.assertEqual(_list[0].title, u'Latest news_item')
 
 
 class FunctionalTests(unittest.TestCase):
@@ -224,7 +231,6 @@ class FunctionalTests(unittest.TestCase):
                    '&email=second.member@member.com&submit=Submit'
 
     def _signup(self, username, password, password_confirm, email):
-        res = self.testapp.get('/logout')
         res = self.testapp.get('/signup')
         form = res.forms[0]
         form['username'] = username
@@ -254,10 +260,11 @@ class FunctionalTests(unittest.TestCase):
         form['blogname'] = blogname
         return form.submit()
 
-    def _create_news(self, res, title, text):
+    def _create_news(self, res, title, text, image_url):
         form = res.forms[0]
         form['title'] = title
         form['text'] = text
+        form['image_url'] = image_url
         return form.submit()
 
     def _create_post(self, res, title, text):
@@ -272,6 +279,7 @@ class FunctionalTests(unittest.TestCase):
         return form.submit("submit")
 
     def _create_second_editor(self):
+        res = self.testapp.get('/logout')
         self._signup('editor2', 'editor2pw#',
                     'editor2pw#', 'editor2@editor.com')
         
@@ -528,8 +536,6 @@ class FunctionalTests(unittest.TestCase):
         res = self.testapp.get('/blogs/create')
         self.assertTrue('Username' in res.body)
 
-
-
     def test_users_edit(self):
         # login as admin
         res = self._login('admin', 'adminpw#')
@@ -543,7 +549,6 @@ class FunctionalTests(unittest.TestCase):
         self.assertTrue(u'member' in res.body)
 
     def test_news_view(self):
-        res = self._login('member', 'memberpw#')
         res = self.testapp.get('/news')
         self.assertTrue('List of News' in res.body)
        
@@ -553,9 +558,14 @@ class FunctionalTests(unittest.TestCase):
         res = self.testapp.get('/news/create')
         self.assertTrue('Create a single news item' in res.body)
         res = self._create_news(res, 'Title for our news', 
-                        'Here is some text for the news')
+                        'Here is some text for the news',
+                        'http://google.com')
         self.assertTrue('Title for our news' or
                         'should be redirected' in res.body)
+
+        res = self.testapp.get('/')
+        self.assertTrue('Title for our news' in res.body)
+
 
     def test_newsitem_edit_link(self):
         self.test_news_create()
@@ -598,13 +608,14 @@ class FunctionalTests(unittest.TestCase):
         # create link
         res = self._login('editor', 'editorpw#')
         res = self.testapp.get('/news/edit')
-        self.assertTrue('Edit news' in res.body)
+        self.assertTrue('table' in res.body)
 
     def test_news_remove_news(self):
         self.test_news_create()
         res = self.testapp.get('/news/create')
         res = self._create_news(res, 'Title for another news', 
-                        'Here is some text for the news')
+                        'Here is some text for the news',
+                        'http://google.com')
         res = self.testapp.get('/news/edit')
         form = res.forms[0]
         form.set('checkbox-n0', True, 0)
@@ -616,22 +627,10 @@ class FunctionalTests(unittest.TestCase):
         res = self.testapp.get('/')
         self.assertTrue('Title for our news' in res.body)
 
-    def test_news_widget_max_items(self):
-        # Test that the news widget contains only 5 items at
-        # time
-        res = self._login('editor', 'editorpw#')
-
-        for i in range(0,5):
-            res = self.testapp.get('/news/create')
-            res = self._create_news(res, 'Title news %i' % i, 
-                        'Here is some text for the news')
-        res = self.testapp.get('/')
-        self.assertTrue('Title news 4' in res.body)
-        self.assertFalse('Title news 5' in res.body)
-
     def test_blogs_view(self):
         res = self.testapp.get('/blogs/')
         self.assertTrue(u'List of blogs' in res.body)
+
 
 
     

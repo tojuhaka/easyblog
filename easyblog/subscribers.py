@@ -16,7 +16,6 @@ class Provider(object):
         try:
             return render_view(self.context, self.request, name, secure).decode("utf8")
         except AttributeError:
-            #Handle none object
             pass
         return None
 

@@ -22,4 +22,9 @@ def get_param(request, name):
         pass
     return value
 
+def shorten_text(text, word_count):
+    # is there way to substring at a specific character?
+    _list = text.split(" ")
+    return " ".join(_list[0:word_count])
+
 

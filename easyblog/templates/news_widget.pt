@@ -4,19 +4,14 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n" >
-  <h2 i18n:translate="latest_news">Latest news </h2>
-    <div tal:repeat="news_item news" class="accordion-group">
-      <div class="label accordion-heading">
-        <a tal:content="news_item['title']" class="accordion-toggle" 
-           tal:attributes="href string:#${news_item.id}"
-           data-parent="#accordion2" data-toggle="collapse"> Collapsible Group Item #1 
-        </a>
-      </div>
-      <div id="${news_item.id}" class="accordion-body collapse" style="height: 0px;">
-        <div class="accordion-inner">
-          <p tal:content="news_item['text']" />
-          <a tal:attributes="href news_item.url" class="btn btn-small">Read more &raquo;</a>
+    <div tal:repeat="news_item news" class="span4">
+      <div class="thumbnail">
+        <img tal:condition="news_item.image_url" tal:attributes="src news_item.image_url" alt="Image not available"> 
+        <div class="caption">
+          <h3 tal:content="news_item.title">Heading</h3>
+            <p tal:content="structure string:${shorten(news_item.text.replace('\n', '<br />'), 30)}..."></p>
+          <p><a class="btn" tal:attributes="href resource_url(news_item, request)" href="#">View details &raquo;</a></p>
         </div>
       </div>
-  </div><!-- accordion-group -->
+    </div><!--/span-->
 </html>

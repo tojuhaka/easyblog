@@ -3,10 +3,13 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       metal:use-macro="base">
   <tal:block metal:fill-slot="content">
-        <h1> ${title} 
-          <span tal:condition="provider" tal:replace="structure provider('editbar')" />
-        </h1>
-        <p> ${text} </p>
-        <span tal:condition="provider" tal:replace="structure provider('comments')" />
+    <div class="row">
+      <div class="page-header span4">
+        <h1 i18n:translate="news_topic"> List of News </h1>
+      </div>
+      <span tal:condition="provider" tal:replace="structure provider('editbar')" />
+    </div><!-- row -->
+      <p tal:content="structure python: text.replace('\n', '<br />')"></p>
+    <span tal:condition="provider" tal:replace="structure provider('comments')" />
   </tal:block>
 </html>

@@ -9,6 +9,6 @@ class IContainer(Interface):
 class IContent(Interface):
     """ Mark the object as container.  """
 
-class ISite(Interface):
+class ISiteRoot(Interface):
     """ Marker interface. All the site objects must implement
     this interaface."""

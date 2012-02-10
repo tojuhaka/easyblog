@@ -2,17 +2,18 @@ from persistent.mapping import PersistentMapping
 from persistent import Persistent
 
 from easyblog.security import pwd_context, salt, acl, group_names
+from pyramid.url import resource_url
 
 from datetime import datetime
 from pyramid.security import Allow
 
-from easyblog.interfaces import ISite, IComment, IContainer, IContent
+from easyblog.interfaces import ISiteRoot, IComment, IContainer, IContent
 from zope.interface import implements
 
 
 # Main root object in our ZODB database
 class Main(PersistentMapping):
-    implements(ISite)
+    implements(ISiteRoot)
     """ Root object for ZODB """
     __name__ = None
     __parent__ = None
@@ -20,7 +21,6 @@ class Main(PersistentMapping):
 
 
 class Users(PersistentMapping):
-    implements(ISite)
     """ Contains all the users """
 
     def has_user(self, username):
@@ -36,7 +36,6 @@ class Users(PersistentMapping):
 
 
 class User(Persistent):
-    implements(ISite)
 
     @property
     def __acl__(self):
@@ -57,7 +56,6 @@ class User(Persistent):
 
 
 class Groups(PersistentMapping):
-    implements(ISite)
     """ Contains the information about the groups of
     the users """
 
@@ -88,7 +86,7 @@ class Groups(PersistentMapping):
 
 
 class Blogs(PersistentMapping):
-    implements(ISite, IContainer)
+    implements(IContainer)
     """ Blog mapper which contains all the logs """
 
     def __init__(self):
@@ -114,7 +112,6 @@ class Blogs(PersistentMapping):
 # Page for single blog
 class Blog(PersistentMapping):
     """ Blog which contains posts from user """
-    implements(ISite)
 
     @property
     def __acl__(self):
@@ -141,7 +138,7 @@ class Blog(PersistentMapping):
 # Single post. Blog page contains multiple Blog posts.
 class BlogPost(Persistent):
     """ Single post inside blog """
-    implements(ISite, IComment, IContent)
+    implements(IComment, IContent)
 
     @property
     def __acl__(self):
@@ -164,7 +161,7 @@ class BlogPost(Persistent):
 class NewsItem(Persistent):
     """ Contains all the information about
     one news item """
-    implements(ISite, IComment, IContent)
+    implements(IComment, IContent)
 
     @property
     def __acl__(self):
@@ -172,11 +169,12 @@ class NewsItem(Persistent):
                 (Allow, group_names['editor'], 'edit_content')]
         return acls
 
-    def __init__(self, title, text, username, id):
+    def __init__(self, title, text, image_url, username, id):
         # super(PersistentMapping, self).__init__()
         self.title = title
         self.text = text
 
+        self.image_url = image_url
         self.owner = username
         self.id = id
         self.timestamp = datetime.now()
@@ -185,14 +183,14 @@ class NewsItem(Persistent):
     def date(self):
         return u"%s" % (self.timestamp.strftime("%x"))
 
-    def date_and_time(self):
-        return u"%s %s" % (self.timestamp.strftime("%x"),
-        self.timestamp.strftime("%X"))
+    # def date_and_time(self):
+    #     return u"%s %s" % (self.timestamp.strftime("%x"),
+    #     self.timestamp.strftime("%X"))
 
 
 class News(PersistentMapping):
     """ Contains all the news items """
-    implements(ISite, IContainer)
+    implements(IContainer)
 
     def __init__(self):
         super(PersistentMapping, self).__init__()
@@ -200,9 +198,9 @@ class News(PersistentMapping):
         # Use running number as id for blog
         self.item_number = 0
 
-    def add(self, title, text, owner):
+    def add(self, title, text, image_url, owner):
         """ Add single news item and return it """
-        item = NewsItem(title, text, owner, u'n%i' % self.item_number)
+        item = NewsItem(title, text, image_url, owner, u'n%i' % self.item_number)
         self[item.id] = item
         self.item_number += 1
         item.__parent__ = self
@@ -221,7 +219,18 @@ class News(PersistentMapping):
 
     def remove(self, id):
        return self.pop(id)
-       
+     
+    def order_by_time(self):
+        ordered_keys = sorted(self.keys(),
+            key=lambda news_item: self[news_item].timestamp, reverse=True)
+        return self._order(ordered_keys)
+
+    def _order(self, ordered_keys):
+        ordered = []
+        for key in ordered_keys:
+            news_item = self[key]
+            ordered.append(news_item)
+        return ordered
 
 
 def appmaker(zodb_root):

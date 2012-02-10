@@ -36,7 +36,7 @@
     <div tal:omit-tag="not: form.errorlist('text')"
             class="control-group error">
       <label i18n:translate="text">Text</label>
-      <textarea tal:attributes="value content" id="textarea" 
+      <textarea tal:content="content" id="textarea" 
             class="input-xlarge span6" rows="10" name="text" placeholder="Type text…"></textarea>
       <div></div>
       <button i18n:translate="register" class="btn" type="submit">Register</button>
