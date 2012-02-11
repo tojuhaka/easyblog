@@ -23,7 +23,7 @@ requires = [
     ]
 
 setup(name='easyblog',
-      version='0.2',
+      version='0.3',
       description='easyblog',
       long_description=README + '\n\n' +  CHANGES,
       classifiers=[

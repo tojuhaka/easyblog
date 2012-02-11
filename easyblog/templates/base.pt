@@ -37,7 +37,7 @@
 
   <body>
 <header id="logo" class="jumbotron subhead">
-<center><h1>Saapas JKL</h1></center>
+<center><h1>Saapas JKL -logo</h1></center>
 </header>
     <div class="navbar">
       <div class="navbar-inner">
@@ -107,5 +107,6 @@
     <script src="/static/bootstrap/js/bootstrap-collapse.js"></script>
     <script src="/static/bootstrap/js/bootstrap-carousel.js"></script>
     <script src="/static/bootstrap/js/bootstrap-typeahead.js"></script>
+    <script src="/static/js/saapas.js"></script>
   </body>
 </html>

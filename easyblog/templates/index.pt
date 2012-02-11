@@ -3,21 +3,23 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       metal:use-macro="base">
   <tal:block  metal:fill-slot="content">
-    <div class="carousel slide">
+    <div id="myCarousel" class="carousel slide">
       <!-- Carousel items -->
-      <div id="myCarousel" class="carousel-inner">
+      <div class="carousel-inner">
         <div class="item active">
           <img class="carousel-image" src="/static/images/autumn2.jpg" />
           <div class="carousel-caption">
-            <h4> Otsikko </h4>
-            <p>ASDASFDSDFSADFASDSDFDSFSFDA</p>
+            <h4> Saapas kuva 1 </h4>
+            <p>Tähän tulee hienoja kuvia, jotka kuvaavat Saappaan toimintaa. Samalla tässä tekstissä voi kertoa
+            mistä tapahtumassa on kyse. </p>
           </div>
         </div>
         <div class="item">
           <img class="carousel-image" src="/static/images/autumn.jpg" />
           <div class="carousel-caption">
-            <h4> Otsikko </h4>
-            <p>ASDASFDSDFSADFAsdi fasf isadf sad fsaSDSDFDSFSFDA</p>
+            <h4> Saapas kuva 2 </h4>
+            <p>Kuvasarjojen tarkoituksena on antaa visuaalista tietoa Saappaan toiminnasta. Sekä lyhyillä lauseilla
+            kertoa mistä on kyse.</p>
           </div>
         </div>
       </div>
