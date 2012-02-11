@@ -456,6 +456,7 @@ class NewsItem(object):
         return {
             'title': self.context.title,
             'text': self.context.text,
+            'image_url': self.context.image_url,
             'logged_in': logged_in,
             'resource_url': resource_url,
         }

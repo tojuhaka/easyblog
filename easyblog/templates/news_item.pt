@@ -9,6 +9,9 @@
       </div>
       <span tal:condition="provider" tal:replace="structure provider('editbar')" />
     </div><!-- row -->
+    <div class="thumbnail">
+    </div>
+    
       <p tal:content="structure python: text.replace('\n', '<br />')"></p>
     <span tal:condition="provider" tal:replace="structure provider('comments')" />
   </tal:block>
