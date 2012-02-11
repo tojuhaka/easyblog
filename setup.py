@@ -19,12 +19,11 @@ requires = [
     'pyramid_simpleform',
     'formencode',
     'nose',
-    'pyramid_zcml',
     'pyramid_viewgroup',
     ]
 
 setup(name='easyblog',
-      version='0.1',
+      version='0.2',
       description='easyblog',
       long_description=README + '\n\n' +  CHANGES,
       classifiers=[
