@@ -1,0 +1,101 @@
+# English translations for easyblog.
+# Copyright (C) 2012 ORGANIZATION
+# This file is distributed under the same license as the easyblog project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2012.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: easyblog 0.3\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2012-02-12 16:48+0200\n"
+"PO-Revision-Date: 2012-02-12 16:49+0200\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 0.9.6\n"
+
+#: easyblog/config.py:9
+msgid "saved"
+msgstr ""
+
+#. Default: Are you sure you want to remove ${blogname}?
+#: easyblog/templates/blog_remove.pt:6
+msgid "confirm_delete"
+msgstr ""
+
+#. Default: List of blogs
+#: easyblog/templates/blogs_view.pt:8
+msgid "blogs_topic"
+msgstr ""
+
+#. Default: Action <dynamic element>
+#: easyblog/templates/container_editbar.pt:5
+#: easyblog/templates/content_editbar.pt:5
+msgid "action_button"
+msgstr ""
+
+#. Default: New
+#: easyblog/templates/container_editbar.pt:10
+msgid "dd-new"
+msgstr ""
+
+#. Default: Edit
+#: easyblog/templates/container_editbar.pt:11
+#: easyblog/templates/content_editbar.pt:10
+msgid "dd-edit"
+msgstr ""
+
+#. Default: Username
+#: easyblog/templates/login.pt:18 easyblog/templates/signup.pt:22
+msgid "username"
+msgstr ""
+
+#. Default: Password
+#: easyblog/templates/login.pt:20
+msgid "password"
+msgstr ""
+
+#. Default: Login
+#: easyblog/templates/login.pt:24
+msgid "login_button"
+msgstr ""
+
+#. Default: List of News
+#: easyblog/templates/news.pt:10 easyblog/templates/news_edit.pt:8
+msgid "news_topic"
+msgstr ""
+
+#. Default: Create a single news item
+#: easyblog/templates/news_create.pt:8
+msgid "create_news_title"
+msgstr ""
+
+#. Default: There are some errors!
+#: easyblog/templates/news_create.pt:12 easyblog/templates/news_item_edit.pt:11
+#: easyblog/templates/signup.pt:15
+msgid "errors"
+msgstr ""
+
+#. Default: Title
+#: easyblog/templates/news_create.pt:19 easyblog/templates/news_item_edit.pt:21
+msgid "title"
+msgstr ""
+
+#. Default: Edit news item
+#: easyblog/templates/news_item_edit.pt:7
+msgid "edit_news_item_title"
+msgstr ""
+
+#. Default: Edit users
+#: easyblog/templates/users_edit.pt:6
+msgid "edit_user_header"
+msgstr ""
+
+#. Default: results found
+#: easyblog/templates/users_edit.pt:15
+msgid "results_found"
+msgstr ""
+

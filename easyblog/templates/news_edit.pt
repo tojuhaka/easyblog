@@ -20,26 +20,26 @@
             <th> Date </th>
           </thead>
           <tbody>
-            <div tal:repeat="news_item context">
+            <div tal:repeat="news_item context.order_by_time()">
               <tr>
 
                 <!-- Title -->    
                 <td>
-                  <a tal:content="context[news_item].title" 
-                   tal:attributes="href resource_url(context[news_item], request)">
+                  <a tal:content="news_item.title" 
+                   tal:attributes="href resource_url(news_item, request)">
                    News
                   </a>
                 </td>
 
                 <!-- Creator -->    
-                <td tal:content="context[news_item].owner" >
+                <td tal:content="news_item.owner" >
 
                 <!-- Date -->    
-                <td tal:content="context[news_item].date()">News</td>
+                <td tal:content="news_item.date()">News</td>
 
                 <td>
-               <input tal:attributes="value news_item;
-                        name string:checkbox-${news_item}"
+               <input tal:attributes="value news_item.id;
+                        name string:checkbox-${news_item.id}"
                         class="checkbox" type="checkbox"/>
                 </td>
               </tr>
@@ -47,9 +47,7 @@
           </tbody>
         </table>
     </div><!-- row -->
-    <div class="buttons">
-        ${form.submit("submit", "Delete")}
-    </div>
+    <button i18n:translate="delete" class="btn" type="submit" name="submit" value="Delete">Delete</button>
     ${form.end()}
   </tal:block>
 </html>

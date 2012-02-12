@@ -436,7 +436,7 @@ class NewsWidget(object):
     def __call__(self):
         news = self.context['news'].order_by_time()
         news_number = 3
-        
+
         from .utilities import shorten_text
         return {
             'news': news[0:news_number],
@@ -444,8 +444,8 @@ class NewsWidget(object):
             'shorten': shorten_text
         }
 
-
 class NewsItem(object):
+    """ Views for single newsitem """
     def __init__(self, context, request):
         self.context = context
         self.request = request
@@ -461,16 +461,17 @@ class NewsItem(object):
             'resource_url': resource_url,
         }
 
-    @view_config(context=NewsItem, name='edit', renderer='templates/news_item_edit.pt',
-                    permission='edit_content')
+    @view_config(context=NewsItem, name='edit',
+            renderer='templates/news_item_edit.pt', permission='edit_content')
     def view_news_item_edit(self):
         logged_in = authenticated_userid(self.request)
         form = Form(self.request, schema=NewsCreateSchema,
-                    state=State(request=self.request))
+                state=State(request=self.request))
         message = u''
         title = get_param(self.request, 'title', _return=self.context.title)
         text = get_param(self.request, 'text', _return=self.context.text)
-        image_url = get_param(self.request, 'image_url', _return=self.context.image_url)
+        image_url = get_param(self.request, 'image_url',
+                _return=self.context.image_url)
 
         if form.validate():
             self.context.title = title
@@ -491,6 +492,7 @@ class NewsItem(object):
 
 
 class NewsView(object):
+    """ View for news which contains all the news """
     def __init__(self, context, request):
         self.context = context
         self.request = request
@@ -550,7 +552,6 @@ class NewsView(object):
                 message = msg['items_removed']
 
         return {
-            'page': self.context,
             'logged_in': logged_in,
             'context_url': resource_url(self.context, self.request),
             'resource_url': resource_url,
@@ -560,8 +561,9 @@ class NewsView(object):
 
 
 class EditBarView(object):
-    """ View for editbars in container and
-    content objects """
+    """ View for editor bars. The bar is only
+    shown when user with a specific permission tries to
+    view content """
     def __init__(self, context, request):
         self.context = context
         self.request = request

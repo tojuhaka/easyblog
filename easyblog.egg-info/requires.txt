@@ -10,5 +10,6 @@ webtest
 pyramid_simpleform
 formencode
 nose
-pyramid_zcml
 pyramid_viewgroup
+babel
+lingua

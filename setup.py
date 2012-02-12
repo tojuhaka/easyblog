@@ -20,6 +20,8 @@ requires = [
     'formencode',
     'nose',
     'pyramid_viewgroup',
+    'babel',
+    'lingua',
     ]
 
 setup(name='easyblog',
@@ -46,5 +48,9 @@ setup(name='easyblog',
       [paste.app_factory]
       main = easyblog:main
       """,
+      message_extractors = { '.': [
+            ('**.py',   'python', None ),
+            ('**.pt',   'lingua_xml', None ),
+        ]},
       )
 

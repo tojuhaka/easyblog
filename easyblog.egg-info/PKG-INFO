@@ -1,6 +1,6 @@
 Metadata-Version: 1.0
 Name: easyblog
-Version: 0.0
+Version: 0.3
 Summary: easyblog
 Home-page: UNKNOWN
 Author: UNKNOWN
@@ -71,9 +71,22 @@ Description: EasyBlog
         
         
         
+        0.3
+        ---
+        - Changed some frontpage texts for release
+        - Added coffee-script support
+        - Added interval into carousel
+        
+        0.2
+        ---
+        - configure.zcml removed
+        
+        0.1
+        ---
+        - first release as prototype
+        
         0.0
         ---
-        
         -  Initial version
         
 Keywords: web pylons pyramid
