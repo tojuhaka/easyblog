@@ -14,8 +14,8 @@ def get_resource(resource, request):
     }
     return options[resource]
 
-def get_param(request, name):
-    value = u""
+def get_param(request, name, _return=u''):
+    value = _return
     try:
         value = request.params[name]
     except KeyError:

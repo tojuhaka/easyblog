@@ -509,9 +509,6 @@ class FunctionalTests(unittest.TestCase):
         self.assertTrue('List of blogs' in res.body or
                         'should be redirected' in res.body)
 
-    def test_newsitem_edit(self):
-        pass
-
 
     def test_admin_view(self):
         res = self._login('editor', 'editorpw#')
@@ -552,7 +549,6 @@ class FunctionalTests(unittest.TestCase):
         res = self.testapp.get('/news')
         self.assertTrue('List of News' in res.body)
        
-    # TODO: image url
     def test_news_create(self):
         res = self._login('editor', 'editorpw#')
         res = self.testapp.get('/news/create')
@@ -566,6 +562,24 @@ class FunctionalTests(unittest.TestCase):
         res = self.testapp.get('/')
         self.assertTrue('Title for our news' in res.body)
 
+    def test_news_item_edit(self):
+        # create an item
+        self.test_news_create()
+        res = self.testapp.get('/news/n0/edit')
+        self.assertTrue('Title' in res.body)
+
+        # try to edit with incorrect information
+        res = self._create_news(res, u'', 
+                        u'Here is some text for the news',
+                        u'http://google.com')
+        self.assertTrue('alert-error' in res.body)
+
+        # then just update with correct information
+        res = self._create_news(res, u'Changed title', 
+                        u'Here is some text for the news',
+                        u'http://google.com')
+        res = self.testapp.get('/news/n0')
+        self.assertTrue('Changed title' in res.body)
 
     def test_newsitem_edit_link(self):
         self.test_news_create()

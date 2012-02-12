@@ -461,6 +461,34 @@ class NewsItem(object):
             'resource_url': resource_url,
         }
 
+    @view_config(context=NewsItem, name='edit', renderer='templates/news_item_edit.pt',
+                    permission='edit_content')
+    def view_news_item_edit(self):
+        logged_in = authenticated_userid(self.request)
+        form = Form(self.request, schema=NewsCreateSchema,
+                    state=State(request=self.request))
+        message = u''
+        title = get_param(self.request, 'title', _return=self.context.title)
+        text = get_param(self.request, 'text', _return=self.context.text)
+        image_url = get_param(self.request, 'image_url', _return=self.context.image_url)
+
+        if form.validate():
+            self.context.title = title
+            self.context.text = text
+            self.context.image_url = image_url
+            message = msg['saved']
+
+
+        return {
+            'title': title,
+            'content': text,
+            'image_url': image_url,
+            'logged_in': logged_in,
+            'resource_url': resource_url,
+            'message': message,
+            'form': FormRenderer(form),
+        }
+
 
 class NewsView(object):
     def __init__(self, context, request):
