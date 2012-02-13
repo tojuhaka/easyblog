@@ -22,6 +22,7 @@ requires = [
     'pyramid_viewgroup',
     'babel',
     'lingua',
+    'setuptools_hg'
     ]
 
 setup(name='easyblog',

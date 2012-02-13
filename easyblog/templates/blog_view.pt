@@ -3,12 +3,18 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       metal:use-macro="base">
   <tal:block metal:fill-slot="content">
-    <p>${blogname}</p>
-    <div class="blogpost" tal:repeat="post context">
-      <p> ${posts[post].time()} 
-            ${posts[post].owner} wrote  </p>
-      <p tal:content="context[post].title"> Subject </p>
-      <p tal:content="context[post].text"> Text </p>
-    </div>
+      <div class="page-header"> 
+        <h1 tal:content="blogname"> Login </h1>
+      </div>
+    <div id="items">
+        <ul class="content-pagination">
+          <span tal:repeat="post context.order_by_time()">
+          <li>
+            <p tal:content="post.title"></p>
+          </li> 
+          </span>
+        </ul>	
+        <div class="page_navigation"></div>
+	</div>		
   </tal:block>
 </html>

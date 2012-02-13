@@ -19,9 +19,10 @@
     <input name="username" type="text" placeholder="Type username…" >
     <label i18n:translate="password" for="username">Password</label>
     <input type="password" name="password" placeholder="Type password…" >
-    <div></div>
+    <div class="buttons">
+      <button i18n:translate="login_button" class="btn" type="submit">Login</button>
+    </div>
     ${form.hidden("came_from", came_from)}
-    <button i18n:translate="login_button" class="btn" type="submit">Login</button>
     ${form.end()}
     </div>
   </tal:block>

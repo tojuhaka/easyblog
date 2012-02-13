@@ -195,8 +195,6 @@ class BlogPost(object):
         logged_in = authenticated_userid(self.request)
         return {
             'logged_in': logged_in,
-            'title': self.context.title,
-            'text': self.context.text,
         }
 
     @view_config(context=BlogPost,
@@ -238,7 +236,6 @@ class BlogView(object):
         return {
             'logged_in': logged_in,
             'blogname': self.context.name,
-            'posts': self.context,
             'provider': Provider(self.context, self.request)
         }
 
@@ -314,7 +311,6 @@ class BlogsView(object):
 
         logged_in = authenticated_userid(self.request)
         return {
-            'page': self.context,
             'logged_in': logged_in,
             'context_url': resource_url(self.context, self.request),
             'resource_url': resource_url,
@@ -329,18 +325,19 @@ class BlogsView(object):
         logged_in = authenticated_userid(self.request)
         form = Form(self.request, schema=BlogCreateSchema,
                     state=State(request=self.request))
-        message = ''
+        blogname = get_param(self.request, 'blogname')
+        message = u''
 
         if form.validate():
-            blog_context = self.context.add(self.request.params['blogname'],
+            blog = self.context.add(self.request.params['blogname'],
                             logged_in)
-            return HTTPFound(location=resource_url(blog_context, self.request))
+            return HTTPFound(location=resource_url(blog, self.request))
 
         return {
-            'page': self.context,
             'logged_in': logged_in,
             'form': FormRenderer(form),
-            'message': message
+            'message': message,
+            'blogname': blogname,
         }
 
 

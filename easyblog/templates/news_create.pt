@@ -7,42 +7,44 @@
     <div class="page-header"> 
       <h1 i18n:translate="create_news_title"> Create a single news item </h1>
     </div>
-    ${form.begin(request.url)}
-    ${form.csrf_token()}
-    <div i18n:translate="errors" tal:condition="form.all_errors()" class="alert alert-error">
-      There are some errors!
-    </div>
+    <div class="well">
+      ${form.begin(request.url)}
+      ${form.csrf_token()}
+      <div i18n:translate="errors" tal:condition="form.all_errors()" class="alert alert-error">
+        There are some errors!
+      </div>
 
-    <!-- Password confrimation -->
-    <div tal:omit-tag="not: form.errorlist('title')"
+      <!-- Password confrimation -->
+      <div tal:omit-tag="not: form.errorlist('title')"
             class="control-group error">
-      <label i18n:translate="title">Title</label>
-      <input tal:attributes="value title" class="span6" type="text" name="title" placeholder="Type title…" >
-      <span tal:condition="python: form.errorlist('title')" 
+        <label i18n:translate="title">Title</label>
+        <input tal:attributes="value title" class="span6" type="text" name="title" placeholder="Type title…" >
+        <span tal:condition="python: form.errorlist('title')" 
             tal:content="form.errors_for('title')[0]"
             class="help-inline">Please correct the error
-      </span>
-    </div>
+        </span>
+      </div>
 
-    <div tal:omit-tag="not: form.errorlist('image_url')"
+      <div tal:omit-tag="not: form.errorlist('image_url')"
             class="control-group error">
-      <label i18n:translate="image_url">Image URL</label>
-      <input tal:attributes="value image_url" class="span6" type="text" name="image_url" placeholder="Type URL of the image" >
-      <span tal:condition="python: form.errorlist('image_url')" 
+        <label i18n:translate="image_url">Image URL</label>
+        <input tal:attributes="value image_url" class="span6" type="text" name="image_url" placeholder="Type URL of the image" >
+        <span tal:condition="python: form.errorlist('image_url')" 
             tal:content="form.errors_for('image_url')[0]"
             class="help-inline">Please correct the error
-      </span>
-    </div>
+        </span>
+      </div>
 
-    <div tal:omit-tag="not: form.errorlist('text')"
+      <div tal:omit-tag="not: form.errorlist('text')"
             class="control-group error">
-      <label i18n:translate="text">Text</label>
-      <textarea tal:content="content" id="textarea" 
+        <label i18n:translate="text">Text</label>
+        <textarea tal:content="content" id="textarea" 
             class="input-xlarge span6" rows="10" name="text" placeholder="Type text…"></textarea>
-      <div></div>
-      <button i18n:translate="register" class="btn" type="submit">Register</button>
-    </div>
+      <div class="buttons">
+        <button i18n:translate="register" class="btn" type="submit">Register</button>
+      </div>
 
+    </div>
     ${form.end()}
   </tal:block>
 </html>

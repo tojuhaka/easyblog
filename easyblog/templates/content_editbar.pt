@@ -1,7 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
        xmlns:tal="http://xml.zope.org/namespaces/tal"
        xmlns:metal="http://xml.zope.org/namespaces/metal">
-  <div tal:condition="has_permission" class="btn-group pull-right span1 offset7">
+  <div tal:condition="has_permission" class="btn-group pull-right span1 offset5">
     <a i18n:translate="action_button" 
        class="btn btn-success dropdown-toggle" data-toggle="dropdown"
         href="#">Action <span class="caret"></span>

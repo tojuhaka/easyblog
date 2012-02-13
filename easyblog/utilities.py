@@ -28,3 +28,11 @@ def shorten_text(text, word_count):
     return " ".join(_list[0:word_count])
 
 
+def order(context, ordered_keys):
+    ordered = []
+    for key in ordered_keys:
+        news_item = context[key]
+        ordered.append(news_item)
+    return ordered
+
+

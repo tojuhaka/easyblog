@@ -2,13 +2,14 @@ from persistent.mapping import PersistentMapping
 from persistent import Persistent
 
 from easyblog.security import pwd_context, salt, acl, group_names
-from pyramid.url import resource_url
 
 from datetime import datetime
 from pyramid.security import Allow
 
 from easyblog.interfaces import ISiteRoot, IComment, IContainer, IContent
 from zope.interface import implements
+
+from .utilities import order
 
 
 # Main root object in our ZODB database
@@ -78,8 +79,8 @@ class Groups(PersistentMapping):
 
     def add_policy(self, policy):
         """ Updates the group-policy with dict that contains
-        usernames and list of groups behind it. Add also the user-marker "u:user"
-        to group. We need it for __acl__ inside class. """
+        usernames and list of groups behind it. Add also the
+        user-marker "u:user" to group. We need it for __acl__ inside class. """
 
         for username in policy.keys():
             self[username] = policy[username] + [u'u:%s' % username]
@@ -98,9 +99,10 @@ class Blogs(PersistentMapping):
     def add(self, name, owner):
         blog = Blog(name, owner, u'b%i' % self.blog_number)
         self[blog.id] = blog
-        self.blog_number += 1
         blog.__parent__ = self
         blog.__name__ = blog.id
+        self.blog_number += 1
+        return blog
 
     def has_blog(self, name):
         for key in self.keys():
@@ -109,9 +111,9 @@ class Blogs(PersistentMapping):
         return False
 
 
-# Page for single blog
 class Blog(PersistentMapping):
     """ Blog which contains posts from user """
+    implements(IContainer)
 
     @property
     def __acl__(self):
@@ -129,13 +131,17 @@ class Blog(PersistentMapping):
     def add(self, subject, text, username):
         post = BlogPost(subject, text, username, u'p%i' % self.post_number)
         self[post.id] = post
-        post.__name__ = id
+        post.__name__ = post.id
         post.__parent__ = self
         self.post_number += 1
         return post
 
+    def order_by_time(self):
+        ordered_keys = sorted(self.keys(),
+            key=lambda blogpost: self[blogpost].timestamp, reverse=True)
+        return order(self, ordered_keys)
 
-# Single post. Blog page contains multiple Blog posts.
+
 class BlogPost(Persistent):
     """ Single post inside blog """
     implements(IComment, IContent)
@@ -200,7 +206,8 @@ class News(PersistentMapping):
 
     def add(self, title, text, image_url, owner):
         """ Add single news item and return it """
-        item = NewsItem(title, text, image_url, owner, u'n%i' % self.item_number)
+        item = NewsItem(title, text, image_url, owner,
+                u'n%i' % self.item_number)
         self[item.id] = item
         self.item_number += 1
         item.__parent__ = self
@@ -218,19 +225,12 @@ class News(PersistentMapping):
         return [item for item in self.keys() if owner == self[item].owner]
 
     def remove(self, id):
-       return self.pop(id)
-     
+        return self.pop(id)
+
     def order_by_time(self):
         ordered_keys = sorted(self.keys(),
             key=lambda news_item: self[news_item].timestamp, reverse=True)
-        return self._order(ordered_keys)
-
-    def _order(self, ordered_keys):
-        ordered = []
-        for key in ordered_keys:
-            news_item = self[key]
-            ordered.append(news_item)
-        return ordered
+        return order(self, ordered_keys)
 
 
 def appmaker(zodb_root):
