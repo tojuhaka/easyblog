@@ -238,7 +238,9 @@ class BlogView(object):
             'logged_in': logged_in,
             'blogname': self.context.name,
             'provider': Provider(self.context, self.request),
-            'resource_url': resource_url,
+            'container': self.context.description,
+            'image_url': self.context.image_url,
+            'resource_url': resource_url
         }
 
     @view_config(context=Blog, renderer='templates/blog_edit.pt',

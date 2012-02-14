@@ -9,8 +9,22 @@
       </div>
       <span tal:condition="provider" tal:replace="structure provider('editbar')" />
     </div><!-- row -->
+
     <div class="row">
-    <div class="span6 list-items">
+      <a tal:condition="image_url" href="#" class="span4 thumbnail">
+      <img tal:attributes="src image_url" alt="" />
+      </a>
+    </div><!-- row -->
+
+    <div class="row">
+      <div class="span8">
+        <p tal:content="container"></p>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="span6 list-items">
+        <h2 i18n:translate="blogposts_heading">Blogposts </h2>
         <ul class="content">
           <span tal:omit-tag="" tal:repeat="post context.order_by_time()">
            <li tal:attributes="class repeat.post.odd" >
@@ -19,7 +33,8 @@
           </span>
         </ul>	
         <div tal:condition="python: repeat.post.length > 15" class="page_navigation"></div>
-	</div>		
+	  </div>		
     </div> <!-- ROW -->
+
   </tal:block>
 </html>

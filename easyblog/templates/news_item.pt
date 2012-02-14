@@ -12,10 +12,14 @@
     </div><!-- row -->
     <div class="row">
       <a tal:condition="image_url" href="#" class="span4 thumbnail">
-        <img tal:attributes="src image_url" alt="" />
+      <img tal:attributes="src image_url" alt="" />
       </a>
     </div>
-      <p tal:content="structure python: text.replace('\n', '<br />')"></p>
-    <span tal:condition="provider" tal:replace="structure provider('comments')" />
+    <div class="row">
+      <div class="span8">
+        <p tal:content="structure python: text.replace('\n', '<br />')"></p>
+        <span tal:condition="provider" tal:replace="structure provider('comments')" />
+      </div>
+    </div>
   </tal:block>
 </html>
