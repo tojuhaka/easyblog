@@ -7,22 +7,41 @@
       <h1> Create Blog </h1>
     </div>
     <div class="well">
-      <div tal:condition="form.all_errors()" class="alert alert-error">
-        ${form.errorlist()}
+      <div i18n:translate="errors" tal:condition="form.all_errors()" class="alert alert-error">
+        There are some errors!
       </div>
       ${form.begin(request.url)}
       ${form.csrf_token()}
 
-        <div tal:omit-tag="not: form.errorlist('blogname')"
+      <div tal:omit-tag="not: form.errorlist('blogname')"
             class="control-group error">
-          <label i18n:translate="blogname">Username</label>
+          <label i18n:translate="blogname">Blogname</label>
           <input tal:attributes="value blogname" type="blogname" name="blogname" placeholder="Type blogname…" >
           <span tal:condition="python: form.errorlist('blogname')" 
             tal:content="form.errors_for('blogname')[0]"
             class="help-inline">Please correct the error
           </span>
-        </div>
+      </div>
 
+      <!-- Content of the news item -->
+      <div tal:omit-tag="not: form.errorlist('text')"
+            class="control-group error">
+        <label i18n:translate="text">Text</label>
+        <textarea tal:content="text" id="textarea" 
+            class="input-xlarge span6" rows="10" name="text" placeholder="Type text…"></textarea>
+      </div>
+
+      <!-- Image for newsitem -->
+      <div tal:omit-tag="not: form.errorlist('image_url')"
+            class="control-group error">
+        <label i18n:translate="image_url">Image URL</label>
+        <input tal:attributes="value image_url" class="span6" type="text" name="image_url" placeholder="Type URL of the image" >
+        <span tal:condition="python: form.errorlist('image_url')" 
+            tal:content="form.errors_for('image_url')[0]"
+            class="help-inline">Please correct the error
+        </span>
+      </div>
+        
         <div class="buttons">
           <button i18n:translate="login_button" class="btn" type="submit">Create Blog</button>
         </div>

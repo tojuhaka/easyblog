@@ -14,7 +14,7 @@
         There are some errors!
       </div>
 
-      <!-- Password confrimation -->
+      <!-- Title for newsitem -->
       <div tal:omit-tag="not: form.errorlist('title')"
             class="control-group error">
         <label i18n:translate="title">Title</label>
@@ -25,6 +25,15 @@
         </span>
       </div>
 
+      <!-- Content of the news item -->
+      <div tal:omit-tag="not: form.errorlist('text')"
+            class="control-group error">
+        <label i18n:translate="text">Text</label>
+        <textarea tal:content="content" id="textarea" 
+            class="input-xlarge span6" rows="10" name="text" placeholder="Type text…"></textarea>
+      </div>
+
+      <!-- Image for newsitem -->
       <div tal:omit-tag="not: form.errorlist('image_url')"
             class="control-group error">
         <label i18n:translate="image_url">Image URL</label>
@@ -35,16 +44,11 @@
         </span>
       </div>
 
-      <div tal:omit-tag="not: form.errorlist('text')"
-            class="control-group error">
-        <label i18n:translate="text">Text</label>
-        <textarea tal:content="content" id="textarea" 
-            class="input-xlarge span6" rows="10" name="text" placeholder="Type text…"></textarea>
       <div class="buttons">
-        <button i18n:translate="register" class="btn" type="submit">Register</button>
+        <button i18n:translate="create" class="btn" type="submit">Create</button>
       </div>
 
-    </div>
+    </div><!-- Wwell -->
     ${form.end()}
   </tal:block>
 </html>

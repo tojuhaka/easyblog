@@ -12,6 +12,7 @@ from .models import Main, User, Blog, Blogs
 from .models import Users, News, BlogPost, NewsItem
 from .security import groupfinder
 from .utilities import get_resource, get_param
+from .utilities import shorten_text
 from pyramid_simpleform.renderers import FormRenderer
 from pyramid_simpleform import Form, State
 from pyramid.httpexceptions import HTTPForbidden
@@ -236,7 +237,8 @@ class BlogView(object):
         return {
             'logged_in': logged_in,
             'blogname': self.context.name,
-            'provider': Provider(self.context, self.request)
+            'provider': Provider(self.context, self.request),
+            'resource_url': resource_url,
         }
 
     @view_config(context=Blog, renderer='templates/blog_edit.pt',
@@ -304,18 +306,28 @@ class BlogsView(object):
         self.context = context
         self.request = request
 
+    # blogs_view
     @view_config(context=Blogs,
-                 renderer='templates/blogs_view.pt')
+                 renderer='templates/blogs_view_grid.pt')
     def __call__(self):
         """ View for all the blogs """
 
+        # make list for image grid
+        # in the grid there will be 3 items in a single row
+        # we'll build a special list for this since it seems
+        # quite hard trying to do it with chameleon
+        from .utilities import chunks
+        splitted_keys = chunks(self.context.keys(), 4)
+        
         logged_in = authenticated_userid(self.request)
         return {
             'logged_in': logged_in,
             'context_url': resource_url(self.context, self.request),
             'resource_url': resource_url,
             'has_permission': has_permission('edit_container',
-                            self.context, self.request)
+                            self.context, self.request),
+            'splitted_keys': splitted_keys,
+            'shorten': shorten_text
         }
 
     @view_config(context=Blogs, renderer='templates/blog_create.pt',
@@ -326,11 +338,13 @@ class BlogsView(object):
         form = Form(self.request, schema=BlogCreateSchema,
                     state=State(request=self.request))
         blogname = get_param(self.request, 'blogname')
+        text = get_param(self.request, 'text')
+        image_url = get_param(self.request, 'image_url')
         message = u''
 
         if form.validate():
-            blog = self.context.add(self.request.params['blogname'],
-                            logged_in)
+            blog = self.context.add(blogname, text, 
+                    image_url, logged_in)
             return HTTPFound(location=resource_url(blog, self.request))
 
         return {
@@ -338,6 +352,9 @@ class BlogsView(object):
             'form': FormRenderer(form),
             'message': message,
             'blogname': blogname,
+            'text': text,
+            'image_url': image_url
+
         }
 
 
@@ -434,7 +451,6 @@ class NewsWidget(object):
         news = self.context['news'].order_by_time()
         news_number = 3
 
-        from .utilities import shorten_text
         return {
             'news': news[0:news_number],
             'resource_url': resource_url,

@@ -9,11 +9,17 @@
     </div>
     <span tal:condition="provider" tal:replace="structure provider('editbar')" />
   </div><!-- row -->
-        <div tal:repeat="blog context">
-            <p><a tal:content="context[blog].name" 
-               tal:attributes="href resource_url(context[blog], request)">
-               Blogname
-            </a> created by ${context[blog].owner} </p>
-        </div>
+    <div class="row">
+    <div class="span6 list-items">
+        <ul class="content">
+          <span tal:omit-tag="" tal:repeat="blog context.keys()">
+           <li tal:attributes="class repeat.blog.odd" >
+            <a tal:attributes="href resource_url(context[blog], request)" tal:content="context[blog].name"></a>
+          </li> 
+          </span>
+        </ul>	
+        <div tal:condition="python: repeat.blog.length > 15" class="page_navigation"></div>
+	</div>		
+    </div> <!-- ROW -->
   </tal:block>
 </html>

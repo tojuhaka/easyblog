@@ -11,6 +11,33 @@ from zope.interface import implements
 
 from .utilities import order
 
+class Container(PersistentMapping):
+    implements(IContainer)
+    """ Base container for all the objects
+    that store other objects for example
+    Blogs and News are containers """
+    def add(self):
+        raise NotImplementedError("Add method not defined")
+
+    def remove(self, id):
+        return self.pop(id)
+
+    def order_by_time(self):
+        """ Return a list of contents ordered by time """
+        ordered_keys = sorted(self.keys(),
+            key=lambda item: self[item].timestamp, reverse=True)
+        return order(self, ordered_keys)
+
+    def items_by_owner(self, owner):
+        """ Return list of all the items created by owner """
+        return [item for item in self.keys() if owner == self[item].owner]
+        
+class Content(Persistent):
+    """ Base content for all the objects
+    that are defined as contents for example
+    single blogpost or single news item is
+    a content """
+    pass
 
 # Main root object in our ZODB database
 class Main(PersistentMapping):
@@ -86,8 +113,7 @@ class Groups(PersistentMapping):
             self[username] = policy[username] + [u'u:%s' % username]
 
 
-class Blogs(PersistentMapping):
-    implements(IContainer)
+class Blogs(Container):
     """ Blog mapper which contains all the logs """
 
     def __init__(self):
@@ -96,8 +122,9 @@ class Blogs(PersistentMapping):
         # Use running number as id for blog
         self.blog_number = 0
 
-    def add(self, name, owner):
-        blog = Blog(name, owner, u'b%i' % self.blog_number)
+    def add(self, name, description, image_url, owner):
+        blog = Blog(name, description, image_url,
+                owner, u'b%i' % self.blog_number)
         self[blog.id] = blog
         blog.__parent__ = self
         blog.__name__ = blog.id
@@ -110,22 +137,22 @@ class Blogs(PersistentMapping):
                 return True
         return False
 
-
-class Blog(PersistentMapping):
+class Blog(Container):
     """ Blog which contains posts from user """
-    implements(IContainer)
 
     @property
     def __acl__(self):
         acls = [(Allow, 'u:%s' % self.owner, 'edit_content')]
         return acls
 
-    def __init__(self, name, owner, id):
+    def __init__(self, name, description, image_url, owner, id):
         super(PersistentMapping, self).__init__()
         self.post_number = 0
         self.name = name
         self.owner = owner
         self.comments = "HERE IS SOME COMMENTS"
+        self.image_url = image_url
+        self.description = description
         self.id = id
 
     def add(self, subject, text, username):
@@ -135,11 +162,6 @@ class Blog(PersistentMapping):
         post.__parent__ = self
         self.post_number += 1
         return post
-
-    def order_by_time(self):
-        ordered_keys = sorted(self.keys(),
-            key=lambda blogpost: self[blogpost].timestamp, reverse=True)
-        return order(self, ordered_keys)
 
 
 class BlogPost(Persistent):
@@ -194,9 +216,8 @@ class NewsItem(Persistent):
     #     self.timestamp.strftime("%X"))
 
 
-class News(PersistentMapping):
+class News(Container):
     """ Contains all the news items """
-    implements(IContainer)
 
     def __init__(self):
         super(PersistentMapping, self).__init__()
@@ -219,18 +240,6 @@ class News(PersistentMapping):
             if self[key].title == title:
                 return True
         return False
-
-    def items_by_owner(self, owner):
-        """ Return list of all the items created by owner """
-        return [item for item in self.keys() if owner == self[item].owner]
-
-    def remove(self, id):
-        return self.pop(id)
-
-    def order_by_time(self):
-        ordered_keys = sorted(self.keys(),
-            key=lambda news_item: self[news_item].timestamp, reverse=True)
-        return order(self, ordered_keys)
 
 
 def appmaker(zodb_root):

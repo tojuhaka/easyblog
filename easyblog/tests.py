@@ -20,6 +20,16 @@ class AppMakerTests(unittest.TestCase):
         self.assertTrue(has_special("testi%$|") != None)
         self.assertEqual(has_special("testi"), None)
 
+class UtilitiesTests(unittest.TestCase):
+    def test_list_splitting(self):
+        from .utilities import chunks
+        test_list = ['test', 'test2', 'test3',
+                'test4', 'test5', 'test6', 'test7',
+                'test8', 'test9', 'test10']
+
+        split = chunks(test_list, 3)
+        self.assertTrue(4, len(split))
+
 
 class ViewTests(unittest.TestCase):
     def setUp(self):
@@ -160,7 +170,8 @@ class ModelTests(unittest.TestCase):
     def test_has_blogname(self):
         from .models import Blogs
         blogs = Blogs()
-        blogs.add(u'test test', u'admin')
+        blogs.add(u'test test', u'description for our beautiful blog',
+                u'http://google.com', u'admin')
         self.assertTrue(blogs.has_blog(u'test test'))
         self.assertFalse(blogs.has_blog(u'afsdfas'))
 
@@ -173,14 +184,16 @@ class ModelTests(unittest.TestCase):
 
     def test_blog_timestamp(self):
         from easyblog.models import Blog
-        blog = Blog(u'My Blog', u'member', 1)
+        blog = Blog(u'My Blog', u'Here is some text for blog',
+                'http://google.com', u'member', 1)
         blog.add(u'subject', u'here is some text', 'member')
         for key in blog:
             self.assertTrue(blog[key].timestamp != "")
 
     def test_blogpost_create(self):
         from easyblog.models import Blog
-        blog = Blog(u'My Blog', u'member', 1)
+        blog = Blog(u'My Blog', u'Description for our blog',
+                u'http://google.com', u'member', 1)
         blog.add(u'subject', u'here is some text', 'member')
         self.assertEquals(blog['p0'].id, 'p0')
 
@@ -210,6 +223,11 @@ class ModelTests(unittest.TestCase):
         _list = news.order_by_time()
         self.assertEqual(_list[0].title, u'Latest news_item')
 
+    def test_blogs_by_owner(self):
+        pass
+
+    def test_blogs_ordering(self):
+        pass
 
 class FunctionalTests(unittest.TestCase):
     admin_login = '/login?username=admin&password=adminpw#' \
@@ -255,9 +273,11 @@ class FunctionalTests(unittest.TestCase):
         form['email'] = email
         return form.submit()
 
-    def _create_blog(self, res,  blogname):
+    def _create_blog(self, res,  blogname, description, image_url=u""):
         form = res.forms[0]
         form['blogname'] = blogname
+        form['text'] = description
+        form['image_url'] = image_url
         return form.submit()
 
     def _create_news(self, res, title, text, image_url):
@@ -422,10 +442,6 @@ class FunctionalTests(unittest.TestCase):
                            'member@member.com')
         self.assertTrue('already exists' in res.body)
 
-    def test_blogs_page(self):
-        res = self.testapp.get('/blogs')
-        self.assertTrue('List of blogs' in res.body)
-
     def test_blog_create(self):
         res = self._login('member', 'memberpw#')
         res = self.testapp.get('/blogs/create')
@@ -435,18 +451,19 @@ class FunctionalTests(unittest.TestCase):
         res = self.testapp.get('/blogs/create')
         self.assertTrue('Create Blog' in res.body)
 
-        res = self._create_blog(res, 'My Blog')
+        res = self._create_blog(res, u'My Blog', u'This is my blog',
+                u'')
         self.assertTrue('List of blogs' in res.body or
                         'should be redirected' in res.body)
         res = self.testapp.get('/blogs')
         self.assertTrue('My Blog' in res.body)
-        self.assertTrue('created by editor' in res.body)
 
     def test_blog_edit(self):
         # login as member and create a new blog
         res = self._login('admin', 'adminpw#')
         res = self.testapp.get('/blogs/create')
-        self._create_blog(res, 'My Blog')
+        self._create_blog(res, 'My Blog', u'This is my blog',
+                u'http://google.com')
 
         # logout and test permission
         res = self.testapp.get('/logout')
@@ -471,7 +488,8 @@ class FunctionalTests(unittest.TestCase):
     def test_blogpost_create(self):
         res = self._login('editor', 'editorpw#')
         res = self.testapp.get('/blogs/create')
-        self._create_blog(res, 'myblogi')
+        self._create_blog(res, 'myblogi' , u'Description for blogs',
+                u'http://google.com')
         res = self.testapp.get('/blogs/b0/create')
         self._create_post(res, u'thisisasubject',
                     'Here is some text for testing.')
@@ -515,7 +533,8 @@ class FunctionalTests(unittest.TestCase):
         # Login as admin and create blog
         res = self._login('admin', 'adminpw#')
         res = self.testapp.get('/blogs/create')
-        self._create_blog(res, 'myblogi')
+        self._create_blog(res, 'myblogi', 'here is some description for myblogi',
+                'http://google.com')
 
         res = self.testapp.get('/blogs/b0/remove')
         # Press Remove button
@@ -658,7 +677,8 @@ class FunctionalTests(unittest.TestCase):
 
     def test_blogs_view(self):
         res = self.testapp.get('/blogs/')
-        self.assertTrue(u'List of blogs' in res.body)
+        self.assertTrue(u'List of Blogs' in res.body)
+    
 
     # TODO: Test spam bot protection by using a field which is hidden
     # in css 'display: none;'. Spam bot fills the field but users don't.

@@ -64,6 +64,8 @@ class UsersEditSchema(BaseSchema):
 # Schema for blogpage creation
 class BlogCreateSchema(BaseSchema):
     blogname = validators.MinLength(6, not_empty=True)
+    text = validators.MinLength(10, not_empty=True)
+    image_url = validators.URL(add_http=False, check_exists=True)
 
 class BlogPostSchema(BaseSchema):
     """ Schema for blogpost """

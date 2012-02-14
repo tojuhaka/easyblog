@@ -4,8 +4,8 @@
     $('#myCarousel').carousel({
       interval: 8000
     });
-    return $('#items').pajinate({
-      items_per_page: 1,
+    return $('.list-items').pajinate({
+      items_per_page: 15,
       nav_label_first: '<<',
       nav_label_last: '>>',
       nav_label_prev: '<',

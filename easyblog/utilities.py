@@ -35,4 +35,7 @@ def order(context, ordered_keys):
         ordered.append(news_item)
     return ordered
 
+def chunks(l, n):
+    return [l[i:i+n] for i in range(0, len(l), n)]
+
 
