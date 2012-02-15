@@ -14,11 +14,12 @@
 
     <div class="row">
       <div class="span4">
-        <h2> Add Post </h2>
+        <h2 i18n:translate="add_post_heading"> Add Post </h2>
       </div>
     </div>
 
-    <div i18n:translate="errors" tal:condition="form.all_errors()" class="alert alert-error">
+    <div i18n:translate="errors" tal:condition="form.all_errors()"
+            class="alert alert-error">
       There are some errors!
     </div>
 
@@ -28,7 +29,8 @@
     <div tal:omit-tag="not: form.errorlist('title')"
             class="control-group error">
       <label i18n:translate="title">Title</label>
-      <input tal:attributes="value title" class="span6" type="text" name="title" placeholder="Type title…" >
+      <input tal:attributes="value title" class="span6"
+            type="text" name="title" placeholder="Type title…" >
       <span tal:condition="python: form.errorlist('title')" 
             tal:content="form.errors_for('title')[0]"
             class="help-inline">Please correct the error

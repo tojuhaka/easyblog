@@ -24,35 +24,47 @@ from .interfaces import ISiteRoot, IComment, IContainer, IContent
 from pyramid.security import has_permission
 
 
-class MainView(object):
-    """ View for managing Main-object (root, frontpage) """
+class BaseView(object):
+    """ Base view for everything. Defines some
+    basic attributes and functions that are used
+    in every view """
     def __init__(self, context, request):
         self.context = context
         self.request = request
+
+        # Logged User
+        self.logged_in = authenticated_userid(request)
+
+        # Main message for pages if needed
+        self.message = u''
+
+        # This dict will be returned in every view
+        self.base_dict = {
+            'logged_in': self.logged_in,
+            'message': self.message,
+            'resource_url': resource_url
+        }
+
+
+class MainView(BaseView):
+    """ View for managing Main-BaseView (root, frontpage) """
 
     @view_config(context=Main, renderer='templates/index.pt')
     def view_frontpage(self):
         #TODO: make content type for frontpage
         """ FrontPage """
-        logged_in = authenticated_userid(self.request)
-        return {
-            'project': '',
-            'logged_in': logged_in,
-
-        }
+        return self.base_dict
 
     @view_config(context=Main, renderer='templates/signup.pt', name='signup')
     def view_signup(self):
         """ Register view for new users that aren't signed up yet """
-        logged_in = authenticated_userid(self.request)
-        message = u''
         username = get_param(self.request, 'username')
         email = get_param(self.request, 'email')
         password = u''
 
         # if logged in don't show the signup form
-        if logged_in:
-            message = msg['logged_in_as'] + " " + logged_in
+        if self.logged_in:
+            self.message = msg['logged_in_as'] + " " + self.logged_in
 
         # Create form by using schemas with validations
         form = Form(self.request, schema=SignUpSchema,
@@ -62,37 +74,36 @@ class MainView(object):
             username = self.request.params['username']
             password = self.request.params['password']
             email = self.request.params['email']
-            self.context['users'].add(username, password, email)
-            self.context['groups'].add(username, group_names['member'])
-            self.context['groups'].add(username, u'u:%s' % username)
+            get_resource('users', self.request).add(username,
+                    password, email)
+            get_resource('groups', self.request).add(username,
+                    group_names['member'])
+            get_resource('groups', self.request).add(username,
+                    u'u:%s' % username)
+            self.message = msg['succeed_add_user'] + " " + username
 
-            message = msg['succeed_add_user'] + " " + username
-
-        return {
-            'message': message,
+        _dict = {
             'url': self.request.application_url + '/signup',
             'username': username,
             'email': email,
-            'logged_in': logged_in,
             'password': password,
             'form': FormRenderer(form),
-            'params': self.request.params
+            'params': self.request.params,
+            'message': self.message
         }
+        return dict(self.base_dict.items() + _dict.items())
 
     @view_config(context=Main, renderer='templates/login.pt', name='login')
     @view_config(context='pyramid.exceptions.Forbidden',
                  renderer='templates/login.pt')
     def view_login(self):
         """ Login view """
-
-        logged_in = authenticated_userid(self.request)
         login_url = resource_url(self.request.context, self.request, 'login')
         referrer = self.request.url
         if referrer == login_url:
             # never use the login form itself as came_from
             referrer = '/'
         came_from = self.request.params.get('came_from', referrer)
-        message = ''
         username = ''
         password = ''
 
@@ -111,23 +122,23 @@ class MainView(object):
                                      headers=headers)
             except KeyError:
                 pass
-            message = 'Failed username'
+            self.message = 'Failed username'
 
-        if logged_in:
-            message = msg['logged_in_as'] + logged_in + ". "
+        if self.logged_in:
+            self.message = msg['logged_in_as'] + self.logged_in + ". "
 
         if  type(self.context) == HTTPForbidden:
-            message += msg['content_forbidden']
+            self.message += msg['content_forbidden']
 
-        return {
-            'message': message,
+        _dict = {
             'url': self.request.application_url + '/login',
             'came_from': came_from,
             'username': username,
             'password': password,
-            'logged_in': logged_in,
-            'form': FormRenderer(form)
+            'form': FormRenderer(form),
+            'message': self.message
         }
+        return dict(self.base_dict.items() + _dict.items())
 
     @view_config(context=Main, renderer='templates/logout.pt', name='logout')
     def view_logout(self):
@@ -137,30 +148,22 @@ class MainView(object):
                         self.request), headers=headers)
 
 
-class UserView(object):
+class UserView(BaseView):
     """ View for single user """
-    def __init__(self, context, request):
-        self.context = context
-        self.request = request
 
     @view_config(context=User, renderer='templates/user_view.pt')
     def view_user(self):
         """ Main view for user """
-
-        logged_in = authenticated_userid(self.request)
-        return {
-            'project': '',
+        _dict = {
             'username': self.context.username,
-            'logged_in': logged_in,
         }
+        return dict(self.base_dict.items() + _dict.items())
 
     @view_config(name='edit', context=User, renderer='templates/user_edit.pt',
         permission='edit_content')
     def view_user_edit(self):
         """ View for editing a single user """
 
-        logged_in = authenticated_userid(self.request)
-        message = ''
         form = Form(self.request, schema=UserEditSchema,
                 state=State(request=self.request))
 
@@ -169,97 +172,82 @@ class UserView(object):
             if self.context.validate_password(password):
                 if self.request.params['new_password']:
                     password = self.request.params['new_password']
-                message = 'Successfully saved'
+                self.message = 'Successfully saved'
                 email = self.request.params['email']
                 self.context.edit(password, email)
             else:
-                message = msg['password_invalid']
-        return {
-            'message': message,
-            'project': '',
+                self.message = msg['password_invalid']
+
+        _dict = {
             'username': self.context.username,
-            'logged_in': logged_in,
             'form': FormRenderer(form),
-            'email': self.context.email
+            'email': self.context.email,
+            'message': self.message
         }
+        return dict(self.base_dict.items() + _dict.items())
 
 
-class BlogPost(object):
+class BlogPost(BaseView):
     """ View for single blogpost """
-    def __init__(self, context, request):
-        self.context = context
-        self.request = request
 
     @view_config(context=BlogPost,
                  renderer='templates/blogpost.pt')
     def __call__(self):
-        logged_in = authenticated_userid(self.request)
-        return {
-            'logged_in': logged_in,
-        }
+        return self.base_dict
 
     @view_config(context=BlogPost,
                  renderer='templates/blogpost_edit.pt', name="edit",
                  permission='edit_content')
     def view_blogpost_edit(self):
-        logged_in = authenticated_userid(self.request)
         form = Form(self.request, schema=BlogPostSchema,
                     state=State(request=self.request))
-        message = ""
         if form.validate():
-            message = msg['saved']
+            self.message = msg['saved']
             title = self.request.params[u'title']
             text = self.request.params[u'text']
             self.context.title = title
             self.context.text = text
 
-        return {
-            'message': message,
+        _dict = {
             'project': '',
             'title': self.context.title,
             'text': self.context.text,
-            'logged_in': logged_in,
             'form': FormRenderer(form),
+            'message': self.message
         }
+        return dict(self.base_dict.items() + _dict.items())
 
 
-class BlogView(object):
+class BlogView(BaseView):
     """ View for single blog """
-    def __init__(self, context, request):
-        self.context = context
-        self.request = request
 
     @view_config(context=Blog,
                  renderer='templates/blog_view.pt')
     def view_blog(self):
-        logged_in = authenticated_userid(self.request)
         from pyramid_viewgroup import Provider
-        return {
-            'logged_in': logged_in,
+        _dict = {
             'blogname': self.context.name,
             'provider': Provider(self.context, self.request),
             'container': self.context.description,
             'image_url': self.context.image_url,
-            'resource_url': resource_url
-    }
+        }
+        return dict(self.base_dict.items() + _dict.items())
 
     @view_config(context=Blog, renderer='templates/blog_edit.pt',
                  permission='edit_content', name='edit')
     def view_blog_edit(self):
-        logged_in = authenticated_userid(self.request)
-        message = "Edit %s" % self.context.name
-        return {
+        self.message = "Edit %s" % self.context.name
+        _dict = {
             'page': self.context,
-            'logged_in': logged_in,
             'blogname': self.context.name,
-            'message': message
+            'message': self.message
         }
+        return dict(self.base_dict.items() + _dict.items())
 
     @view_config(context=Blog, renderer='templates/blog_create_post.pt',
                  permission='edit_content', name='create')
     #TODO: rename add_post to create
     def view_blog_add_post(self):
-        logged_in = authenticated_userid(self.request)
         form = Form(self.request, schema=BlogPostSchema,
                     state=State(request=self.request))
         message = msg['create_post']
@@ -269,49 +257,44 @@ class BlogView(object):
 
         if form.validate():
             post_context = self.context.add(title,
-                        text, logged_in)
+                        text, self.logged_in)
 
             return HTTPFound(location=resource_url(post_context, self.request))
 
-        return {
+        _dict = {
             'page': self.context,
-            'logged_in': logged_in,
             'blogname': self.context.name,
             'text': text,
             'title': title,
             'message': message,
             'form': FormRenderer(form),
-            'resource_url': resource_url
         }
+        return dict(self.base_dict.items() + _dict.items())
 
     @view_config(context=Blog, renderer='templates/blog_remove.pt',
                  permission='edit_content', name='remove')
     def view_blog_remove(self):
         """ The Blog can be removed from this view """
 
-        logged_in = authenticated_userid(self.request)
         form = Form(self.request, schema=BaseSchema,
                     state=State(request=self.request))
-        message = "Edit %s" % self.context.name
+        self.message = "Edit %s" % self.context.name
 
         if form.validate():
             return HTTPFound(location=resource_url(self.context.__parent__,
                         self.request))
 
-        return {
+        _dict = {
             'page': self.context,
-            'logged_in': logged_in,
             'blogname': self.context.name,
-            'message': message,
+            'message': self.message,
             'form': FormRenderer(form)
         }
+        return dict(self.base_dict.items() + _dict.items())
 
 
-class BlogsView(object):
+class BlogsView(BaseView):
     """ View for all the blogs """
-    def __init__(self, context, request):
-        self.context = context
-        self.request = request
 
     # blogs_view
     @view_config(context=Blogs,
@@ -325,17 +308,15 @@ class BlogsView(object):
         # quite hard trying to do it with chameleon
         from .utilities import chunks
         splitted_keys = chunks(self.context.keys(), 4)
-        
-        logged_in = authenticated_userid(self.request)
-        return {
-            'logged_in': logged_in,
+
+        _dict = {
             'context_url': resource_url(self.context, self.request),
-            'resource_url': resource_url,
             'has_permission': has_permission('edit_container',
                             self.context, self.request),
             'splitted_keys': splitted_keys,
             'shorten': shorten_text
         }
+        return dict(self.base_dict.items() + _dict.items())
 
     @view_config(context=Blogs, renderer='templates/blog_create.pt',
                  permission='edit_container', name="create")
@@ -347,41 +328,59 @@ class BlogsView(object):
         blogname = get_param(self.request, 'blogname')
         text = get_param(self.request, 'text')
         image_url = get_param(self.request, 'image_url')
-        message = u''
 
         if form.validate():
-            blog = self.context.add(blogname, text, 
+            blog = self.context.add(blogname, text,
                     image_url, logged_in)
             return HTTPFound(location=resource_url(blog, self.request))
 
-        return {
-            'logged_in': logged_in,
+        _dict = {
             'form': FormRenderer(form),
-            'message': message,
+            'message': self.message,
             'blogname': blogname,
             'text': text,
             'image_url': image_url
-
         }
+        return dict(self.base_dict.items() + _dict.items())
+
+    @view_config(context=News, name="edit",
+                renderer='templates/blogs_edit.pt',
+                permission="edit_container")
+    def view_blogs_edit(self):
+        form = Form(self.request, schema=BaseSchema,
+                    state=State(request=self.request))
+        if form.validate():
+            # Filter checkbox-parameters from request
+            cbs = [p for p in self.request.params.keys()
+                            if u'checkbox' in p]
+
+            # check all the checkbox-parameters and
+            # parse them
+            for cb in cbs:
+                item = self.request.params[cb]
+                self.context.remove(item)
+                self.message = msg['items_removed']
+
+        _dict = {
+            'context_url': resource_url(self.context, self.request),
+            'form': FormRenderer(form),
+            'message': self.message,
+        }
+        return dict(self.base_dict.items() + _dict.items())
 
 
-class UsersView(object):
+class UsersView(BaseView):
     """ View for all the users """
-    def __init__(self, context, request):
-        self.context = context
-        self.request = request
 
     @view_config(context=Users, renderer='templates/users_edit.pt',
                  permission='edit_all', name='edit')
     def view_users_edit(self):
         """ View for editing users. Includes permission handling. """
 
-        logged_in = authenticated_userid(self.request)
         form = Form(self.request, schema=UsersEditSchema,
                     state=State(request=self.request))
 
         search_results = []
-        message = u""
         search = u""
 
         if form.validate():
@@ -394,7 +393,7 @@ class UsersView(object):
 
             if 'save' in self.request.params.keys() and \
                     self.request.params['save'] == 'Save':
-                message = msg['saved']
+                self.message = msg['saved']
                 # Filter checkbox-parameters from request
                 cbs = [p for p in self.request.params.keys()
                             if u'checkbox' in p]
@@ -431,26 +430,23 @@ class UsersView(object):
             """ Sort list of keys to make sure they are in right order """
             return sorted(group_names.keys())
 
-        return {
+        _dict = {
             'page': self.context,
-            'logged_in': logged_in,
             'form': FormRenderer(form),
             'search_results': search_results,
-            'message': message,
+            'message': self.message,
             'group_names': group_names,
             'has_group': has_group,
             'sorted_gnames': sorted_gnames(),
             'result_count': len(search_results),
             'search_term': search
         }
+        return dict(self.base_dict.items() + _dict.items())
 
 
-class NewsWidget(object):
+class NewsWidget(BaseView):
     """ Widget for news. It's shown in every page inside
     base template"""
-    def __init__(self, context, request):
-        self.context = context
-        self.request = request
 
     @view_config(context=ISiteRoot, name="news_widget",
             renderer='templates/news_widget.pt')
@@ -458,36 +454,30 @@ class NewsWidget(object):
         news = self.context['news'].order_by_time()
         news_number = 3
 
-        return {
+        _dict = {
             'news': news[0:news_number],
-            'resource_url': resource_url,
             'shorten': shorten_text
         }
+        return dict(self.base_dict.items() + _dict.items())
 
-class NewsItem(object):
+
+class NewsItem(BaseView):
     """ Views for single newsitem """
-    def __init__(self, context, request):
-        self.context = context
-        self.request = request
 
     @view_config(context=NewsItem, renderer='templates/news_item.pt')
     def __call__(self):
-        logged_in = authenticated_userid(self.request)
-        return {
+        _dict = {
             'title': self.context.title,
             'text': self.context.text,
             'image_url': self.context.image_url,
-            'logged_in': logged_in,
-            'resource_url': resource_url,
         }
+        return dict(self.base_dict.items() + _dict.items())
 
     @view_config(context=NewsItem, name='edit',
             renderer='templates/news_item_edit.pt', permission='edit_content')
     def view_news_item_edit(self):
-        logged_in = authenticated_userid(self.request)
         form = Form(self.request, schema=NewsCreateSchema,
                 state=State(request=self.request))
-        message = u''
         title = get_param(self.request, 'title', _return=self.context.title)
         text = get_param(self.request, 'text', _return=self.context.text)
         image_url = get_param(self.request, 'image_url',
@@ -497,40 +487,31 @@ class NewsItem(object):
             self.context.title = title
             self.context.text = text
             self.context.image_url = image_url
-            message = msg['saved']
+            self.message = msg['saved']
 
-
-        return {
+        _dict = {
             'title': title,
             'content': text,
             'image_url': image_url,
-            'logged_in': logged_in,
-            'resource_url': resource_url,
-            'message': message,
             'form': FormRenderer(form),
         }
+        return dict(self.base_dict.items() + _dict.items())
 
 
-class NewsView(object):
+class NewsView(BaseView):
     """ View for news which contains all the news """
-    def __init__(self, context, request):
-        self.context = context
-        self.request = request
 
     @view_config(context=News, renderer='templates/news.pt')
     def __call__(self):
-        logged_in = authenticated_userid(self.request)
-        return {
+        _dict = {
             'news': self.context,
-            'logged_in': logged_in,
-            'resource_url': resource_url,
         }
+        return dict(self.base_dict.items() + _dict.items())
 
     @view_config(context=News, name="create",
                 renderer='templates/news_create.pt',
                 permission="edit_container")
     def view_news_create(self):
-        logged_in = authenticated_userid(self.request)
         form = Form(self.request, schema=NewsCreateSchema,
                     state=State(request=self.request))
         title = get_param(self.request, 'title')
@@ -538,27 +519,26 @@ class NewsView(object):
         image_url = get_param(self.request, 'image_url')
 
         if form.validate():
-            item_context = self.context.add(title, text, image_url, logged_in)
-            return HTTPFound(location=resource_url(item_context, self.request))
+            item_context = self.context.add(title, text,
+                    image_url, self.logged_in)
+            return HTTPFound(location=resource_url(item_context,
+                    self.request))
 
-        return {
+        _dict = {
             'page': self.context,
-            'logged_in': logged_in,
             'context_url': resource_url(self.context, self.request),
-            'resource_url': resource_url,
             'form': FormRenderer(form),
             'title': title,
             'content': text,
             'image_url': image_url,
         }
+        return dict(self.base_dict.items() + _dict.items())
 
     @view_config(context=News, name="edit",
                 renderer='templates/news_edit.pt', permission="edit_container")
     def view_news_edit(self):
-        logged_in = authenticated_userid(self.request)
         form = Form(self.request, schema=BaseSchema,
                     state=State(request=self.request))
-        message = ""
         if form.validate():
             # Filter checkbox-parameters from request
             cbs = [p for p in self.request.params.keys()
@@ -569,62 +549,59 @@ class NewsView(object):
             for cb in cbs:
                 item = self.request.params[cb]
                 self.context.remove(item)
-                message = msg['items_removed']
+                self.message = msg['items_removed']
 
-        return {
-            'logged_in': logged_in,
+        _dict = {
             'context_url': resource_url(self.context, self.request),
-            'resource_url': resource_url,
             'form': FormRenderer(form),
-            'message': message,
+            'message': self.message,
         }
+        return dict(self.base_dict.items() + _dict.items())
 
 
-class EditBarView(object):
+class EditBarView(BaseView):
     """ View for editor bars. The bar is only
     shown when user with a specific permission tries to
     view content """
-    def __init__(self, context, request):
-        self.context = context
-        self.request = request
 
     @view_config(context=IContainer, name="editbar",
             renderer='templates/container_editbar.pt')
     def view_container_bar(self):
         """ Bar for container """
-        return {
+        _dict = {
             'edit_url': resource_url(self.context, self.request) + 'edit',
             'create_url': resource_url(self.context, self.request) + 'create',
             'has_permission': has_permission('edit_container',
                             self.context, self.request)
         }
+        return dict(self.base_dict.items() + _dict.items())
 
     @view_config(context=IContent, name="editbar",
             renderer='templates/content_editbar.pt')
     def view_content_bar(self):
         """ Bar for single content """
-        return {
+        _dict = {
             'edit_url': resource_url(self.context, self.request) + 'edit',
             'has_permission': has_permission('edit_content',
                             self.context, self.request)
         }
+        return dict(self.base_dict.items() + _dict.items())
 
 
-class CommentView(object):
+class CommentView(BaseView):
     """ View for comments """
-    def __init__(self, context, request):
-        self.context = context
-        self.request = request
 
     @view_config(context=IComment, name="comments",
             renderer='templates/comments.pt')
     def __call__(self):
-        return {
+        _dict = {
             'comments': self.context.comments
         }
+        return dict(self.base_dict.items() + _dict.items())
 
     @view_config(context=IComment, name="add_comment")
     def add_comment(self):
-        return {
+        _dict = {
             'asdf': 'asdf'
         }
+        return dict(self.base_dict.items() + _dict.items())
