@@ -37,7 +37,7 @@
 
     <!-- Textarea -->
     <div class="row">
-      <div class="span6">
+      <div class="span8">
         <div tal:omit-tag="not: form.errorlist('text')"
                 class="control-group error">
           <label i18n:translate="wysiwyg_editor_label">Content</label>
