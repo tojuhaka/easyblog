@@ -9,6 +9,8 @@ msg = {
     'succeed_news_create': u"Successfully created news item",
     'saved': _(msgid=u"saved", default="Changes successfully saved"),
     'no_results': u'No search results',
-    'items_removed': u'Items successfully removed'
+    'items_removed': u'Items successfully removed',
+    'create_post': u"Create a single post under the blog by defining it's \
+            title and content. The posts are shown under the blogs description"
     }
 

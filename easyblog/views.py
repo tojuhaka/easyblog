@@ -241,7 +241,7 @@ class BlogView(object):
             'container': self.context.description,
             'image_url': self.context.image_url,
             'resource_url': resource_url
-        }
+    }
 
     @view_config(context=Blog, renderer='templates/blog_edit.pt',
                  permission='edit_content', name='edit')
@@ -262,11 +262,14 @@ class BlogView(object):
         logged_in = authenticated_userid(self.request)
         form = Form(self.request, schema=BlogPostSchema,
                     state=State(request=self.request))
-        message = ""
+        message = msg['create_post']
+
+        title = get_param(self.request, 'title')
+        text = get_param(self.request, 'text')
 
         if form.validate():
-            post_context = self.context.add(self.request.params['title'],
-                        self.request.params['text'], logged_in)
+            post_context = self.context.add(title,
+                        text, logged_in)
 
             return HTTPFound(location=resource_url(post_context, self.request))
 
@@ -274,6 +277,8 @@ class BlogView(object):
             'page': self.context,
             'logged_in': logged_in,
             'blogname': self.context.name,
+            'text': text,
+            'title': title,
             'message': message,
             'form': FormRenderer(form),
             'resource_url': resource_url

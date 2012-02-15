@@ -13,7 +13,7 @@
     </div><!-- row -->
     <div class="row">
       <div class="span8">
-        <p> ${context.text} </p>
+        <p tal:content="structure context.text">  </p>
       </div>
     </div>
   </tal:block>

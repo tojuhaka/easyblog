@@ -8,3 +8,6 @@ jQuery ($) ->
           nav_label_last: '>>'
           nav_label_prev: '<'
           nav_label_next: '>'
+
+    $('#wysiwyg').wysiwyg()
+    " "

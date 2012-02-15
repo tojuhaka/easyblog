@@ -3,26 +3,60 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       metal:use-macro="base">
   <tal:block  metal:fill-slot="content">
-        <h1> ${blogname} </h1>
+
+    <div class="page-header"> 
+      <h1> ${blogname} </h1>
+    </div>
+
+    <div tal:condition="message" class="alert alert-info">
+      ${message}
+    </div>
+
+    <div class="row">
+      <div class="span4">
         <h2> Add Post </h2>
-        <div class="message">
-          <p> ${message} </p>
+      </div>
+    </div>
+
+    <div i18n:translate="errors" tal:condition="form.all_errors()" class="alert alert-error">
+      There are some errors!
+    </div>
+
+    ${form.begin(request.url)}
+    ${form.csrf_token()}
+
+    <div tal:omit-tag="not: form.errorlist('title')"
+            class="control-group error">
+      <label i18n:translate="title">Title</label>
+      <input tal:attributes="value title" class="span6" type="text" name="title" placeholder="Type title…" >
+      <span tal:condition="python: form.errorlist('title')" 
+            tal:content="form.errors_for('title')[0]"
+            class="help-inline">Please correct the error
+      </span>
+    </div>
+
+    <!-- Textarea -->
+    <div class="row">
+      <div class="span6">
+        <div tal:omit-tag="not: form.errorlist('text')"
+                class="control-group error">
+          <label i18n:translate="wysiwyg_editor_label">Content</label>
+          
+          <!-- Error detail -->
+          <span tal:condition="python: form.errorlist('text')" 
+            tal:content="form.errors_for('text')[0]"
+            class="help-inline">Please correct the error
+          </span>
+
+          <textarea tal:content="text" id="wysiwyg" style="width: 100%; height: 500px;" rows="10"
+            name="text" placeholder="Type text…"></textarea>
         </div>
-        ${form.begin(request.url)}
-        ${form.csrf_token()}
-        <div class="field">
-          ${form.label("title")}
-          ${form.errorlist("title")}
-          ${form.text("title")}
-        </div>
-        <div class="field">
-          ${form.label("text")}
-          ${form.errorlist("text")}
-          ${form.text("text")}
-        </div>
-        <div class="buttons">
-            ${form.submit("submit", "Create Post")}
-        </div>
-        ${form.end()}
+      </div><!-- Span -->
+    </div><!-- Row -->
+
+    <div class="buttons">
+        ${form.submit("submit", "Create Post")}
+    </div>
+    ${form.end()}
     </tal:block>
 </html>
