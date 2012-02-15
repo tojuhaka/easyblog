@@ -39,3 +39,20 @@ def chunks(l, n):
     return [l[i:i+n] for i in range(0, len(l), n)]
 
 
+class Provider(object):
+    """ Provides rendered pages inside other templates """
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
+
+    def __call__(self, name='', secure=True):
+        from pyramid.view import render_view
+        # Decode to utf8, else it's gonna throw UnicodeDecodeError
+        try:
+            return render_view(self.context, self.request,
+                    name, secure).decode("utf8")
+        except AttributeError:
+            pass
+        return None
+
+

@@ -38,11 +38,16 @@ class BaseView(object):
         # Main message for pages if needed
         self.message = u''
 
+        from pyramid.renderers import get_renderer
+        from easyblog.utilities import Provider
+        base = get_renderer('templates/base.pt').implementation()
         # This dict will be returned in every view
         self.base_dict = {
             'logged_in': self.logged_in,
             'message': self.message,
-            'resource_url': resource_url
+            'resource_url': resource_url,
+            'base': base,
+            'provider': Provider(self.context, self.request)
         }
 
 
