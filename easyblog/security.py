@@ -10,8 +10,8 @@ acl = [(Allow, Everyone, 'view'),
         (Allow, u'group:members', 'edit'),
         (Allow, u'group:admins', 'edit_all'),
         (Allow, u'group:admins', 'edit_content'),
-        (Allow, u'group:admins', 'edit_container'),
-        (Allow, u'group:editors', 'edit_container')]
+        (Allow, u'group:admins', 'edit_container')]
+        # (Allow, u'group:editors', 'edit_container')]
 
 group_names = {
     'admin': u'group:admins',

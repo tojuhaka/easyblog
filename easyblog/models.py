@@ -115,6 +115,10 @@ class Groups(PersistentMapping):
 
 class Blogs(Container):
     """ Blog mapper which contains all the logs """
+    @property
+    def __acl__(self):
+        acls = [(Allow, group_names['editor'], 'edit_container')]
+        return acls
 
     def __init__(self):
         super(PersistentMapping, self).__init__()
@@ -218,6 +222,10 @@ class NewsItem(Persistent):
 
 class News(Container):
     """ Contains all the news items """
+    @property
+    def __acl__(self):
+        acls = [(Allow, group_names['editor'], 'edit_container')]
+        return acls
 
     def __init__(self):
         super(PersistentMapping, self).__init__()

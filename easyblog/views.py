@@ -316,8 +316,6 @@ class BlogsView(BaseView):
 
         _dict = {
             'context_url': resource_url(self.context, self.request),
-            'has_permission': has_permission('edit_container',
-                            self.context, self.request),
             'splitted_keys': splitted_keys,
             'shorten': shorten_text
         }

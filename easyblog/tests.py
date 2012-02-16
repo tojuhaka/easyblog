@@ -523,11 +523,28 @@ class FunctionalTests(unittest.TestCase):
         self.test_blogpost_create()
         res = self.testapp.get('/blogs/b0/p0/')
         self.assertTrue('btn-success' in res.body)
+    
+    def test_blog_action_button(self):
+        self.test_blogpost_create()
+        res = self.testapp.get('/blogs/b0/')
+        self.assertTrue('Edit' in res.body)
+        self._create_second_editor()
+        self._login('editor2', 'editor2pw#')
+        res = self.testapp.get('/blogs/b0/')
+        self.assertFalse('Edit' in res.body)
+
 
     def test_blogpost_owner(self):
         self.test_blogpost_edit_permission()
         res = self.testapp.get('/blogs/b0/p0/')
         self.assertFalse('Edit' in res.body)
+
+    def test_blog_owner(self):
+        self.test_blog_create()
+        self._create_second_editor()
+        self._login('editor2', 'editor2pw#')
+        res = self.testapp.get('/blogs/b0/edit')
+        self.assertTrue('alert-error' in res.body)
 
     def test_blog_remove(self):
         # Login as admin and create blog

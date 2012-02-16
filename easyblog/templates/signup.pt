@@ -42,7 +42,7 @@
       <div tal:omit-tag="not: form.errorlist('password_confirm')"
             class="control-group error">
         <label i18n:translate="password_confirm">Password Confirmation</label>
-        <input type="password_confirm" name="password_confirm" placeholder="Type password…" >
+        <input type="password" type="password_confirm" name="password_confirm" placeholder="Type password…" >
         <span tal:condition="python: form.errorlist('password_confirm')" 
             tal:content="form.errors_for('password_confirm')[0]"
             class="help-inline">Please correct the error

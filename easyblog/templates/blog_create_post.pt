@@ -8,8 +8,10 @@
       <h1> ${blogname} </h1>
     </div>
 
-    <div tal:condition="message" class="alert alert-info">
-      ${message}
+    <div class="row">
+      <div tal:condition="message" class="alert alert-info span8">
+        ${message}
+      </div>
     </div>
 
     <div class="row">
@@ -18,24 +20,30 @@
       </div>
     </div>
 
-    <div i18n:translate="errors" tal:condition="form.all_errors()"
-            class="alert alert-error">
-      There are some errors!
-    </div>
+    <div tal:condition="form.all_errors()" class="row">
+      <div i18n:translate="errors" tal:condition="form.all_errors()"
+            class="alert alert-error span8">
+        There are some errors!
+      </div>
+    </div><!-- row -->
 
     ${form.begin(request.url)}
     ${form.csrf_token()}
 
-    <div tal:omit-tag="not: form.errorlist('title')"
-            class="control-group error">
-      <label i18n:translate="title">Title</label>
-      <input tal:attributes="value title" class="span6"
-            type="text" name="title" placeholder="Type title…" >
-      <span tal:condition="python: form.errorlist('title')" 
-            tal:content="form.errors_for('title')[0]"
-            class="help-inline">Please correct the error
-      </span>
-    </div>
+    <div class="row">
+      <div class="span8">
+        <div tal:omit-tag="not: form.errorlist('title')"
+                class="control-group error">
+          <label i18n:translate="title">Title</label>
+          <input tal:attributes="value title" class="span6"
+                type="text" name="title" placeholder="Type title…" >
+          <span tal:condition="python: form.errorlist('title')" 
+                tal:content="form.errors_for('title')[-1]"
+                class="help-inline">Please correct the error
+          </span>
+        </div>
+      </div><!-- Span -->
+    </div><!-- Row -->
 
     <!-- Textarea -->
     <div class="row">
@@ -50,14 +58,20 @@
             class="help-inline">Please correct the error
           </span>
 
-          <textarea tal:content="text" id="wysiwyg" style="width: 100%; height: 500px;" rows="10"
-            name="text" placeholder="Type text…"></textarea>
+          <textarea tal:content="text" class="wysiwyg" id="wysiwyg"
+            name="text" placeholder="Type text…">
+          </textarea>
+
         </div>
       </div><!-- Span -->
     </div><!-- Row -->
 
-    <div class="buttons">
-        ${form.submit("submit", "Create Post")}
+    <div class="row">
+      <div class="span4">
+        <div class="buttons">
+          <button i18n:translate="create_post_button" class="btn" type="submit">Create Post</button>
+        </div>
+      </div>
     </div>
     ${form.end()}
     </tal:block>
