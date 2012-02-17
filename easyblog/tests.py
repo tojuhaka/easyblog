@@ -523,15 +523,16 @@ class FunctionalTests(unittest.TestCase):
         self.test_blogpost_create()
         res = self.testapp.get('/blogs/b0/p0/')
         self.assertTrue('btn-success' in res.body)
-    
-    def test_blog_action_button(self):
-        self.test_blogpost_create()
-        res = self.testapp.get('/blogs/b0/')
-        self.assertTrue('Edit' in res.body)
-        self._create_second_editor()
-        self._login('editor2', 'editor2pw#')
-        res = self.testapp.get('/blogs/b0/')
-        self.assertFalse('Edit' in res.body)
+   
+    # TODO: is this needed?
+    # def test_blog_action_button(self):
+    #     self.test_blogpost_create()
+    #     res = self.testapp.get('/blogs/b0/')
+    #     self.assertTrue('Edit' in res.body)
+    #     self._create_second_editor()
+    #     self._login('editor2', 'editor2pw#')
+    #     res = self.testapp.get('/blogs/b0/')
+    #     self.assertFalse('Edit' in res.body)
 
 
     def test_blogpost_owner(self):
@@ -674,6 +675,16 @@ class FunctionalTests(unittest.TestCase):
         res = self._login('editor', 'editorpw#')
         res = self.testapp.get('/news/edit')
         self.assertTrue('table' in res.body)
+
+    def test_blogs_edit_link(self):
+        # Login as member, there shouldn't be
+        # create link
+        res = self._login('editor', 'editorpw#')
+        res = self.testapp.get('/blogs/edit')
+        self.assertTrue('table' in res.body)
+        res = self._login('member', 'memberpw#')
+        res = self.testapp.get('/blogs/edit')
+        self.assertTrue('Username' in res.body)
 
     def test_news_remove_news(self):
         self.test_news_create()

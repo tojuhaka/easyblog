@@ -346,7 +346,7 @@ class BlogsView(BaseView):
         }
         return dict(self.base_dict.items() + _dict.items())
 
-    @view_config(context=News, name="edit",
+    @view_config(context=Blogs, name="edit",
                 renderer='templates/blogs_edit.pt',
                 permission="edit_container")
     def view_blogs_edit(self):

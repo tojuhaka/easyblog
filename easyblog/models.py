@@ -16,6 +16,11 @@ class Container(PersistentMapping):
     """ Base container for all the objects
     that store other objects for example
     Blogs and News are containers """
+    def __init__(self):
+        PersistentMapping.__init__(self)
+        self.item_number = 0
+        self.timestamp = datetime.now()
+
     def add(self):
         raise NotImplementedError("Add method not defined")
 
@@ -37,7 +42,11 @@ class Content(Persistent):
     that are defined as contents for example
     single blogpost or single news item is
     a content """
-    pass
+    def __init__(self, owner, id):
+        Persistent.__init__(self)
+        self.owner = owner
+        self.timestamp = datetime.now()
+        self.id = id
 
 # Main root object in our ZODB database
 class Main(PersistentMapping):
@@ -48,7 +57,7 @@ class Main(PersistentMapping):
     __acl__ = acl
 
 
-class Users(PersistentMapping):
+class Users(Container):
     """ Contains all the users """
 
     def has_user(self, username):
@@ -61,16 +70,17 @@ class Users(PersistentMapping):
         user.__name__ = username
         user.__parent__ = self
         self[user.username] = user
+        self.item_number += 1
 
 
-class User(Persistent):
-
+class User(Content):
     @property
     def __acl__(self):
         acls = [(Allow, 'u:%s' % self.username, 'edit_content')]
         return acls
 
     def __init__(self, username, password, email):
+        Content.__init__(self, username, username)
         self.username = username
         self.password = pwd_context.encrypt(password + salt)
         self.email = email
@@ -83,7 +93,7 @@ class User(Persistent):
         return pwd_context.verify(password + salt, self.password)
 
 
-class Groups(PersistentMapping):
+class Groups(Container):
     """ Contains the information about the groups of
     the users """
 
@@ -150,10 +160,11 @@ class Blog(Container):
         return acls
 
     def __init__(self, name, description, image_url, owner, id):
-        super(PersistentMapping, self).__init__()
+        PersistentMapping.__init__(self)
         self.post_number = 0
         self.name = name
         self.owner = owner
+        self.timestamp = datetime.now()
         self.comments = "HERE IS SOME COMMENTS"
         self.image_url = image_url
         self.description = description
@@ -168,9 +179,9 @@ class Blog(Container):
         return post
 
 
-class BlogPost(Persistent):
+class BlogPost(Content):
     """ Single post inside blog """
-    implements(IComment, IContent)
+    implements(IContent, IComment)
 
     @property
     def __acl__(self):
@@ -190,7 +201,7 @@ class BlogPost(Persistent):
         self.timestamp.strftime("%X"))
 
 
-class NewsItem(Persistent):
+class NewsItem(Content):
     """ Contains all the information about
     one news item """
     implements(IComment, IContent)
@@ -201,15 +212,12 @@ class NewsItem(Persistent):
                 (Allow, group_names['editor'], 'edit_content')]
         return acls
 
-    def __init__(self, title, text, image_url, username, id):
+    def __init__(self, title, text, image_url, owner, id):
+        Content.__init__(self, owner, id)
         # super(PersistentMapping, self).__init__()
         self.title = title
         self.text = text
-
         self.image_url = image_url
-        self.owner = username
-        self.id = id
-        self.timestamp = datetime.now()
         self.comments = "COMMENTS FROM NEWSITEM"
 
     def date(self):
