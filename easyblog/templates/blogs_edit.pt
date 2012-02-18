@@ -9,6 +9,13 @@
       </div>
       <span tal:condition="provider" tal:replace="structure provider('editbar')" />
     </div><!-- row -->
+    
+    <div class="row">
+        <div tal:condition="message" class="span6 alert alert-success">
+            ${message}
+        </div>
+    </div>
+
     ${message}
     ${form.begin(request.url)}
     ${form.csrf_token()}
@@ -20,26 +27,26 @@
             <th> Date </th>
           </thead>
           <tbody>
-            <div tal:repeat="blogs_item context.order_by_time()">
+            <div tal:repeat="blog context.order_by_time()">
               <tr>
 
                 <!-- Title -->    
                 <td>
-                  <a tal:content="blogs_item.title" 
-                   tal:attributes="href resource_url(blogs_item, request)">
+                  <a tal:content="blog.name" 
+                   tal:attributes="href resource_url(blog, request)">
                    News
                   </a>
                 </td>
 
                 <!-- Creator -->    
-                <td tal:content="blogs_item.owner" >
+                <td tal:content="blog.owner" >
 
                 <!-- Date -->    
-                <td tal:content="blogs_item.date()">News</td>
+                <td tal:content="blog.date()">News</td>
 
                 <td>
-               <input tal:attributes="value blogs_item.id;
-                        name string:checkbox-${blogs_item.id}"
+               <input tal:attributes="value blog.id;
+                        name string:checkbox-${blog.id}"
                         class="checkbox" type="checkbox"/>
                 </td>
               </tr>

@@ -9,6 +9,13 @@
       </div>
       <span tal:condition="provider" tal:replace="structure provider('editbar')" />
     </div><!-- row -->
+
+    <div class="row">
+        <div tal:condition="message" class="span6 alert alert-success">
+            ${message}
+        </div>
+    </div>
+
     ${message}
     ${form.begin(request.url)}
     ${form.csrf_token()}

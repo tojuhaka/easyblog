@@ -9,7 +9,7 @@
     </div>
 
     <div class="row">
-      <div tal:condition="message" class="alert alert-info span8">
+      <div tal:condition="message" class="alert alert-info span6">
         ${message}
       </div>
     </div>

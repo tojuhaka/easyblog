@@ -348,7 +348,7 @@ class BlogsView(BaseView):
 
     @view_config(context=Blogs, name="edit",
                 renderer='templates/blogs_edit.pt',
-                permission="edit_container")
+                permission="edit_all")
     def view_blogs_edit(self):
         form = Form(self.request, schema=BaseSchema,
                     state=State(request=self.request))

@@ -136,7 +136,7 @@ class ModelTests(unittest.TestCase):
 
     def test_user_add(self):
         from easyblog.models import Users
-        users = Users()
+        users = Users(u'users', u'main', u'users')
         users.add('user', 'password', 'user@user.com')
         users.add('admin', 'password', 'admin@user.com')
         self.assertTrue(users.has_user('user'))
@@ -152,7 +152,7 @@ class ModelTests(unittest.TestCase):
 
     def test_group_remove_group(self):
         from easyblog.models import Groups
-        groups = Groups()
+        groups = Groups(u'groups', u'main', u'groups')
         groups.add(u'admin', u'group:admins')
         groups.add(u'member', u'group:members')
         groups.add(u'editor', u'group:editors')
@@ -161,7 +161,7 @@ class ModelTests(unittest.TestCase):
 
     def test_group_policy_add(self):
         from easyblog.models import Groups
-        groups = Groups()
+        groups = Groups(u'groups', u'main', u'groups')
         policy = {u'admin': [u'group:admins', u'group:editors'],
                   u'member': [u'group:members', u'group:editors']}
         groups.add_policy(policy)
@@ -169,7 +169,7 @@ class ModelTests(unittest.TestCase):
 
     def test_has_blogname(self):
         from .models import Blogs
-        blogs = Blogs()
+        blogs = Blogs(u'blogs', u'main', u'blogs')
         blogs.add(u'test test', u'description for our beautiful blog',
                 u'http://google.com', u'admin')
         self.assertTrue(blogs.has_blog(u'test test'))
@@ -177,7 +177,7 @@ class ModelTests(unittest.TestCase):
 
     def test_groups_flusj(self):
         from .models import Groups
-        groups = Groups()
+        groups = Groups(u'groups', u'main', u'groups')
         groups.add(u'member', u'members:group')
         groups.flush(u'member')
         self.assertTrue(groups[u'member'] == [])
@@ -199,14 +199,14 @@ class ModelTests(unittest.TestCase):
 
     def test_news_add(self):
         from easyblog.models import News
-        news = News()
+        news = News(u'news', u'main', u'news')
         news.add(u'Title for news', u'Here we write some content for the news',
                  u'', u'admin')
         self.assertTrue(news.has_item(u'Title for news'))
 
     def test_news_by_owner(self):
         from easyblog.models import News
-        news = News()
+        news = News(u'news', u'main', u'news')
         news.add(u'Title for news', u'Here we write some content for the news',
                  u'', u'admin')
         news.add(u'Title for news4', u'Here we write some content \
@@ -686,7 +686,7 @@ class FunctionalTests(unittest.TestCase):
         res = self.testapp.get('/blogs/edit')
         self.assertTrue('Username' in res.body)
 
-    def test_news_remove_news(self):
+    def test_news_remove(self):
         self.test_news_create()
         res = self.testapp.get('/news/create')
         res = self._create_news(res, 'Title for another news',
@@ -697,6 +697,19 @@ class FunctionalTests(unittest.TestCase):
         form.set('checkbox-n0', True, 0)
         res = form.submit()
         self.assertFalse('Title for our news' in res.body)
+
+    def test_blogs_remove(self):
+        # Editor shouldn't be allowed to edit blogs
+        self.test_blog_create()
+        res = self.testapp.get('/blogs/edit')
+        self.assertFalse('checkbox' in res.body)
+       
+        # Admin should
+        self._login('admin', 'adminpw#')
+        res = self.testapp.get('/blogs/edit')
+        form = res.forms[0]
+        res = form.submit()
+        self.assertFalse('My Blog' in res.body)
 
     def test_news_widget(self):
         self.test_news_create()
