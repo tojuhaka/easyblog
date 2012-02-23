@@ -1,3 +1,10 @@
+0.4
+---
+- Blogs created
+- Added loads of tickets into pivotal tracker for future
+  development
+- Ready for next prototype
+
 0.3
 ---
 - Changed some frontpage texts for release

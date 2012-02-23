@@ -708,6 +708,7 @@ class FunctionalTests(unittest.TestCase):
         self._login('admin', 'adminpw#')
         res = self.testapp.get('/blogs/edit')
         form = res.forms[0]
+        form.set('checkbox-b0', True, 0)
         res = form.submit()
         self.assertFalse('My Blog' in res.body)
 
