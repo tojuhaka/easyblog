@@ -458,6 +458,11 @@ class FunctionalTests(unittest.TestCase):
         res = self.testapp.get('/blogs')
         self.assertTrue('My Blog' in res.body)
 
+    def test_blog_edit_permission(self):
+        self.test_blog_create()
+        res = self.testapp.get('/blogs/b0/edit')
+        self.assertTrue('This is my blog' in res.body)
+
     def test_blog_edit(self):
         # login as member and create a new blog
         res = self._login('admin', 'adminpw#')
@@ -473,12 +478,19 @@ class FunctionalTests(unittest.TestCase):
         # login as admin and test permission
         res = self._login('admin', 'adminpw#')
         res = self.testapp.get(urllib.quote('/blogs/b0/edit'))
-        self.assertTrue('Edit My Blog' in res.body)
+        self.assertTrue('Edit Blog' in res.body)
 
     def test_blogpost_edit(self):
         self.test_blogpost_create()
         res = self.testapp.get('/blogs/b0/p0/edit')
         self.assertTrue('thisisasubject' in res.body)
+
+    def test_blog_edit_blogposts(self):
+        self.test_blogpost_create()
+        res = self.testapp.get('/blogs/b0/edit')
+        self.assertTrue('thisisasubject' in res.body)
+        self.assertTrue('table' in res.body)
+        
 
     def test_blogpost_edit_link(self):
         self.test_blogpost_create()

@@ -241,11 +241,34 @@ class BlogView(BaseView):
     @view_config(context=Blog, renderer='templates/blog_edit.pt',
                  permission='edit_content', name='edit')
     def view_blog_edit(self):
-        self.message = "Edit %s" % self.context.name
+        form = Form(self.request, schema=BlogCreateSchema,
+                    state=State(request=self.request))
+        blogname = get_param(self.request, 'blogname', self.context.name)
+        text = get_param(self.request, 'text', self.context.description)
+        image_url = get_param(self.request, 'image_url', self.context.image_url)
+
+        if form.validate():
+            self.context.name = blogname
+            self.context.description = text
+            self.image_url = image_url
+            self.message = msg['saved']
+
+            cbs = [p for p in self.request.params.keys()
+                            if u'checkbox' in p]
+
+            # check all the checkbox-parameters and
+            # parse them
+            for cb in cbs:
+                item = self.request.params[cb]
+                self.context.remove(item)
+                self.message = msg['items_removed']
+
         _dict = {
-            'page': self.context,
-            'blogname': self.context.name,
-            'message': self.message
+            'form': FormRenderer(form),
+            'message': self.message,
+            'blogname': blogname,
+            'text': text,
+            'image_url': image_url
         }
         return dict(self.base_dict.items() + _dict.items())
 
