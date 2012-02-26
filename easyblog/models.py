@@ -6,13 +6,12 @@ from easyblog.security import pwd_context, salt, acl, group_names
 from datetime import datetime
 from pyramid.security import Allow
 
-from easyblog.interfaces import ISiteRoot, IComment, IContainer, IContent
+from easyblog.interfaces import ISiteRoot, IComment, IContainer, IContent, IPage
 from zope.interface import implements
 
 from .utilities import order
 
 class Container(PersistentMapping):
-    implements(IContainer)
     """ Base container for all the objects
     that store other objects for example
     Blogs and News are containers """
@@ -64,48 +63,26 @@ class Content(Persistent):
 
 # Main root object in our ZODB database
 class Main(PersistentMapping):
-    implements(ISiteRoot)
+    implements(IPage, ISiteRoot, IContainer)
     """ Root object for ZODB """
     __name__ = None
     __parent__ = None
     __acl__ = acl
 
-
-class Users(Container):
-    """ Contains all the users """
-
-    def has_user(self, username):
-        if username in self.keys():
-            return True
-        return False
-
-    def add(self, username, password, email):
-        user = User(username, password, email)
-        user.__name__ = username
-        user.__parent__ = self
-        self[user.username] = user
-        self.item_number += 1
-
-
-class User(Content):
+class Page(Content):
+    implements(IPage, IContent)
+    """ Editable static page """
+    #TODO: 'Pages' container, make the container - content
+    # relationship more modular
     @property
     def __acl__(self):
-        acls = [(Allow, 'u:%s' % self.username, 'edit_content')]
+        acls = [(Allow, group_names['editor'], 'edit_content')]
         return acls
 
-    def __init__(self, username, password, email):
-        Content.__init__(self, username, username, username)
-        self.username = username
-        self.password = pwd_context.encrypt(password + salt)
-        self.email = email
-
-    def edit(self, password, email):
-        self.password = pwd_context.encrypt(password + salt)
-        self.email = email
-
-    def validate_password(self, password):
-        return pwd_context.verify(password + salt, self.password)
-
+    def __init__(self, title, text, owner, id):
+        Content.__init__(self, title, owner, id)
+        self.title = title
+        self.content = text
 
 class Groups(Container):
     """ Contains the information about the groups of
@@ -136,9 +113,49 @@ class Groups(Container):
         for username in policy.keys():
             self[username] = policy[username] + [u'u:%s' % username]
 
+class Users(Container):
+    implements(IPage, IContainer)
+    """ Contains all the users """
+
+    def has_user(self, username):
+        if username in self.keys():
+            return True
+        return False
+
+    def add(self, username, password, email):
+        user = User(username, password, email)
+        user.__name__ = username
+        user.__parent__ = self
+        self[user.username] = user
+        self.item_number += 1
+
+
+class User(Content):
+    implements(IPage, IContent)
+    @property
+    def __acl__(self):
+        acls = [(Allow, 'u:%s' % self.username, 'edit_content')]
+        return acls
+
+    def __init__(self, username, password, email):
+        Content.__init__(self, username, username, username)
+        self.username = username
+        self.password = pwd_context.encrypt(password + salt)
+        self.email = email
+
+    def edit(self, password, email):
+        self.password = pwd_context.encrypt(password + salt)
+        self.email = email
+
+    def validate_password(self, password):
+        return pwd_context.verify(password + salt, self.password)
+
+
+
 
 class Blogs(Container):
     """ Blog mapper which contains all the logs """
+    implements(IPage, IContainer)
     @property
     def __acl__(self):
         acls = [(Allow, group_names['editor'], 'edit_container')]
@@ -160,6 +177,7 @@ class Blogs(Container):
         return False
 
 class Blog(Container):
+    implements(IPage, IContainer)
     """ Blog which contains posts from user """
 
     @property
@@ -182,12 +200,9 @@ class Blog(Container):
         self.item_number += 1
         return post
 
-
-
-
 class BlogPost(Content):
     """ Single post inside blog """
-    implements(IContent, IComment)
+    implements(IPage, IContent, IComment)
 
     @property
     def __acl__(self):
@@ -208,7 +223,7 @@ class BlogPost(Content):
 class NewsItem(Content):
     """ Contains all the information about
     one news item """
-    implements(IComment, IContent)
+    implements(IPage, IComment, IContent)
 
     @property
     def __acl__(self):
@@ -230,6 +245,7 @@ class NewsItem(Content):
 
 class News(Container):
     """ Contains all the news items """
+    implements(IPage, IContainer)
     @property
     def __acl__(self):
         acls = [(Allow, group_names['editor'], 'edit_container')]
@@ -251,7 +267,6 @@ class News(Container):
                 return True
         return False
 
-
 def appmaker(zodb_root):
     if not 'app_root' in zodb_root:
         app_root = Main()
@@ -262,11 +277,16 @@ def appmaker(zodb_root):
         groups = Groups('groups', 'main', 'groups')
         news = News('news', 'main', 'news')
 
-        # register into root object
         app_root['users'] = users
         app_root['blogs'] = blogs
         app_root['groups'] = groups
         app_root['news'] = news
+
+        # static pages
+        about = Page('about', 'content',  'main', 'about')
+        contact = Page('about', 'content',  'main', 'about')
+        app_root['about'] = about
+        app_root['contact'] = contact
 
         users.__parent__ = app_root
         users.__name__ = 'users'
@@ -275,6 +295,10 @@ def appmaker(zodb_root):
         groups.__parent__ = app_root
         news.__name__ = 'news'
         news.__parent__ = app_root
+        contact.__name__ = 'contact'
+        contact.__parent__ = app_root
+        about.__name__ = 'about'
+        about.__parent__ = app_root
 
         users.add('admin', 'adminpw#', 'admin@admin.com')
         users.add('editor', 'editorpw#', 'editor@editor.com')

@@ -74,6 +74,7 @@ class BlogPostSchema(BaseSchema):
 
 # Schema for adding post to blog
 class NewsCreateSchema(BaseSchema):
+    """ Schema for single news form """
     title = validators.MaxLength(60, not_empty=True)
     text = validators.MinLength(10, not_empty=True)
     image_url = validators.URL(add_http=False, check_exists=True)

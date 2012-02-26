@@ -61,7 +61,6 @@
             </ul>
             <ul class="nav pull-right" tal:condition="not: logged_in">
                 <li><a href="/login">Login</a></li>
-                <li><a href="/signup">Signup</a></li>
               </ul>
               <ul tal:condition="logged_in" class="nav pull-right">
                 <li class="dropdown">

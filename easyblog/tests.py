@@ -732,6 +732,23 @@ class FunctionalTests(unittest.TestCase):
     def test_blogs_view(self):
         res = self.testapp.get('/blogs/')
         self.assertTrue(u'List of Blogs' in res.body)
+
+    # Page tests
+    def test_page_contact_link(self):
+        res = self.testapp.get('/contact')
+        self.assertTrue(u'200 OK' in res.status)
+
+    def test_page_about_link(self):
+        res = self.testapp.get('/about')
+        self.assertTrue(u'200 OK' in res.status)
+
+    def test_page_about_edit_link(self):
+        res = self.testapp.get('/contact/edit')
+        self.assertTrue(u'200 OK' in res.status)
+
+    def test_page_contact_edit_link(self):
+        res = self.testapp.get('/contact/edit')
+        self.assertTrue(u'200 OK' in res.status)
     
 
     # TODO: Test spam bot protection by using a field which is hidden

@@ -21,16 +21,9 @@
       </div>
       <div id="${news_item.id}" class="accordion-body collapse" style="height: 0px;">
         <div class="accordion-inner">
-        <div class="thumbnail" style="border: none;">
-          <div class="row">
-            <a tal:condition="news_item.image_url" href="#" class="span4 thumbnail">
-              <img tal:condition="news_item.image_url" tal:attributes="src news_item.image_url" alt="Image not available">
-            </a>
-          </div>
-              <p  tal:content="structure python: news_item.text.replace('\n', '<br />')"></p>
+              <p tal:content="structure string:${shorten(news_item.text.replace('\n', '<br />'), 60)}..."></p>
               <p><i> - created by ${news_item.owner}</i></p>
-              <a tal:attributes="href resource_url(news_item, request)" class="btn btn-small">Read more &raquo;</a>
-        </div>
+              <a i18n:translate="read_more" tal:attributes="href resource_url(news_item, request)" class="btn btn-small">Read more &raquo;</a>
         </div>
       </div>
     </div><!-- accordion-group -->

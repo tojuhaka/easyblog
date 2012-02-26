@@ -8,7 +8,7 @@ from .schemas import UserEditSchema, BlogCreateSchema
 from .schemas import BlogPostSchema, BaseSchema
 from .schemas import UsersEditSchema, NewsCreateSchema
 from .security import group_names
-from .models import Main, User, Blog, Blogs
+from .models import Main, User, Blog, Blogs, Page
 from .models import Users, News, BlogPost, NewsItem
 from .security import groupfinder
 from .utilities import get_resource, get_param
@@ -470,6 +470,28 @@ class UsersView(BaseView):
         return dict(self.base_dict.items() + _dict.items())
 
 
+class Page(BaseView):
+    """ View for single page like 'contact' or 'about'"""
+    @view_config(context=Page, renderer='templates/page.pt')
+    def __call__(self):
+        title = self.context.title
+        _dict = {
+            'title': title
+        }
+        return dict(self.base_dict.items() + _dict.items())
+
+    @view_config(context=Page, renderer='templates/page_edit.pt', name="edit")
+    def view_edit(self):
+        title = get_param(self.request, 'title', self.context.title)
+        text = get_param(self.request, 'text', self.context.content)
+
+        _dict = {
+            'title': title,
+            'text': text
+        }
+        return dict(self.base_dict.items() + _dict.items())
+        
+
 class NewsWidget(BaseView):
     """ Widget for news. It's shown in every page inside
     base template"""
@@ -531,6 +553,7 @@ class NewsView(BaseView):
     def __call__(self):
         _dict = {
             'news': self.context,
+            'shorten': shorten_text,
         }
         return dict(self.base_dict.items() + _dict.items())
 
