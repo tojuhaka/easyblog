@@ -1,0 +1,54 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      metal:use-macro="base"
+      i18n:domain="easyblog">
+  <tal:block  metal:fill-slot="content">
+    <div class="page-header"> 
+      <h1 i18n:translate="create_news_title"> Create a single news item </h1>
+    </div>
+    <div class="well">
+      ${form.begin(request.url)}
+      ${form.csrf_token()}
+      <div i18n:translate="errors" tal:condition="form.all_errors()" class="alert alert-error">
+        There are some errors!
+      </div>
+
+      <!-- Title for newsitem -->
+      <div tal:omit-tag="not: form.errorlist('title')"
+            class="control-group error">
+        <label i18n:translate="title">Title</label>
+        <input tal:attributes="value title" class="span6" type="text" name="title" placeholder="Type title…" >
+        <span tal:condition="python: form.errorlist('title')" 
+            tal:content="form.errors_for('title')[0]"
+            class="help-inline">Please correct the error
+        </span>
+      </div>
+
+      <!-- Content of the news item -->
+      <div tal:omit-tag="not: form.errorlist('text')"
+            class="control-group error">
+        <label i18n:translate="text">Text</label>
+        <textarea tal:content="content" id="textarea" 
+            class="input-xlarge span6" rows="10" name="text" placeholder="Type text…"></textarea>
+      </div>
+
+      <!-- Image for newsitem -->
+      <div tal:omit-tag="not: form.errorlist('image_url')"
+            class="control-group error">
+        <label i18n:translate="image_url">Image URL</label>
+        <input tal:attributes="value image_url" class="span6" type="text" name="image_url" placeholder="Type URL of the image" >
+        <span tal:condition="python: form.errorlist('image_url')" 
+            tal:content="form.errors_for('image_url')[0]"
+            class="help-inline">Please correct the error
+        </span>
+      </div>
+
+      <div class="buttons">
+        <button i18n:translate="create" class="btn" type="submit">Create</button>
+      </div>
+
+    </div><!-- Wwell -->
+    ${form.end()}
+  </tal:block>
+</html>

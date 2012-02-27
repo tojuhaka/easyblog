@@ -72,6 +72,11 @@ class BlogPostSchema(BaseSchema):
     title = validators.MinLength(3, not_empty=True)
     text = validators.MinLength(10, not_empty=True)
 
+class PageEditSchema(BaseSchema):
+    """ Schema for Page edit """
+    title = validators.MinLength(3, not_empty=True)
+    text = validators.MinLength(10, not_empty=True)
+
 # Schema for adding post to blog
 class NewsCreateSchema(BaseSchema):
     """ Schema for single news form """

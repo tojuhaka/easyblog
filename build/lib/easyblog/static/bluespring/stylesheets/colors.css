@@ -1,0 +1,201 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+/* line 17, ../../../../../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.11.7/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* line 20, ../../../../../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.11.7/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+body {
+  line-height: 1;
+}
+
+/* line 22, ../../../../../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.11.7/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+ol, ul {
+  list-style: none;
+}
+
+/* line 24, ../../../../../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.11.7/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* line 26, ../../../../../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.11.7/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+caption, th, td {
+  text-align: left;
+  font-weight: normal;
+  vertical-align: middle;
+}
+
+/* line 28, ../../../../../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.11.7/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+q, blockquote {
+  quotes: none;
+}
+/* line 101, ../../../../../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.11.7/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+q:before, q:after, blockquote:before, blockquote:after {
+  content: "";
+  content: none;
+}
+
+/* line 30, ../../../../../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.11.7/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+a img {
+  border: none;
+}
+
+/* line 114, ../../../../../../../.rvm/gems/ruby-1.9.2-p290/gems/compass-0.11.7/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary {
+  display: block;
+}
+
+/* Mixins for re-use */
+/* line 24, ../sass/colors.scss */
+body {
+  background: #6f7a86;
+  color: #5a6370;
+}
+
+/* line 29, ../sass/colors.scss */
+#main {
+  background: white url('../../images/back.png?1327415984') repeat-y;
+  color: #5a6370;
+}
+
+/* line 34, ../sass/colors.scss */
+#links, #footer {
+  background: white url('../../images/menu.png?1327413603');
+  color: #d1d3d7;
+  border-color: #d7d7d7;
+  color: #d1d3d7;
+}
+/* line 37, ../sass/colors.scss */
+#links a, #footer a {
+  background: transparent;
+  color: #d1d3d7;
+}
+
+/* line 43, ../sass/colors.scss */
+#logo {
+  background: white url('../../images/logo.jpg?1327435258') no-repeat;
+  color: white;
+}
+
+/* line 48, ../sass/colors.scss */
+#menu {
+  background: white url('../../images/menu.png?1327413603');
+  color: #d1d3d7;
+  border-color: #d7d7d7;
+}
+/* line 51, ../sass/colors.scss */
+#menu li a {
+  background: white url('../../images/menu.png?1327413603');
+  color: #d1d3d7;
+  border-color: #d7d7d7;
+  /* TODO: Add #selected with javascript */
+}
+/* line 54, ../sass/colors.scss */
+#menu li a:hover {
+  background: white url('../../images/menu_hover.png?1327413626');
+  color: #484E56;
+}
+
+/* line 63, ../sass/colors.scss */
+#column1 h1 {
+  background: transparent;
+  color: #1775d5;
+  border-color: #89A9C7;
+}
+/* line 69, ../sass/colors.scss */
+#column1 h1 span.edit-content-bar a {
+  color: #1775d5;
+}
+/* line 71, ../sass/colors.scss */
+#column1 h1 span.edit-content-bar a:hover {
+  text-decoration: underline;
+}
+/* line 76, ../sass/colors.scss */
+#column1 a {
+  background: transparent;
+  color: #5a6370;
+}
+
+/* line 82, ../sass/colors.scss */
+.sbitem {
+  color: #d1d3d7;
+}
+/* line 84, ../sass/colors.scss */
+.sbitem a {
+  background: transparent;
+  color: #d1d3d7;
+}
+
+/* line 90, ../sass/colors.scss */
+.sbihead {
+  background: white url('../../images/sbi_header.png?1327514773');
+  color: #484e56;
+}
+/* line 94, ../sass/colors.scss */
+.sbihead h1 {
+  background: transparent;
+  color: #484e56;
+}
+
+/* line 102, ../sass/colors.scss */
+.sbilinks li a {
+  background: white url(link.png);
+  color: #d1d3d7;
+}
+/* line 106, ../sass/colors.scss */
+.sbilinks li a:hover {
+  background: #B7B7B7;
+  color: #1775D5;
+}
+
+/* form and input area */
+/* line 116, ../sass/colors.scss */
+input, textarea {
+  background: #FFFFFF;
+  color: #5A6370;
+  border-color: #89A9C7;
+}
+
+/* Errors and messsages */
+/* line 122, ../sass/colors.scss */
+.error-input {
+  padding: 1em;
+  border: 1px solid red;
+}
+
+/* line 127, ../sass/colors.scss */
+.message {
+  background: #77afea;
+  border: 1px solid #1775d5;
+  padding: 0.5em;
+  margin-bottom: 1em;
+  color: black;
+}
+
+/* Admin edit users view */
+/* line 138, ../sass/colors.scss */
+#results table .odd {
+  background: #f2f8fe;
+}

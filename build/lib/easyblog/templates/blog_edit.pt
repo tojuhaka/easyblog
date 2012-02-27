@@ -1,0 +1,94 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      metal:use-macro="base">
+  <tal:block  metal:fill-slot="content">
+    <div class="page-header"> 
+      <h1> Edit Blog </h1>
+    </div>
+
+    <div tal:condition="message" class="alert alert-success">
+      ${message}
+    </div>
+
+    <div class="well">
+      <div i18n:translate="errors" tal:condition="form.all_errors()" class="alert alert-error">
+        There are some errors!
+      </div>
+      ${form.begin(request.url)}
+      ${form.csrf_token()}
+
+      <div tal:omit-tag="not: form.errorlist('blogname')"
+            class="control-group error">
+          <label i18n:translate="blogname">Blogname</label>
+          <input tal:attributes="value blogname" type="blogname" name="blogname" placeholder="Type blogname…" >
+          <span tal:condition="python: form.errorlist('blogname')" 
+            tal:content="form.errors_for('blogname')[0]"
+            class="help-inline">Please correct the error
+          </span>
+      </div>
+
+      <!-- Content of the news item -->
+      <div tal:omit-tag="not: form.errorlist('text')"
+            class="control-group error">
+        <label i18n:translate="text">Text</label>
+        <textarea tal:content="text" id="textarea" 
+            class="input-xlarge span6" rows="10" name="text" placeholder="Type text…"></textarea>
+      </div>
+
+      <!-- Image for newsitem -->
+      <div tal:omit-tag="not: form.errorlist('image_url')"
+            class="control-group error">
+        <label i18n:translate="image_url">Image URL</label>
+        <input tal:attributes="value image_url" class="span6" type="text" name="image_url" placeholder="Type URL of the image" >
+        <span tal:condition="python: form.errorlist('image_url')" 
+            tal:content="form.errors_for('image_url')[0]"
+            class="help-inline">Please correct the error
+        </span>
+      </div>
+
+    <!-- Blogpost edit -->
+    <div class="row">
+        <table class="table span8">
+          <thead>
+            <th> Name </th>
+            <th> Creator </th>
+            <th> Date </th>
+            <th> Delete </th>
+          </thead>
+          <tbody>
+            <div tal:repeat="news_item context.order_by_time()">
+              <tr>
+
+                <!-- Title -->    
+                <td>
+                  <a tal:content="news_item.title" 
+                   tal:attributes="href resource_url(news_item, request)">
+                   News
+                  </a>
+                </td>
+
+                <!-- Creator -->    
+                <td tal:content="news_item.owner" >
+
+                <!-- Date -->    
+                <td tal:content="news_item.date()">News</td>
+
+                <td>
+               <input tal:attributes="value news_item.id;
+                        name string:checkbox-${news_item.id}"
+                        class="checkbox" type="checkbox"/>
+                </td>
+              </tr>
+            </div>
+          </tbody>
+        </table>
+    </div><!-- row -->
+        
+        <div class="buttons">
+          <button i18n:translate="save_button" class="btn" type="submit">Save changes</button>
+        </div>
+        ${form.end()}
+      </div>
+  </tal:block>
+</html>

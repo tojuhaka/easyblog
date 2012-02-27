@@ -1,0 +1,60 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      metal:use-macro="base">
+  <tal:block metal:fill-slot="content">
+    <div class="row">
+      <div class="page-header span4">
+        <h1 i18n:translate="news_topic"> List of News </h1>
+      </div>
+      <span tal:condition="provider" tal:replace="structure provider('editbar')" />
+    </div><!-- row -->
+
+    <div class="row">
+        <div tal:condition="message" class="span6 alert alert-success">
+            ${message}
+        </div>
+    </div>
+
+    ${message}
+    ${form.begin(request.url)}
+    ${form.csrf_token()}
+    <div class="row">
+        <table class="table span8">
+          <thead>
+            <th> Name </th>
+            <th> Creator </th>
+            <th> Date </th>
+          </thead>
+          <tbody>
+            <div tal:repeat="news_item context.order_by_time()">
+              <tr>
+
+                <!-- Title -->    
+                <td>
+                  <a tal:content="news_item.title" 
+                   tal:attributes="href resource_url(news_item, request)">
+                   News
+                  </a>
+                </td>
+
+                <!-- Creator -->    
+                <td tal:content="news_item.owner" >
+
+                <!-- Date -->    
+                <td tal:content="news_item.date()">News</td>
+
+                <td>
+               <input tal:attributes="value news_item.id;
+                        name string:checkbox-${news_item.id}"
+                        class="checkbox" type="checkbox"/>
+                </td>
+              </tr>
+            </div>
+          </tbody>
+        </table>
+    </div><!-- row -->
+    <button i18n:translate="delete" class="btn" type="submit" name="submit" value="Delete">Delete</button>
+    ${form.end()}
+  </tal:block>
+</html>

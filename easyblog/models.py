@@ -82,7 +82,7 @@ class Page(Content):
     def __init__(self, title, text, owner, id):
         Content.__init__(self, title, owner, id)
         self.title = title
-        self.content = text
+        self.text = text
 
 class Groups(Container):
     """ Contains the information about the groups of

@@ -1,0 +1,78 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      metal:use-macro="base">
+  <tal:block  metal:fill-slot="content">
+
+    <div class="page-header"> 
+      <h1> ${blogname} </h1>
+    </div>
+
+    <div class="row">
+      <div tal:condition="message" class="alert alert-info span6">
+        ${message}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="span4">
+        <h2 i18n:translate="add_post_heading"> Add Post </h2>
+      </div>
+    </div>
+
+    <div tal:condition="form.all_errors()" class="row">
+      <div i18n:translate="errors" tal:condition="form.all_errors()"
+            class="alert alert-error span8">
+        There are some errors!
+      </div>
+    </div><!-- row -->
+
+    ${form.begin(request.url)}
+    ${form.csrf_token()}
+
+    <div class="row">
+      <div class="span8">
+        <div tal:omit-tag="not: form.errorlist('title')"
+                class="control-group error">
+          <label i18n:translate="title">Title</label>
+          <input tal:attributes="value title" class="span6"
+                type="text" name="title" placeholder="Type title…" >
+          <span tal:condition="python: form.errorlist('title')" 
+                tal:content="form.errors_for('title')[-1]"
+                class="help-inline">Please correct the error
+          </span>
+        </div>
+      </div><!-- Span -->
+    </div><!-- Row -->
+
+    <!-- Textarea -->
+    <div class="row">
+      <div class="span8">
+        <div tal:omit-tag="not: form.errorlist('text')"
+                class="control-group error">
+          <label i18n:translate="wysiwyg_editor_label">Content</label>
+          
+          <!-- Error detail -->
+          <span tal:condition="python: form.errorlist('text')" 
+            tal:content="form.errors_for('text')[0]"
+            class="help-inline">Please correct the error
+          </span>
+
+          <textarea tal:content="text" class="wysiwyg" id="wysiwyg"
+            name="text" placeholder="Type text…">
+          </textarea>
+
+        </div>
+      </div><!-- Span -->
+    </div><!-- Row -->
+
+    <div class="row">
+      <div class="span4">
+        <div class="buttons">
+          <button i18n:translate="create_post_button" class="btn" type="submit">Create Post</button>
+        </div>
+      </div>
+    </div>
+    ${form.end()}
+    </tal:block>
+</html>

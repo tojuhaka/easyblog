@@ -7,6 +7,7 @@ from .schemas import SignUpSchema, LoginSchema
 from .schemas import UserEditSchema, BlogCreateSchema
 from .schemas import BlogPostSchema, BaseSchema
 from .schemas import UsersEditSchema, NewsCreateSchema
+from .schemas import PageEditSchema
 from .security import group_names
 from .models import Main, User, Blog, Blogs, Page
 from .models import Users, News, BlogPost, NewsItem
@@ -475,19 +476,31 @@ class Page(BaseView):
     @view_config(context=Page, renderer='templates/page.pt')
     def __call__(self):
         title = self.context.title
-        _dict = {
-            'title': title
-        }
-        return dict(self.base_dict.items() + _dict.items())
-
-    @view_config(context=Page, renderer='templates/page_edit.pt', name="edit")
-    def view_edit(self):
-        title = get_param(self.request, 'title', self.context.title)
-        text = get_param(self.request, 'text', self.context.content)
+        text = self.context.text
 
         _dict = {
             'title': title,
             'text': text
+        }
+        return dict(self.base_dict.items() + _dict.items())
+
+    @view_config(context=Page, renderer='templates/page_edit.pt', name="edit",
+            permission="edit_content")
+    def view_edit(self):
+        title = get_param(self.request, 'title', self.context.title)
+        text = get_param(self.request, 'text', self.context.text)
+
+        form = Form(self.request, schema=PageEditSchema,
+                    state=State(request=self.request))
+        if form.validate():
+            self.message = msg['saved']
+            self.context.text = text
+
+        _dict = {
+            'title': title,
+            'text': text,
+            'form': FormRenderer(form),
+            'message': self.message
         }
         return dict(self.base_dict.items() + _dict.items())
         

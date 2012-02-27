@@ -1,10 +1,10 @@
 Metadata-Version: 1.0
 Name: easyblog
-Version: 0.3
+Version: 0.4
 Summary: easyblog
 Home-page: UNKNOWN
-Author: UNKNOWN
-Author-email: UNKNOWN
+Author: Toni Haka-Risku
+Author-email: tojuhaka@gmail.com
 License: UNKNOWN
 Description: EasyBlog
         ========
@@ -71,6 +71,13 @@ Description: EasyBlog
         
         
         
+        0.4
+        ---
+        - Blogs created
+        - Added loads of tickets into pivotal tracker for future
+          development
+        - Ready for next prototype
+        
         0.3
         ---
         - Changed some frontpage texts for release
@@ -89,7 +96,7 @@ Description: EasyBlog
         ---
         -  Initial version
         
-Keywords: web pylons pyramid
+Keywords: web pylons pyramid saapas
 Platform: UNKNOWN
 Classifier: Programming Language :: Python
 Classifier: Framework :: Pylons

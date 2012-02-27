@@ -272,6 +272,12 @@ class FunctionalTests(unittest.TestCase):
         form['new_password_confirm'] = new_password_confirm
         form['email'] = email
         return form.submit()
+    
+    def _edit_page(self, res, title, text):
+        form = res.forms[0]
+        form['title']  = title
+        form['text'].value  = text
+        return form.submit()
 
     def _create_blog(self, res,  blogname, description, image_url=u""):
         form = res.forms[0]
@@ -750,6 +756,13 @@ class FunctionalTests(unittest.TestCase):
         res = self.testapp.get('/contact/edit')
         self.assertTrue(u'200 OK' in res.status)
     
+    def test_page_contact_edit(self):
+        self._login('admin', 'adminpw#')
+        res = self.testapp.get('/contact/edit')
+        self._edit_page(res, 'title',  'test content content content')
+        res = self.testapp.get('/contact')
+        self.assertTrue(u'test content' in res.body)
+        self.assertTrue(u'title' in res.body)
 
     # TODO: Test spam bot protection by using a field which is hidden
     # in css 'display: none;'. Spam bot fills the field but users don't.
