@@ -1,4 +1,9 @@
+$('.nav-link').click ->
+    $(this).addClass 'active'
+    
+
 jQuery ($) ->
+
     $('#myCarousel').carousel
       interval: 8000
 
@@ -11,3 +16,4 @@ jQuery ($) ->
 
     $('#wysiwyg').wysiwyg()
     " "
+    

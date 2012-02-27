@@ -1,5 +1,9 @@
 (function() {
 
+  $('.nav-link').click(function() {
+    return $(this).addClass('active');
+  });
+
   jQuery(function($) {
     $('#myCarousel').carousel({
       interval: 8000
