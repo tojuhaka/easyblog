@@ -113,9 +113,6 @@ class ViewTests(unittest.TestCase):
         view.view_news_create()
         self.assertTrue('gonna celebrate' in self.zodb['news']['n0'].title)
 
-    def test_blogpost_edit(self):
-        pass
-
 
 class ModelTests(unittest.TestCase):
     def test_blogpost(self):
@@ -489,14 +486,16 @@ class FunctionalTests(unittest.TestCase):
     def test_blogpost_edit(self):
         self.test_blogpost_create()
         res = self.testapp.get('/blogs/b0/p0/edit')
-        self.assertTrue('thisisasubject' in res.body)
+        self._create_post(res, 'title changed', 'content changed fully')
+        res = self.testapp.get('/blogs/b0/p0/')
+        self.assertTrue('title changed' in res.body)
+        self.assertTrue('content changed fully' in res.body)
 
     def test_blog_edit_blogposts(self):
         self.test_blogpost_create()
         res = self.testapp.get('/blogs/b0/edit')
         self.assertTrue('thisisasubject' in res.body)
         self.assertTrue('table' in res.body)
-        
 
     def test_blogpost_edit_link(self):
         self.test_blogpost_create()

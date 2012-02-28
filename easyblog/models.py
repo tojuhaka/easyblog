@@ -7,6 +7,7 @@ from datetime import datetime
 from pyramid.security import Allow
 
 from easyblog.interfaces import ISiteRoot, IComment, IContainer, IContent, IPage
+from easyblog.interfaces import IAbout, IContact, IBlogs, INews, INavPage
 from zope.interface import implements
 
 from .utilities import order
@@ -15,7 +16,9 @@ class Container(PersistentMapping):
     """ Base container for all the objects
     that store other objects for example
     Blogs and News are containers """
-    def __init__(self, bread_name, owner, id):
+    implements(IContainer)
+
+    def __init__(self, crumb_name, owner, id):
         PersistentMapping.__init__(self)
         self.item_number = 0
         self.timestamp = datetime.now()
@@ -23,7 +26,7 @@ class Container(PersistentMapping):
         self.owner = owner
 
         # Name used in breadcrumps
-        self.bread_name = bread_name
+        self.crumb_name = crumb_name
 
     def add(self):
         raise NotImplementedError("Add method not defined")
@@ -45,32 +48,33 @@ class Container(PersistentMapping):
         return u"%s" % (self.timestamp.strftime("%x"))
         
 class Content(Persistent):
+    implements(IContent)
     """ Base content for all the objects
     that are defined as contents for example
     single blogpost or single news item is
     a content """
-    def __init__(self, bread_name, owner, id):
+    def __init__(self, crumb_name, owner, id):
         Persistent.__init__(self)
         self.owner = owner
         self.timestamp = datetime.now()
         self.id = id
 
         # Name used in breadcrumps
-        self.bread_name = bread_name
+        self.crumb_name = crumb_name
 
     def date(self):
         return u"%s" % (self.timestamp.strftime("%x"))
 
 # Main root object in our ZODB database
 class Main(PersistentMapping):
-    implements(IPage, ISiteRoot, IContainer)
+    implements(IPage, ISiteRoot)
     """ Root object for ZODB """
     __name__ = None
     __parent__ = None
     __acl__ = acl
 
 class Page(Content):
-    implements(IPage, IContent)
+    implements(IPage)
     """ Editable static page """
     #TODO: 'Pages' container, make the container - content
     # relationship more modular
@@ -83,6 +87,12 @@ class Page(Content):
         Content.__init__(self, title, owner, id)
         self.title = title
         self.text = text
+
+class AboutPage(Page):
+    implements(IAbout, IPage, INavPage)
+    
+class ContactPage(Page):
+    implements(IContact, INavPage)
 
 class Groups(Container):
     """ Contains the information about the groups of
@@ -131,7 +141,7 @@ class Users(Container):
 
 
 class User(Content):
-    implements(IPage, IContent)
+    implements(IPage)
     @property
     def __acl__(self):
         acls = [(Allow, 'u:%s' % self.username, 'edit_content')]
@@ -155,7 +165,7 @@ class User(Content):
 
 class Blogs(Container):
     """ Blog mapper which contains all the logs """
-    implements(IPage, IContainer)
+    implements(IPage, IBlogs, IContainer)
     @property
     def __acl__(self):
         acls = [(Allow, group_names['editor'], 'edit_container')]
@@ -202,7 +212,7 @@ class Blog(Container):
 
 class BlogPost(Content):
     """ Single post inside blog """
-    implements(IPage, IContent, IComment)
+    implements(IPage, IComment)
 
     @property
     def __acl__(self):
@@ -245,7 +255,7 @@ class NewsItem(Content):
 
 class News(Container):
     """ Contains all the news items """
-    implements(IPage, IContainer)
+    implements(IPage, INews, IContainer)
     @property
     def __acl__(self):
         acls = [(Allow, group_names['editor'], 'edit_container')]
@@ -269,7 +279,7 @@ class News(Container):
 
 def appmaker(zodb_root):
     if not 'app_root' in zodb_root:
-        app_root = Main()
+        app_root = Main('main', 'main', 'main')
 
         # Create base containers 
         users = Users('users', 'main', 'users')
@@ -283,8 +293,8 @@ def appmaker(zodb_root):
         app_root['news'] = news
 
         # static pages
-        about = Page('about', 'content',  'main', 'about')
-        contact = Page('about', 'content',  'main', 'about')
+        about = AboutPage('about', 'content',  'main', 'about')
+        contact = ContactPage('about', 'content',  'main', 'about')
         app_root['about'] = about
         app_root['contact'] = contact
 

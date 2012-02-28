@@ -16,7 +16,6 @@
         </div>
     </div>
 
-    ${message}
     ${form.begin(request.url)}
     ${form.csrf_token()}
     <div class="row">

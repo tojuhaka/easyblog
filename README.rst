@@ -119,5 +119,12 @@ Välineet ja menetelmät
 Toteutus
 --------
 
+Mitä olisi pitänyt tehdä toisin
+-------------------------------
+- Enemmän ZCA:n käyttöä!!
+- Modulaarisempia komponentteja!!
+- Templateissa koodin toistoa, voisiko jotenkin abstrahoida paremmin?
+
+
 
 

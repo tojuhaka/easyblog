@@ -1,7 +1,3 @@
-$('.nav-link').click ->
-    $(this).addClass 'active'
-    
-
 jQuery ($) ->
 
     $('#myCarousel').carousel

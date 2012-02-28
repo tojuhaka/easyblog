@@ -9,7 +9,9 @@
       <div class="page-header span4">
         <h1 i18n:translate="news_topic"> List of News </h1>
       </div>
-      <span tal:condition="provider" tal:replace="structure provider('editbar')" />
+      <div class="offset2 span5">
+        <span tal:condition="provider" tal:replace="structure provider('editbar')" />
+      </div>
     </div><!-- row -->
    <div tal:repeat="news_item context.order_by_time()" class="row">
     <div class="span8 accordion-group">

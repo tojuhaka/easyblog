@@ -10,7 +10,8 @@ def get_resource(resource, request):
     options = {
         'groups': root['groups'],
         'users': root['users'],
-        'news': root['news']
+        'news': root['news'],
+        'root': root
     }
     return options[resource]
 
@@ -54,5 +55,38 @@ class Provider(object):
         except AttributeError:
             pass
         return None
+
+def provides(context, interface):
+    """ The main point of this function is to avoid returning interfaces
+    to the template. Instead we return one function which can be used
+    to check if context provides an interface. The interface is given
+    as string """
+
+    from easyblog.interfaces import IAbout, IContact, IBlogs, INews, ISiteRoot
+    _dict = {
+        'IBlogs': IBlogs.providedBy(context),
+        'INews': INews.providedBy(context),
+        'IAbout': IAbout.providedBy(context),
+        'IContact': IContact.providedBy(context),
+        'ISiteRoot': ISiteRoot.providedBy(context),
+    }
+    return _dict[interface]
+
+
+# There are some cases where we can't translate properly.
+# For example 'blogs' and 'news' in breadcrumbs cannot be
+# translated
+def translate(s, lang):
+    _dict = {
+        'blogs': {'fi': u'Blogit'},
+        'news': {'fi': u'Uutiset'},
+        'about': {'fi': u'Me'},
+        'contact': {'fi': u'Yhteystiedot'},
+    }
+    try: 
+        translated = _dict[s][lang]
+    except KeyError:
+        translated = s
+    return translated
 
 

@@ -1,5 +1,4 @@
 from easyblog import _
-
 msg = {
     'content_forbidden':  u"You have no permission to review this content",
     'password_invalid':  _(msgid="password_invalid", default=u"Password is invalid."),
@@ -12,5 +11,6 @@ msg = {
     'items_removed': u'Items successfully removed',
     'create_post': u"Create a single post under the blog by defining it's \
             title and content. The posts are shown under the blogs description"
+
     }
 

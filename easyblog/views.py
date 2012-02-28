@@ -9,11 +9,11 @@ from .schemas import BlogPostSchema, BaseSchema
 from .schemas import UsersEditSchema, NewsCreateSchema
 from .schemas import PageEditSchema
 from .security import group_names
-from .models import Main, User, Blog, Blogs, Page
+from .models import Main, User, Blog, Blogs
 from .models import Users, News, BlogPost, NewsItem
 from .security import groupfinder
 from .utilities import get_resource, get_param
-from .utilities import shorten_text
+from .utilities import shorten_text, translate, provides
 from pyramid_simpleform.renderers import FormRenderer
 from pyramid_simpleform import Form, State
 from pyramid.httpexceptions import HTTPForbidden
@@ -21,6 +21,7 @@ from pyramid.httpexceptions import HTTPForbidden
 # Messages
 from .config import msg
 from .interfaces import ISiteRoot, IComment, IContainer, IContent
+from .interfaces import INavPage, IPage
 
 from pyramid.security import has_permission
 
@@ -43,12 +44,18 @@ class BaseView(object):
         from easyblog.utilities import Provider
         base = get_renderer('templates/base.pt').implementation()
         # This dict will be returned in every view
+        def is_active(interface):
+            if provides(self.context, interface):
+                return 'active' 
+            return ''
+
         self.base_dict = {
             'logged_in': self.logged_in,
             'message': self.message,
             'resource_url': resource_url,
             'base': base,
-            'provider': Provider(self.context, self.request)
+            'provider': Provider(self.context, self.request),
+            'is_active': is_active
         }
 
 
@@ -471,9 +478,9 @@ class UsersView(BaseView):
         return dict(self.base_dict.items() + _dict.items())
 
 
-class Page(BaseView):
+class PageView(BaseView):
     """ View for single page like 'contact' or 'about'"""
-    @view_config(context=Page, renderer='templates/page.pt')
+    @view_config(context=INavPage, renderer='templates/page.pt')
     def __call__(self):
         title = self.context.title
         text = self.context.text
@@ -484,7 +491,7 @@ class Page(BaseView):
         }
         return dict(self.base_dict.items() + _dict.items())
 
-    @view_config(context=Page, renderer='templates/page_edit.pt', name="edit",
+    @view_config(context=INavPage, renderer='templates/page_edit.pt', name="edit",
             permission="edit_content")
     def view_edit(self):
         title = get_param(self.request, 'title', self.context.title)
@@ -620,6 +627,26 @@ class NewsView(BaseView):
         }
         return dict(self.base_dict.items() + _dict.items())
 
+
+class BreadCrumbsView(BaseView):
+
+    @view_config(context=IPage, name="breadcrumbs",
+            renderer='templates/breadcrumbs.pt')
+    def view_container_bar(self):
+        """ Bar for container """
+        crumbs = []
+    
+        context = self.context
+        while(context.__parent__ != None):
+            crumbs.append(context)
+            context = context.__parent__
+        crumbs.reverse()
+
+        _dict = {
+            'translate': translate,
+            'crumbs': crumbs
+        }
+        return dict(self.base_dict.items() + _dict.items())
 
 class EditBarView(BaseView):
     """ View for editor bars. The bar is only
