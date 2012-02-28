@@ -198,7 +198,7 @@ class Blog(Container):
     def __init__(self, name, description, image_url, owner, id):
         Container.__init__(self, name, owner, id)
         self.name = name
-        self.comments = "HERE IS SOME COMMENTS"
+        self.comments = ""
         self.image_url = image_url
         self.description = description
 
@@ -223,7 +223,7 @@ class BlogPost(Content):
         Content.__init__(self, title, owner, id)
         self.title = title
         self.text = text
-        self.comments = "COMMENTS FROM BLOGPOST"
+        self.comments = ""
 
     def time(self):
         return "%s %s" % (self.timestamp.strftime("%x"),
@@ -247,7 +247,7 @@ class NewsItem(Content):
         self.title = title
         self.text = text
         self.image_url = image_url
-        self.comments = "COMMENTS FROM NEWSITEM"
+        self.comments = ""
 
     def date(self):
         return u"%s" % (self.timestamp.strftime("%x"))
@@ -279,7 +279,7 @@ class News(Container):
 
 def appmaker(zodb_root):
     if not 'app_root' in zodb_root:
-        app_root = Main('main', 'main', 'main')
+        app_root = Main()
 
         # Create base containers 
         users = Users('users', 'main', 'users')

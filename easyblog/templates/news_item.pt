@@ -8,7 +8,6 @@
       <div class="page-header span4">
         <h1 tal:content="title"> Title </h1>
       </div>
-      <span tal:condition="provider" tal:replace="structure provider('editbar')" />
     </div><!-- row -->
     <div class="row">
       <a tal:condition="image_url" href="#" class="span4 thumbnail">

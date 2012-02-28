@@ -7,7 +7,6 @@
     <div class="page-header span4">
         <h1 i18n:translate="blogs_topic"> List of blogs </h1>
     </div>
-    <span tal:condition="provider" tal:replace="structure provider('editbar')" />
   </div><!-- row -->
     <div class="row">
     <div class="span6 list-items">
