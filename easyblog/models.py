@@ -124,7 +124,7 @@ class Groups(Container):
             self[username] = policy[username] + [u'u:%s' % username]
 
 class Users(Container):
-    implements(IPage, IContainer)
+    implements(IPage)
     """ Contains all the users """
 
     def has_user(self, username):
@@ -165,7 +165,7 @@ class User(Content):
 
 class Blogs(Container):
     """ Blog mapper which contains all the logs """
-    implements(IPage, IBlogs, IContainer)
+    implements(IPage, IBlogs)
     @property
     def __acl__(self):
         acls = [(Allow, group_names['editor'], 'edit_container')]
@@ -187,7 +187,7 @@ class Blogs(Container):
         return False
 
 class Blog(Container):
-    implements(IPage, IContainer)
+    implements(IPage)
     """ Blog which contains posts from user """
 
     @property
@@ -255,7 +255,7 @@ class NewsItem(Content):
 
 class News(Container):
     """ Contains all the news items """
-    implements(IPage, INews, IContainer)
+    implements(IPage, INews)
     @property
     def __acl__(self):
         acls = [(Allow, group_names['editor'], 'edit_container')]
