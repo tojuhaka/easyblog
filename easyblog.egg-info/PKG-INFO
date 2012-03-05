@@ -69,6 +69,73 @@ Description: EasyBlog
             entry-points = pserve=pyramid.scripts.pserve:main
         
         
+        Dokumentaatio (in finnish)
+        ==========================
+        
+        Alkusanat
+        ---------
+        Työn tarkoituksena on toteuttaa Jyväskylän Saapas RY:lle web-sivut. Sivujen tarkoituksena
+        on edistää yhdistyksen ulkoista sekä sisäistä viestintää. Samalla sivujen tulisi kuvata
+        mahdollisimman tehokkaasti yhdistyksen toimintaa. 
+        
+        Asiakkaan vaatimukset
+        ---------------------
+        Kyseessä on hyväntekeväisyys yhdistys, joten taloudellisten rajoitteiden vuoksi sivuston tarkoitus
+        ei ole olla kovinkaan "massiivinen".  Tämä ei kuitenkaan tarkoita sitä, että sivuston ominaisuudet
+        toteutettaisiin puutteellisesti. Tärkeintä on priorisoida yhdistyksen tärkeimmät tarpeet ja tuoda ne 
+        sivustolle mahdollisimman selkeästi ja yksinkertaisesti.  
+        
+        Lyhyesti tarkasteltuna, yhdistyksen toiminnalle tärkeää on tiedotus erilaisista tapahtumista. Myös
+        tiettyjen yhdistyksen henkilöiden tulisi pystyä kertomaan omista kokemuksistaan "blogimaisesti". 
+        Yhdistyksellä ei ole vielä minkäänlaista web-sivustoa, joten lähtötaso on hyvin matala. Tästä syystä
+        sivuston painoarvo itsessään on jo hyvin suuri.
+        
+        Seuraavassa listaus vaatimuksista, jotka sivujen tulisi toteuttaa:
+            - Sivujen tulee olla yksinkertaiset
+            - Mitään web-ohjelmointi taitoa ei tarvita sivustojen ylläpitämiseen
+            - Uutisten/tiedotteiden lisääminen/hallinta
+            - Blogejen lisääminen/hallinta
+            - Uusimmat tiedotteet tulee näkyä etusivulla
+            - Etusivun tulee olla mahdollisimman informatiivinen 
+            - Tietoturva tulee olla kunnossa
+            - Sisältöä pystyy luomaan sivuston ylläpitäjät.
+            - Sivuston ylläpitäjien tulee pystyä hallitsemaan muiden
+              käyttäjien oikeuksia, jollain tasolla
+            - Ulkoasun värimaailma tulisi olla syksyinen (oranssi/musta)
+        
+        
+        Omat vaatimukset
+        ----------------
+        Kyseessä on ohjelmointityö, jonka on tarkoitus olla myös oppimiskokemus. Tarkoituksena ei siis ole 
+        vain tehdä liukuhihnalla web-sivut, jotka ovat asiakkaan mieleen. Niin hauskalta kuin se kuulostaakin,
+        niin tarkoitus on projektin aikana tehdä jotain väärin ja oppia tästä. Seuraavassa listaus vaatimuksista,
+        joita projektin aikana itse noudatan:
+            - Suunnitteluun käytetyn ajan tulee olla mahdollisimman lyhyttä. Liika suunnittelu tällaisissa projekteissa
+              on aina pahasta. Tämä ei kuitenkaan tarkoita, että suunnittelu jätetään väliin.
+            - Ohjelmakoodin testaaminen kokonaisvaltaisesti. Testejen tulee kattaa koko ohjelmakoodi ja aina jos on mahdollista,
+              niin testit kirjoitetaan ennen ohjelmakoodia.
+            - Ohjelmakoodia tulee refaktoroida kokoajan.
+            - Epäselvältä vaikuttava ohjelmakoodi on kommentoitava selkeästi. 
+            - Liika ohjelmakoodin opimointi ja "tuijottelu" jätettävä pois. Tähän sorrun itse hyvin usein ja se syö turhaa aikaa. Jossain vaiheessa
+              ratkaisut on kuitenkin tehtävä, jotta päästään eteenpäin.
+            - Asiakkaalle tulee näyttää "prototyypin" omaisesti sivuja mahdollisimman usein.
+        
+        
+        Välineet ja menetelmät
+        ----------------------
+        
+        Toteutus
+        --------
+        
+        Mitä olisi pitänyt tehdä toisin
+        -------------------------------
+        - Enemmän ZCA:n käyttöä!!
+        - Modulaarisempia komponentteja!!
+        - Templateissa koodin toistoa, voisiko jotenkin abstrahoida paremmin?
+        
+        
+        
+        
         
         
         0.4
