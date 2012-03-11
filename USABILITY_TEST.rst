@@ -30,9 +30,18 @@ Tehtävät
 (Tehtävät eivät ole vielä täysin kiveenhakattuja, joten ne voivat vielä muuttua tehtävänantoa
 määritellessä)
 
-1. Luo sivustolle uusi uutinen. Määrittele uutisen otsikoksi "testiuutinen" ja sisällöksi "testisisältö". 
-2. Luo sivustolle uusi blogi. Lisää blogiin myös yksi (1) blogikirjoitus.
-3. 
+    1. Luo sivustolle uusi uutinen. Määrittele uutisen otsikoksi "testiuutinen" ja sisällöksi "testisisältö". 
+    2. Luo sivustolle uusi blogi nimeltä "testiblogi". Lisää blogiin myös yksi blogikirjoitus.
+    3. Luo sivustolle käyttäjä nimeltä "testi". Määritä salasanaksi "testi" ja sähköpostiosoitteeksi "testi@testi.fi".
+    4. Anna "admin" -oikeudet käyttäjälle "testi".
+    5. Poista käyttäjä "testi".
+
+Tulosten arviointi
+------------------
+Jokaisen koehenkilön yksittäisien tehtävien suoritukseen kuluva aika kirjataan ylös. Samalla näistä ajoista otetaan keskiarvo siitä ryhmästä mihin koehenkilö kuului. Kaikkien tehtävien kokonaisaika otetaan myös ylös ja tästä lasketaan keskiarvo. 
+
+Tuloksia vertaillessa selvitetään missä tehtävissä oli ajallisesti eniten erotusta eri ryhmien välillä. Samalla pyritään tekemään johtopäätöksiä siitä, mitkä kohdat sivustossa ovat ongelmallisia. Koehenkilöiden suullisen tehtäväkohtaisen palautteen perusteella, pystytään myös tarkastelemaan miten koehenkilöt mieltävät sivujen käytettävyyden. 
+
 
 
 
