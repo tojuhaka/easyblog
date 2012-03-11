@@ -40,7 +40,7 @@ Tulosten arviointi
 ------------------
 Jokaisen koehenkilön yksittäisien tehtävien suoritukseen kuluva aika kirjataan ylös. Samalla näistä ajoista otetaan keskiarvo siitä ryhmästä mihin koehenkilö kuului. Kaikkien tehtävien kokonaisaika otetaan myös ylös ja tästä lasketaan keskiarvo. 
 
-Tuloksia vertaillessa selvitetään missä tehtävissä oli ajallisesti eniten erotusta eri ryhmien välillä. Samalla pyritään tekemään johtopäätöksiä siitä, mitkä kohdat sivustossa ovat ongelmallisia. Koehenkilöiden suullisen tehtäväkohtaisen palautteen perusteella, pystytään myös tarkastelemaan miten koehenkilöt mieltävät sivujen käytettävyyden. 
+Tuloksia vertaillessa selvitetään missä tehtävissä oli ajallisesti eniten erotusta eri ryhmien välillä. Samalla pyritään tekemään johtopäätöksiä siitä, mitkä kohdat sivustossa ovat ongelmallisia. Koehenkilöiden suullisen tehtäväkohtaisen palautteen perusteella pystytään myös tarkastelemaan miten koehenkilöt mieltävät sivujen käytettävyyden. 
 
 
 
