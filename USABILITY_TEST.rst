@@ -21,9 +21,8 @@ hallintaan. Pääkäyttäjä on yksittäisen käyttäjän rooli sivustolla, joka
 Kokeessa käyttäjät jaetaan kahteen ryhmään, joista ekalle ryhmälle annetaan ohjeet kuinka
 sivustoa käytetään ja taas toisella ryhmälle ei anneta minkäänlaista ohjetta. Kokeen aikana
 käyttäjä toteuttaa tehtäviä ennalta määrätyssä järjestyksessä ja samalla ilmaisee suullisesti
-aikeistaan tehtävien teon aikana. Jokaisen koehenkilön suoritus dokumentoidaan videokameralle. 
-Kokeen avulla selvitetään, kuinka käyttäjäystävällistä sivuston ylläpito on. Samalla katsotaan 
-kuinka paljon lisäohjeet helpottavat ja nopeuttavat sivuston käyttämistä ensimmäisellä kerralla.
+aikeistaan tehtävien teon aikana. Jokaisen koehenkilön suoritus dokumentoidaan käyttäen hyväksi 
+kuvankaappausohjelmaa. Kokeen avulla selvitetään, kuinka käyttäjäystävällistä sivuston ylläpito on. Samalla katsotaan kuinka paljon lisäohjeet helpottavat ja nopeuttavat sivuston käyttämistä ensimmäisellä kerralla.
 
 Tehtävät
 --------
@@ -41,6 +40,12 @@ Tulosten arviointi
 Jokaisen koehenkilön yksittäisien tehtävien suoritukseen kuluva aika kirjataan ylös. Samalla näistä ajoista otetaan keskiarvo siitä ryhmästä mihin koehenkilö kuului. Kaikkien tehtävien kokonaisaika otetaan myös ylös ja tästä lasketaan keskiarvo. 
 
 Tuloksia vertaillessa selvitetään missä tehtävissä oli ajallisesti eniten erotusta eri ryhmien välillä. Samalla pyritään tekemään johtopäätöksiä siitä, mitkä kohdat sivustossa ovat ongelmallisia. Koehenkilöiden suullisen tehtäväkohtaisen palautteen perusteella pystytään myös tarkastelemaan miten koehenkilöt mieltävät sivujen käytettävyyden. 
+
+Aikataulu ja koehenkilöt
+------------------------
+Tutkimus pyritään toteuttamaan ennen huhtikuun loppua. Tarkka päivämäärä laboratio-varauksille olisi 16.4-21.4. Päivämäärää ei voi kuitenkaan vielä lyödä lukkoon, koska ei ole täysin varmuutta omista menoista. 
+
+Koehenkilöitä on lupautunut jo yli kymmenen suoraan saappaalta (tai näin ainakin tuli ilmoitus itselleni). Mahdollisuus toteuttaa tukimus yli kymmenellä hengellä on siis hyvin mahdollista.
 
 
 
