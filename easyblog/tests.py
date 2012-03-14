@@ -536,10 +536,6 @@ class FunctionalTests(unittest.TestCase):
         res = self.testapp.get('/blogs/b0/p0/edit')
         self.assertTrue('alert-error' in res.body)
 
-    def test_blogpost_edit_button(self):
-        self.test_blogpost_create()
-        res = self.testapp.get('/blogs/b0/p0/')
-        self.assertTrue('btn-success' in res.body)
    
     # TODO: is this needed?
     # def test_blog_action_button(self):
