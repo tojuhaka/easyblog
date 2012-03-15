@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: easyblog 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-03-14 20:41+0200\n"
+"POT-Creation-Date: 2012-03-15 17:36+0200\n"
 "PO-Revision-Date: 2012-02-12 16:49+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: en <LL@li.org>\n"
@@ -27,6 +27,51 @@ msgstr ""
 
 #: easyblog/config.py:9
 msgid "saved"
+msgstr ""
+
+#. Default: Saapas RY
+#: easyblog/templates/base.pt:43
+msgid "project_name"
+msgstr ""
+
+#. Default: Home
+#: easyblog/templates/base.pt:46
+msgid "hom_link"
+msgstr ""
+
+#. Default: Blogs
+#: easyblog/templates/base.pt:47
+msgid "blogs_link"
+msgstr ""
+
+#. Default: News
+#: easyblog/templates/base.pt:48
+msgid "news_link"
+msgstr ""
+
+#. Default: About
+#: easyblog/templates/base.pt:49
+msgid "about_link"
+msgstr ""
+
+#. Default: Contact
+#: easyblog/templates/base.pt:50
+msgid "contact_link"
+msgstr ""
+
+#. Default: Account<dynamic element>
+#: easyblog/templates/base.pt:58
+msgid "dd-account"
+msgstr ""
+
+#. Default: Profile
+#: easyblog/templates/base.pt:60
+msgid "dd-profile"
+msgstr ""
+
+#. Default: Logout
+#: easyblog/templates/base.pt:62
+msgid "dd-logout"
 msgstr ""
 
 #. Default: There are some errors!

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: easyblog 0.4\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-03-14 20:41+0200\n"
+"POT-Creation-Date: 2012-03-15 17:36+0200\n"
 "PO-Revision-Date: 2012-03-14 20:40+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: fi <LL@li.org>\n"
@@ -19,14 +19,59 @@ msgstr ""
 
 #: easyblog/config.py:4
 msgid "password_invalid"
-msgstr ""
+msgstr "Väärä salasana"
 
 #: easyblog/config.py:5
 msgid "logged_in_as"
-msgstr ""
+msgstr "Kirjautunut sisään käyttäjänä"
 
 #: easyblog/config.py:9
 msgid "saved"
+msgstr "Muutokset tallennettu"
+
+#. Default: Saapas RY
+#: easyblog/templates/base.pt:43
+msgid "project_name"
+msgstr ""
+
+#. Default: Home
+#: easyblog/templates/base.pt:46
+msgid "hom_link"
+msgstr "Pääsivu"
+
+#. Default: Blogs
+#: easyblog/templates/base.pt:47
+msgid "blogs_link"
+msgstr "Blogit"
+
+#. Default: News
+#: easyblog/templates/base.pt:48
+msgid "news_link"
+msgstr "Uutiset"
+
+#. Default: About
+#: easyblog/templates/base.pt:49
+msgid "about_link"
+msgstr "Meistä"
+
+#. Default: Contact
+#: easyblog/templates/base.pt:50
+msgid "contact_link"
+msgstr "Ota yhteyttä"
+
+#. Default: Account<dynamic element>
+#: easyblog/templates/base.pt:58
+msgid "dd-account"
+msgstr ""
+
+#. Default: Profile
+#: easyblog/templates/base.pt:60
+msgid "dd-profile"
+msgstr "Profiili"
+
+#. Default: Logout
+#: easyblog/templates/base.pt:62
+msgid "dd-logout"
 msgstr ""
 
 #. Default: There are some errors!

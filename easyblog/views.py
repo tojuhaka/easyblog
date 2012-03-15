@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from pyramid.httpexceptions import HTTPFound
 from pyramid.view import view_config
 from pyramid.url import resource_url
@@ -41,6 +42,8 @@ class BaseView(object):
         self.message = u''
 
         from easyblog.utilities import Provider
+        from pyramid.renderers import get_renderer
+        base = get_renderer('templates/base.pt').implementation()
         # This dict will be returned in every view
         def is_active(interface):
             if provides(self.context, interface):
@@ -52,7 +55,8 @@ class BaseView(object):
             'message': self.message,
             'resource_url': resource_url,
             'provider': Provider(self.context, self.request),
-            'is_active': is_active
+            'is_active': is_active,
+            'base': base
         }
 
 
@@ -63,7 +67,11 @@ class MainView(BaseView):
     def view_frontpage(self):
         #TODO: make content type for frontpage
         """ FrontPage """
-        return self.base_dict
+        _dict = {
+            'first_carousel': u'Tähän tulee hienoja kuvia, jotka kuvaavat Saappaan toimintaa. Samalla tässä tekstissä voi kertoa mistä tapahtumassa on kyse.',
+            'second_carousel': u'Kuvasarjojen tarkoituksena on antaa visuaalista tietoa Saappaan toiminnasta. Seka lyhyilla lauseilla'
+        }
+        return dict(self.base_dict.items() + _dict.items())
 
     @view_config(context=Main, renderer='templates/signup.pt', name='signup')
     def view_signup(self):
@@ -499,6 +507,7 @@ class PageView(BaseView):
         if form.validate():
             self.message = msg['saved']
             self.context.text = text
+            self.context.title = title
 
         _dict = {
             'title': title,
@@ -634,10 +643,14 @@ class BreadCrumbsView(BaseView):
         crumbs = []
     
         context = self.context
-        while(context.__parent__ != None):
+        while(context != None):
             crumbs.append(context)
             context = context.__parent__
         crumbs.reverse()
+            
+        # don't include 'home' crumb if we're at homepage
+        if self.context.__parent__ == None:
+            crumbs = []
 
         _dict = {
             'translate': translate,
@@ -650,28 +663,35 @@ class EditBarView(BaseView):
     shown when user with a specific permission tries to
     view content """
 
+    def __init__(self, context, request):
+        BaseView.__init__(self, context, request)
+        self._dict = {
+            'edit_url': resource_url(self.context, self.request) + 'edit',
+            'users_edit_url': '/users/edit', # Hard-code is baaaad
+            'is_admin': has_permission('edit_all', 
+                            self.context, self.request)
+        }
+
     @view_config(context=IContainer, name="editbar",
             renderer='templates/container_editbar.pt')
     def view_container_bar(self):
         """ Bar for container """
         _dict = {
-            'edit_url': resource_url(self.context, self.request) + 'edit',
             'create_url': resource_url(self.context, self.request) + 'create',
             'has_permission': has_permission('edit_container',
-                            self.context, self.request)
+                            self.context, self.request),
         }
-        return dict(self.base_dict.items() + _dict.items())
+        return dict(self.base_dict.items() + self._dict.items() + _dict.items())
 
     @view_config(context=IContent, name="editbar",
             renderer='templates/content_editbar.pt')
     def view_content_bar(self):
         """ Bar for single content """
         _dict = {
-            'edit_url': resource_url(self.context, self.request) + 'edit',
             'has_permission': has_permission('edit_content',
-                            self.context, self.request)
+                            self.context, self.request),
         }
-        return dict(self.base_dict.items() + _dict.items())
+        return dict(self.base_dict.items() + self._dict.items() + _dict.items())
 
 
 class CommentView(BaseView):

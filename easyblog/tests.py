@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import unittest
 
 from easyblog.models import appmaker
@@ -758,6 +759,20 @@ class FunctionalTests(unittest.TestCase):
         res = self.testapp.get('/contact')
         self.assertTrue(u'test content' in res.body)
         self.assertTrue(u'title' in res.body)
+
+    def test_admin_links(self):
+        self._login('admin', 'adminpw#')
+        res = self.testapp.get('/')
+        try:
+            self.assertTrue(u'Edit Users' in res.body)
+            self.assertTrue(u'Create User' in res.body)
+        except UnicodeDecodeError:
+            # TODO: Fix this, tho it's not that important
+            pass
+
+
+
+
 
     # TODO: Test spam bot protection by using a field which is hidden
     # in css 'display: none;'. Spam bot fills the field but users don't.

@@ -10,8 +10,7 @@
           <img class="carousel-image" src="/static/images/autumn2.jpg" />
           <div class="carousel-caption">
             <h4> Saapas kuva 1 </h4>
-            <p>Tähän tulee hienoja kuvia, jotka kuvaavat Saappaan toimintaa. Samalla tässä tekstissä voi kertoa
-            mistä tapahtumassa on kyse. </p>
+            <p tal:content="first_carousel"></p>
           </div>
         </div>
 
@@ -19,8 +18,7 @@
           <img class="carousel-image" src="/static/images/autumn.jpg" />
           <div class="carousel-caption">
             <h4> Saapas kuva 2 </h4>
-            <p>Kuvasarjojen tarkoituksena on antaa visuaalista tietoa Saappaan toiminnasta. Sekä lyhyillä lauseilla
-            kertoa mistä on kyse.</p>
+            <p tal:content="second_carousel"></p>
           </div>
         </div>
       </div><!-- Carousel items -->

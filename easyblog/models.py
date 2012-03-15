@@ -67,11 +67,16 @@ class Content(Persistent):
 
 # Main root object in our ZODB database
 class Main(PersistentMapping):
-    implements(IPage, ISiteRoot)
+    implements(IPage, ISiteRoot, IContainer)
     """ Root object for ZODB """
     __name__ = None
     __parent__ = None
     __acl__ = acl
+
+    def __init__(self, crumb_name):
+        PersistentMapping.__init__(self)
+        # Name used in breadcrumps
+        self.crumb_name = crumb_name
 
 class Page(Content):
     implements(IPage)
@@ -243,7 +248,6 @@ class NewsItem(Content):
 
     def __init__(self, title, text, image_url, owner, id):
         Content.__init__(self, title, owner, id)
-        # super(PersistentMapping, self).__init__()
         self.title = title
         self.text = text
         self.image_url = image_url
@@ -279,7 +283,7 @@ class News(Container):
 
 def appmaker(zodb_root):
     if not 'app_root' in zodb_root:
-        app_root = Main()
+        app_root = Main('home')
 
         # Create base containers 
         users = Users('users', 'main', 'users')

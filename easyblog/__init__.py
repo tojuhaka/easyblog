@@ -13,7 +13,7 @@ _ = TranslationStringFactory('easyblog')
 
 def my_locale_negotiator(request):
     # TODO: make translation links to site
-    locale_name = 'fi'
+    locale_name = 'en'
     return locale_name
 
 def root_factory(request):
@@ -40,10 +40,6 @@ def main(global_config, **settings):
     # config.add_settings({'default_locale_name': 'fi'})
     config.add_settings(default_encoding="UTF-8")
     config.hook_zca()
-
-    # Subscriber for base template
-    config.add_subscriber('easyblog.subscribers.add_base_template',
-                      'pyramid.events.BeforeRender')
 
     config.include('pyramid_viewgroup')
 
