@@ -1,14 +1,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       xmlns:tal="http://xml.zope.org/namespaces/tal"
-      xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      metal:define-macro="base"
+      i18n:domain="easyblog">
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <title>Bootstrap, from Twitter</title>
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="stylesheet" href="/static/js/plugins/jwysiwyg/jquery.wysiwyg.css" type="text/css">
-    <link rel="stylesheet/less" href="/static/bootstrap/less/bootstrap.less">
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <link rel="stylesheet" href="/static/js/plugins/jwysiwyg/jquery.wysiwyg.css" type="text/css" />
+    <link rel="stylesheet/less" href="/static/bootstrap/less/bootstrap.less" />
     <script src="/static/js/plugins/less.js"></script>
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
@@ -17,12 +19,12 @@
     <![endif]-->
 
     <!-- Le styles -->
-    <link href="/static/bootstrap/docs/assets/css/bootstrap-responsive.css" rel="stylesheet">
-    <link rel="shortcut icon" href="images/favicon.ico">
-    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link href="/static/bootstrap/docs/assets/css/bootstrap-responsive.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="images/favicon.ico" />
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png" />
 
-    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png" />
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png" />
   </head>
 
   <body>
@@ -41,7 +43,7 @@
           <a i18n:translate="project_name" class="brand" href="#">Saapas RY</a>
           <div class="nav-collapse">
             <ul class="nav">
-              <li tal:attributes="class python: is_active('ISiteRoot')"> <a i18n:translate="hom_link" href="/">Home</a></li>
+              <li tal:attributes="class python: is_active('ISiteRoot')"> <a i18n:translate="home_link" href="/">Home</a></li>
               <li tal:attributes="class python: is_active('IBlogs')"> <a i18n:translate="blogs_link" href="/blogs">Blogs</a></li>
               <li tal:attributes="class python: is_active('INews')"> <a i18n:translate="news_link" href="/news">News</a></li>
               <li tal:attributes="class python: is_active('IAbout')"><a i18n:translate="about_link" href="/about">About</a></li>

@@ -41,6 +41,10 @@ def main(global_config, **settings):
     config.add_settings(default_encoding="UTF-8")
     config.hook_zca()
 
+    # Subscriber for base template
+    config.add_subscriber('easyblog.subscribers.add_base_template',
+                      'pyramid.events.BeforeRender')
+
     config.include('pyramid_viewgroup')
 
     config.add_static_view('static', 'static', cache_max_age=3600)

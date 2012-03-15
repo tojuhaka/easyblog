@@ -1,6 +1,7 @@
 CHANGES.txt
 MANIFEST.in
 README.rst
+USABILITY_TEST.rst
 development.ini
 production.ini
 setup.cfg

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: easyblog 0.4\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-02-27 23:48+0200\n"
-"PO-Revision-Date: 2012-02-27 23:48+0200\n"
+"POT-Creation-Date: 2012-03-14 20:41+0200\n"
+"PO-Revision-Date: 2012-03-14 20:40+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: fi <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
@@ -82,19 +82,19 @@ msgid "list_of_blogs"
 msgstr ""
 
 #. Default: Action <dynamic element>
-#: easyblog/templates/container_editbar.pt:5
-#: easyblog/templates/content_editbar.pt:5
+#: easyblog/templates/container_editbar.pt:6
+#: easyblog/templates/content_editbar.pt:6
 msgid "action_button"
 msgstr ""
 
 #. Default: New
-#: easyblog/templates/container_editbar.pt:10
+#: easyblog/templates/container_editbar.pt:11
 msgid "dd-new"
 msgstr ""
 
 #. Default: Edit
-#: easyblog/templates/container_editbar.pt:11
-#: easyblog/templates/content_editbar.pt:10
+#: easyblog/templates/container_editbar.pt:12
+#: easyblog/templates/content_editbar.pt:11
 msgid "dd-edit"
 msgstr ""
 
@@ -129,12 +129,22 @@ msgid "edit_news_item_title"
 msgstr ""
 
 #. Default: Edit users
-#: easyblog/templates/users_edit.pt:6
-msgid "edit_user_header"
+#: easyblog/templates/users_edit.pt:8
+msgid "edit_users_topic"
 msgstr ""
 
 #. Default: results found
-#: easyblog/templates/users_edit.pt:15
+#: easyblog/templates/users_edit.pt:20
 msgid "results_found"
+msgstr ""
+
+#. Default: No results found
+#: easyblog/templates/users_edit.pt:23
+msgid "no_results"
+msgstr ""
+
+#. Default: Search
+#: easyblog/templates/users_edit.pt:36
+msgid "search_button"
 msgstr ""
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: easyblog 0.4\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-02-27 23:48+0200\n"
+"POT-Creation-Date: 2012-03-15 17:36+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,6 +27,51 @@ msgstr ""
 
 #: easyblog/config.py:9
 msgid "saved"
+msgstr ""
+
+#. Default: Saapas RY
+#: easyblog/templates/base.pt:43
+msgid "project_name"
+msgstr ""
+
+#. Default: Home
+#: easyblog/templates/base.pt:46
+msgid "hom_link"
+msgstr ""
+
+#. Default: Blogs
+#: easyblog/templates/base.pt:47
+msgid "blogs_link"
+msgstr ""
+
+#. Default: News
+#: easyblog/templates/base.pt:48
+msgid "news_link"
+msgstr ""
+
+#. Default: About
+#: easyblog/templates/base.pt:49
+msgid "about_link"
+msgstr ""
+
+#. Default: Contact
+#: easyblog/templates/base.pt:50
+msgid "contact_link"
+msgstr ""
+
+#. Default: Account<dynamic element>
+#: easyblog/templates/base.pt:58
+msgid "dd-account"
+msgstr ""
+
+#. Default: Profile
+#: easyblog/templates/base.pt:60
+msgid "dd-profile"
+msgstr ""
+
+#. Default: Logout
+#: easyblog/templates/base.pt:62
+msgid "dd-logout"
 msgstr ""
 
 #. Default: There are some errors!
@@ -81,19 +126,19 @@ msgid "list_of_blogs"
 msgstr ""
 
 #. Default: Action <dynamic element>
-#: easyblog/templates/container_editbar.pt:5
-#: easyblog/templates/content_editbar.pt:5
+#: easyblog/templates/container_editbar.pt:6
+#: easyblog/templates/content_editbar.pt:6
 msgid "action_button"
 msgstr ""
 
 #. Default: New
-#: easyblog/templates/container_editbar.pt:10
+#: easyblog/templates/container_editbar.pt:11
 msgid "dd-new"
 msgstr ""
 
 #. Default: Edit
-#: easyblog/templates/container_editbar.pt:11
-#: easyblog/templates/content_editbar.pt:10
+#: easyblog/templates/container_editbar.pt:12
+#: easyblog/templates/content_editbar.pt:11
 msgid "dd-edit"
 msgstr ""
 
@@ -128,12 +173,22 @@ msgid "edit_news_item_title"
 msgstr ""
 
 #. Default: Edit users
-#: easyblog/templates/users_edit.pt:6
-msgid "edit_user_header"
+#: easyblog/templates/users_edit.pt:8
+msgid "edit_users_topic"
 msgstr ""
 
 #. Default: results found
-#: easyblog/templates/users_edit.pt:15
+#: easyblog/templates/users_edit.pt:20
 msgid "results_found"
+msgstr ""
+
+#. Default: No results found
+#: easyblog/templates/users_edit.pt:23
+msgid "no_results"
+msgstr ""
+
+#. Default: Search
+#: easyblog/templates/users_edit.pt:36
+msgid "search_button"
 msgstr ""
 
