@@ -204,6 +204,13 @@ class UserView(BaseView):
         }
         return dict(self.base_dict.items() + _dict.items())
 
+    @view_config(name='delete', context=User,
+        permission='edit_all')
+    def view_user_remove(self):
+        #TODO: Template and button
+        users = self.context.__parent__
+        users.remove(self.context.username)
+
 
 class BlogPost(BaseView):
     """ View for single blogpost """
