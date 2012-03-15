@@ -298,7 +298,7 @@ def appmaker(zodb_root):
 
         # static pages
         about = AboutPage('about', 'content',  'main', 'about')
-        contact = ContactPage('about', 'content',  'main', 'about')
+        contact = ContactPage('contact', 'content',  'main', 'contact')
         app_root['about'] = about
         app_root['contact'] = contact
 

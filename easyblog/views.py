@@ -420,10 +420,9 @@ class UsersView(BaseView):
                     state=State(request=self.request))
 
         search_results = []
-        search = u""
+        search = get_param(self.request, 'search')
 
         if form.validate():
-            search = self.request.params['search']
 
             # Loop through all the users and create dict of groups
             for user in self.context:
@@ -665,9 +664,13 @@ class EditBarView(BaseView):
 
     def __init__(self, context, request):
         BaseView.__init__(self, context, request)
+        is_main = True
+        if self.context.__parent__ != None:
+            is_main = False
         self._dict = {
             'edit_url': resource_url(self.context, self.request) + 'edit',
             'users_edit_url': '/users/edit', # Hard-code is baaaad
+            'is_main': is_main,
             'is_admin': has_permission('edit_all', 
                             self.context, self.request)
         }
@@ -711,3 +714,14 @@ class CommentView(BaseView):
             'asdf': 'asdf'
         }
         return dict(self.base_dict.items() + _dict.items())
+
+
+@view_config(route_name='lang')
+def lang(request):
+    # Set language
+    code = request.matchdict['code']
+    # TODO redirect where we came_from
+    response = HTTPFound(location='/')
+    response.set_cookie('lang', value=code, max_age=31536000) # max_age = year
+    return response
+

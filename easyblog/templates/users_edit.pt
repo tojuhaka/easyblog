@@ -65,9 +65,10 @@
                 </tal:block>
               </tbody>
             </table>
-          <div class="buttons">
-            <span class="forminput">${form.submit("save", "Save")}</span>
-          </div>
+            <div class="buttons">
+                <button i18n:translate="save_button" class="btn" type="submit"
+                    name="save" value="Save">Save Changes</button>
+            </div>
       </div>
 
     </div> <!-- row -->

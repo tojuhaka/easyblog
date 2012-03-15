@@ -9,7 +9,6 @@
     <div tal:condition="message" class="alert alert-success">
       ${message}
     </div>
-    <div tal:condition="not: message">
       ${form.begin(request.resource_url(request.root, 'signup'))}
       ${form.csrf_token()}
       <div i18n:translate="errors" tal:condition="form.all_errors()" class="alert alert-error">
@@ -63,6 +62,5 @@
       <div></div>
       <button i18n:translate="register" class="btn" type="submit">Register</button>
       ${form.end()}
-    </div>
     </tal:block>
 </html>

@@ -29,7 +29,16 @@
 
   <body>
 <header id="logo" class="jumbotron subhead">
-<center><h1>Saapas JKL -logo</h1></center>
+<div class="row">
+            <center>
+            <h1>Saapas JKL -logo </h1>
+            </center>
+            <span class="pull-right">
+                <a style="margin-right: 5px;" href="/lang-fi">fi</a>
+                <a style="margin-right: 20px;" href="/lang-en">en</a>
+            </span>
+</div>
+
 </header>
     <div class="navbar">
       <div class="navbar-inner">

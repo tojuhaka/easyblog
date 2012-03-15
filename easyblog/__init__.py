@@ -12,8 +12,10 @@ _ = TranslationStringFactory('easyblog')
 
 
 def my_locale_negotiator(request):
-    # TODO: make translation links to site
-    locale_name = 'en'
+    try:
+        locale_name = request.cookies['lang']
+    except KeyError:
+        locale_name = u'en'
     return locale_name
 
 def root_factory(request):
@@ -45,4 +47,6 @@ def main(global_config, **settings):
 
     config.add_static_view('static', 'static', cache_max_age=3600)
     config.scan()
+
+    config.add_route('lang', '/lang-{code}')
     return config.make_wsgi_app()

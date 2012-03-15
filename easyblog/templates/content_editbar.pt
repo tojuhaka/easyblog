@@ -10,7 +10,7 @@
         </a>
         <ul class="dropdown-menu">
           <li><a i18n:translate="dd-edit" tal:attributes="href edit_url">Edit</a> </li>
-          <li tal:condition="is_admin"><a i18n:translate="dd-edit-users" tal:attributes="href users_edit_url">Edit Users</a> </li>
+          <li tal:condition="is_admin"><a i18n:translate="dd-edit-users" tal:attributes="href users_edit_url">Manage Users</a> </li>
           <li tal:condition="is_admin"><a i18n:translate="dd-create-user" href="/signup">Create User</a> </li>
         </ul>
     </li>

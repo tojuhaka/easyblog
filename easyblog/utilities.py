@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 def has_special(string):
     import re
     return re.search(r"[^A-Za-z0-9_]+", string)
@@ -80,7 +81,7 @@ def translate(s, lang):
     _dict = {
         'blogs': {'fi': u'Blogit'},
         'news': {'fi': u'Uutiset'},
-        'about': {'fi': u'Me'},
+        'about': {'fi': u'Meistä'},
         'contact': {'fi': u'Yhteystiedot'},
     }
     try: 
