@@ -64,7 +64,9 @@
             <span tal:condition="provider" tal:replace="structure provider('editbar')" />
             <ul tal:condition="logged_in" class="nav pull-right">
                 <li class="dropdown">
-                  <a i18n:translate="dd-account" href="#" class="dropdown-toggle" data-toggle="dropdown">Account<b class="caret"></b></a>
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                     <span i18n:translate="dd-account">Account</span> <b class="caret"></b>
+                  </a>
                   <ul class="dropdown-menu">
                     <!-- <li><a i18n:translate="dd-profile" tal:attributes="href string:/users/{logged_in}">Profile</a></li> -->
                     <!-- <li class="divider"></li> -->

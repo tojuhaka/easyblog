@@ -83,6 +83,7 @@ def translate(s, lang):
         'news': {'fi': u'Uutiset'},
         'about': {'fi': u'Meistä'},
         'contact': {'fi': u'Yhteystiedot'},
+        'home': {'fi': u'Pääsivu'},
     }
     try: 
         translated = _dict[s][lang]

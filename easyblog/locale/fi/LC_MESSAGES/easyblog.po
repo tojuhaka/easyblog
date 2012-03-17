@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: easyblog 0.4\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-03-15 17:36+0200\n"
+"POT-Creation-Date: 2012-03-17 20:56+0200\n"
 "PO-Revision-Date: 2012-03-14 20:40+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: fi <LL@li.org>\n"
@@ -30,47 +30,42 @@ msgid "saved"
 msgstr "Muutokset tallennettu"
 
 #. Default: Saapas RY
-#: easyblog/templates/base.pt:43
+#: easyblog/templates/base.pt:52
 msgid "project_name"
 msgstr "Saapas RY"
 
 #. Default: Home
-#: easyblog/templates/base.pt:46
+#: easyblog/templates/base.pt:55
 msgid "home_link"
 msgstr "Pääsivu"
 
 #. Default: Blogs
-#: easyblog/templates/base.pt:47
+#: easyblog/templates/base.pt:56
 msgid "blogs_link"
 msgstr "Blogit"
 
 #. Default: News
-#: easyblog/templates/base.pt:48
+#: easyblog/templates/base.pt:57
 msgid "news_link"
 msgstr "Uutiset"
 
 #. Default: About
-#: easyblog/templates/base.pt:49
+#: easyblog/templates/base.pt:58
 msgid "about_link"
 msgstr "Meistä"
 
 #. Default: Contact
-#: easyblog/templates/base.pt:50
+#: easyblog/templates/base.pt:59
 msgid "contact_link"
 msgstr "Ota yhteyttä"
 
-#. Default: Account<dynamic element>
-#: easyblog/templates/base.pt:58
+#. Default: Account
+#: easyblog/templates/base.pt:68
 msgid "dd-account"
-msgstr "Asetukset"
-
-#. Default: Profile
-#: easyblog/templates/base.pt:60
-msgid "dd-profile"
-msgstr "Profiili"
+msgstr "Tili"
 
 #. Default: Logout
-#: easyblog/templates/base.pt:62
+#: easyblog/templates/base.pt:73
 msgid "dd-logout"
 msgstr "Kirjaudu Ulos"
 
@@ -79,9 +74,9 @@ msgstr "Kirjaudu Ulos"
 #: easyblog/templates/blog_create_post.pt:24 easyblog/templates/blog_edit.pt:16
 #: easyblog/templates/blogpost_edit.pt:15 easyblog/templates/news_create.pt:13
 #: easyblog/templates/news_item_edit.pt:11 easyblog/templates/page_edit.pt:16
-#: easyblog/templates/signup.pt:15
+#: easyblog/templates/signup.pt:14
 msgid "errors"
-msgstr ""
+msgstr "Virheitä kentissä!"
 
 #. Default: Blogname
 #: easyblog/templates/blog_create.pt:23 easyblog/templates/blog_edit.pt:24
@@ -103,48 +98,63 @@ msgstr "Otsikko"
 #. Default: Are you sure you want to remove ${blogname}?
 #: easyblog/templates/blog_remove.pt:6
 msgid "confirm_delete"
-msgstr ""
+msgstr "Oletko varma, että haluat poistaa"
 
 #. Default: Blogposts
 #: easyblog/templates/blog_view.pt:28
 msgid "blogposts_heading"
-msgstr ""
+msgstr "Blogikirjoitukset"
 
 #. Default: Edit ${title}
 #: easyblog/templates/blogpost_edit.pt:7 easyblog/templates/page_edit.pt:8
 msgid "edit"
-msgstr ""
+msgstr "Muokkaa"
 
 #. Default: Edit list of Blogs
 #. Default: List of blogs
 #: easyblog/templates/blogs_edit.pt:8 easyblog/templates/blogs_view.pt:8
 msgid "blogs_topic"
-msgstr ""
+msgstr "Blogit"
 
 #. Default: List of Blogs
 #: easyblog/templates/blogs_view_grid.pt:8
 msgid "list_of_blogs"
 msgstr "Blogit"
 
-#. Default: Action <dynamic element>
-#: easyblog/templates/container_editbar.pt:6
-#: easyblog/templates/content_editbar.pt:6
+#. Default: Action
+#: easyblog/templates/container_editbar.pt:9
+#: easyblog/templates/content_editbar.pt:7
 msgid "action_button"
 msgstr "Toiminta"
 
 #. Default: New
-#: easyblog/templates/container_editbar.pt:11
+#: easyblog/templates/container_editbar.pt:15
 msgid "dd-new"
 msgstr "Uusi"
 
 #. Default: Edit
-#: easyblog/templates/container_editbar.pt:12
-#: easyblog/templates/content_editbar.pt:11
+#: easyblog/templates/container_editbar.pt:21
+#: easyblog/templates/content_editbar.pt:13
 msgid "dd-edit"
 msgstr "Muokkaa"
 
+#. Default: Manage Users
+#: easyblog/templates/container_editbar.pt:27
+#: easyblog/templates/content_editbar.pt:19
+msgid "dd-edit-users"
+msgstr "Käyttäjähallinta"
+
+#. Default: Create User
+#. Default: <dynamic element>
+#: easyblog/templates/container_editbar.pt:33
+#: easyblog/templates/container_editbar.pt:32
+#: easyblog/templates/content_editbar.pt:25
+#: easyblog/templates/content_editbar.pt:24
+msgid "dd-create-user"
+msgstr "Luo Käyttäjä"
+
 #. Default: Username
-#: easyblog/templates/login.pt:18 easyblog/templates/signup.pt:22
+#: easyblog/templates/login.pt:18 easyblog/templates/signup.pt:21
 msgid "username"
 msgstr "Käyttäjätunnus"
 
@@ -171,7 +181,7 @@ msgstr "Luo uutinen"
 #. Default: Edit news item
 #: easyblog/templates/news_item_edit.pt:7
 msgid "edit_news_item_title"
-msgstr "Muokkaa "
+msgstr "Muokkaa Uutista"
 
 #. Default: Edit users
 #: easyblog/templates/users_edit.pt:8
@@ -181,15 +191,20 @@ msgstr "Muokkaa käyttäjiä"
 #. Default: results found
 #: easyblog/templates/users_edit.pt:20
 msgid "results_found"
-msgstr ""
+msgstr "Tuloksia löytyi"
 
 #. Default: No results found
 #: easyblog/templates/users_edit.pt:23
 msgid "no_results"
-msgstr ""
+msgstr "Tuloksia ei löytynyt"
 
 #. Default: Search
 #: easyblog/templates/users_edit.pt:36
 msgid "search_button"
-msgstr ""
+msgstr "Etsi"
+
+#. Default: Save Changes
+#: easyblog/templates/users_edit.pt:69
+msgid "save_button"
+msgstr "Etsi"
 
