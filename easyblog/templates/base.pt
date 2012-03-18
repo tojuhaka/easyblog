@@ -6,7 +6,7 @@
       i18n:domain="easyblog">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/> 
-    <title>Saapas RY</title>
+    <title>Jyvässeudun Saappaan Tuki RY</title>
     <meta name="description" content="" />
     <meta name="author" content="" />
     <link rel="stylesheet" href="/static/js/plugins/jwysiwyg/jquery.wysiwyg.css" type="text/css" />
@@ -28,16 +28,21 @@
   </head>
 
   <body>
+  <!-- FACEBOOK LINK -->
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+          js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/fi_FI/all.js#xfbml=1";
+              fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
 <header id="logo" class="jumbotron subhead">
-<div class="row">
             <center>
-            <h1>Saapas JKL -logo </h1>
+                <img src="/static/images/logo.png" style="width: 400px; height: 100px;" />
             </center>
-            <span class="pull-right">
-                <a style="margin-right: 5px;" href="/lang-fi">fi</a>
-                <a style="margin-right: 20px;" href="/lang-en">en</a>
-            </span>
-</div>
 
 </header>
     <div class="navbar">
@@ -49,7 +54,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a i18n:translate="project_name" class="brand" href="#">Saapas RY</a>
+          <a i18n:translate="project_name" class="brand" href="#">Jyvässeudun Saappaan Tuki RY</a>
           <div class="nav-collapse">
             <ul class="nav">
               <li tal:attributes="class python: is_active('ISiteRoot')"> <a i18n:translate="home_link" href="/">Home</a></li>
@@ -59,17 +64,17 @@
               <li tal:attributes="class python: is_active('IContact')"><a i18n:translate="contact_link" href="/contact">Contact</a></li>
             </ul>
             <ul class="nav pull-right" tal:condition="not: logged_in">
-                <li><a href="/login">Login</a></li>
+                <li><a i18n:translate="dd-login" href="/login">Login</a></li>
             </ul>
             <span tal:condition="provider" tal:replace="structure provider('editbar')" />
             <ul tal:condition="logged_in" class="nav pull-right">
                 <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                     <span i18n:translate="dd-account">Account</span> <b class="caret"></b>
+             <i class="icon-user icon-white"></i> <b class="caret"></b>
                   </a>
                   <ul class="dropdown-menu">
-                    <!-- <li><a i18n:translate="dd-profile" tal:attributes="href string:/users/{logged_in}">Profile</a></li> -->
-                    <!-- <li class="divider"></li> -->
+                    <li><a i18n:translate="dd-profile" tal:attributes="href string:/users/${logged_in}">Profile</a></li>
+                    <li class="divider"></li>
                     <li><a i18n:translate="dd-logout" href="/logout">Logout</a></li>
                   </ul>
                 </li>
@@ -89,9 +94,39 @@
 
       <hr>
 
-      <footer>
-        <p>&copy; Company 2012</p>
+      <footer class="well">
+        <div class="row">
+            <div class="span3">
+                <h3> Yhteystiedot </h3>
 
+                <p>Seudun Saapas</p>
+                <p>Yliopistonkatu 12</p>
+                <p>40100 Jyväskylä</p>
+            <div class="fb-like" data-href="http://www.facebook.com/pages/Jyv%C3%A4sseudun-Saapas/134174799984739" data-send="true" data-layout="button_count" data-width="150" data-show-faces="true"></div>
+            </div>
+            <div class="span3">
+            <h3> Tue toimintaamme! </h3>
+                <p>Jyvässeudun Saappaan tuki ry.</p>
+                <p>IBAN-tilinumero: FI8352908120047262</p>
+                <p>Henkilölahjoitus-viite: 128814</p>
+                <p>Yrityslahjoitus-viite: 128801</p>
+            </div>
+
+            <div class="span3">
+            <h3> Yhteistyökumppanit </h3>
+                <p><a href="http://www.nuortenkeskus.fi/fi/toimintaa/saapas/">Nuorten Keskus</a></p>
+                <p><a href="http://www.mellunkylansaapas.com/index.htm">Mellunkylän Saapas</a></p>
+                <p><a href="http://www.turunsaappaantuki.fi/">Turun Saappaan Tuki</a></p>
+                <p><a href="http://www.kotkansaapas.fi/Etusivu.php">Kotkan Saapas</a></p>
+                <p><a href="http://www.joensuunsaapas.net/">Joensuun Saapas</a></p>
+            </div>
+
+            <div class="span2">
+            <h3> Sivuston toteutus </h3>
+                <p>Toni Haka-Risku</p>
+                <p>tojuhaka@gmail.com</p>
+            </div>
+        </div>
       </footer>
 
     </div> <!-- /container -->

@@ -49,6 +49,12 @@ class BaseView(object):
             if provides(self.context, interface):
                 return 'active' 
             return ''
+        try:
+            lang = self.request.cookies['lang'],
+        except KeyError:
+            from pyramid.i18n import get_locale_name
+            lang = get_locale_name(self.request)
+
 
         self.base_dict = {
             'logged_in': self.logged_in,
@@ -56,7 +62,8 @@ class BaseView(object):
             'resource_url': resource_url,
             'provider': Provider(self.context, self.request),
             'is_active': is_active,
-            'base': base
+            'base': base,
+            'lang': lang
         }
 
 
@@ -68,7 +75,7 @@ class MainView(BaseView):
         #TODO: make content type for frontpage
         """ FrontPage """
         _dict = {
-            'first_carousel': u'Tähän tulee hienoja kuvia, jotka kuvaavat Saappaan toimintaa. Samalla tässä tekstissä voi kertoa mistä tapahtumassa on kyse.',
+            'first_carousel': u'Tähän tulee hienoja kuvia, jotka kuvaavat Saappaan toimintaa.  asdfadsfdsaf asdf asdf sadf adsf sdf sadf sdaf sadf sadf asdf asdf asdf asdf asdf asdf asdf adsf sadfdsadfs dsSamalla tässä tekstissä voi kertoa mistä tapahtumassa on kyse.',
             'second_carousel': u'Kuvasarjojen tarkoituksena on antaa visuaalista tietoa Saappaan toiminnasta. Seka lyhyilla lauseilla'
         }
         return dict(self.base_dict.items() + _dict.items())
@@ -140,7 +147,7 @@ class MainView(BaseView):
                                      headers=headers)
             except KeyError:
                 pass
-            self.message = 'Failed username'
+            self.message = 'Invalid Username or Password'
 
         if self.logged_in:
             self.message = msg['logged_in_as'] + self.logged_in + ". "
@@ -185,6 +192,7 @@ class UserView(BaseView):
         form = Form(self.request, schema=UserEditSchema,
                 state=State(request=self.request))
 
+        self.error_message = None
         if form.validate():
             password = self.request.params['password']
             if self.context.validate_password(password):
@@ -194,13 +202,15 @@ class UserView(BaseView):
                 email = self.request.params['email']
                 self.context.edit(password, email)
             else:
-                self.message = msg['password_invalid']
+                self.error_message = msg['password_invalid']
+
 
         _dict = {
             'username': self.context.username,
             'form': FormRenderer(form),
             'email': self.context.email,
-            'message': self.message
+            'message': self.message,
+            'error_message': self.error_message
         }
         return dict(self.base_dict.items() + _dict.items())
 
@@ -249,10 +259,8 @@ class BlogView(BaseView):
     @view_config(context=Blog,
                  renderer='templates/blog_view.pt')
     def view_blog(self):
-        from pyramid_viewgroup import Provider
         _dict = {
             'blogname': self.context.name,
-            'provider': Provider(self.context, self.request),
             'container': self.context.description,
             'image_url': self.context.image_url,
         }
@@ -270,7 +278,7 @@ class BlogView(BaseView):
         if form.validate():
             self.context.name = blogname
             self.context.description = text
-            self.image_url = image_url
+            self.context.image_url = image_url
             self.message = msg['saved']
 
             cbs = [p for p in self.request.params.keys()
@@ -488,6 +496,10 @@ class UsersView(BaseView):
         }
         return dict(self.base_dict.items() + _dict.items())
 
+    @view_config(context=Users, name="create")
+    def views_users_new(self):
+        # Redirect to signup
+        return HTTPFound(location="/signup")
 
 class PageView(BaseView):
     """ View for single page like 'contact' or 'about'"""

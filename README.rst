@@ -115,6 +115,30 @@ joita projektin aikana itse noudatan:
 
 Välineet ja menetelmät
 ----------------------
+Sivuston toteutukseen käytetään Pyramid-sovelluskehystä, joka käyttää ohjelmointikielenä Pythonia. Pyramid on hyvin minimaalinen sovelluskehys, joka
+tarjoaa valmiita ratkaisuja usein toistuviin ongelmiin web-kehityksessä. Pyramidin tarkoitus on kuitenkin olla mahdollisimman helposti laannettevissa erilaisiin
+käyttötarkoituksiin, joten se tarjoaa vain välttämättömät välineet web-sovelluksien toteutuksille. Pyramid ei ota kantaa mihinkään erityiseen tekniikkaan
+millä web-sovellus tulisi toteuttaa. Tämä on jätetty ohjelmoijalle päätettäväksi. Yksinkertaisuudessaan Pyramidin päälle rakennetuissa sovelluksissa tulee löytää itse
+sopivat Pyramid-laajennokset, jotka auttavat jonkun tietyn ongelman ratkaisussa. Pyramidia voi hyvin verrata "Ruby On Rails" -sovelluskehykseen, mutta se on tätäkin
+paljon minimaalisempi. Pyramid soveltuu siis hyvin myös pienien sivustojen toteutuksessa, koska siinä ei ole mitään "ylimääräistä".
+
+Työssä käytetään Pyramidin ja sen lisäosien lisäksi myös paljon muita erilaisia tekniikoita, jotka helpottavat suuresti sovelluskehitystä. Esimerkiksi ulkoasun toteutukseen
+käytetään valmista CSS- ja javascript-kirjastoa nimeltä "Twitter Bootstrap". Bootstrap-kirjasto antaa helpotusta yleisesti käytettävien ulkoasu-komponenttejen toteutukseen.  Näistä hyvänä esimerkinä ovat erilaiset valikot ja painikkeet. Seuraavaksi listataan tärkeimmät tekniikat ja välineet, joita tässä työssä käytetään:
+
+    ZODB (Zope Object Data Base)
+        Työssä käytetään Zope-oliotietokantaa, jossa oliot tallennetaa kantaan juuri sellaisena, kun ne on ohjelmakoodiin määritelty. 
+    Traversal
+        Yksinkertaisuudessaan oliotietokannan sisältämää puuta käydään läpi samalla kuin osoiteriville syötetään jokin tietty polku. Esimerkiksi,
+        jos olio tietokannassa kitarat-olio, joka sisältää "fender" -nimisen kitara-olion, löydetään fender polusta "/kitarat/fender". Kyseiseen
+        osoitteeseen mentäessä saadaan vastauksena fender-olio, jolle yleensä on määritelty jokin näkymä sovelluksessa. Yksityiskohtaiseen
+        selvitykseen ei kuitenkaan tässä raportissa tämän enempää oteta kantaa.
+    Twitter Bootstrap
+        Twitterin kehittäjien toteuttama avoimen lähdekoodin kirjasto, joka on tarkoitettu apuvälineeksi web-kehittäjille. Kirjasto sisältää yleisimmät web-sivustoilla käytetyt komponentit, kuten esimerkiksi painikkeet ja valikot. Samalla se tarjoaa apuja yksinkertaisen ulkoasun toteuttamiseen, joka on mahdollisimman käyttäjäystävällinen.
+
+
+
+
+
 
 Toteutus
 --------
@@ -124,6 +148,7 @@ Mitä olisi pitänyt tehdä toisin
 - Enemmän ZCA:n käyttöä!!
 - Modulaarisempia komponentteja!!
 - Templateissa koodin toistoa, voisiko jotenkin abstrahoida paremmin?
+- Pyytää asiakkaalta tarkemmat speksit ennen vaersinaisen toteuttamisen aloittamista!
 
 
 

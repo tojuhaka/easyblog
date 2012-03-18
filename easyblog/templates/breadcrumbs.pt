@@ -5,7 +5,7 @@
     <ul class="breadcrumb">
         <li tal:repeat="crumb crumbs">
               <span class="divider">></span>
-          <a tal:content="translate(crumb.crumb_name, 'fi')" tal:attributes="href resource_url(crumb, request)">Home</a>
+          <a tal:content="translate(crumb.crumb_name, lang)" tal:attributes="href resource_url(crumb, request)">Home</a>
         </li>
     </ul>
   </div>

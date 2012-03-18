@@ -2,7 +2,7 @@
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       metal:use-macro="base">
-  <tal:block  metal:fill-slot="content">
+  <tal:block metal:fill-slot="content">
     <div class="row">
       <div class="page-header span4">
         <h1 i18n:translate="edit_users_topic"> Edit users </h1>
@@ -70,7 +70,6 @@
                     name="save" value="Save">Save Changes</button>
             </div>
       </div>
-
     </div> <!-- row -->
     ${form.end()}
   </tal:block>

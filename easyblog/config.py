@@ -10,7 +10,8 @@ msg = {
     'no_results': u'No search results',
     'items_removed': u'Items successfully removed',
     'create_post': u"Create a single post under the blog by defining it's \
-            title and content. The posts are shown under the blogs description"
+            title and content. The posts are shown under the blogs description",
+    'nothing_changed': _(msgid=u"nothing_changed", default="Nothing Changed"),
 
     }
 

@@ -339,6 +339,7 @@ class FunctionalTests(unittest.TestCase):
         self._signup('member', 'memberpw#', 'memberpw#', 'member@member.com')
         self._signup('second_member', 'second_memberpw#',
                     'second_memberpw#', 'second_member@member.com')
+        self.testapp.get('/lang-en')
 
     def tearDown(self):
         import shutil

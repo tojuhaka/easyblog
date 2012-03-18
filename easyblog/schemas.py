@@ -18,6 +18,18 @@ class UniqueUsername(FancyValidator):
 class UniqueEmail(FancyValidator):
     def _to_python(self,value,state):
         context = get_connection(state.request).root()['app_root']
+        try: 
+            email = state.request.context.email
+        except AttributeError:
+            #there is no context
+            email = None
+        
+        if email != None and email == value:
+            # if we're editing user, we should
+            # let the email pass if it's the same
+            # as user already had
+            return email
+
         for user in context['users']:
             if context['users'][user].email == value:
                 raise Invalid(

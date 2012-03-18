@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: easyblog 0.4\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-03-17 20:56+0200\n"
+"POT-Creation-Date: 2012-03-18 18:30+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,43 +29,57 @@ msgstr ""
 msgid "saved"
 msgstr ""
 
-#. Default: Saapas RY
-#: easyblog/templates/base.pt:52
+#: easyblog/config.py:14
+msgid "nothing_changed"
+msgstr ""
+
+#. Default: Jyvässeudun Saappaan Tuki RY
+#: easyblog/templates/base.pt:57
 msgid "project_name"
 msgstr ""
 
 #. Default: Home
-#: easyblog/templates/base.pt:55
+#: easyblog/templates/base.pt:60
 msgid "home_link"
 msgstr ""
 
 #. Default: Blogs
-#: easyblog/templates/base.pt:56
+#: easyblog/templates/base.pt:61
 msgid "blogs_link"
 msgstr ""
 
 #. Default: News
-#: easyblog/templates/base.pt:57
+#: easyblog/templates/base.pt:62
 msgid "news_link"
 msgstr ""
 
 #. Default: About
-#: easyblog/templates/base.pt:58
+#: easyblog/templates/base.pt:63
 msgid "about_link"
 msgstr ""
 
 #. Default: Contact
-#: easyblog/templates/base.pt:59
+#: easyblog/templates/base.pt:64
 msgid "contact_link"
 msgstr ""
 
+#. Default: Login
+#: easyblog/templates/base.pt:67
+msgid "dd-login"
+msgstr ""
+
 #. Default: Account
-#: easyblog/templates/base.pt:68
+#: easyblog/templates/base.pt:73
 msgid "dd-account"
 msgstr ""
 
+#. Default: Profile
+#: easyblog/templates/base.pt:76
+msgid "dd-profile"
+msgstr ""
+
 #. Default: Logout
-#: easyblog/templates/base.pt:73
+#: easyblog/templates/base.pt:78
 msgid "dd-logout"
 msgstr ""
 
@@ -74,6 +88,7 @@ msgstr ""
 #: easyblog/templates/blog_edit.pt:16 easyblog/templates/blogpost_edit.pt:15
 #: easyblog/templates/news_create.pt:13 easyblog/templates/news_item_edit.pt:11
 #: easyblog/templates/page_edit.pt:16 easyblog/templates/signup.pt:14
+#: easyblog/templates/user_edit.pt:17
 msgid "errors"
 msgstr ""
 
@@ -100,7 +115,7 @@ msgid "confirm_delete"
 msgstr ""
 
 #. Default: Blogposts
-#: easyblog/templates/blog_view.pt:28
+#: easyblog/templates/blog_view.pt:27
 msgid "blogposts_heading"
 msgstr ""
 
@@ -122,7 +137,7 @@ msgstr ""
 
 #. Default: Action
 #: easyblog/templates/container_editbar.pt:9
-#: easyblog/templates/content_editbar.pt:7
+#: easyblog/templates/content_editbar.pt:9
 msgid "action_button"
 msgstr ""
 
@@ -133,13 +148,13 @@ msgstr ""
 
 #. Default: Edit
 #: easyblog/templates/container_editbar.pt:21
-#: easyblog/templates/content_editbar.pt:13
+#: easyblog/templates/content_editbar.pt:15
 msgid "dd-edit"
 msgstr ""
 
 #. Default: Manage Users
 #: easyblog/templates/container_editbar.pt:27
-#: easyblog/templates/content_editbar.pt:19
+#: easyblog/templates/content_editbar.pt:21
 msgid "dd-edit-users"
 msgstr ""
 
@@ -147,8 +162,8 @@ msgstr ""
 #. Default: <dynamic element>
 #: easyblog/templates/container_editbar.pt:33
 #: easyblog/templates/container_editbar.pt:32
-#: easyblog/templates/content_editbar.pt:25
-#: easyblog/templates/content_editbar.pt:24
+#: easyblog/templates/content_editbar.pt:27
+#: easyblog/templates/content_editbar.pt:26
 msgid "dd-create-user"
 msgstr ""
 
@@ -180,6 +195,16 @@ msgstr ""
 #. Default: Edit news item
 #: easyblog/templates/news_item_edit.pt:7
 msgid "edit_news_item_title"
+msgstr ""
+
+#. Default: Edit ${username}
+#: easyblog/templates/user_edit.pt:8
+msgid "edit_user"
+msgstr ""
+
+#. Default: New Password
+#: easyblog/templates/user_edit.pt:24
+msgid "new_password"
 msgstr ""
 
 #. Default: Edit users

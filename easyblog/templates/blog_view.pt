@@ -7,7 +7,6 @@
       <div class="page-header span4">
         <h1 tal:content="blogname"> Login </h1>
       </div>
-      <span tal:condition="provider" tal:replace="structure provider('editbar')" />
     </div><!-- row -->
 
     <div class="row">

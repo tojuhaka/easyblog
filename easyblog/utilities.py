@@ -77,18 +77,19 @@ def provides(context, interface):
 # There are some cases where we can't translate properly.
 # For example 'blogs' and 'news' in breadcrumbs cannot be
 # translated
-def translate(s, lang):
+def translate(st, lang):
     _dict = {
         'blogs': {'fi': u'Blogit'},
         'news': {'fi': u'Uutiset'},
         'about': {'fi': u'Meistä'},
         'contact': {'fi': u'Yhteystiedot'},
         'home': {'fi': u'Pääsivu'},
+        'users': {'fi': u'Käyttäjät'}
     }
     try: 
-        translated = _dict[s][lang]
+        translated = _dict[st][lang[0]]
     except KeyError:
-        translated = s
+        translated = st
     return translated
 
 
