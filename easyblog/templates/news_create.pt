@@ -18,7 +18,7 @@
       <div tal:omit-tag="not: form.errorlist('title')"
             class="control-group error">
         <label i18n:translate="title">Title</label>
-        <input tal:attributes="value title" class="span6" type="text" name="title" placeholder="Type title…" >
+        <input tal:attributes="value title" class="span6" type="text" name="title" placeholder="Type title…" />
         <span tal:condition="python: form.errorlist('title')" 
             tal:content="form.errors_for('title')[0]"
             class="help-inline">Please correct the error
@@ -37,7 +37,7 @@
       <div tal:omit-tag="not: form.errorlist('image_url')"
             class="control-group error">
         <label i18n:translate="image_url">Image URL</label>
-        <input tal:attributes="value image_url" class="span6" type="text" name="image_url" placeholder="Type URL of the image" >
+        <input tal:attributes="value image_url" class="span6" type="text" name="image_url" placeholder="Type URL of the image" />
         <span tal:condition="python: form.errorlist('image_url')" 
             tal:content="form.errors_for('image_url')[0]"
             class="help-inline">Please correct the error

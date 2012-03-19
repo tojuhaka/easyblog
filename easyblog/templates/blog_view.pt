@@ -23,17 +23,19 @@
     
     <div tal:condition="context.order_by_time()" class="row">
       <div class="span6 list-items">
-        <div class="well">
-          <h2 i18n:translate="blogposts_heading">Blogposts </h2>
+          <h2 i18n:translate="blogposts_heading">Blogikirjoitukset</h2>
             <ul class="content">
               <span tal:omit-tag="" tal:repeat="post context.order_by_time()">
-               <li tal:attributes="class repeat.post.odd" >
-                  <a tal:attributes="href resource_url(post, request)" tal:content="string:${post.date()} ${post.title}"></a>
-              </li> 
+                <li tal:attributes="class repeat.post.odd" >
+                  <a tal:attributes="href resource_url(post, request)"
+                        tal:content="string:${post.date()} ${post.title}">
+                  </a>
+                </li> 
               </span>
             </ul>	
-          </div>
-        <div tal:condition="python: repeat.post.length > 15" class="page_navigation"></div>
+        <div tal:condition="python: repeat.post.length > 15"
+            class="page_navigation">
+        </div>
 	  </div>		
     </div> <!-- ROW -->
 

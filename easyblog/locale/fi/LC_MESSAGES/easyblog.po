@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: easyblog 0.4\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-03-18 18:30+0200\n"
+"POT-Creation-Date: 2012-03-19 00:11+0200\n"
 "PO-Revision-Date: 2012-03-14 20:40+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: fi <LL@li.org>\n"
@@ -17,19 +17,47 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 
-#: easyblog/config.py:4
+#: easyblog/config.py:3
+msgid "You have no permission to review this content"
+msgstr "Sinulla ei ole oikeuksia tähän sisältöön."
+
+#: easyblog/config.py:6
 msgid "password_invalid"
 msgstr "Väärä salasana"
 
-#: easyblog/config.py:5
+#: easyblog/config.py:7
 msgid "logged_in_as"
 msgstr "Kirjautunut sisään käyttäjänä"
 
 #: easyblog/config.py:9
+msgid "Successfully added user"
+msgstr "Lisätty onnistuneesti käyttäjä"
+
+#: easyblog/config.py:10
+msgid "Successfully created news item"
+msgstr "Onnistuneesti luotu uutinen"
+
+#: easyblog/config.py:11
 msgid "saved"
 msgstr "Muutokset tallennettu"
 
+#: easyblog/config.py:12
+msgid "No search results"
+msgstr "Tuloksia ei löytynyt"
+
+#: easyblog/config.py:13
+msgid "Items successfully removed"
+msgstr "Objektit poistettu onnistuneesti"
+
 #: easyblog/config.py:14
+msgid ""
+"Create a single post under the blog by defining it's title and content. "
+"The posts are shown under the blogs description"
+msgstr ""
+"Luo blogikirjoitus määrittäen sille otsikko ja sisältö. Kirjoitukset "
+"tulevat näkyviin listauksena Blogin alle."
+
+#: easyblog/config.py:16
 msgid "nothing_changed"
 msgstr "Ei muutoksia"
 
@@ -67,11 +95,6 @@ msgstr "Ota yhteyttä"
 #: easyblog/templates/base.pt:67
 msgid "dd-login"
 msgstr "Kirjaudu"
-
-#. Default: Account
-#: easyblog/templates/base.pt:73
-msgid "dd-account"
-msgstr "Tili"
 
 #. Default: Profile
 #: easyblog/templates/base.pt:76
@@ -114,8 +137,8 @@ msgstr "Otsikko"
 msgid "confirm_delete"
 msgstr "Oletko varma, että haluat poistaa"
 
-#. Default: Blogposts
-#: easyblog/templates/blog_view.pt:27
+#. Default: Blogikirjoitukset
+#: easyblog/templates/blog_view.pt:26
 msgid "blogposts_heading"
 msgstr "Blogikirjoitukset"
 
@@ -134,12 +157,6 @@ msgstr "Blogit"
 #: easyblog/templates/blogs_view_grid.pt:8
 msgid "list_of_blogs"
 msgstr "Blogit"
-
-#. Default: Action
-#: easyblog/templates/container_editbar.pt:9
-#: easyblog/templates/content_editbar.pt:9
-msgid "action_button"
-msgstr "Toiminta"
 
 #. Default: New
 #: easyblog/templates/container_editbar.pt:15
@@ -179,7 +196,6 @@ msgstr "Salasana"
 
 #. Default: Login
 #: easyblog/templates/login.pt:23
-msgid "login_button"
 msgstr "Kirjaudu Sisään"
 
 #. Default: List of News
@@ -192,24 +208,51 @@ msgstr "Uutiset"
 msgid "create_news_title"
 msgstr "Luo uutinen"
 
+#. Default: Text
+#: easyblog/templates/news_create.pt:31 easyblog/templates/news_item_edit.pt:41
+msgid "text"
+msgstr "Teksti"
+
+#. Default: Image URL
+#: easyblog/templates/news_create.pt:39 easyblog/templates/news_item_edit.pt:31
+msgid "image_url"
+msgstr "Kuvan osoite"
+
+#. Default: Create
+#: easyblog/templates/news_create.pt:48
+msgid "create"
+msgstr "Luo Käyttäjä"
+
 #. Default: Edit news item
 #: easyblog/templates/news_item_edit.pt:7
 msgid "edit_news_item_title"
 msgstr "Muokkaa Uutista"
 
+#. Default: Register
+#: easyblog/templates/news_item_edit.pt:45
+msgid "register"
+msgstr "Rekisteröidy"
+
+#. Default: Content
+#: easyblog/templates/page_edit.pt:38
+msgid "content"
+msgstr "Sisältö"
+
+#. Default: Save changes
+#. Default: Save Changes
+#: easyblog/templates/page_edit.pt:55 easyblog/templates/users_edit.pt:69
+msgid "save_button"
+msgstr "Tallenna Muutokset"
+
 #. Default: Edit ${username}
 #: easyblog/templates/user_edit.pt:8
-#, fuzzy
-#| msgid "dd-edit-users"
 msgid "edit_user"
-msgstr "Käyttäjähallinta"
+msgstr "Muokkaa"
 
 #. Default: New Password
 #: easyblog/templates/user_edit.pt:24
-#, fuzzy
-#| msgid "password"
 msgid "new_password"
-msgstr "Salasana"
+msgstr "Uusi salasana"
 
 #. Default: Edit users
 #: easyblog/templates/users_edit.pt:8
@@ -230,9 +273,4 @@ msgstr "Tuloksia ei löytynyt"
 #: easyblog/templates/users_edit.pt:36
 msgid "search_button"
 msgstr "Etsi"
-
-#. Default: Save Changes
-#: easyblog/templates/users_edit.pt:69
-msgid "save_button"
-msgstr "Tallenna Muutokset"
 
