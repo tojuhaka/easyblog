@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: easyblog 0.4\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-03-19 00:11+0200\n"
+"POT-Creation-Date: 2012-03-21 00:18+0200\n"
 "PO-Revision-Date: 2012-03-14 20:40+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: fi <LL@li.org>\n"
@@ -148,10 +148,10 @@ msgid "edit"
 msgstr "Muokkaa"
 
 #. Default: Edit list of Blogs
-#. Default: List of blogs
-#: easyblog/templates/blogs_edit.pt:8 easyblog/templates/blogs_view.pt:8
+#: easyblog/templates/blogs_edit.pt:8
+#, fuzzy
 msgid "blogs_topic"
-msgstr "Blogit"
+msgstr "Uutiset"
 
 #. Default: List of Blogs
 #: easyblog/templates/blogs_view_grid.pt:8
@@ -196,7 +196,9 @@ msgstr "Salasana"
 
 #. Default: Login
 #: easyblog/templates/login.pt:23
-msgstr "Kirjaudu Sisään"
+#, fuzzy
+msgid "login_button"
+msgstr "Tallenna Muutokset"
 
 #. Default: List of News
 #: easyblog/templates/news.pt:10 easyblog/templates/news_edit.pt:8
@@ -209,19 +211,19 @@ msgid "create_news_title"
 msgstr "Luo uutinen"
 
 #. Default: Text
-#: easyblog/templates/news_create.pt:31 easyblog/templates/news_item_edit.pt:41
+#: easyblog/templates/news_create.pt:31 easyblog/templates/news_item_edit.pt:32
 msgid "text"
 msgstr "Teksti"
 
 #. Default: Image URL
-#: easyblog/templates/news_create.pt:39 easyblog/templates/news_item_edit.pt:31
+#: easyblog/templates/news_create.pt:39 easyblog/templates/news_item_edit.pt:39
 msgid "image_url"
 msgstr "Kuvan osoite"
 
 #. Default: Create
 #: easyblog/templates/news_create.pt:48
 msgid "create"
-msgstr "Luo Käyttäjä"
+msgstr "Luo uutinen"
 
 #. Default: Edit news item
 #: easyblog/templates/news_item_edit.pt:7
@@ -229,7 +231,7 @@ msgid "edit_news_item_title"
 msgstr "Muokkaa Uutista"
 
 #. Default: Register
-#: easyblog/templates/news_item_edit.pt:45
+#: easyblog/templates/news_item_edit.pt:48
 msgid "register"
 msgstr "Rekisteröidy"
 
