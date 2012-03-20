@@ -423,7 +423,7 @@ class FunctionalTests(unittest.TestCase):
         # Try to change with invalid password, should fail
         res = self._edit_user(res, 'member', 'memberpw#2',
                             'memberpw#2', 'member@changed.com')
-        self.assertTrue('Password is invalid' in res.body)
+        self.assertTrue('Invalid Password' in res.body)
 
         # Try to change with incorrect email and password confirm, should fail
         res = self._edit_user(res, 'memberpw#', 'memberpw#2',
@@ -609,8 +609,7 @@ class FunctionalTests(unittest.TestCase):
         form = res.forms[0]
         form['search'] = 'memb'
         res = form.submit('submit')
-
-        self.assertTrue(u'member' in res.body)
+        self.assertTrue('member' in res.body)
 
     def test_news_view(self):
         res = self.testapp.get('/news')
@@ -734,42 +733,38 @@ class FunctionalTests(unittest.TestCase):
 
     def test_blogs_view(self):
         res = self.testapp.get('/blogs/')
-        self.assertTrue(u'List of Blogs' in res.body)
+        self.assertTrue('List of Blogs' in res.body)
 
     # Page tests
     def test_page_contact_link(self):
         res = self.testapp.get('/contact')
-        self.assertTrue(u'200 OK' in res.status)
+        self.assertTrue('200 OK' in res.status)
 
     def test_page_about_link(self):
         res = self.testapp.get('/about')
-        self.assertTrue(u'200 OK' in res.status)
+        self.assertTrue('200 OK' in res.status)
 
     def test_page_about_edit_link(self):
         res = self.testapp.get('/contact/edit')
-        self.assertTrue(u'200 OK' in res.status)
+        self.assertTrue('200 OK' in res.status)
 
     def test_page_contact_edit_link(self):
         res = self.testapp.get('/contact/edit')
-        self.assertTrue(u'200 OK' in res.status)
+        self.assertTrue('200 OK' in res.status)
     
     def test_page_contact_edit(self):
         self._login('admin', 'adminpw#')
         res = self.testapp.get('/contact/edit')
         self._edit_page(res, 'title',  'test content content content')
         res = self.testapp.get('/contact')
-        self.assertTrue(u'test content' in res.body)
-        self.assertTrue(u'title' in res.body)
+        self.assertTrue('test content' in res.body)
+        self.assertTrue('title' in res.body)
 
     def test_admin_links(self):
         self._login('admin', 'adminpw#')
         res = self.testapp.get('/')
-        try:
-            self.assertTrue(u'Edit Users' in res.body)
-            self.assertTrue(u'Create User' in res.body)
-        except UnicodeDecodeError:
-            # TODO: Fix this, tho it's not that important
-            pass
+        self.assertTrue('Manage Users' in res.body)
+        self.assertTrue('Create User' in res.body)
 
 
 
