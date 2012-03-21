@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       xmlns:tal="http://xml.zope.org/namespaces/tal"
-      xmlns:i18n="http://xml.zope.org/namespaces/i18n" >
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n" 
+      i18n:domain="easyblog">
     <div tal:repeat="news_item news" class="span4">
       <div class="thumbnail">
         <img tal:condition="news_item.image_url" tal:attributes="src news_item.image_url" alt="Image not available" />

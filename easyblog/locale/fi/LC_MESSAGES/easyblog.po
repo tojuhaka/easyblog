@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: easyblog 0.4\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-03-22 01:03+0200\n"
+"POT-Creation-Date: 2012-03-22 01:21+0200\n"
 "PO-Revision-Date: 2012-03-14 20:40+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: fi <LL@li.org>\n"
@@ -212,6 +212,7 @@ msgstr "Blogit"
 
 #. Default: View Details <dynamic element>
 #: easyblog/templates/blogs_view_grid.pt:20
+#: easyblog/templates/news_widget.pt:13
 msgid "view_details"
 msgstr "Näytä"
 
