@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: easyblog 0.4\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-03-21 00:18+0200\n"
+"POT-Creation-Date: 2012-03-21 17:38+0200\n"
 "PO-Revision-Date: 2012-03-14 20:40+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: fi <LL@li.org>\n"
@@ -61,6 +61,10 @@ msgstr ""
 msgid "nothing_changed"
 msgstr "Ei muutoksia"
 
+#: easyblog/config.py:17
+msgid "Invalid Username or Password"
+msgstr "Väärä käyttäjätunnus tai salasana"
+
 #. Default: Jyvässeudun Saappaan Tuki RY
 #: easyblog/templates/base.pt:57
 msgid "project_name"
@@ -107,18 +111,35 @@ msgid "dd-logout"
 msgstr "Kirjaudu Ulos"
 
 #. Default: There are some errors!
-#: easyblog/templates/blog_create.pt:15
+#: easyblog/templates/blog_create.pt:16
 #: easyblog/templates/blog_create_post.pt:24 easyblog/templates/blog_edit.pt:16
 #: easyblog/templates/blogpost_edit.pt:15 easyblog/templates/news_create.pt:13
-#: easyblog/templates/news_item_edit.pt:11 easyblog/templates/page_edit.pt:16
+#: easyblog/templates/news_item_edit.pt:13 easyblog/templates/page_edit.pt:16
 #: easyblog/templates/signup.pt:14 easyblog/templates/user_edit.pt:17
 msgid "errors"
 msgstr "Virheitä kentissä!"
 
 #. Default: Blogname
-#: easyblog/templates/blog_create.pt:23 easyblog/templates/blog_edit.pt:24
+#: easyblog/templates/blog_create.pt:24 easyblog/templates/blog_edit.pt:24
 msgid "blogname"
 msgstr "Blogin nimi"
+
+#. Default: Text
+#: easyblog/templates/blog_create.pt:35 easyblog/templates/news_create.pt:31
+#: easyblog/templates/news_item_edit.pt:34
+msgid "text"
+msgstr "Teksti"
+
+#. Default: Image URL
+#: easyblog/templates/blog_create.pt:43 easyblog/templates/news_create.pt:39
+#: easyblog/templates/news_item_edit.pt:41
+msgid "image_url"
+msgstr "Kuvan osoite"
+
+#. Default: Create Blog
+#: easyblog/templates/blog_create.pt:52
+msgid "create_button"
+msgstr "Luo Blogi"
 
 #. Default: Add Post
 #: easyblog/templates/blog_create_post.pt:19
@@ -128,7 +149,7 @@ msgstr "Luo blogikirjoitus"
 #. Default: Title
 #: easyblog/templates/blog_create_post.pt:37
 #: easyblog/templates/blogpost_edit.pt:24 easyblog/templates/news_create.pt:20
-#: easyblog/templates/news_item_edit.pt:21 easyblog/templates/page_edit.pt:25
+#: easyblog/templates/news_item_edit.pt:23 easyblog/templates/page_edit.pt:25
 msgid "title"
 msgstr "Otsikko"
 
@@ -149,12 +170,11 @@ msgstr "Muokkaa"
 
 #. Default: Edit list of Blogs
 #: easyblog/templates/blogs_edit.pt:8
-#, fuzzy
 msgid "blogs_topic"
-msgstr "Uutiset"
+msgstr "Blogit"
 
 #. Default: List of Blogs
-#: easyblog/templates/blogs_view_grid.pt:8
+#: easyblog/templates/blogs_view_grid.pt:9
 msgid "list_of_blogs"
 msgstr "Blogit"
 
@@ -184,21 +204,25 @@ msgstr "Käyttäjähallinta"
 msgid "dd-create-user"
 msgstr "Luo Käyttäjä"
 
+#. Default: Login
+#: easyblog/templates/login.pt:8
+msgid "login_topic"
+msgstr "Kirjaudu Sisään"
+
 #. Default: Username
-#: easyblog/templates/login.pt:18 easyblog/templates/signup.pt:21
+#: easyblog/templates/login.pt:19 easyblog/templates/signup.pt:21
 msgid "username"
 msgstr "Käyttäjätunnus"
 
 #. Default: Password
-#: easyblog/templates/login.pt:20
+#: easyblog/templates/login.pt:21
 msgid "password"
 msgstr "Salasana"
 
 #. Default: Login
-#: easyblog/templates/login.pt:23
-#, fuzzy
+#: easyblog/templates/login.pt:24
 msgid "login_button"
-msgstr "Tallenna Muutokset"
+msgstr "Kirjaudu Sisään"
 
 #. Default: List of News
 #: easyblog/templates/news.pt:10 easyblog/templates/news_edit.pt:8
@@ -210,41 +234,28 @@ msgstr "Uutiset"
 msgid "create_news_title"
 msgstr "Luo uutinen"
 
-#. Default: Text
-#: easyblog/templates/news_create.pt:31 easyblog/templates/news_item_edit.pt:32
-msgid "text"
-msgstr "Teksti"
-
-#. Default: Image URL
-#: easyblog/templates/news_create.pt:39 easyblog/templates/news_item_edit.pt:39
-msgid "image_url"
-msgstr "Kuvan osoite"
-
 #. Default: Create
 #: easyblog/templates/news_create.pt:48
 msgid "create"
 msgstr "Luo uutinen"
 
 #. Default: Edit news item
-#: easyblog/templates/news_item_edit.pt:7
+#: easyblog/templates/news_item_edit.pt:8
 msgid "edit_news_item_title"
 msgstr "Muokkaa Uutista"
 
-#. Default: Register
-#: easyblog/templates/news_item_edit.pt:48
-msgid "register"
-msgstr "Rekisteröidy"
+#. Default: Save
+#. Default: Save changes
+#. Default: Save Changes
+#: easyblog/templates/news_item_edit.pt:50 easyblog/templates/page_edit.pt:55
+#: easyblog/templates/users_edit.pt:69
+msgid "save_button"
+msgstr "Tallenna Muutokset"
 
 #. Default: Content
 #: easyblog/templates/page_edit.pt:38
 msgid "content"
 msgstr "Sisältö"
-
-#. Default: Save changes
-#. Default: Save Changes
-#: easyblog/templates/page_edit.pt:55 easyblog/templates/users_edit.pt:69
-msgid "save_button"
-msgstr "Tallenna Muutokset"
 
 #. Default: Edit ${username}
 #: easyblog/templates/user_edit.pt:8

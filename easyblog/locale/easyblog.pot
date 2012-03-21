@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: easyblog 0.4\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-03-21 00:18+0200\n"
+"POT-Creation-Date: 2012-03-21 17:38+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -59,6 +59,10 @@ msgstr ""
 msgid "nothing_changed"
 msgstr ""
 
+#: easyblog/config.py:17
+msgid "Invalid Username or Password"
+msgstr ""
+
 #. Default: Jyvässeudun Saappaan Tuki RY
 #: easyblog/templates/base.pt:57
 msgid "project_name"
@@ -105,17 +109,34 @@ msgid "dd-logout"
 msgstr ""
 
 #. Default: There are some errors!
-#: easyblog/templates/blog_create.pt:15 easyblog/templates/blog_create_post.pt:24
+#: easyblog/templates/blog_create.pt:16 easyblog/templates/blog_create_post.pt:24
 #: easyblog/templates/blog_edit.pt:16 easyblog/templates/blogpost_edit.pt:15
-#: easyblog/templates/news_create.pt:13 easyblog/templates/news_item_edit.pt:11
+#: easyblog/templates/news_create.pt:13 easyblog/templates/news_item_edit.pt:13
 #: easyblog/templates/page_edit.pt:16 easyblog/templates/signup.pt:14
 #: easyblog/templates/user_edit.pt:17
 msgid "errors"
 msgstr ""
 
 #. Default: Blogname
-#: easyblog/templates/blog_create.pt:23 easyblog/templates/blog_edit.pt:24
+#: easyblog/templates/blog_create.pt:24 easyblog/templates/blog_edit.pt:24
 msgid "blogname"
+msgstr ""
+
+#. Default: Text
+#: easyblog/templates/blog_create.pt:35 easyblog/templates/news_create.pt:31
+#: easyblog/templates/news_item_edit.pt:34
+msgid "text"
+msgstr ""
+
+#. Default: Image URL
+#: easyblog/templates/blog_create.pt:43 easyblog/templates/news_create.pt:39
+#: easyblog/templates/news_item_edit.pt:41
+msgid "image_url"
+msgstr ""
+
+#. Default: Create Blog
+#: easyblog/templates/blog_create.pt:52
+msgid "create_button"
 msgstr ""
 
 #. Default: Add Post
@@ -125,7 +146,7 @@ msgstr ""
 
 #. Default: Title
 #: easyblog/templates/blog_create_post.pt:37 easyblog/templates/blogpost_edit.pt:24
-#: easyblog/templates/news_create.pt:20 easyblog/templates/news_item_edit.pt:21
+#: easyblog/templates/news_create.pt:20 easyblog/templates/news_item_edit.pt:23
 #: easyblog/templates/page_edit.pt:25
 msgid "title"
 msgstr ""
@@ -151,7 +172,7 @@ msgid "blogs_topic"
 msgstr ""
 
 #. Default: List of Blogs
-#: easyblog/templates/blogs_view_grid.pt:8
+#: easyblog/templates/blogs_view_grid.pt:9
 msgid "list_of_blogs"
 msgstr ""
 
@@ -181,18 +202,23 @@ msgstr ""
 msgid "dd-create-user"
 msgstr ""
 
+#. Default: Login
+#: easyblog/templates/login.pt:8
+msgid "login_topic"
+msgstr ""
+
 #. Default: Username
-#: easyblog/templates/login.pt:18 easyblog/templates/signup.pt:21
+#: easyblog/templates/login.pt:19 easyblog/templates/signup.pt:21
 msgid "username"
 msgstr ""
 
 #. Default: Password
-#: easyblog/templates/login.pt:20
+#: easyblog/templates/login.pt:21
 msgid "password"
 msgstr ""
 
 #. Default: Login
-#: easyblog/templates/login.pt:23
+#: easyblog/templates/login.pt:24
 msgid "login_button"
 msgstr ""
 
@@ -206,40 +232,27 @@ msgstr ""
 msgid "create_news_title"
 msgstr ""
 
-#. Default: Text
-#: easyblog/templates/news_create.pt:31 easyblog/templates/news_item_edit.pt:32
-msgid "text"
-msgstr ""
-
-#. Default: Image URL
-#: easyblog/templates/news_create.pt:39 easyblog/templates/news_item_edit.pt:39
-msgid "image_url"
-msgstr ""
-
 #. Default: Create
 #: easyblog/templates/news_create.pt:48
 msgid "create"
 msgstr ""
 
 #. Default: Edit news item
-#: easyblog/templates/news_item_edit.pt:7
+#: easyblog/templates/news_item_edit.pt:8
 msgid "edit_news_item_title"
 msgstr ""
 
-#. Default: Register
-#: easyblog/templates/news_item_edit.pt:48
-msgid "register"
+#. Default: Save
+#. Default: Save changes
+#. Default: Save Changes
+#: easyblog/templates/news_item_edit.pt:50 easyblog/templates/page_edit.pt:55
+#: easyblog/templates/users_edit.pt:69
+msgid "save_button"
 msgstr ""
 
 #. Default: Content
 #: easyblog/templates/page_edit.pt:38
 msgid "content"
-msgstr ""
-
-#. Default: Save changes
-#. Default: Save Changes
-#: easyblog/templates/page_edit.pt:55 easyblog/templates/users_edit.pt:69
-msgid "save_button"
 msgstr ""
 
 #. Default: Edit ${username}

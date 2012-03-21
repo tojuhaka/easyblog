@@ -20,8 +20,8 @@
           <span i18n:translate="results_found" class="result">results found</span>
       </div>
       <div tal:condition="not: search_results" class="span6 alert alert-error">
-          <span i18n:translate="no_results">
-                No results found</span>
+          <p i18n:translate="no_results">
+                No results found</p>
       </div>
     </div>
 

@@ -147,10 +147,10 @@ class MainView(BaseView):
                                      headers=headers)
             except KeyError:
                 pass
-            self.message = 'Invalid Username or Password'
+            self.message = msg['login_failed']
 
         if self.logged_in:
-            self.message = msg['logged_in_as'] + self.logged_in + ". "
+            self.message = msg['logged_in_as'] + " " + self.logged_in + ". "
 
         if  type(self.context) == HTTPForbidden:
             self.message += msg['content_forbidden']

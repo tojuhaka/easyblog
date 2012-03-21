@@ -14,6 +14,8 @@ default=u"You have no permission to review this content"),
     'create_post': _(msgid=u"Create a single post under the blog by defining it's title and content. The posts are shown under the blogs description",
             default="Create a single post under the blog by defining it's title and content. The posts are shonw under the blog description"),
     'nothing_changed': _(msgid=u"nothing_changed", default="Nothing Changed"),
+    'login_failed' : _(msgid=u"Invalid Username or Password", default="Invalid Username or Password"),
+
 
     }
 
