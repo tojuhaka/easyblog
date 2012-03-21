@@ -172,6 +172,7 @@ Mitä olisi pitänyt tehdä toisin
 - Templateissa koodin toistoa, voisiko jotenkin abstrahoida paremmin?
 - Pyytää asiakkaalta tarkemmat speksit ennen vaersinaisen toteuttamisen aloittamista!
 - Käännöksien huomioon ottaminen jo siinä vaiheessa kun templateja aletaan tekemään
+- Enemmän yhtenäisyyttä ohjelmakoodiin, esim. samojen asioiden nimeämiset välillä erilailla
 
 
 

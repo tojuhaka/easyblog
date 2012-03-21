@@ -44,17 +44,17 @@ class BaseView(object):
         from easyblog.utilities import Provider
         from pyramid.renderers import get_renderer
         base = get_renderer('templates/base.pt').implementation()
+
         # This dict will be returned in every view
         def is_active(interface):
             if provides(self.context, interface):
-                return 'active' 
+                return 'active'
             return ''
         try:
             lang = self.request.cookies['lang'],
         except KeyError:
             from pyramid.i18n import get_locale_name
             lang = get_locale_name(self.request)
-
 
         self.base_dict = {
             'logged_in': self.logged_in,
@@ -75,8 +75,13 @@ class MainView(BaseView):
         #TODO: make content type for frontpage
         """ FrontPage """
         _dict = {
-            'first_carousel': u'Tähän tulee hienoja kuvia, jotka kuvaavat Saappaan toimintaa.  asdfadsfdsaf asdf asdf sadf adsf sdf sadf sdaf sadf sadf asdf asdf asdf asdf asdf asdf asdf adsf sadfdsadfs dsSamalla tässä tekstissä voi kertoa mistä tapahtumassa on kyse.',
-            'second_carousel': u'Kuvasarjojen tarkoituksena on antaa visuaalista tietoa Saappaan toiminnasta. Seka lyhyilla lauseilla'
+            'first_carousel': u'Tähän tulee hienoja kuvia, jotka \
+            kuvaavat Saappaan toimintaa.  asdfadsfdsaf asdf asdf  \
+            sadf adsf sdf sadf sdaf sadf sadf asdf asdf asdf asdf \
+            asdf asdf asdf adsf sadfdsadfs dsSamalla tässä tekstissä \
+            voi kertoa mistä tapahtumassa on kyse.', \
+            'second_carousel': u'Kuvasarjojen tarkoituksena on antaa  \
+            visuaalista tietoa Saappaan toiminnasta. Seka lyhyilla lauseilla'
         }
         return dict(self.base_dict.items() + _dict.items())
 
@@ -204,7 +209,6 @@ class UserView(BaseView):
             else:
                 self.error_message = msg['password_invalid']
 
-
         _dict = {
             'username': self.context.username,
             'form': FormRenderer(form),
@@ -273,7 +277,8 @@ class BlogView(BaseView):
                     state=State(request=self.request))
         blogname = get_param(self.request, 'blogname', self.context.name)
         text = get_param(self.request, 'text', self.context.description)
-        image_url = get_param(self.request, 'image_url', self.context.image_url)
+        image_url = get_param(self.request, 'image_url',
+                self.context.image_url)
 
         if form.validate():
             self.context.name = blogname
@@ -362,13 +367,13 @@ class BlogsView(BaseView):
         # in the grid there will be 3 items in a single row
         # we'll build a special list for this since it seems
         # quite hard trying to do it with chameleon
-        from .utilities import chunks
+        from .utilities import chunks, get_description
         splitted_keys = chunks(self.context.keys(), 4)
 
         _dict = {
             'context_url': resource_url(self.context, self.request),
             'splitted_keys': splitted_keys,
-            'shorten': shorten_text
+            'get_description': get_description
         }
         return dict(self.base_dict.items() + _dict.items())
 
@@ -545,10 +550,11 @@ class NewsWidget(BaseView):
     def __call__(self):
         news = self.context['news'].order_by_time()
         news_number = 3
-
+        from .utilities import get_description
         _dict = {
             'news': news[0:news_number],
-            'shorten': shorten_text
+            'shorten': shorten_text, # TODO: Refactor template, ugly
+            'get_description': get_description
         }
         return dict(self.base_dict.items() + _dict.items())
 
@@ -595,9 +601,16 @@ class NewsView(BaseView):
 
     @view_config(context=News, renderer='templates/news.pt')
     def __call__(self):
+        # TODO: this is a fast solution, make it better
+        def get_description(blog_key, context):
+            # get description of the blog as shorten
+            desc = context[blog_key].text.replace("\\n", '<br />')
+            desc = shorten_text(desc, 30)
+            return desc + "..."
+
         _dict = {
             'news': self.context,
-            'shorten': shorten_text,
+            'get_description': get_description
         }
         return dict(self.base_dict.items() + _dict.items())
 

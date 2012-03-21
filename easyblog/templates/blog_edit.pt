@@ -5,7 +5,7 @@
       i18n:domain="easyblog">
   <tal:block  metal:fill-slot="content">
     <div class="page-header"> 
-      <h1> Edit Blog </h1>
+      <h1> <span i18n:translate="edit">Edit</span> ${"'" + context.name + "'"} </h1>
     </div>
 
     <div tal:condition="message" class="alert alert-success">
@@ -22,7 +22,7 @@
       <div tal:omit-tag="not: form.errorlist('blogname')"
             class="control-group error">
           <label i18n:translate="blogname">Blogname</label>
-          <input tal:attributes="value blogname" type="blogname" name="blogname" placeholder="Type blogname…" >
+          <input tal:attributes="value blogname" type="blogname" name="blogname" placeholder="Type blogname…" />
           <span tal:condition="python: form.errorlist('blogname')" 
             tal:content="form.errors_for('blogname')[0]"
             class="help-inline">Please correct the error
@@ -41,7 +41,7 @@
       <div tal:omit-tag="not: form.errorlist('image_url')"
             class="control-group error">
         <label i18n:translate="image_url">Image URL</label>
-        <input tal:attributes="value image_url" class="span6" type="text" name="image_url" placeholder="Type URL of the image" >
+        <input tal:attributes="value image_url" class="span6" type="text" name="image_url" placeholder="Type URL of the image" />
         <span tal:condition="python: form.errorlist('image_url')" 
             tal:content="form.errors_for('image_url')[0]"
             class="help-inline">Please correct the error
@@ -52,10 +52,10 @@
     <div class="row">
         <table class="table span8">
           <thead>
-            <th> Name </th>
-            <th> Creator </th>
-            <th> Date </th>
-            <th> Delete </th>
+            <th i18n:translate="name"> Name </th>
+            <th i18n:translate="creator"> Creator </th>
+            <th i18n:translate="date"> Date </th>
+            <th i18n:translate="delete"> Delete </th>
           </thead>
           <tbody>
             <div tal:repeat="news_item context.order_by_time()">

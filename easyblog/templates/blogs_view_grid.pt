@@ -16,8 +16,8 @@
           <img tal:condition="context[blog_key].image_url" tal:attributes="src context[blog_key].image_url" alt="Image not available" />
           <div class="caption">
             <h3 tal:content="context[blog_key].name">Heading</h3>
-            <p tal:content="structure string:${shorten(context[blog_key].description.replace('\n', '<br />'), 30)}..."></p>
-            <p><a i18n:translate="view_details" class="btn" tal:attributes="href resource_url(context[blog_key], request)" href="#">View details &raquo;</a></p>
+            <p tal:content="get_description(blog_key, context)"> Structure </p>
+            <p><a i18n:translate="view_details" class="btn" tal:attributes="href resource_url(context[blog_key], request)" href="#">View Details <span>&raquo;</span></a></p>
           </div><!-- caption -->
         </div> <!-- thumbnail -->
       </div>
