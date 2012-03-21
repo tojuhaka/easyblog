@@ -483,7 +483,7 @@ class FunctionalTests(unittest.TestCase):
         # login as admin and test permission
         res = self._login('admin', 'adminpw#')
         res = self.testapp.get(urllib.quote('/blogs/b0/edit'))
-        self.assertTrue('Edit Blog' in res.body)
+        self.assertTrue("My Blog" in res.body)
 
     def test_blogpost_edit(self):
         self.test_blogpost_create()

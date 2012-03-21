@@ -40,9 +40,13 @@ def order(context, ordered_keys):
 def chunks(l, n):
     return [l[i:i+n] for i in range(0, len(l), n)]
 
-def get_description(blog_key, context):
+def get_description(key, context):
     # get description of the blog as shorten
-    desc = context[blog_key].description.replace("\\n", '<br />')
+    try:
+        desc = context[key].description.replace("\\n", '<br />')
+    except AttributeError:
+        desc = context[key].text.replace("\\n", '<br />')
+
     desc = shorten_text(desc, 30)
     return desc + "..."
 

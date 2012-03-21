@@ -542,18 +542,23 @@ class PageView(BaseView):
         
 
 class NewsWidget(BaseView):
-    """ Widget for news. It's shown in every page inside
-    base template"""
+    """ Newswidget for frontpage. The newest news are in
+   the frontpage """
 
     @view_config(context=ISiteRoot, name="news_widget",
             renderer='templates/news_widget.pt')
     def __call__(self):
         news = self.context['news'].order_by_time()
         news_number = 3
-        from .utilities import get_description
+        # from .utilities import get_description
+        def get_description(key, context):
+            res = get_resource('news', self.request)
+            desc = res[key].text.replace("\\n", '<br />')
+            desc = shorten_text(desc, 30)
+            return desc + "..."
+
         _dict = {
             'news': news[0:news_number],
-            'shorten': shorten_text, # TODO: Refactor template, ugly
             'get_description': get_description
         }
         return dict(self.base_dict.items() + _dict.items())
@@ -601,12 +606,7 @@ class NewsView(BaseView):
 
     @view_config(context=News, renderer='templates/news.pt')
     def __call__(self):
-        # TODO: this is a fast solution, make it better
-        def get_description(blog_key, context):
-            # get description of the blog as shorten
-            desc = context[blog_key].text.replace("\\n", '<br />')
-            desc = shorten_text(desc, 30)
-            return desc + "..."
+        from .utilities import get_description
 
         _dict = {
             'news': self.context,
