@@ -11,11 +11,11 @@
     <div tal:condition="message" class="alert alert-success">
       ${message}
     </div>
-
+    <div i18n:translate="errors" tal:condition="form.all_errors()" class="alert alert-error">
+      There are some errors!
+    </div>
+    
     <div class="well">
-      <div i18n:translate="errors" tal:condition="form.all_errors()" class="alert alert-error">
-        There are some errors!
-      </div>
       ${form.begin(request.url)}
       ${form.csrf_token()}
 

@@ -7,12 +7,13 @@
     <div class="page-header"> 
       <h1 i18n:translate="create_news_title"> Create a single news item </h1>
     </div>
+    <div i18n:translate="errors" tal:condition="form.all_errors()" class="alert alert-error">
+      There are some errors!
+    </div>
+
     <div class="well">
       ${form.begin(request.url)}
       ${form.csrf_token()}
-      <div i18n:translate="errors" tal:condition="form.all_errors()" class="alert alert-error">
-        There are some errors!
-      </div>
 
       <!-- Title for newsitem -->
       <div tal:omit-tag="not: form.errorlist('title')"

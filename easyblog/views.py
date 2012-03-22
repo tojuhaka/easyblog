@@ -92,10 +92,6 @@ class MainView(BaseView):
         email = get_param(self.request, 'email')
         password = u''
 
-        # if logged in don't show the signup form
-        if self.logged_in:
-            self.message = msg['logged_in_as'] + " " + self.logged_in
-
         # Create form by using schemas with validations
         form = Form(self.request, schema=SignUpSchema,
                 state=State(request=self.request))
