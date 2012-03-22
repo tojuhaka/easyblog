@@ -23,7 +23,7 @@
     <div tal:omit-tag="not: form.errorlist('title')"
             class="control-group error">
       <label i18n:translate="title">Title</label>
-      <input tal:attributes="value title" class="span6" type="text" name="title" placeholder="Type title…" />
+      <input tal:attributes="value title" class="span6" type="text" name="title" />
       <span tal:condition="python: form.errorlist('title')" 
             tal:content="form.errors_for('title')[0]"
             class="help-inline">Please correct the error
@@ -44,7 +44,7 @@
           </span>
 
           <textarea tal:content="text" class="wysiwyg" id="wysiwyg"
-            name="text" placeholder="Type text…">
+            name="text">
           </textarea>
 
         </div>

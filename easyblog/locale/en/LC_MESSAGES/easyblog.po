@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: easyblog 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-03-22 01:21+0200\n"
+"POT-Creation-Date: 2012-03-22 22:50+0200\n"
 "PO-Revision-Date: 2012-02-12 16:49+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: en <LL@li.org>\n"
@@ -108,12 +108,17 @@ msgstr ""
 msgid "dd-logout"
 msgstr ""
 
+#. Default: Create Blog
+#: easyblog/templates/blog_create.pt:8
+msgid "create_blog"
+msgstr ""
+
 #. Default: There are some errors!
 #: easyblog/templates/blog_create.pt:16
-#: easyblog/templates/blog_create_post.pt:24 easyblog/templates/blog_edit.pt:16
+#: easyblog/templates/blog_create_post.pt:20 easyblog/templates/blog_edit.pt:16
 #: easyblog/templates/blogpost_edit.pt:16 easyblog/templates/news_create.pt:13
 #: easyblog/templates/news_item_edit.pt:13 easyblog/templates/page_edit.pt:16
-#: easyblog/templates/signup.pt:14 easyblog/templates/user_edit.pt:17
+#: easyblog/templates/signup.pt:16 easyblog/templates/user_edit.pt:17
 msgid "errors"
 msgstr ""
 
@@ -131,26 +136,36 @@ msgid "text"
 msgstr ""
 
 #. Default: Image URL
-#: easyblog/templates/blog_create.pt:43 easyblog/templates/blog_edit.pt:43
-#: easyblog/templates/news_create.pt:39 easyblog/templates/news_item_edit.pt:41
+#: easyblog/templates/blog_create.pt:44 easyblog/templates/blog_edit.pt:43
+#: easyblog/templates/news_create.pt:40 easyblog/templates/news_item_edit.pt:41
 msgid "image_url"
 msgstr ""
 
 #. Default: Create Blog
-#: easyblog/templates/blog_create.pt:52
+#: easyblog/templates/blog_create.pt:53
 msgid "create_button"
 msgstr ""
 
-#. Default: Add Post
-#: easyblog/templates/blog_create_post.pt:19
-msgid "add_post_heading"
+#. Default: Create blogpost
+#: easyblog/templates/blog_create_post.pt:9
+msgid "create_blogpost"
 msgstr ""
 
 #. Default: Title
-#: easyblog/templates/blog_create_post.pt:37
+#: easyblog/templates/blog_create_post.pt:33
 #: easyblog/templates/blogpost_edit.pt:25 easyblog/templates/news_create.pt:20
 #: easyblog/templates/news_item_edit.pt:23 easyblog/templates/page_edit.pt:25
 msgid "title"
+msgstr ""
+
+#. Default: Content
+#: easyblog/templates/blog_create_post.pt:49
+msgid "wysiwyg_editor_label"
+msgstr ""
+
+#. Default: Create Post
+#: easyblog/templates/blog_create_post.pt:68
+msgid "create_post_button"
 msgstr ""
 
 #. Default: Edit
@@ -160,17 +175,20 @@ msgid "edit"
 msgstr ""
 
 #. Default: Name
-#: easyblog/templates/blog_edit.pt:55
+#: easyblog/templates/blog_edit.pt:55 easyblog/templates/blogs_edit.pt:24
+#: easyblog/templates/news_edit.pt:25
 msgid "name"
 msgstr ""
 
 #. Default: Creator
-#: easyblog/templates/blog_edit.pt:56
+#: easyblog/templates/blog_edit.pt:56 easyblog/templates/blogs_edit.pt:25
+#: easyblog/templates/news_edit.pt:26
 msgid "creator"
 msgstr ""
 
 #. Default: Date
-#: easyblog/templates/blog_edit.pt:57
+#: easyblog/templates/blog_edit.pt:57 easyblog/templates/blogs_edit.pt:26
+#: easyblog/templates/news_edit.pt:27
 msgid "date"
 msgstr ""
 
@@ -199,8 +217,8 @@ msgid "save_button"
 msgstr ""
 
 #. Default: Edit list of Blogs
-#: easyblog/templates/blogs_edit.pt:8
-msgid "blogs_topic"
+#: easyblog/templates/blogs_edit.pt:9
+msgid "edit_blogs_topic"
 msgstr ""
 
 #. Default: List of Blogs
@@ -210,7 +228,7 @@ msgstr ""
 
 #. Default: View Details <dynamic element>
 #: easyblog/templates/blogs_view_grid.pt:20
-#: easyblog/templates/news_widget.pt:13
+#: easyblog/templates/news_widget.pt:14
 msgid "view_details"
 msgstr ""
 
@@ -246,12 +264,12 @@ msgid "login_topic"
 msgstr ""
 
 #. Default: Username
-#: easyblog/templates/login.pt:19 easyblog/templates/signup.pt:21
+#: easyblog/templates/login.pt:19 easyblog/templates/signup.pt:23
 msgid "username"
 msgstr ""
 
 #. Default: Password
-#: easyblog/templates/login.pt:21
+#: easyblog/templates/login.pt:21 easyblog/templates/signup.pt:34
 msgid "password"
 msgstr ""
 
@@ -261,7 +279,7 @@ msgid "login_button"
 msgstr ""
 
 #. Default: List of News
-#: easyblog/templates/news.pt:10 easyblog/templates/news_edit.pt:8
+#: easyblog/templates/news.pt:10
 msgid "news_topic"
 msgstr ""
 
@@ -281,13 +299,28 @@ msgid "create_news_title"
 msgstr ""
 
 #. Default: Create
-#: easyblog/templates/news_create.pt:48
+#: easyblog/templates/news_create.pt:49
 msgid "create"
+msgstr ""
+
+#. Default: Edit List of News
+#: easyblog/templates/news_edit.pt:9
+msgid "edit_news_topic"
 msgstr ""
 
 #. Default: Content
 #: easyblog/templates/page_edit.pt:38
 msgid "content"
+msgstr ""
+
+#. Default: Signup
+#: easyblog/templates/signup.pt:8
+msgid "signup"
+msgstr ""
+
+#. Default: Password Confirmation
+#: easyblog/templates/signup.pt:45
+msgid "password_confirm"
 msgstr ""
 
 #. Default: Edit ${username}

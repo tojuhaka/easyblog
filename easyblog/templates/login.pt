@@ -17,9 +17,9 @@
       ${form.errorlist()}
     </div>
     <label i18n:translate="username">Username</label>
-    <input name="username" type="text" placeholder="Type username…" />
+    <input name="username" type="text" />
     <label i18n:translate="password" for="username">Password</label>
-    <input type="password" name="password" placeholder="Type password…" />
+    <input type="password" name="password" />
     <div class="buttons">
       <button i18n:translate="login_button" class="btn" type="submit">Login</button>
     </div>

@@ -1,7 +1,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       xmlns:metal="http://xml.zope.org/namespaces/metal"
-      metal:use-macro="base">
+      metal:use-macro="base"
+      i18n:domain="easyblog">
   <tal:block  metal:fill-slot="content">
 
     <div class="page-header"> 
@@ -31,7 +32,7 @@
                     class="control-group error">
               <label i18n:translate="title">Title</label>
               <input tal:attributes="value title" class="span6"
-                    type="text" name="title" placeholder="Type title…" />
+                    type="text" name="title" />
               <span tal:condition="python: form.errorlist('title')" 
                     tal:content="form.errors_for('title')[-1]"
                     class="help-inline">Please correct the error
@@ -54,7 +55,7 @@
               </span>
 
               <textarea tal:content="text" class="wysiwyg" id="wysiwyg"
-                name="text" placeholder="Type text…">
+                name="text" >
               </textarea>
 
             </div>
