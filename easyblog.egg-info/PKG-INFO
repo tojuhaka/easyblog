@@ -1,6 +1,6 @@
 Metadata-Version: 1.0
 Name: easyblog
-Version: 0.4
+Version: 0.5
 Summary: easyblog
 Home-page: UNKNOWN
 Author: Toni Haka-Risku
@@ -123,20 +123,75 @@ Description: EasyBlog
         
         Välineet ja menetelmät
         ----------------------
+        Sivuston toteutukseen käytetään Pyramid-sovelluskehystä, joka käyttää ohjelmointikielenä Pythonia. Pyramid on hyvin minimaalinen sovelluskehys, joka
+        tarjoaa valmiita ratkaisuja usein toistuviin ongelmiin web-kehityksessä. Pyramidin tarkoitus on kuitenkin olla mahdollisimman helposti laannettevissa erilaisiin
+        käyttötarkoituksiin, joten se tarjoaa vain välttämättömät välineet web-sovelluksien toteutuksille. Pyramid ei ota kantaa mihinkään erityiseen tekniikkaan
+        millä web-sovellus tulisi toteuttaa. Tämä on jätetty ohjelmoijalle päätettäväksi. Yksinkertaisuudessaan Pyramidin päälle rakennetuissa sovelluksissa tulee löytää itse
+        sopivat Pyramid-laajennokset, jotka auttavat jonkun tietyn ongelman ratkaisussa. Pyramidia voi hyvin verrata "Ruby On Rails" -sovelluskehykseen, mutta se on tätäkin
+        paljon minimaalisempi. Pyramid soveltuu siis hyvin myös pienien sivustojen toteutuksessa, koska siinä ei ole mitään "ylimääräistä".
         
-        Toteutus
-        --------
+        Työssä käytetään Pyramidin ja sen lisäosien lisäksi myös paljon muita erilaisia tekniikoita, jotka helpottavat suuresti sovelluskehitystä. Esimerkiksi ulkoasun toteutukseen
+        käytetään valmista CSS- ja javascript-kirjastoa nimeltä "Twitter Bootstrap". Bootstrap-kirjasto antaa helpotusta yleisesti käytettävien ulkoasu-komponenttejen toteutukseen.  Näistä hyvänä esimerkinä ovat erilaiset valikot ja painikkeet. Seuraavaksi listataan tärkeimmät tekniikat ja välineet, joita tässä työssä käytetään:
+        
+            ZODB (Zope Object Data Base)
+                Työssä käytetään Zope-oliotietokantaa, jossa oliot tallennetaa kantaan juuri sellaisena, kun ne on ohjelmakoodiin määritelty. 
+            Traversal
+                Yksinkertaisuudessaan oliotietokannan sisältämää puuta käydään läpi samalla kuin osoiteriville syötetään jokin tietty polku. Esimerkiksi,
+                jos olio tietokannassa kitarat-olio, joka sisältää "fender" -nimisen kitara-olion, löydetään fender polusta "/kitarat/fender". Kyseiseen
+                osoitteeseen mentäessä saadaan vastauksena fender-olio, jolle yleensä on määritelty jokin näkymä sovelluksessa. Yksityiskohtaiseen
+                selvitykseen ei kuitenkaan tässä raportissa tämän enempää oteta kantaa.
+            Twitter Bootstrap
+                Twitterin kehittäjien toteuttama avoimen lähdekoodin kirjasto, joka on tarkoitettu apuvälineeksi web-kehittäjille. Kirjasto sisältää yleisimmät
+                web-sivustoilla käytetyt komponentit, kuten esimerkiksi painikkeet ja valikot. Samalla se tarjoaa apuja yksinkertaisen ulkoasun toteuttamiseen, 
+                joka on mahdollisimman käyttäjäystävällinen.
+            CoffeeScript
+                Ohjelmointikieli, joka tekee Javascriptin kirjoittamisesta "helpompaa". Tarkoituksena kirjoittaa javascriptiä, joka on syntaksiltaan hyvin lähellä Pythonin ja
+                Rubyn kaltaisia kieliä. CoffeeScriptillä kirjoitettu ohjelmakoodi generoidaan lopulta tavalliseksi Javascriptiksi, jota selaimet ymmärtävät.
+            Less
+                Less on CSS-tyylejen kirjoitukseen käytetty kehys, joka laajentaa tavallista CSS:ssää tuomalla tähän muuttujia, funktioita sekä muita ohjelmointikielistä tuttuja
+                tekniikoita.
+            ZCA (Zope Component Architecture)
+                ZCA on sovelluskehys, joka tuo sovellukseen komponenttipohjaisen lähestymistavan. Komponenttipohjainen suunnittelu tuo erityisesti apuja massiivisten sovelluksien toteutukselle,
+                mutta antaa myös paljon pienemmille sovelluksille. Hyvänä esimerkkinä on Javasta tutut rajapinnat, joita ei ole Python-kielessä itsessään valmiiksi. ZCA tuo esimerkiksi nämä
+                mukanaan sovellukseen.
+            MVC (Model-View-Controller)
+                Sovellus-arkkitehtuuri, joka tuo sovellukselle tason, jonka mukaan komponentit tulisi jakaa kolmeen osaan: Malli, Näkymä ja Ohjain. Pyramid käyttää MVC-arkkitehtuuria, joissain
+                määrin, mutta ei kuitenkaan toteuta tätä sellaisena kuin se on tarkoitettu. Tätä on käsitelty tarkemmin omassa Kandidaatintutkielmassani. Tämän työn kannalta tärkeintä on 
+                huomata, että malleja toteuttamalla voidaan rakentaa koko sovelluksen runko. Mallejen ohjelmakoodit löytyvät "models.py" -moduulista.
+        
+                
+        Työ sisältää myös paljon muita erilaisia kehitystekniikoita, mutta nämä tekniikat ovat hyvin yksityiskohtaisia ohjelmistoteknisiä ratkaisuja, joten niiden tarkempaa
+        käsittelyä ei tässä raportissa toteuteta.
+        
+        
+        Sovelluksen rakenne
+        -------------------
+        
+        Oliotietokannan ansiosta pystytään sovelluksen rakenne kuvaamaan selkeästi luokkakaaviona. Tämä siksi, koska sovellukseen luodut "mallit" kuvaavat sovelluksen rakennetta ja sen ylläpitämää
+        tietoa. Mallit pitävät siis yllä sovelluksen tilaa ja tallentuvat näin oliotietokantaan. Seuraavassa kuvassa on määritelty tämän työn luokkakaavio, joissa kaikki sovelluksen mallit on esitelty.
+        
+        
+        
         
         Mitä olisi pitänyt tehdä toisin
         -------------------------------
         - Enemmän ZCA:n käyttöä!!
         - Modulaarisempia komponentteja!!
         - Templateissa koodin toistoa, voisiko jotenkin abstrahoida paremmin?
+        - Pyytää asiakkaalta tarkemmat speksit ennen vaersinaisen toteuttamisen aloittamista!
+        - Käännöksien huomioon ottaminen jo siinä vaiheessa kun templateja aletaan tekemään
+        - Enemmän yhtenäisyyttä ohjelmakoodiin, esim. samojen asioiden nimeämiset välillä erilailla
         
         
         
         
         
+        
+        0.5
+        ---
+        - Translation finished
+        - Latest updates for blogs and news
+        - Ready for production test
         
         0.4
         ---

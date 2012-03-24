@@ -1,0 +1,32 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      metal:use-macro="base"
+      i18n:domain="easyblog">
+
+  <tal:block metal:fill-slot="content">
+    <div class="row">
+      <div class="page-header span4">
+        <h1 i18n:translate="news_topic"> List of News </h1>
+      </div>
+    </div><!-- row -->
+   <div tal:repeat="news_item context.order_by_time()" class="row">
+    <div class="span8 accordion-group">
+      <div class="accordion-heading">
+        <a tal:content="news_item.title" class="accordion-toggle" 
+           tal:attributes="href string:#${news_item.id}"
+           data-parent="#accordion2" data-toggle="collapse"> Collapsible Group Item #1 
+        </a>
+      </div>
+      <div id="${news_item.id}" class="accordion-body collapse" style="height: 0px;">
+        <div class="accordion-inner">
+              <p tal:content="get_description(news_item.id, context)">Structure</p>
+              <p><i> - <span i18n:translate="created_by"> created by </span> ${news_item.owner}</i></p>
+              <a i18n:translate="read_more" tal:attributes="href resource_url(news_item, request)" class="btn btn-small">Read more &raquo;</a>
+        </div>
+      </div>
+    </div><!-- accordion-group -->
+  </div><!-- row -->
+
+  </tal:block>
+</html>

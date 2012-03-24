@@ -1,0 +1,59 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      metal:use-macro="base"
+      i18n:domain="easyblog">
+  <tal:block metal:fill-slot="content">
+    <div class="row">
+      <div class="page-header span4">
+        <h1 i18n:translate="edit_blogs_topic"> Edit list of Blogs </h1>
+      </div>
+    </div><!-- row -->
+    
+    <div class="row">
+        <div tal:condition="message" class="span6 alert alert-success">
+            ${message}
+        </div>
+    </div>
+
+    ${form.begin(request.url)}
+    ${form.csrf_token()}
+    <div class="row">
+        <table class="table span8">
+          <thead>
+            <th i18n:translate="name"> Name </th>
+            <th i18n:translate="creator"> Creator </th>
+            <th i18n:translate="date"> Date </th>
+          </thead>
+          <tbody>
+            <div tal:repeat="blog context.order_by_time()">
+              <tr>
+
+                <!-- Title -->    
+                <td>
+                  <a tal:content="blog.name" 
+                   tal:attributes="href resource_url(blog, request)">
+                   News
+                  </a>
+                </td>
+
+                <!-- Creator -->    
+                <td tal:content="blog.owner" />
+
+                <!-- Date -->    
+                <td tal:content="blog.date()">News</td>
+
+                <td>
+               <input tal:attributes="value blog.id;
+                        name string:checkbox-${blog.id}"
+                        class="checkbox" type="checkbox"/>
+                </td>
+              </tr>
+            </div>
+          </tbody>
+        </table>
+    </div><!-- row -->
+    <button i18n:translate="delete" class="btn" type="submit" name="submit" value="Delete">Delete</button>
+    ${form.end()}
+  </tal:block>
+</html>

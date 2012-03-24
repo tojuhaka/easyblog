@@ -1,0 +1,24 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      metal:use-macro="base"
+      i18n:domain="easyblog">
+  <tal:block metal:fill-slot="content">
+    <div class="row">
+      <div class="page-header span4">
+        <h1 tal:content="title"> Title </h1>
+      </div>
+    </div><!-- row -->
+    <div class="row">
+      <a tal:condition="image_url" href="#" class="span4 thumbnail">
+      <img tal:attributes="src image_url" alt="" />
+      </a>
+    </div>
+    <div class="row">
+      <div class="span8">
+        <p tal:content="structure python: text.replace('\n', '<br />')"></p>
+        <span tal:condition="provider" tal:replace="structure provider('comments')" />
+      </div>
+    </div>
+  </tal:block>
+</html>

@@ -41,7 +41,7 @@ setup(name='easyblog',
       keywords='web pylons pyramid saapas',
       package_data = {
             '': ['*.less', '*.js'],
-            'easyblog': ['/static/*', '/static/bootstrap/less/*.less'],
+            'easyblog': ['/static/*', '/static/bootstrap/less/*.less', '/locale/*'],
       },
       packages=find_packages(),
       include_package_data=True,
