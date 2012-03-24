@@ -26,7 +26,7 @@ requires = [
     ]
 
 setup(name='easyblog',
-      version='0.5',
+      version='0.6',
       description='easyblog',
       long_description=README + '\n\n' +  CHANGES,
       classifiers=[

@@ -1,3 +1,8 @@
+0.6
+---
+- added *.less to manifest, so after install there will be
+  less-files
+
 0.5
 ---
 - Translation finished
