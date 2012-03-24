@@ -15,7 +15,7 @@ def my_locale_negotiator(request):
     try:
         locale_name = request.cookies['lang']
     except KeyError:
-        locale_name = u'en'
+        locale_name = u'fi'
     return locale_name
 
 def root_factory(request):
