@@ -1,3 +1,9 @@
+0.5
+---
+- Translation finished
+- Latest updates for blogs and news
+- Ready for production test
+
 0.4
 ---
 - Blogs created
