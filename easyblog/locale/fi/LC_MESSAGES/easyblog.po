@@ -343,7 +343,7 @@ msgstr "Muokkaa käyttäjiä"
 #. Default: results found
 #: easyblog/templates/users_edit.pt:21
 msgid "results_found"
-msgstr "Tuloksia löytyi"
+msgstr "löytyi"
 
 #. Default: No results found
 #: easyblog/templates/users_edit.pt:24
