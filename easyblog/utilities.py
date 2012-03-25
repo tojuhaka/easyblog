@@ -89,17 +89,20 @@ def provides(context, interface):
 # translated
 def translate(st, lang):
     _dict = {
-        'blogs': {'fi': u'Blogit'},
-        'news': {'fi': u'Uutiset'},
-        'about': {'fi': u'Meistä'},
-        'contact': {'fi': u'Yhteystiedot'},
-        'home': {'fi': u'Pääsivu'},
-        'users': {'fi': u'Käyttäjät'}
+        'blogs': {'fi': u'Blogit', 'en': u'Blogs'},
+        'news': {'fi': u'Uutiset', 'en': u'Uutiset'},
+        'about': {'fi': u'Meistä', 'en': u'About'},
+        'contact': {'fi': u'Yhteystiedot', 'en': u'Contact'},
+        'home': {'fi': u'Pääsivu', 'en': u'Home'},
+        'users': {'fi': u'Käyttäjät', 'en': u'Users'}
     }
     try: 
         translated = _dict[st][lang[0]]
     except KeyError:
-        translated = st
+        try:
+            translated = _dict[st]['fi']
+        except KeyError:
+            translated = st
     return translated
 
 
