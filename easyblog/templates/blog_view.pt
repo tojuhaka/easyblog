@@ -14,10 +14,10 @@
       <img tal:attributes="src image_url" alt="" />
       </a>
     </div><!-- row -->
-
+    <br />
     <div class="row">
       <div class="span8">
-        <p tal:content="container"></p>
+        <p tal:content="structure python: container.replace('\n', '<br />')"></p>
       </div>
     </div>
     

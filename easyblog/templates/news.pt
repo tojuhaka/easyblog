@@ -20,7 +20,7 @@
       </div>
       <div id="${news_item.id}" class="accordion-body collapse" style="height: 0px;">
         <div class="accordion-inner">
-              <p tal:content="get_description(news_item.id, context)">Structure</p>
+              <p tal:content="get_description(news_item.id, context, 100)">Structure</p>
               <p><i> - <span i18n:translate="created_by"> created by </span> ${news_item.owner}</i></p>
               <a i18n:translate="read_more" tal:attributes="href resource_url(news_item, request)" class="btn btn-small">Read more &raquo;</a>
         </div>
