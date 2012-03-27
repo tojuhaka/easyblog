@@ -162,6 +162,18 @@ Sovelluksen rakenne
 Oliotietokannan ansiosta pystytään sovelluksen rakenne kuvaamaan selkeästi luokkakaaviona. Tämä siksi, koska sovellukseen luodut "mallit" kuvaavat sovelluksen rakennetta ja sen ylläpitämää
 tietoa. Mallit pitävät siis yllä sovelluksen tilaa ja tallentuvat näin oliotietokantaan. Seuraavassa kuvassa on määritelty tämän työn luokkakaavio, joissa kaikki sovelluksen mallit on esitelty.
 
+[<Container>;Main]->[<Container>;Users]
+[<Container>;Main]->[<Container>;Blogs]
+[<Container>;Main]->[<Container>;News]
+[<Container>;Main]->[<Content>;AboutPage]
+[<Container>;Main]->[<Content>;ContantPage]
+
+[<Container>;Users]->[<Content>;Content:User*]
+[<Container>;Blogs]->[<Container>;Blog*]
+[<Container>;News]->[<Content>;NewsItem*]
+
+[<Container>;Blog*]->[<Content>;Blogpost*]
+.. image:: http://yuml.me/4e6ffb86
 
 
 
@@ -173,6 +185,7 @@ Mitä olisi pitänyt tehdä toisin
 - Pyytää asiakkaalta tarkemmat speksit ennen vaersinaisen toteuttamisen aloittamista!
 - Käännöksien huomioon ottaminen jo siinä vaiheessa kun templateja aletaan tekemään
 - Enemmän yhtenäisyyttä ohjelmakoodiin, esim. samojen asioiden nimeämiset välillä erilailla
+. Miten saada templaten toisto järkeväksi? Onko mahdollista?
 
 
 
