@@ -172,9 +172,9 @@ Mitä olisi pitänyt tehdä toisin
 [<Container>;Main]->[<Container>;Blogs]
 [<Container>;Main]->[<Container>;News]
 [<Container>;Main]->[<Content>;AboutPage]
-[<Container>;Main]->[<Content>;ContantPage]
+[<Container>;Main]->[<Content>;ContactPage]
 
-[<Container>;Users]->[<Content>;Content:User*]
+[<Container>;Users]->[<Content>;User*]
 [<Container>;Blogs]->[<Container>;Blog*]
 [<Container>;News]->[<Content>;NewsItem*]
 
