@@ -161,6 +161,7 @@ Sovelluksen rakenne
 
 Oliotietokannan ansiosta pystytään sovelluksen rakenne kuvaamaan selkeästi luokkakaaviona. Tämä siksi, koska sovellukseen luodut "mallit" kuvaavat sovelluksen rakennetta ja sen ylläpitämää
 tietoa. Mallit pitävät siis yllä sovelluksen tilaa ja tallentuvat näin oliotietokantaan. Seuraavassa kuvassa on määritelty tämän työn luokkakaavio, joissa kaikki sovelluksen mallit on esitelty.
+
 .. image:: class_diagram.png
 
 
