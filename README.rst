@@ -161,7 +161,12 @@ Sovelluksen rakenne
 
 Oliotietokannan ansiosta pystytään sovelluksen rakenne kuvaamaan selkeästi luokkakaaviona. Tämä siksi, koska sovellukseen luodut "mallit" kuvaavat sovelluksen rakennetta ja sen ylläpitämää
 tietoa. Mallit pitävät siis yllä sovelluksen tilaa ja tallentuvat näin oliotietokantaan. Seuraavassa kuvassa on määritelty tämän työn luokkakaavio, joissa kaikki sovelluksen mallit on esitelty.
+    image:: class_diagram.png
 
+
+
+Mitä olisi pitänyt tehdä toisin
+-------------------------------
 [<Container>;Main]->[<Container>;Users]
 [<Container>;Main]->[<Container>;Blogs]
 [<Container>;Main]->[<Container>;News]
@@ -173,12 +178,6 @@ tietoa. Mallit pitävät siis yllä sovelluksen tilaa ja tallentuvat näin oliot
 [<Container>;News]->[<Content>;NewsItem*]
 
 [<Container>;Blog*]->[<Content>;Blogpost*]
-.. image:: class_diagram.png
-
-
-
-Mitä olisi pitänyt tehdä toisin
--------------------------------
 - Enemmän ZCA:n käyttöä!!
 - Modulaarisempia komponentteja!!
 - Templateissa koodin toistoa, voisiko jotenkin abstrahoida paremmin?
