@@ -173,7 +173,7 @@ tietoa. Mallit pitävät siis yllä sovelluksen tilaa ja tallentuvat näin oliot
 [<Container>;News]->[<Content>;NewsItem*]
 
 [<Container>;Blog*]->[<Content>;Blogpost*]
-.. image:: http://yuml.me/4e6ffb86
+.. image:: class_diagram.png
 
 
 
