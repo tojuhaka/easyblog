@@ -40,15 +40,18 @@ def order(context, ordered_keys):
 def chunks(l, n):
     return [l[i:i+n] for i in range(0, len(l), n)]
 
-def get_description(key, context):
+def get_description(key, context, word_number=30):
     # get description of the blog as shorten
     try:
         desc = context[key].description.replace("\\n", '<br />')
     except AttributeError:
         desc = context[key].text.replace("\\n", '<br />')
-
-    desc = shorten_text(desc, 30)
-    return desc + "..."
+   
+    add = ""
+    if len(desc.split(" ")) > word_number:
+        add = "..."
+    desc = shorten_text(desc, word_number)
+    return desc + add
 
 
 class Provider(object):
@@ -89,17 +92,20 @@ def provides(context, interface):
 # translated
 def translate(st, lang):
     _dict = {
-        'blogs': {'fi': u'Blogit'},
-        'news': {'fi': u'Uutiset'},
-        'about': {'fi': u'Meistä'},
-        'contact': {'fi': u'Yhteystiedot'},
-        'home': {'fi': u'Pääsivu'},
-        'users': {'fi': u'Käyttäjät'}
+        'blogs': {'fi': u'Blogit', 'en': u'Blogs'},
+        'news': {'fi': u'Uutiset', 'en': u'Uutiset'},
+        'about': {'fi': u'Meistä', 'en': u'About'},
+        'contact': {'fi': u'Yhteystiedot', 'en': u'Contact'},
+        'home': {'fi': u'Pääsivu', 'en': u'Home'},
+        'users': {'fi': u'Käyttäjät', 'en': u'Users'}
     }
     try: 
         translated = _dict[st][lang[0]]
     except KeyError:
-        translated = st
+        try:
+            translated = _dict[st]['fi']
+        except KeyError:
+            translated = st
     return translated
 
 

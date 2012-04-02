@@ -307,7 +307,7 @@ class BlogView(BaseView):
     def view_blog_add_post(self):
         form = Form(self.request, schema=BlogPostSchema,
                     state=State(request=self.request))
-        message = msg['create_post']
+        message = ""
 
         title = get_param(self.request, 'title')
         text = get_param(self.request, 'text')

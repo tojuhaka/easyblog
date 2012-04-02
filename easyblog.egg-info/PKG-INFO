@@ -1,6 +1,6 @@
 Metadata-Version: 1.0
 Name: easyblog
-Version: 0.5
+Version: 0.6
 Summary: easyblog
 Home-page: UNKNOWN
 Author: Toni Haka-Risku
@@ -170,22 +170,40 @@ Description: EasyBlog
         Oliotietokannan ansiosta pystytään sovelluksen rakenne kuvaamaan selkeästi luokkakaaviona. Tämä siksi, koska sovellukseen luodut "mallit" kuvaavat sovelluksen rakennetta ja sen ylläpitämää
         tietoa. Mallit pitävät siis yllä sovelluksen tilaa ja tallentuvat näin oliotietokantaan. Seuraavassa kuvassa on määritelty tämän työn luokkakaavio, joissa kaikki sovelluksen mallit on esitelty.
         
+        .. image:: https://github.com/tojuhaka/easyblog/raw/master/class_diagram.png
         
         
         
         Mitä olisi pitänyt tehdä toisin
         -------------------------------
+        [<Container>;Main]->[<Container>;Users]
+        [<Container>;Main]->[<Container>;Blogs]
+        [<Container>;Main]->[<Container>;News]
+        [<Container>;Main]->[<Content>;AboutPage]
+        [<Container>;Main]->[<Content>;ContactPage]
+        
+        [<Container>;Users]->[<Content>;User*]
+        [<Container>;Blogs]->[<Container>;Blog*]
+        [<Container>;News]->[<Content>;NewsItem*]
+        
+        [<Container>;Blog*]->[<Content>;Blogpost*]
         - Enemmän ZCA:n käyttöä!!
         - Modulaarisempia komponentteja!!
         - Templateissa koodin toistoa, voisiko jotenkin abstrahoida paremmin?
         - Pyytää asiakkaalta tarkemmat speksit ennen vaersinaisen toteuttamisen aloittamista!
         - Käännöksien huomioon ottaminen jo siinä vaiheessa kun templateja aletaan tekemään
         - Enemmän yhtenäisyyttä ohjelmakoodiin, esim. samojen asioiden nimeämiset välillä erilailla
+        . Miten saada templaten toisto järkeväksi? Onko mahdollista?
         
         
         
         
         
+        
+        0.6
+        ---
+        - added *.less to manifest, so after install there will be
+          less-files
         
         0.5
         ---

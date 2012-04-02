@@ -4,110 +4,282 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
+AboutPage	models.py	/^class AboutPage(Page):$/;"	c
 AppMakerTests	tests.py	/^class AppMakerTests(unittest.TestCase):$/;"	c
 BaseSchema	schemas.py	/^class BaseSchema(Schema):$/;"	c
-Blog	models.py	/^class Blog(Persistent):$/;"	c
+BaseView	views.py	/^class BaseView(object):$/;"	c
+Blog	models.py	/^class Blog(Container):$/;"	c
 BlogCreateSchema	schemas.py	/^class BlogCreateSchema(BaseSchema):$/;"	c
-BlogPost	models.py	/^class BlogPost(Persistent):$/;"	c
-Blogs	models.py	/^class Blogs(PersistentMapping):$/;"	c
-FieldsNotDefinedException	exceptions.py	/^class FieldsNotDefinedException(Exception):$/;"	c
+BlogPost	models.py	/^class BlogPost(Content):$/;"	c
+BlogPost	views.py	/^class BlogPost(BaseView):$/;"	c
+BlogPostSchema	schemas.py	/^class BlogPostSchema(BaseSchema):$/;"	c
+BlogView	views.py	/^class BlogView(BaseView):$/;"	c
+Blogs	models.py	/^class Blogs(Container):$/;"	c
+BlogsView	views.py	/^class BlogsView(BaseView):$/;"	c
+BreadCrumbsView	views.py	/^class BreadCrumbsView(BaseView):$/;"	c
+CommentView	views.py	/^class CommentView(BaseView):$/;"	c
+ContactPage	models.py	/^class ContactPage(Page):$/;"	c
+Container	models.py	/^class Container(PersistentMapping):$/;"	c
+Content	models.py	/^class Content(Persistent):$/;"	c
+EditBarView	views.py	/^class EditBarView(BaseView):$/;"	c
 FunctionalTests	tests.py	/^class FunctionalTests(unittest.TestCase):$/;"	c
-Groups	models.py	/^class Groups(PersistentMapping):$/;"	c
+Groups	models.py	/^class Groups(Container):$/;"	c
+IAbout	interfaces.py	/^class IAbout(Interface):$/;"	c
+IBlogs	interfaces.py	/^class IBlogs(Interface):$/;"	c
+IComment	interfaces.py	/^class IComment(Interface):$/;"	c
+IContact	interfaces.py	/^class IContact(Interface):$/;"	c
+IContainer	interfaces.py	/^class IContainer(Interface):$/;"	c
+IContent	interfaces.py	/^class IContent(Interface):$/;"	c
+INavPage	interfaces.py	/^class INavPage(Interface):$/;"	c
+INews	interfaces.py	/^class INews(Interface):$/;"	c
+IPage	interfaces.py	/^class IPage(Interface):$/;"	c
+ISiteRoot	interfaces.py	/^class ISiteRoot(Interface):$/;"	c
 LoginSchema	schemas.py	/^class LoginSchema(BaseSchema):$/;"	c
 Main	models.py	/^class Main(PersistentMapping):$/;"	c
+MainView	views.py	/^class MainView(BaseView):$/;"	c
 ModelTests	tests.py	/^class ModelTests(unittest.TestCase):$/;"	c
-Page	models.py	/^class Page(Persistent):$/;"	c
+News	models.py	/^class News(Container):$/;"	c
+NewsCreateSchema	schemas.py	/^class NewsCreateSchema(BaseSchema):$/;"	c
+NewsItem	models.py	/^class NewsItem(Content):$/;"	c
+NewsItem	views.py	/^class NewsItem(BaseView):$/;"	c
+NewsView	views.py	/^class NewsView(BaseView):$/;"	c
+NewsWidget	views.py	/^class NewsWidget(BaseView):$/;"	c
+Page	models.py	/^class Page(Content):$/;"	c
+PageEditSchema	schemas.py	/^class PageEditSchema(BaseSchema):$/;"	c
+PageView	views.py	/^class PageView(BaseView):$/;"	c
+Provider	utilities.py	/^class Provider(object):$/;"	c
+RemoveSpecial	schemas.py	/^class RemoveSpecial(FancyValidator):$/;"	c
 SignUpSchema	schemas.py	/^class SignUpSchema(BaseSchema):$/;"	c
 UniqueEmail	schemas.py	/^class UniqueEmail(FancyValidator):$/;"	c
 UniqueUsername	schemas.py	/^class UniqueUsername(FancyValidator):$/;"	c
-User	models.py	/^class User(Persistent):$/;"	c
+User	models.py	/^class User(Content):$/;"	c
 UserEditSchema	schemas.py	/^class UserEditSchema(BaseSchema):$/;"	c
-UsernameAlreadyInUseException	exceptions.py	/^class UsernameAlreadyInUseException(Exception):$/;"	c
-Users	models.py	/^class Users(PersistentMapping):$/;"	c
+UserView	views.py	/^class UserView(BaseView):$/;"	c
+Users	models.py	/^class Users(Container):$/;"	c
+UsersEditSchema	schemas.py	/^class UsersEditSchema(BaseSchema):$/;"	c
+UsersView	views.py	/^class UsersView(BaseView):$/;"	c
+UtilitiesTests	tests.py	/^class UtilitiesTests(unittest.TestCase):$/;"	c
 ViewTests	tests.py	/^class ViewTests(unittest.TestCase):$/;"	c
+_	__init__.py	/^_ = TranslationStringFactory('easyblog')$/;"	v
 __acl__	models.py	/^    __acl__ = acl$/;"	v	class:Main
-__init__	exceptions.py	/^    def __init__(self, username):$/;"	m	class:UsernameAlreadyInUseException
-__init__	models.py	/^    def __init__(self, subject, text, username):$/;"	m	class:BlogPost
-__init__	models.py	/^    def __init__(self, username, password, email, id):$/;"	m	class:User
-__init__	models.py	/^    def __init__(self,data):$/;"	m	class:Page
-__init__	models.py	/^    def __init__(self,name, username):$/;"	m	class:Blog
+__acl__	models.py	/^    def __acl__(self):$/;"	m	class:Blog	file:
+__acl__	models.py	/^    def __acl__(self):$/;"	m	class:BlogPost	file:
+__acl__	models.py	/^    def __acl__(self):$/;"	m	class:Blogs	file:
+__acl__	models.py	/^    def __acl__(self):$/;"	m	class:News	file:
+__acl__	models.py	/^    def __acl__(self):$/;"	m	class:NewsItem	file:
+__acl__	models.py	/^    def __acl__(self):$/;"	m	class:Page	file:
+__acl__	models.py	/^    def __acl__(self):$/;"	m	class:User	file:
+__call__	utilities.py	/^    def __call__(self, name='', secure=True):$/;"	m	class:Provider	file:
+__call__	views.py	/^    def __call__(self):$/;"	m	class:BlogPost	file:
+__call__	views.py	/^    def __call__(self):$/;"	m	class:BlogsView	file:
+__call__	views.py	/^    def __call__(self):$/;"	m	class:CommentView	file:
+__call__	views.py	/^    def __call__(self):$/;"	m	class:NewsItem	file:
+__call__	views.py	/^    def __call__(self):$/;"	m	class:NewsView	file:
+__call__	views.py	/^    def __call__(self):$/;"	m	class:NewsWidget	file:
+__call__	views.py	/^    def __call__(self):$/;"	m	class:PageView	file:
+__init__	models.py	/^    def __init__(self, crumb_name):$/;"	m	class:Main
+__init__	models.py	/^    def __init__(self, crumb_name, owner, id):$/;"	m	class:Container
+__init__	models.py	/^    def __init__(self, crumb_name, owner, id):$/;"	m	class:Content
+__init__	models.py	/^    def __init__(self, name, description, image_url, owner, id):$/;"	m	class:Blog
+__init__	models.py	/^    def __init__(self, title, text, image_url, owner, id):$/;"	m	class:NewsItem
+__init__	models.py	/^    def __init__(self, title, text, owner, id):$/;"	m	class:BlogPost
+__init__	models.py	/^    def __init__(self, title, text, owner, id):$/;"	m	class:Page
+__init__	models.py	/^    def __init__(self, username, password, email):$/;"	m	class:User
+__init__	utilities.py	/^    def __init__(self, context, request):$/;"	m	class:Provider
+__init__	views.py	/^    def __init__(self, context, request):$/;"	m	class:BaseView
+__init__	views.py	/^    def __init__(self, context, request):$/;"	m	class:EditBarView
 __name__	models.py	/^    __name__ = None$/;"	v	class:Main
 __parent__	models.py	/^    __parent__ = None$/;"	v	class:Main
-__str__	exceptions.py	/^    def __str__(self):$/;"	m	class:UsernameAlreadyInUseException	file:
-_add_post	tests.py	/^    def _add_post(self,res,blogname):$/;"	m	class:FunctionalTests
-_create_blog	tests.py	/^    def _create_blog(self, res,  blogname):$/;"	m	class:FunctionalTests
-_edit_user	tests.py	/^    def _edit_user(self, res, password, $/;"	m	class:FunctionalTests
-_generate_id	models.py	/^    def _generate_id(self):$/;"	m	class:Users
+_create_blog	tests.py	/^    def _create_blog(self, res,  blogname, description, image_url=u""):$/;"	m	class:FunctionalTests
+_create_news	tests.py	/^    def _create_news(self, res, title, text, image_url):$/;"	m	class:FunctionalTests
+_create_post	tests.py	/^    def _create_post(self, res, title, text):$/;"	m	class:FunctionalTests
+_create_second_editor	tests.py	/^    def _create_second_editor(self):$/;"	m	class:FunctionalTests
+_edit_page	tests.py	/^    def _edit_page(self, res, title, text):$/;"	m	class:FunctionalTests
+_edit_user	tests.py	/^    def _edit_user(self, res, password,$/;"	m	class:FunctionalTests
 _login	tests.py	/^    def _login(self, username, password):$/;"	m	class:FunctionalTests
+_search_user	tests.py	/^    def _search_user(self, res, user):$/;"	m	class:FunctionalTests
 _signup	tests.py	/^    def _signup(self, username, password, password_confirm, email):$/;"	m	class:FunctionalTests
+_to_python	schemas.py	/^    def _to_python(self, value, state):$/;"	m	class:RemoveSpecial
 _to_python	schemas.py	/^    def _to_python(self,value,state):$/;"	m	class:UniqueEmail
 _to_python	schemas.py	/^    def _to_python(self,value,state):$/;"	m	class:UniqueUsername
-acl	security.py	/^acl = [ (Allow, Everyone, 'view'),$/;"	v
-add	models.py	/^    def add(self, name, username):$/;"	m	class:Blogs
+acl	security.py	/^acl = [(Allow, Everyone, 'view'),$/;"	v
+add	models.py	/^    def add(self):$/;"	m	class:Container
+add	models.py	/^    def add(self, name, description, image_url, owner):$/;"	m	class:Blogs
+add	models.py	/^    def add(self, subject, text, username):$/;"	m	class:Blog
+add	models.py	/^    def add(self, title, text, image_url, owner):$/;"	m	class:News
 add	models.py	/^    def add(self, username, group):$/;"	m	class:Groups
 add	models.py	/^    def add(self, username, password, email):$/;"	m	class:Users
-admins_group	config.py	/^admins_group = ['group:admins']$/;"	v
-all__vary_rounds	security.py	/^    all__vary_rounds = "10%",$/;"	v
+add_base_template	subscribers.py	/^def add_base_template(event):$/;"	f
+add_comment	views.py	/^    def add_comment(self):$/;"	m	class:CommentView
+add_policy	models.py	/^    def add_policy(self, policy):$/;"	m	class:Groups
+all__vary_rounds	security.py	/^    all__vary_rounds="10%",$/;"	v
 allow_extra_fields	schemas.py	/^    allow_extra_fields = True$/;"	v	class:BaseSchema
 appmaker	models.py	/^def appmaker(zodb_root):$/;"	f
 blogname	schemas.py	/^    blogname = validators.MinLength(6, not_empty=True)$/;"	v	class:BlogCreateSchema
 chained_validators	schemas.py	/^    chained_validators = [validators.FieldsMatch('new_password', 'new_password_confirm')]$/;"	v	class:UserEditSchema
 chained_validators	schemas.py	/^    chained_validators = [validators.FieldsMatch('password', 'password_confirm')]$/;"	v	class:SignUpSchema
+chunks	utilities.py	/^def chunks(l, n):$/;"	f
+csrf_validation	security.py	/^def csrf_validation(event):$/;"	f
+date	models.py	/^    def date(self):$/;"	m	class:Container
+date	models.py	/^    def date(self):$/;"	m	class:Content
+date	models.py	/^    def date(self):$/;"	m	class:NewsItem
+default	config.py	/^            default="Create a single post under the blog by defining it's title and content. The posts are shonw under the blog description"),$/;"	v
+default	config.py	/^            default="You are logged in as "),$/;"	v
+default	config.py	/^default=u"You have no permission to review this content"),$/;"	v
 default	security.py	/^    default="pbkdf2_sha256",$/;"	v
 edit	models.py	/^    def edit(self, password, email):$/;"	m	class:User
 email	schemas.py	/^    email = All(validators.Email(not_empty=True), UniqueEmail())$/;"	v	class:SignUpSchema
 email	schemas.py	/^    email = All(validators.Email(not_empty=True), UniqueEmail())$/;"	v	class:UserEditSchema
 filter_extra_fields	schemas.py	/^    filter_extra_fields = True$/;"	v	class:BaseSchema
-groupfinder	security.py	/^def groupfinder(userid, request):$/;"	f
+flush	models.py	/^    def flush(self, username):$/;"	m	class:Groups
+get_csrf_request	tests.py	/^    def get_csrf_request(self, post=None):$/;"	m	class:ViewTests
+get_description	utilities.py	/^def get_description(key, context, word_number=30):$/;"	f
+get_description	views.py	/^        def get_description(key, context):$/;"	f	function:NewsWidget.__call__
+get_param	utilities.py	/^def get_param(request, name, _return=u''):$/;"	f
+get_resource	utilities.py	/^def get_resource(resource, request):$/;"	f
+group_names	security.py	/^group_names = {$/;"	v
+groupfinder	security.py	/^def groupfinder(username, request):$/;"	f
 has_blog	models.py	/^    def has_blog(self, name):$/;"	m	class:Blogs
+has_group	views.py	/^        def has_group(group, user, request):$/;"	f	function:UsersView.view_users_edit
+has_item	models.py	/^    def has_item(self, title):$/;"	m	class:News
+has_special	utilities.py	/^def has_special(string):$/;"	f
 has_user	models.py	/^    def has_user(self, username):$/;"	m	class:Users
+image_url	schemas.py	/^    image_url = validators.URL(add_http=False, check_exists=True)$/;"	v	class:BlogCreateSchema
+image_url	schemas.py	/^    image_url = validators.URL(add_http=False, check_exists=True)$/;"	v	class:NewsCreateSchema
+is_active	views.py	/^        def is_active(interface):$/;"	f	function:BaseView.__init__
+items_by_owner	models.py	/^    def items_by_owner(self, owner):$/;"	m	class:Container
+lang	views.py	/^def lang(request):$/;"	f
 main	__init__.py	/^def main(global_config, **settings):$/;"	f
-members_group	config.py	/^members_group = ['group:members']$/;"	v
+msg	config.py	/^msg = {$/;"	v
+my_locale_negotiator	__init__.py	/^def my_locale_negotiator(request):$/;"	f
 new_password	schemas.py	/^    new_password = validators.MinLength(6, not_empty=False)$/;"	v	class:UserEditSchema
 new_password_confirm	schemas.py	/^    new_password_confirm = validators.MinLength(6, not_empty=False)$/;"	v	class:UserEditSchema
+order	utilities.py	/^def order(context, ordered_keys):$/;"	f
+order_by_time	models.py	/^    def order_by_time(self):$/;"	m	class:Container
 password	schemas.py	/^    password = validators.MinLength(6, not_empty=True)$/;"	v	class:SignUpSchema
 password_confirm	schemas.py	/^    password_confirm = validators.MinLength(6, not_empty=True)$/;"	v	class:SignUpSchema
-pbkdf2_sha256__default_rounds	security.py	/^    pbkdf2_sha256__default_rounds = 8000,$/;"	v
+pbkdf2_sha256__default_rounds	security.py	/^    pbkdf2_sha256__default_rounds=8000,$/;"	v
+provides	utilities.py	/^def provides(context, interface):$/;"	f
 pwd_context	security.py	/^pwd_context = CryptContext($/;"	v
-renderer	views.py	/^             renderer='templates\/blog_view.pt')$/;"	v
+remove	models.py	/^    def remove(self, id):$/;"	m	class:Container
+remove_group	models.py	/^    def remove_group(self, username, group):$/;"	m	class:Groups
+renderer	views.py	/^                 renderer='templates\/blog_view.pt')$/;"	v	class:BlogView
+renderer	views.py	/^                 renderer='templates\/blogpost.pt')$/;"	v	class:BlogPost
+renderer	views.py	/^                 renderer='templates\/blogs_view_grid.pt')$/;"	v	class:BlogsView
+renderer	views.py	/^            renderer='templates\/breadcrumbs.pt')$/;"	v	class:BreadCrumbsView
+renderer	views.py	/^            renderer='templates\/comments.pt')$/;"	v	class:CommentView
+renderer	views.py	/^            renderer='templates\/news_widget.pt')$/;"	v	class:NewsWidget
 root_factory	__init__.py	/^def root_factory(request):$/;"	f
 salt	security.py	/^salt = u'torpedo'$/;"	v
-schemes	security.py	/^    schemes=["pbkdf2_sha256", "des_crypt" ],$/;"	v
+schemes	security.py	/^    schemes=["pbkdf2_sha256", "des_crypt"],$/;"	v
+search	schemas.py	/^    search = validators.MinLength(1, not_empty=True)$/;"	v	class:UsersEditSchema
 setUp	tests.py	/^    def setUp(self):$/;"	m	class:FunctionalTests
 setUp	tests.py	/^    def setUp(self):$/;"	m	class:ViewTests
-site_layout	views.py	/^def site_layout():$/;"	f
+shorten_text	utilities.py	/^def shorten_text(text, word_count):$/;"	f
+sorted_gnames	views.py	/^        def sorted_gnames():$/;"	f	function:UsersView.view_users_edit
+tag_test	models.py	/^def tag_test():$/;"	f
+tearDown	tests.py	/^    def tearDown(self):$/;"	m	class:FunctionalTests
 tearDown	tests.py	/^    def tearDown(self):$/;"	m	class:ViewTests
+test_admin_links	tests.py	/^    def test_admin_links(self):$/;"	m	class:FunctionalTests
+test_admin_view	tests.py	/^    def test_admin_view(self):$/;"	m	class:FunctionalTests
 test_blog_create	tests.py	/^    def test_blog_create(self):$/;"	m	class:FunctionalTests
 test_blog_edit	tests.py	/^    def test_blog_edit(self):$/;"	m	class:FunctionalTests
-test_blogpost	tests.py	/^    def test_blogpost(self):$/;"	m	class:FunctionalTests
+test_blog_edit_blogposts	tests.py	/^    def test_blog_edit_blogposts(self):$/;"	m	class:FunctionalTests
+test_blog_edit_permission	tests.py	/^    def test_blog_edit_permission(self):$/;"	m	class:FunctionalTests
+test_blog_editbar	tests.py	/^    def test_blog_editbar(self):$/;"	m	class:FunctionalTests
+test_blog_owner	tests.py	/^    def test_blog_owner(self):$/;"	m	class:FunctionalTests
+test_blog_remove	tests.py	/^    def test_blog_remove(self):$/;"	m	class:FunctionalTests
+test_blog_timestamp	tests.py	/^    def test_blog_timestamp(self):$/;"	m	class:ModelTests
 test_blogpost	tests.py	/^    def test_blogpost(self):$/;"	m	class:ModelTests
+test_blogpost_create	tests.py	/^    def test_blogpost_create(self):$/;"	m	class:FunctionalTests
+test_blogpost_create	tests.py	/^    def test_blogpost_create(self):$/;"	m	class:ModelTests
+test_blogpost_edit	tests.py	/^    def test_blogpost_edit(self):$/;"	m	class:FunctionalTests
+test_blogpost_edit_link	tests.py	/^    def test_blogpost_edit_link(self):$/;"	m	class:FunctionalTests
+test_blogpost_edit_permission	tests.py	/^    def test_blogpost_edit_permission(self):$/;"	m	class:FunctionalTests
+test_blogpost_owner	tests.py	/^    def test_blogpost_owner(self):$/;"	m	class:FunctionalTests
+test_blogs_by_owner	tests.py	/^    def test_blogs_by_owner(self):$/;"	m	class:ModelTests
+test_blogs_create_link	tests.py	/^    def test_blogs_create_link(self):$/;"	m	class:FunctionalTests
+test_blogs_edit_link	tests.py	/^    def test_blogs_edit_link(self):$/;"	m	class:FunctionalTests
+test_blogs_ordering	tests.py	/^    def test_blogs_ordering(self):$/;"	m	class:ModelTests
+test_blogs_remove	tests.py	/^    def test_blogs_remove(self):$/;"	m	class:FunctionalTests
+test_blogs_view	tests.py	/^    def test_blogs_view(self):$/;"	m	class:FunctionalTests
 test_email_and_pw_validation	tests.py	/^    def test_email_and_pw_validation(self):$/;"	m	class:FunctionalTests
 test_forbidden_user_to_admin_edit	tests.py	/^    def test_forbidden_user_to_admin_edit(self):$/;"	m	class:FunctionalTests
+test_group_policy_add	tests.py	/^    def test_group_policy_add(self):$/;"	m	class:ModelTests
+test_group_remove_group	tests.py	/^    def test_group_remove_group(self):$/;"	m	class:ModelTests
+test_groups_flusj	tests.py	/^    def test_groups_flusj(self):$/;"	m	class:ModelTests
 test_has_blogname	tests.py	/^    def test_has_blogname(self):$/;"	m	class:ModelTests
+test_has_special_method	tests.py	/^    def test_has_special_method(self):$/;"	m	class:AppMakerTests
 test_it	tests.py	/^    def test_it(self):$/;"	m	class:AppMakerTests
+test_list_splitting	tests.py	/^    def test_list_splitting(self):$/;"	m	class:UtilitiesTests
 test_logout_link_not_present_after_logged_out	tests.py	/^    def test_logout_link_not_present_after_logged_out(self):$/;"	m	class:FunctionalTests
 test_logout_link_when_logged_in	tests.py	/^    def test_logout_link_when_logged_in(self):$/;"	m	class:FunctionalTests
 test_logout_page	tests.py	/^    def test_logout_page(self):$/;"	m	class:FunctionalTests
 test_member_email_edit	tests.py	/^    def test_member_email_edit(self):$/;"	m	class:FunctionalTests
+test_news_add	tests.py	/^    def test_news_add(self):$/;"	m	class:ModelTests
+test_news_add_item	tests.py	/^    def test_news_add_item(self):$/;"	m	class:ViewTests
+test_news_by_owner	tests.py	/^    def test_news_by_owner(self):$/;"	m	class:ModelTests
+test_news_create	tests.py	/^    def test_news_create(self):$/;"	m	class:FunctionalTests
+test_news_create_link	tests.py	/^    def test_news_create_link(self):$/;"	m	class:FunctionalTests
+test_news_edit_link	tests.py	/^    def test_news_edit_link(self):$/;"	m	class:FunctionalTests
+test_news_item_edit	tests.py	/^    def test_news_item_edit(self):$/;"	m	class:FunctionalTests
+test_news_ordering	tests.py	/^    def test_news_ordering(self):$/;"	m	class:ModelTests
+test_news_owner	tests.py	/^    def test_news_owner(self):$/;"	m	class:FunctionalTests
+test_news_remove	tests.py	/^    def test_news_remove(self):$/;"	m	class:FunctionalTests
+test_news_view	tests.py	/^    def test_news_view(self):$/;"	m	class:FunctionalTests
+test_news_widget	tests.py	/^    def test_news_widget(self):$/;"	m	class:FunctionalTests
+test_newsitem_edit_link	tests.py	/^    def test_newsitem_edit_link(self):$/;"	m	class:FunctionalTests
+test_page_about_edit_link	tests.py	/^    def test_page_about_edit_link(self):$/;"	m	class:FunctionalTests
+test_page_about_link	tests.py	/^    def test_page_about_link(self):$/;"	m	class:FunctionalTests
+test_page_contact_edit	tests.py	/^    def test_page_contact_edit(self):$/;"	m	class:FunctionalTests
+test_page_contact_edit_link	tests.py	/^    def test_page_contact_edit_link(self):$/;"	m	class:FunctionalTests
+test_page_contact_link	tests.py	/^    def test_page_contact_link(self):$/;"	m	class:FunctionalTests
+test_password_change	tests.py	/^    def test_password_change(self):$/;"	m	class:FunctionalTests
 test_password_validation	tests.py	/^    def test_password_validation(self):$/;"	m	class:ModelTests
-test_set_group	tests.py	/^    def test_set_group(self):$/;"	m	class:ModelTests
 test_signup_username_already_in_use	tests.py	/^    def test_signup_username_already_in_use(self):$/;"	m	class:FunctionalTests
+test_signup_username_special_characters	tests.py	/^    def test_signup_username_special_characters(self):$/;"	m	class:FunctionalTests
+test_spam_bot_protection	tests.py	/^    def test_spam_bot_protection(self):$/;"	m	class:FunctionalTests
+test_user_add	tests.py	/^    def test_user_add(self):$/;"	m	class:ModelTests
 test_user_edit	tests.py	/^    def test_user_edit(self):$/;"	m	class:FunctionalTests
 test_user_edit	tests.py	/^    def test_user_edit(self):$/;"	m	class:ModelTests
 test_user_edit_without_loggin_in	tests.py	/^    def test_user_edit_without_loggin_in(self):$/;"	m	class:FunctionalTests
 test_username_already_in_use	tests.py	/^    def test_username_already_in_use(self):$/;"	m	class:FunctionalTests
-user_access	security.py	/^def user_access(login_required=True):$/;"	f
-username	schemas.py	/^    username = All(validators.MinLength(4, not_empty=True), UniqueUsername())$/;"	v	class:SignUpSchema
+test_users_edit	tests.py	/^    def test_users_edit(self):$/;"	m	class:FunctionalTests
+test_users_edit_permission_change	tests.py	/^    def test_users_edit_permission_change(self):$/;"	m	class:FunctionalTests
+test_users_edit_view_add_permission	tests.py	/^    def test_users_edit_view_add_permission(self):$/;"	m	class:ViewTests
+test_users_edit_view_search	tests.py	/^    def test_users_edit_view_search(self):$/;"	m	class:ViewTests
+text	schemas.py	/^    text = validators.MinLength(10, not_empty=True)$/;"	v	class:BlogCreateSchema
+text	schemas.py	/^    text = validators.MinLength(10, not_empty=True)$/;"	v	class:BlogPostSchema
+text	schemas.py	/^    text = validators.MinLength(10, not_empty=True)$/;"	v	class:NewsCreateSchema
+text	schemas.py	/^    text = validators.MinLength(10, not_empty=True)$/;"	v	class:PageEditSchema
+time	models.py	/^    def time(self):$/;"	m	class:BlogPost
+title	schemas.py	/^    title = validators.MaxLength(60, not_empty=True)$/;"	v	class:NewsCreateSchema
+title	schemas.py	/^    title = validators.MinLength(3, not_empty=True)$/;"	v	class:BlogPostSchema
+title	schemas.py	/^    title = validators.MinLength(3, not_empty=True)$/;"	v	class:PageEditSchema
+translate	utilities.py	/^def translate(st, lang):$/;"	f
+username	schemas.py	/^    username = All(validators.MinLength(4, not_empty=True), $/;"	v	class:SignUpSchema
+username	schemas.py	/^    username = validators.MinLength(3, not_empty=False)$/;"	v	class:LoginSchema
 validate_password	models.py	/^    def validate_password(self, password):$/;"	m	class:User
-view_blog	views.py	/^def view_blog(context, request, user):$/;"	f
-view_blog_create	views.py	/^def view_blog_create(context, request, user):$/;"	f
-view_blog_edit	views.py	/^def view_blog_edit(context, request, user):$/;"	f
-view_login	views.py	/^def view_login(context, request, user):$/;"	f
-view_logout	views.py	/^def view_logout(context, request, user):$/;"	f
-view_main	views.py	/^def view_main(request):$/;"	f
-view_page	views.py	/^def view_page(context, request):$/;"	f
-view_signup	views.py	/^def view_signup(context, request):$/;"	f
-view_user	views.py	/^def view_user(context, request, user):$/;"	f
-view_user_edit	views.py	/^def view_user_edit(context, request, user):$/;"	f
-wrap	security.py	/^    def wrap(f):$/;"	f	function:user_access
-wrapped_f	security.py	/^        def wrapped_f(*args, **kwargs):$/;"	f	function:user_access.wrap
+view_blog	views.py	/^    def view_blog(self):$/;"	m	class:BlogView
+view_blog_add_post	views.py	/^    def view_blog_add_post(self):$/;"	m	class:BlogView
+view_blog_create	views.py	/^    def view_blog_create(self):$/;"	m	class:BlogsView
+view_blog_edit	views.py	/^    def view_blog_edit(self):$/;"	m	class:BlogView
+view_blog_remove	views.py	/^    def view_blog_remove(self):$/;"	m	class:BlogView
+view_blogpost_edit	views.py	/^    def view_blogpost_edit(self):$/;"	m	class:BlogPost
+view_blogs_edit	views.py	/^    def view_blogs_edit(self):$/;"	m	class:BlogsView
+view_container_bar	views.py	/^    def view_container_bar(self):$/;"	m	class:BreadCrumbsView
+view_container_bar	views.py	/^    def view_container_bar(self):$/;"	m	class:EditBarView
+view_content_bar	views.py	/^    def view_content_bar(self):$/;"	m	class:EditBarView
+view_edit	views.py	/^    def view_edit(self):$/;"	m	class:PageView
+view_frontpage	views.py	/^    def view_frontpage(self):$/;"	m	class:MainView
+view_login	views.py	/^    def view_login(self):$/;"	m	class:MainView
+view_logout	views.py	/^    def view_logout(self):$/;"	m	class:MainView
+view_news_create	views.py	/^    def view_news_create(self):$/;"	m	class:NewsView
+view_news_edit	views.py	/^    def view_news_edit(self):$/;"	m	class:NewsView
+view_news_item_edit	views.py	/^    def view_news_item_edit(self):$/;"	m	class:NewsItem
+view_signup	views.py	/^    def view_signup(self):$/;"	m	class:MainView
+view_user	views.py	/^    def view_user(self):$/;"	m	class:UserView
+view_user_edit	views.py	/^    def view_user_edit(self):$/;"	m	class:UserView
+view_user_remove	views.py	/^    def view_user_remove(self):$/;"	m	class:UserView
+view_users_edit	views.py	/^    def view_users_edit(self):$/;"	m	class:UsersView
+views_users_new	views.py	/^    def views_users_new(self):$/;"	m	class:UsersView
