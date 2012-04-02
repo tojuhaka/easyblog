@@ -11,4 +11,4 @@ env26/
 .tox/
 coverage.xml
 nosetests.xml
-test
+build
