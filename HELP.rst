@@ -10,6 +10,8 @@ Ohjeet sivuston käyttämiseen
 
 .. figure:: https://github.com/tojuhaka/easyblog/raw/master/news_new.png
 
+    kuva 1
+
     Toiminto-pudotusvalikko mahdollista erilaisia toimintoja riippuen siitä
     millä sivulla ollaan sillä hetkellä. Esimerkiksi, jos olemme välilehdellä 
     "Uutiset" voimme luoda uuden uutisen tai muokata kaikkia julkaistuja uutisia.
