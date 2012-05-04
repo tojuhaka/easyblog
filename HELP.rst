@@ -8,7 +8,7 @@ Ohjeet sivuston käyttämiseen
     "rattaat" -kuvasta erilaisiin sivukohtaisiin toimintoihin. Toiminnolla tarkoitetaan
     tässä esimerkiksi, jonkun tietyn sisällön luomista tai muokkaamista.
 
-
+-----------------------------------------------
 .. figure:: https://github.com/tojuhaka/easyblog/raw/master/news_new.png
 
     Toiminto-pudotusvalikko mahdollista erilaisia toimintoja riippuen siitä
