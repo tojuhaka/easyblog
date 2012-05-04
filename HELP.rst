@@ -3,4 +3,4 @@ Ohjeet sivuston käyttämiseen
 
 Yleistä
 -------
-.. image:: action_buttons.png
+.. image:: https://github.com/tojuhaka/easyblog/raw/master/action_buttons.png
