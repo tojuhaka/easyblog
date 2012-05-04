@@ -48,6 +48,26 @@ Tutkimus pyritään toteuttamaan ennen huhtikuun loppua. Tarkka päivämäärä 
 Koehenkilöitä on lupautunut jo yli kymmenen suoraan saappaalta (tai näin ainakin tuli ilmoitus itselleni). Mahdollisuus toteuttaa tukimus yli kymmenellä hengellä on siis hyvin mahdollista.
 
 
+Raportti
+========
+
+Johdanto
+--------
+Saapas on ev.lut. kirkon yksi nuoriso- ja erityisnuorisotyön muoto, jota toteutetaan etsivän 
+työn menetelmin. Tavoitteena on tarjota nuorisotyön palveluita myös niille nuorille, jotka 
+viettävät aikaansa jossakin muualla kuin järjestetyn nuorisotoiminnan piirissä. Sivuston 
+tarkoitus on tarjota Jyväskylän Saapas RY:lle web-sivut, jotka ovat mahdollisimman helposti 
+ylläpidettävät. Sivuston tulee tarjota ratkaisu yleiseen viestintään, kuten esimerkiksi
+uutisten lisäämiseen.
+
+Tutkimuksen tarkoituksena on toteuttaa yksinkertainen käytettävyyskoe sivustolle sekä selvittää
+nopeuttavatko sivustoa varten laaditut käyttöohjeet sivuston käytettävyyttä. 
+selvitetään onko 
+
+
+
+
+
 
 
 
