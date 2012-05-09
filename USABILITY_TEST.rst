@@ -29,11 +29,11 @@ Tehtävät
 (Tehtävät eivät ole vielä täysin kiveenhakattuja, joten ne voivat vielä muuttua tehtävänantoa
 määritellessä)
 
-    1. Luo sivustolle uusi uutinen. Määrittele uutisen otsikoksi "testiuutinen" ja sisällöksi "testisisältö". 
-    2. Luo sivustolle uusi blogi nimeltä "testiblogi". Lisää blogiin myös yksi blogikirjoitus.
+    1. Luo sivustolle uusi uutinen. Määrittele uutisen otsikoksi "testiuutinen" ja sisällöksi "testisisältö". Liitä uutiseen myäs kuva joltakin toiselta sivustolta esimerkiksi googlen kuvahausta
+    2. Luo sivustolle uusi blogi nimeltä "testiblogi". Lisää blogiin myös yksi blogikirjoitus, jonka otsikko on "testi" ja sisältö "testi testi".
     3. Luo sivustolle käyttäjä nimeltä "testi". Määritä salasanaksi "testi" ja sähköpostiosoitteeksi "testi@testi.fi".
     4. Anna "admin" -oikeudet käyttäjälle "testi".
-    5. Poista käyttäjä "testi".
+    5. Poista luomasi testi-käyttäjä, blogi sekä uutinen.
 
 Tulosten arviointi
 ------------------
