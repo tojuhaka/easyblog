@@ -26,7 +26,7 @@ kuvankaappausohjelmaa. Kokeen avulla selvitetään, kuinka käyttäjäystäväll
 
 Tehtävät
 --------
-    1. Kirjaudu sisään käyttäjänä "editor". Salasana: "editorpw#".
+    1. Kirjaudu sisään käyttäjänä "käyttäjä". Salasana: "salasana".
     2. Luo sivustolle uusi uutinen. Määrittele uutisen otsikoksi "testiuutinen" ja sisällöksi "testisisältö". Liitä uutiseen myäs kuva joltakin toiselta sivustolta esimerkiksi googlen kuvahausta
     3. Luo sivustolle uusi blogi nimeltä "testiblogi". Lisää blogiin myös yksi blogikirjoitus, jonka otsikko on "testi" ja sisältö "testi testi".
     4. Poista luomasi uutinen ja blogi
