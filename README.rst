@@ -181,9 +181,9 @@ olivat myös kehittäjälle tuntemattomia, joten niiden opetteluun meni myös ai
     + ZCA (2h)
     + Webfaction (julkaiseminen) (3h)
 
-- Toteutus (140h)
-    + ohjelmointi(80h)
-    + testikoodit(60h)
+- Toteutus (120h)
+    + ohjelmointi(70h)
+    + testikoodit(50h)
 
 - Ongelmatilanteet (30h)
     + ominaisuuksien toteutus, joita ei tarvinnutkaan (speksejen epätarkkuus)
