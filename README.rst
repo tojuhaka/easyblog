@@ -180,7 +180,7 @@ olivat myös kehittäjälle tuntemattomia, joten niiden opetteluun meni myös ai
   - ZCA (2h)
   - Webfaction (julkaiseminen) (3h)
 * Toteutus (140h)
-  - ohjelmointi(80h)
+- ohjelmointi(80h)
   - testikoodit(60h)
 * Yleinen testaaminen, koulutus ja ylläpito (20h)
 * Ongelmatilanteet (30h)
@@ -193,8 +193,10 @@ Mitä olisi pitänyt tehdä toisin
 -------------------------------
 ZCA:ta olisi pitänyt käyttää enemmän jo alusta asti. Tämän huomasi erilaisista arkkitehtuurin
 liittyvistä ongelmista, jotka tulivat vastaan sovelluksen kehityksen aikana. Tässä vaiheessa tuli tehtyä turhaa työtä, joka johti hieman suurempaan arkkitehtuurin refaktorointiin. 
-  Komponentit olisivat voineet olla vielä modulaarisempia. Tätä kuitenkin rajoitti valitut välineet, joten suoraan ei voida sanoa millä tavalla ohjelmakoodi olisi pitänyt toteuttaa toisin. Sama ongelma esiintyi templatejen kirjoittamisessa, jossa jouduttiin usein toistaa samankaltaista pohjaa monessa eri templatessa. Mikään template ei kuitenkaan ollut identtinen, vaan sisälsi osaksi kontekstiriippuvuutta, joten suoraa toisen templaten käyttöä ei voitu toteuttaa. Suurin osa toistosta saatiin kuitenkin kuriin yhden base.pt -templaten avulla. 
-  Aikaa vei suuresti speksejen epätarkkuus, joka johti ylimääräisten ominaisuuksien turhaan toteutukseen sekä haluttujen ominaisuuksien vääränlaiseen toteutukseen. Tässä olisi pitänyt olla tarkempi alusta asti. 
+
+Komponentit olisivat voineet olla vielä modulaarisempia. Tätä kuitenkin rajoitti valitut välineet, joten suoraan ei voida sanoa millä tavalla ohjelmakoodi olisi pitänyt toteuttaa toisin. Sama ongelma esiintyi templatejen kirjoittamisessa, jossa jouduttiin usein toistaa samankaltaista pohjaa monessa eri templatessa. Mikään template ei kuitenkaan ollut identtinen, vaan sisälsi osaksi kontekstiriippuvuutta, joten suoraa toisen templaten käyttöä ei voitu toteuttaa. Suurin osa toistosta saatiin kuitenkin kuriin yhden base.pt -templaten avulla. 
+
+Aikaa vei suuresti speksejen epätarkkuus, joka johti ylimääräisten ominaisuuksien turhaan toteutukseen sekä haluttujen ominaisuuksien vääränlaiseen toteutukseen. Tässä olisi pitänyt olla tarkempi alusta asti. 
 
 - Enemmän ZCA:n käyttöä!!
 - Modulaarisempia komponentteja!!
