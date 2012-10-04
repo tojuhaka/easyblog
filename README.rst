@@ -15,8 +15,8 @@ Products I've used for developing:
     * compass
     * Twitter Bootstrap for layout
 
-
 Small code-explanation:
+
 models.py 
     includes all the models which will act as "resources" in our resource tree.
 views.py 
