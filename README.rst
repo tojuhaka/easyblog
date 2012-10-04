@@ -171,9 +171,9 @@ erilaisia ongelmia/väärinkäsityksiä ilmeni niin asiakaspuolella kuin kehitys
 olivat myös kehittäjälle tuntemattomia, joten niiden opetteluun meni myös aikaa. Testit kirjoitettiin aina ennen varsinaisen toteutuksen kirjoittamista. Testit olivat siis kokoajan mukana ominaisuuksien tekemisessä, joka huomataan ajan käytössä toteutuksessa. Testejen ylläpitoon meni myös oma aikansa, koska speksejen muuttuessa jouduttiin muuttamaan testejä. Testit kuitenkin maksoivat itsensä takaisin moninkertaisesti. Erityisesti tilanteissa, joissa ohjelmakoodia tai siihen liittyvää arkkitehtuuria muutettiin. Kokonaistuntimäärä pitää paikkansa, mutta eri osa-alueiden tarkat tuntimäärät saattavat vaihdella. Ne vastaavat kuitenkin painoarvoltaan todellisuutta, joten ajankäytöstä saa hyvän kuvan alla olevasta selvityksestä. 
 
 * Suunnittelu (28h)
- - Asiakkaan kanssa (8h)
- - Arkkitehtuuri (16h)
- - Välineet (4h)
+ * Asiakkaan kanssa (8h)
+ * Arkkitehtuuri (16h)
+ * Välineet (4h)
 * Välineiden opettelu (23h)
   - pyramid (15h)
   - twitter bootstrap (3h)
