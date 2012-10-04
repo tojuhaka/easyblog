@@ -17,26 +17,26 @@ Products I've used for developing:
 
 
 Small code-explanation:
-    models.py 
-        includes all the models which will act as "resources" in our resource tree.
-    views.py 
-        all the views goes to here.
-    schemas.py 
-        schemas for pyramid_simpleform. All the form validation code goes here
-    interfaces.py 
-        mostly for marker interfaces.
-    tests.py 
-        all the tests. I'm trying to keep up 100% test-coverage.
-    config.py 
-        (hardcode stuff. We should remove this after the project is finished)
-    __init__.py 
-        configuration for our project.
-    subscribers.py 
-        events goes here
-    utilities.py 
-        some tools we've created to support views and models
-    security.py 
-        contains security-related code like permission handling, password hashing etc
+models.py 
+    includes all the models which will act as "resources" in our resource tree.
+views.py 
+    all the views goes to here.
+schemas.py 
+    schemas for pyramid_simpleform. All the form validation code goes here
+interfaces.py 
+    mostly for marker interfaces.
+tests.py 
+    all the tests. I'm trying to keep up 100% test-coverage.
+config.py 
+    (hardcode stuff. We should remove this after the project is finished)
+__init__.py 
+    configuration for our project.
+subscribers.py 
+    events goes here
+utilities.py 
+    some tools we've created to support views and models
+security.py 
+    contains security-related code like permission handling, password hashing etc
 
 Installation
 ------------
@@ -81,17 +81,17 @@ tiettyjen yhdistyksen henkilöiden tulisi pystyä kertomaan omista kokemuksistaa
 Yhdistyksellä ei ole vielä minkäänlaista web-sivustoa, joten lähtötaso on hyvin matala. Tästä syystä
 sivuston painoarvo itsessään on jo hyvin suuri. Seuraavassa listaus vaatimuksista, jotka sivujen tulisi toteuttaa:
 
-    - Sivujen tulee olla yksinkertaiset
-    - Mitään web-ohjelmointi taitoa ei tarvita sivustojen ylläpitämiseen
-    - Uutisten/tiedotteiden lisääminen/hallinta
-    - Blogejen lisääminen/hallinta
-    - Uusimmat tiedotteet tulee näkyä etusivulla
-    - Etusivun tulee olla mahdollisimman informatiivinen 
-    - Tietoturva tulee olla kunnossa
-    - Sisältöä pystyy luomaan sivuston ylläpitäjät.
-    - Sivuston ylläpitäjien tulee pystyä hallitsemaan muiden
-      käyttäjien oikeuksia, jollain tasolla
-    - Ulkoasun värimaailma tulisi olla syksyinen (oranssi/musta)
+- Sivujen tulee olla yksinkertaiset
+- Mitään web-ohjelmointi taitoa ei tarvita sivustojen ylläpitämiseen
+- Uutisten/tiedotteiden lisääminen/hallinta
+- Blogejen lisääminen/hallinta
+- Uusimmat tiedotteet tulee näkyä etusivulla
+- Etusivun tulee olla mahdollisimman informatiivinen 
+- Tietoturva tulee olla kunnossa
+- Sisältöä pystyy luomaan sivuston ylläpitäjät.
+- Sivuston ylläpitäjien tulee pystyä hallitsemaan muiden
+  käyttäjien oikeuksia, jollain tasolla
+- Ulkoasun värimaailma tulisi olla syksyinen (oranssi/musta)
 
 
 Omat vaatimukset
@@ -101,15 +101,15 @@ vain tehdä liukuhihnalla web-sivut, jotka ovat asiakkaan mieleen. Niin hauskalt
 niin tarkoitus on projektin aikana tehdä jotain väärin ja oppia tästä. Seuraavassa listaus vaatimuksista,
 joita projektin aikana itse noudatan:
 
-    - Suunnitteluun käytetyn ajan tulee olla mahdollisimman lyhyttä. Liika suunnittelu tällaisissa projekteissa
-      on aina pahasta. Tämä ei kuitenkaan tarkoita, että suunnittelu jätetään väliin.
-    - Ohjelmakoodin testaaminen kokonaisvaltaisesti. Testejen tulee kattaa koko ohjelmakoodi ja aina jos on mahdollista,
-      niin testit kirjoitetaan ennen varsinaista toteutusta.
-    - Ohjelmakoodia tulee refaktoroida kokoajan.
-    - Epäselvältä vaikuttava ohjelmakoodi on kommentoitava selkeästi. 
-    - Liika ohjelmakoodin opimointi ja "tuijottelu" jätettävä pois. Tähän sorrun itse hyvin usein ja se syö turhaa aikaa. Jossain vaiheessa
-      ratkaisut on kuitenkin tehtävä, jotta päästään eteenpäin.
-    - Asiakkaalle tulee näyttää "prototyypin" omaisesti sivuja mahdollisimman usein.
+- Suunnitteluun käytetyn ajan tulee olla mahdollisimman lyhyttä. Liika suunnittelu tällaisissa projekteissa
+  on aina pahasta. Tämä ei kuitenkaan tarkoita, että suunnittelu jätetään väliin.
+- Ohjelmakoodin testaaminen kokonaisvaltaisesti. Testejen tulee kattaa koko ohjelmakoodi ja aina jos on mahdollista,
+  niin testit kirjoitetaan ennen varsinaista toteutusta.
+- Ohjelmakoodia tulee refaktoroida kokoajan.
+- Epäselvältä vaikuttava ohjelmakoodi on kommentoitava selkeästi. 
+- Liika ohjelmakoodin opimointi ja "tuijottelu" jätettävä pois. Tähän sorrun itse hyvin usein ja se syö turhaa aikaa. Jossain vaiheessa
+  ratkaisut on kuitenkin tehtävä, jotta päästään eteenpäin.
+- Asiakkaalle tulee näyttää "prototyypin" omaisesti sivuja mahdollisimman usein.
 
 
 Välineet ja menetelmät
