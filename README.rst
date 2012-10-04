@@ -182,10 +182,11 @@ olivat myös kehittäjälle tuntemattomia, joten niiden opetteluun meni myös ai
     + Webfaction (julkaiseminen) (3h)
 
 - Toteutus (120h)
-    + ohjelmointi(70h)
-    + testikoodit(50h)
+    + ohjelmointi(60h)
+    + testikoodit(40h)
+    + käyttäjäkokemuksen ja ulkoasun viilaaminen(20h)
 
-- Ongelmatilanteet (30h)
+- Ongelmatilanteet (sisältyy kaikkeen) (30h)
     + ominaisuuksien toteutus, joita ei tarvinnutkaan (speksejen epätarkkuus)
     + olemassa olevien ominaisuuksien toteutus "väärin" (speksejen epätarkkuus)
     + arkkitehtuurin muokkaus lennosta
@@ -196,8 +197,6 @@ olivat myös kehittäjälle tuntemattomia, joten niiden opetteluun meni myös ai
     + ylläpito (5h)
 
 
-
-
 Mitä olisi pitänyt tehdä toisin
 -------------------------------
 ZCA:ta olisi pitänyt käyttää enemmän jo alusta asti. Tämän huomasi erilaisista arkkitehtuurin
@@ -205,18 +204,19 @@ liittyvistä ongelmista, jotka tulivat vastaan sovelluksen kehityksen aikana. T�
 
 Komponentit olisivat voineet olla vielä modulaarisempia. Tätä kuitenkin rajoitti valitut välineet, joten suoraan ei voida sanoa millä tavalla ohjelmakoodi olisi pitänyt toteuttaa toisin. Sama ongelma esiintyi templatejen kirjoittamisessa, jossa jouduttiin usein toistaa samankaltaista pohjaa monessa eri templatessa. Mikään template ei kuitenkaan ollut identtinen, vaan sisälsi osaksi kontekstiriippuvuutta, joten suoraa toisen templaten käyttöä ei voitu toteuttaa. Suurin osa toistosta saatiin kuitenkin kuriin yhden base.pt -templaten avulla. 
 
-Aikaa vei suuresti speksejen epätarkkuus, joka johti ylimääräisten ominaisuuksien turhaan toteutukseen sekä haluttujen ominaisuuksien vääränlaiseen toteutukseen. Tässä olisi pitänyt olla tarkempi alusta asti. 
+Aikaa vei suuresti speksejen epätarkkuus, joka johti ylimääräisten ominaisuuksien turhaan toteutukseen sekä haluttujen ominaisuuksien vääränlaiseen toteutukseen. Tässä olisi pitänyt olla tarkempi alusta asti. Samalla olisi tullut ottaa huomioon käännöksien tarpeellisuus jo kehityksen alussa. Tämä aiheutti myös hieman lisätyötä.
 
-- Enemmän ZCA:n käyttöä!!
-- Modulaarisempia komponentteja!!
-- Templateissa koodin toistoa, voisiko jotenkin abstrahoida paremmin?
-- Pyytää asiakkaalta tarkemmat speksit ennen vaersinaisen toteuttamisen aloittamista!
-- Käännöksien huomioon ottaminen jo siinä vaiheessa kun templateja aletaan tekemään
-- Enemmän yhtenäisyyttä ohjelmakoodiin, esim. samojen asioiden nimeämiset välillä erilailla
-. Miten saada templaten toisto järkeväksi? Onko mahdollista?
+Erilaisten sovelluksen osien nimeämiskäytäntöjä olisi voinut miettiä tarkemmin. Esimerkiksi joissain tilanteissa sama asia nimettiin kahdella eritavalla. 
 
-Mikä oli hankalaa, mikä taas suoraviivaista?
---------------------------------------------
+Projekti pähkinänkuoressa
+-------------------------
+Ongelmia tuotti projekin hallinnollinen puoli, jossa asiakkaan speksejen kanssa olisi voinut
+olla tiukempi. Tästä koitui paljon lisätyötä, jolta olisi hyvin voinut välttyä. Testilähtöinen kehitys osoittautui erittäin tehokkaaksi, mutta samalla myös työlääksi. Silti voi sanoa, että kattavat testit tekivät sovelluksen kehittämisestä nopeaa ja varmaa. Sovellukseen tehtyjen muutoksien tuottamat bugit löytyivät välittömästi testejen avulla, joka taas puolestaan nopeutti kehitystä huomattavasti.
+
+Kehityksen aikana tuli myös huomattua, kuinka suuri osa ajasta menee kaikkeen muuhun kuin ohjelmointiin. Suunnittelu, välineiden opettelu sekä koulutus veivät oman aikansa ohjelmoinnin ohella. Vaikka sivusto ei ollut lopputoteutukseltaan kovin laaja, meni sen tekemiseen paljon odotettua enemmän aikaa. Erityisesti käyttökokemuksen viilaaminen, muutoksiin vastaaminen ja sovelluksen arkkitehtuurin hyvä toteutus veivät runsaasti aikaa. Se, että ohjelmakoodista haluaa tehdä nättiä, tuo erittäin paljon lisätyötä. Vähemmällä olisi luultavasti päässyt, jos ohjelmakoodin olisi jättänyt enemmän "sotkuiseksi". Tulevaisuuden kannalta tämä ei tosin olisi ollut kovinkaan järkevää.
+
+Kaiken kaikkiaan projekti oli hyvin opettavainen ja antoi erittäin paljon lisää kokemusta sovelluskehityksestä ja siihen liittyvistä ongelmista. 
+
 
 
 
