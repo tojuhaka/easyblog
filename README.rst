@@ -104,7 +104,7 @@ joita projektin aikana itse noudatan:
     - Suunnitteluun käytetyn ajan tulee olla mahdollisimman lyhyttä. Liika suunnittelu tällaisissa projekteissa
       on aina pahasta. Tämä ei kuitenkaan tarkoita, että suunnittelu jätetään väliin.
     - Ohjelmakoodin testaaminen kokonaisvaltaisesti. Testejen tulee kattaa koko ohjelmakoodi ja aina jos on mahdollista,
-      niin testit kirjoitetaan ennen ohjelmakoodia.
+      niin testit kirjoitetaan ennen varsinaista toteutusta.
     - Ohjelmakoodia tulee refaktoroida kokoajan.
     - Epäselvältä vaikuttava ohjelmakoodi on kommentoitava selkeästi. 
     - Liika ohjelmakoodin opimointi ja "tuijottelu" jätettävä pois. Tähän sorrun itse hyvin usein ja se syö turhaa aikaa. Jossain vaiheessa
@@ -164,9 +164,38 @@ tietoa. Mallit pitävät siis yllä sovelluksen tilaa ja tallentuvat näin oliot
 .. image:: https://github.com/tojuhaka/easyblog/raw/master/class_diagram.png
 
 
+Ajankäyttö
+----------
+Ajankäytössä ei voida tarkkaan sanoa kuinka paljon aikaa meni mihinkin vaiheeseen, koska
+erilaisia ongelmia/väärinkäsityksiä ilmeni niin asiakaspuolella kuin kehityspuolellakin. Välineet
+olivat myös kehittäjälle tuntemattomia, joten niiden opetteluun meni myös aikaa. Testit kirjoitettiin aina ennen varsinaisen toteutuksen kirjoittamista. Testit olivat siis kokoajan mukana ominaisuuksien tekemisessä, joka huomataan ajan käytössä toteutuksessa. Testejen ylläpitoon meni myös oma aikansa, koska speksejen muuttuessa jouduttiin muuttamaan testejä. Testit kuitenkin maksoivat itsensä takaisin moninkertaisesti. Erityisesti tilanteissa, joissa ohjelmakoodia tai siihen liittyvää arkkitehtuuria muutettiin. Kokonaistuntimäärä pitää paikkansa, mutta eri osa-alueiden tarkat tuntimäärät saattavat vaihdella. Ne vastaavat kuitenkin painoarvoltaan todellisuutta, joten ajankäytöstä saa hyvän kuvan alla olevasta selvityksestä. 
+
+* Suunnittelu (28h)
+  - Asiakkaan kanssa (8h)
+  - Arkkitehtuuri (16h)
+  - Välineet (4h)
+* Välineiden opettelu (23h)
+  - pyramid (15h)
+  - twitter bootstrap (3h)
+  - ZCA (2h)
+  - Webfaction (julkaiseminen) (3h)
+* Toteutus (140h)
+  - ohjelmointi(80h)
+  - testikoodit(60h)
+* Yleinen testaaminen, koulutus ja ylläpito (20h)
+* Ongelmatilanteet (30h)
+  - ominaisuuksien toteutus, joita ei tarvinnutkaan (speksejen epätarkkuus)
+  - olemassa olevien ominaisuuksien toteutus "väärin" (speksejen epätarkkuus)
+  - arkkitehtuurin muokkaus lennosta
+
 
 Mitä olisi pitänyt tehdä toisin
 -------------------------------
+ZCA:ta olisi pitänyt käyttää enemmän jo alusta asti. Tämän huomasi erilaisista arkkitehtuurin
+liittyvistä ongelmista, jotka tulivat vastaan sovelluksen kehityksen aikana. Tässä vaiheessa tuli tehtyä turhaa työtä, joka johti hieman suurempaan arkkitehtuurin refaktorointiin. 
+  Komponentit olisivat voineet olla vielä modulaarisempia. Tätä kuitenkin rajoitti valitut välineet, joten suoraan ei voida sanoa millä tavalla ohjelmakoodi olisi pitänyt toteuttaa toisin. Sama ongelma esiintyi templatejen kirjoittamisessa, jossa jouduttiin usein toistaa samankaltaista pohjaa monessa eri templatessa. Mikään template ei kuitenkaan ollut identtinen, vaan sisälsi osaksi kontekstiriippuvuutta, joten suoraa toisen templaten käyttöä ei voitu toteuttaa. Suurin osa toistosta saatiin kuitenkin kuriin yhden base.pt -templaten avulla. 
+  Aikaa vei suuresti speksejen epätarkkuus, joka johti ylimääräisten ominaisuuksien turhaan toteutukseen sekä haluttujen ominaisuuksien vääränlaiseen toteutukseen. Tässä olisi pitänyt olla tarkempi alusta asti. 
+
 - Enemmän ZCA:n käyttöä!!
 - Modulaarisempia komponentteja!!
 - Templateissa koodin toistoa, voisiko jotenkin abstrahoida paremmin?
@@ -174,6 +203,9 @@ Mitä olisi pitänyt tehdä toisin
 - Käännöksien huomioon ottaminen jo siinä vaiheessa kun templateja aletaan tekemään
 - Enemmän yhtenäisyyttä ohjelmakoodiin, esim. samojen asioiden nimeämiset välillä erilailla
 . Miten saada templaten toisto järkeväksi? Onko mahdollista?
+
+Mikä oli hankalaa, mikä taas suoraviivaista?
+--------------------------------------------
 
 
 
