@@ -168,7 +168,8 @@ Ajankäyttö
 ----------
 Ajankäytössä ei voida tarkkaan sanoa kuinka paljon aikaa meni mihinkin vaiheeseen, koska
 erilaisia ongelmia/väärinkäsityksiä ilmeni niin asiakaspuolella kuin kehityspuolellakin. Välineet
-olivat myös kehittäjälle tuntemattomia, joten niiden opetteluun meni myös aikaa. Testit kirjoitettiin aina ennen varsinaisen toteutuksen kirjoittamista. Testit olivat siis kokoajan mukana ominaisuuksien tekemisessä, joka huomataan ajan käytössä toteutuksessa. Testejen ylläpitoon meni myös oma aikansa, koska speksejen muuttuessa jouduttiin muuttamaan testejä. Testit kuitenkin maksoivat itsensä takaisin moninkertaisesti. Erityisesti tilanteissa, joissa ohjelmakoodia tai siihen liittyvää arkkitehtuuria muutettiin. Kokonaistuntimäärä pitää paikkansa, mutta eri osa-alueiden tarkat tuntimäärät saattavat vaihdella. Ne vastaavat kuitenkin painoarvoltaan todellisuutta, joten ajankäytöstä saa hyvän kuvan alla olevasta selvityksestä. 
+olivat myös kehittäjälle tuntemattomia, joten niiden opetteluun meni myös aikaa. Testit kirjoitettiin aina ennen varsinaisen toteutuksen kirjoittamista. Testit olivat siis kokoajan mukana ominaisuuksien tekemisessä, joka huomataan ajan käytössä toteutuksessa. Testejen ylläpitoon meni myös oma aikansa, koska speksejen muuttuessa jouduttiin muuttamaan testejä. Testit kuitenkin maksoivat itsensä takaisin moninkertaisesti. Erityisesti tilanteissa, joissa ohjelmakoodia tai siihen liittyvää arkkitehtuuria muutettiin. Kokonaistuntimäärä pitää paikkansa, mutta eri osa-alueiden tarkat tuntimäärät saattavat vaihdella. Ne vastaavat kuitenkin painoarvoltaan todellisuutta, joten ajankäytöstä saa hyvän kuvan alla olevasta selvityksestä.
+
 - Suunnittelu (28h)
     + Asiakkaan kanssa (8h)
     + Arkkitehtuuri (16h)
@@ -185,6 +186,7 @@ olivat myös kehittäjälle tuntemattomia, joten niiden opetteluun meni myös ai
      + testikoodit(60h)
 
 - Yleinen testaaminen, koulutus ja ylläpito (20h)
+
 - Ongelmatilanteet (30h)
      + ominaisuuksien toteutus, joita ei tarvinnutkaan (speksejen epätarkkuus)
      + olemassa olevien ominaisuuksien toteutus "väärin" (speksejen epätarkkuus)
