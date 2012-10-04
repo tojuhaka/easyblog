@@ -11,32 +11,32 @@ EasyBlog is a webpage created with pyramid. Main goal is to test different featu
 EasyBlog uses ZODB and traversal. Main reason for that is my experience from Plone and Zope. And yes, I like OO-databases. 
 
 Products I've used for developing:
-    * pyramid_simpleform 
-    * compass
-    * Twitter Bootstrap for layout
+- pyramid_simpleform 
+- compass
+- Twitter Bootstrap for layout
 
 Small code-explanation:
 
-models.py 
-    includes all the models which will act as "resources" in our resource tree.
-views.py 
-    all the views goes to here.
-schemas.py 
-    schemas for pyramid_simpleform. All the form validation code goes here
-interfaces.py 
-    mostly for marker interfaces.
-tests.py 
-    all the tests. I'm trying to keep up 100% test-coverage.
-config.py 
-    (hardcode stuff. We should remove this after the project is finished)
-__init__.py 
-    configuration for our project.
-subscribers.py 
-    events goes here
-utilities.py 
-    some tools we've created to support views and models
-security.py 
-    contains security-related code like permission handling, password hashing etc
+    models.py 
+        includes all the models which will act as "resources" in our resource tree.
+    views.py 
+        all the views goes to here.
+    schemas.py 
+        schemas for pyramid_simpleform. All the form validation code goes here
+    interfaces.py 
+        mostly for marker interfaces.
+    tests.py 
+        all the tests. I'm trying to keep up 100% test-coverage.
+    config.py 
+        (hardcode stuff. We should remove this after the project is finished)
+    __init__.py 
+        configuration for our project.
+    subscribers.py 
+        events goes here
+    utilities.py 
+        some tools we've created to support views and models
+    security.py 
+        contains security-related code like permission handling, password hashing etc
 
 Installation
 ------------
