@@ -176,21 +176,26 @@ olivat myös kehittäjälle tuntemattomia, joten niiden opetteluun meni myös ai
     + Välineet (4h)
 
 - Välineiden opettelu (23h)
-     + pyramid (15h)
-     + twitter bootstrap (3h)
-     + ZCA (2h)
-     + Webfaction (julkaiseminen) (3h)
+    + pyramid (15h)
+    + twitter bootstrap (3h)
+    + ZCA (2h)
+    + Webfaction (julkaiseminen) (3h)
 
 - Toteutus (140h)
-     + ohjelmointi(80h)
-     + testikoodit(60h)
-
-- Yleinen testaaminen, koulutus ja ylläpito (20h)
+    + ohjelmointi(80h)
+    + testikoodit(60h)
 
 - Ongelmatilanteet (30h)
-     + ominaisuuksien toteutus, joita ei tarvinnutkaan (speksejen epätarkkuus)
-     + olemassa olevien ominaisuuksien toteutus "väärin" (speksejen epätarkkuus)
-     + arkkitehtuurin muokkaus lennosta
+    + ominaisuuksien toteutus, joita ei tarvinnutkaan (speksejen epätarkkuus)
+    + olemassa olevien ominaisuuksien toteutus "väärin" (speksejen epätarkkuus)
+    + arkkitehtuurin muokkaus lennosta
+
+- Muu (20h)
+    + Lopputestaus (10h)
+    + koulutus (5h)
+    + ylläpito (5h)
+
+
 
 
 Mitä olisi pitänyt tehdä toisin
