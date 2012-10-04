@@ -6,15 +6,14 @@ EasyBlog
 
 Introduction
 ------------
-EasyBlog is just a test for pyramid. Main goal is to test different features of pyramid. During development I was asked to create a webpage that contains Authorization-policy, user-management, blogging and news. So I let this project to fulfill those requirements. After a little bit of refactoring it's not a test-project anymore. 
+EasyBlog is a webpage created with pyramid. Main goal is to test different features of pyramid. During development I was asked to create a webpage that contains Authorization-policy, user-management, blogging and news. So I let this project to fulfill those requirements. After a little bit of refactoring it's not a test-project anymore but a webpage for Saapas RY.
 
 EasyBlog uses ZODB and traversal. Main reason for that is my experience from Plone and Zope. And yes, I like OO-databases. 
-
-Layout is taken from freewebtemplates.com and is designed by Dcarter Design. So let's give them some credits for that. The layout is integrated to pyramid using compass (CSS-framework that uses SASS). 
 
 Products I've used for developing:
     * pyramid_simpleform 
     * compass
+    * Twitter Bootstrap for layout
 
 
 Small code-explanation:
@@ -168,17 +167,6 @@ tietoa. Mallit pitävät siis yllä sovelluksen tilaa ja tallentuvat näin oliot
 
 Mitä olisi pitänyt tehdä toisin
 -------------------------------
-[<Container>;Main]->[<Container>;Users]
-[<Container>;Main]->[<Container>;Blogs]
-[<Container>;Main]->[<Container>;News]
-[<Container>;Main]->[<Content>;AboutPage]
-[<Container>;Main]->[<Content>;ContactPage]
-
-[<Container>;Users]->[<Content>;User*]
-[<Container>;Blogs]->[<Container>;Blog*]
-[<Container>;News]->[<Content>;NewsItem*]
-
-[<Container>;Blog*]->[<Content>;Blogpost*]
 - Enemmän ZCA:n käyttöä!!
 - Modulaarisempia komponentteja!!
 - Templateissa koodin toistoa, voisiko jotenkin abstrahoida paremmin?
