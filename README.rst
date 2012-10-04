@@ -197,7 +197,7 @@ olivat myös kehittäjälle tuntemattomia, joten niiden opetteluun meni myös ai
     + ylläpito (5h)
 
 
-Mitä olisi pitänyt tehdä toisin
+Mitä olisi pitänyt tehdä toisin?
 -------------------------------
 ZCA:ta olisi pitänyt käyttää enemmän jo alusta asti. Tämän huomasi erilaisista arkkitehtuurin
 liittyvistä ongelmista, jotka tulivat vastaan sovelluksen kehityksen aikana. Tässä vaiheessa tuli tehtyä turhaa työtä, joka johti hieman suurempaan arkkitehtuurin refaktorointiin. 
