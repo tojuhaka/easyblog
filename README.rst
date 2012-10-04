@@ -170,23 +170,24 @@ Ajankäytössä ei voida tarkkaan sanoa kuinka paljon aikaa meni mihinkin vaihee
 erilaisia ongelmia/väärinkäsityksiä ilmeni niin asiakaspuolella kuin kehityspuolellakin. Välineet
 olivat myös kehittäjälle tuntemattomia, joten niiden opetteluun meni myös aikaa. Testit kirjoitettiin aina ennen varsinaisen toteutuksen kirjoittamista. Testit olivat siis kokoajan mukana ominaisuuksien tekemisessä, joka huomataan ajan käytössä toteutuksessa. Testejen ylläpitoon meni myös oma aikansa, koska speksejen muuttuessa jouduttiin muuttamaan testejä. Testit kuitenkin maksoivat itsensä takaisin moninkertaisesti. Erityisesti tilanteissa, joissa ohjelmakoodia tai siihen liittyvää arkkitehtuuria muutettiin. Kokonaistuntimäärä pitää paikkansa, mutta eri osa-alueiden tarkat tuntimäärät saattavat vaihdella. Ne vastaavat kuitenkin painoarvoltaan todellisuutta, joten ajankäytöstä saa hyvän kuvan alla olevasta selvityksestä. 
 
+
 * Suunnittelu (28h)
- * Asiakkaan kanssa (8h)
- * Arkkitehtuuri (16h)
- * Välineet (4h)
+ - Asiakkaan kanssa (8h)
+ - Arkkitehtuuri (16h)
+ - Välineet (4h)
 * Välineiden opettelu (23h)
-  - pyramid (15h)
-  - twitter bootstrap (3h)
-  - ZCA (2h)
-  - Webfaction (julkaiseminen) (3h)
+ - pyramid (15h)
+ - twitter bootstrap (3h)
+ - ZCA (2h)
+ - Webfaction (julkaiseminen) (3h)
 * Toteutus (140h)
  - ohjelmointi(80h)
-  - testikoodit(60h)
+ - testikoodit(60h)
 * Yleinen testaaminen, koulutus ja ylläpito (20h)
 * Ongelmatilanteet (30h)
-  - ominaisuuksien toteutus, joita ei tarvinnutkaan (speksejen epätarkkuus)
-  - olemassa olevien ominaisuuksien toteutus "väärin" (speksejen epätarkkuus)
-  - arkkitehtuurin muokkaus lennosta
+ - ominaisuuksien toteutus, joita ei tarvinnutkaan (speksejen epätarkkuus)
+ - olemassa olevien ominaisuuksien toteutus "väärin" (speksejen epätarkkuus)
+ - arkkitehtuurin muokkaus lennosta
 
 
 Mitä olisi pitänyt tehdä toisin
