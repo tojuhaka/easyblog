@@ -163,12 +163,35 @@ tietoa. Mallit pitävät siis yllä sovelluksen tilaa ja tallentuvat näin oliot
 
 .. image:: https://github.com/tojuhaka/easyblog/raw/master/class_diagram.png
 
+Testilähtöinen kehitys
+----------------------
+Sovellus toteutettiin käyttäen testilähtöistä kehitystä. Tämä toteutettiin siten, että testit kirjoitettiin ennen itse varsinaisen ohjelmakoodin kirjoittamista. Täydelliseen testilähtöiseen 
+toteutukseen ei kuitenkaan päästy, koska välineiden opettelussa täytyi kokeilla erilaisia asioita ja tämä sujui nopeammin, kun testit kirjoitettiin jälkikäteen. Suurin osa koodista on kuitenkin 
+toteutettu testilähtöisesti. Testejen kirjoittamiseen käytettiin Pyramidin testikirjastoa sekä Webtest-kirjastoa. Kyseinen kirjasto on tarkoitettu erityisesti funktionaalisia testejä varten.:w
+
+Projektin alussa kirjoitettiin jonkin verran yksikkötestejä, mutta ne osoittautuivat omasta mielestäni hyvin aikaa vieviksi. Yksikkötestit siis jätettiin suurimmalta osalta pois ja siirryttiin 
+käyttämään funktionaalisia testejä. Funktionaaliset testit ovat korkeamman tason testejä, jotka testaavat jonkun isomman kokonaisuuden. Yksikkötestit testaavat usein jonkun tietyn algoritmin toimivuutta, mutta 
+funktionaaliset testit taas testaavat esimerkiksi napin painallusta sivustolla. Tätä varten funktionaalisissa testeissä "rakennetaan" aina ympäristö testaamista varten. Tässä tilanteessa siis kyseinen sivusto. 
+
+Funktionaaliset testit osoittautuivat hyvin mielekkäiksi kirjoittaa. Ne myös kävivät suuren osan koodia kerralla läpi sekä vastasivat suoraan asiakkaan vaatimuksia. Samalla ne kuvasivat sovelluksen yleistä
+toiminnallisuutta. Huonona puolena 
+
+- Testien ylläpito
+- Turhien ominaisuuksien poistaminen -> testejen poistamineA
+- Tekinset hommat toimivat hyvin, mutta ketteryyttä oli "liikaa", eli ennakointia
+
+
+
 
 Ajankäyttö
 ----------
 Ajankäytössä ei voida tarkkaan sanoa kuinka paljon aikaa meni mihinkin vaiheeseen, koska
 erilaisia ongelmia/väärinkäsityksiä ilmeni niin asiakaspuolella kuin kehityspuolellakin. Välineet
-olivat myös kehittäjälle tuntemattomia, joten niiden opetteluun meni myös aikaa. Testit kirjoitettiin aina ennen varsinaisen toteutuksen kirjoittamista. Testit olivat siis kokoajan mukana ominaisuuksien tekemisessä, joka huomataan ajan käytössä toteutuksessa. Testejen ylläpitoon meni myös oma aikansa, koska speksejen muuttuessa jouduttiin muuttamaan testejä. Testit kuitenkin maksoivat itsensä takaisin moninkertaisesti. Erityisesti tilanteissa, joissa ohjelmakoodia tai siihen liittyvää arkkitehtuuria muutettiin. Kokonaistuntimäärä pitää paikkansa, mutta eri osa-alueiden tarkat tuntimäärät saattavat vaihdella. Ne vastaavat kuitenkin painoarvoltaan todellisuutta, joten ajankäytöstä saa hyvän kuvan alla olevasta selvityksestä.
+olivat myös kehittäjälle tuntemattomia, joten niiden opetteluun meni myös aikaa. Testit kirjoitettiin aina ennen varsinaisen toteutuksen kirjoittamista. 
+Testit olivat siis kokoajan mukana ominaisuuksien tekemisessä, joka huomataan ajan käytössä toteutuksessa. Testejen ylläpitoon meni myös oma aikansa, koska 
+speksejen muuttuessa jouduttiin muuttamaan testejä. Testit kuitenkin maksoivat itsensä takaisin moninkertaisesti. Erityisesti tilanteissa, joissa ohjelmakoodia tai 
+siihen liittyvää arkkitehtuuria muutettiin. Kokonaistuntimäärä pitää paikkansa, mutta eri osa-alueiden tarkat tuntimäärät saattavat vaihdella. Ne vastaavat kuitenkin 
+painoarvoltaan todellisuutta, joten ajankäytöstä saa hyvän kuvan alla olevasta selvityksestä.
 
 - Suunnittelu (28h)
     + Asiakkaan kanssa (8h)
