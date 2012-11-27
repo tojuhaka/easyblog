@@ -189,6 +189,9 @@ Sovelluksen kehitys toteutettiin ajamalla sivustoa omalla koneella ja samalla vi
 <http://www.webfaction.com/>`_ tarjoamaa hostauspalvelua. Syy tähän oli erittäin selkeä ja hyvä tuki Pyramidille. Sovelluksesta tehtiin yksinkertainen Python-paketti, joka asennettiin erilliseen
 virtuaaliseen Python-ympäristöön palvelimelle. Tuotantoon vietiin monesti erilaisia prototyyyppi versioita asiakkaalle näyettäväksi ennen varsinaista julkaisua.
 
+Sivustolle testiin myös yksinkertainen käyettävyyskoe, jossa kaikki sivuston pääkäyttäjät kokeilivat sivustoa ilman ohjeita. Kokeessa seurattiin kuinka nopeasti käyttäjät omaksuvat sisällön luomisen
+sivustolla. Samalla kokeen aikana käyttäjät koulutettiin käyttämään sivustoa. Tiivistettynä käyttäjät omaksuivat sivun käyttämisen erittäin nopeasti ilman suurempia käytettävyysongelmia.
+
 
 Ajankäyttö
 ----------
