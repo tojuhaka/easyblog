@@ -172,15 +172,16 @@ toteutettu testilähtöisesti. Testejen kirjoittamiseen käytettiin Pyramidin te
 Projektin alussa kirjoitettiin jonkin verran yksikkötestejä, mutta ne osoittautuivat omasta mielestäni hyvin aikaa vieviksi. Yksikkötestit siis jätettiin suurimmalta osalta pois ja siirryttiin 
 käyttämään funktionaalisia testejä. Funktionaaliset testit ovat korkeamman tason testejä, jotka testaavat jonkun isomman kokonaisuuden. Yksikkötestit testaavat usein jonkun tietyn algoritmin toimivuutta, mutta 
 funktionaaliset testit taas testaavat esimerkiksi napin painallusta sivustolla. Tätä varten funktionaalisissa testeissä "rakennetaan" aina ympäristö testaamista varten. Tässä tilanteessa siis kyseinen sivusto. 
-
 Funktionaaliset testit osoittautuivat hyvin mielekkäiksi kirjoittaa. Ne myös kävivät suuren osan koodia kerralla läpi sekä vastasivat suoraan asiakkaan vaatimuksia. Samalla ne kuvasivat sovelluksen yleistä
-toiminnallisuutta. Huonona puolena 
+toiminnallisuutta. Testit pystyttiin myös usein kuvaamaan suoraan asiakkaiden tarpeiden pohjalta ja ne helpottivat samalla seuraamaan projektin etenemistä ominaisuuksian näkökulmasta.
 
-- Testien ylläpito
-- Turhien ominaisuuksien poistaminen -> testejen poistamineA
-- Tekinset hommat toimivat hyvin, mutta ketteryyttä oli "liikaa", eli ennakointia
+Vaikka testit helpottivat suuresti projektin ohjelmakoodin hallintaa, osoittautuivat ne myös varsin työllistäviksin. Erityisesti tämä tuli esiin siinä vaiheessa, kun projektin hallinnan osalta oltiin liian
+ketteriä ja ennakoitiin asiakkaan vaatimuksia. Liika ketteryys johti välillä ominaisuuksien tekemiseen, joita ei lopulta tarvittukkaan. Tässä vaiheessa testit työllistivät runsaasti, koska
+erilaisten ominaisuuksien postuessa tai muuttuessa jouduttiin samalla päivittämään testit ajantasalle  Tähän oli kuitenkin usein syynä liika ennakointi, sekä asiakkaan vaatimusten epämääräisyys, ei siis 
+ohjelmointitekniikka itsessään.
 
-
+Testilähtöinen kehitys osoittautui tietenkin työlääksi itse koodia kirjottaessa, mutta todellisuudessa se maksoi itsensä takaisin moneen kertaan kun sovellusta refaktoroitiin. Kattavat testit pitivät
+huolen siitä, että tehdyt virheet tulivat esiin välittömästi koodia muuttaessa. 
 
 
 Ajankäyttö
@@ -227,7 +228,8 @@ liittyvistä ongelmista, jotka tulivat vastaan sovelluksen kehityksen aikana. T�
 
 Komponentit olisivat voineet olla vielä modulaarisempia. Tätä kuitenkin rajoitti valitut välineet, joten suoraan ei voida sanoa millä tavalla ohjelmakoodi olisi pitänyt toteuttaa toisin. Sama ongelma esiintyi templatejen kirjoittamisessa, jossa jouduttiin usein toistaa samankaltaista pohjaa monessa eri templatessa. Mikään template ei kuitenkaan ollut identtinen, vaan sisälsi osaksi kontekstiriippuvuutta, joten suoraa toisen templaten käyttöä ei voitu toteuttaa. Suurin osa toistosta saatiin kuitenkin kuriin yhden base.pt -templaten avulla. 
 
-Aikaa vei suuresti speksejen epätarkkuus, joka johti ylimääräisten ominaisuuksien turhaan toteutukseen sekä haluttujen ominaisuuksien vääränlaiseen toteutukseen. Tässä olisi pitänyt olla tarkempi alusta asti. Samalla olisi tullut ottaa huomioon käännöksien tarpeellisuus jo kehityksen alussa. Tämä aiheutti myös hieman lisätyötä.
+Aikaa vei suuresti speksejen epätarkkuus, joka johti ylimääräisten ominaisuuksien turhaan toteutukseen sekä haluttujen ominaisuuksien vääränlaiseen toteutukseen. Tässä olisi pitänyt olla tarkempi alusta asti. Samalla olisi tullut ottaa huomioon käännöksien tarpeellisuus jo kehityksen alussa. Tämä aiheutti myös hieman lisätyötä. Testilähtöinen kehitys kuitenkin piti huolen, että sovellukksen refaktoroinnin aikana
+saatiin virheet esiin välittömästi testejä ajettaessa. Tällä säästettiin aikaa huomattavasti.
 
 Erilaisten sovelluksen osien nimeämiskäytäntöjä olisi voinut miettiä tarkemmin. Esimerkiksi joissain tilanteissa sama asia nimettiin kahdella eritavalla. 
 
