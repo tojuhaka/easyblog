@@ -183,6 +183,12 @@ ohjelmointitekniikka itsessään.
 Testilähtöinen kehitys osoittautui tietenkin työlääksi itse koodia kirjottaessa, mutta todellisuudessa se maksoi itsensä takaisin moneen kertaan kun sovellusta refaktoroitiin. Kattavat testit pitivät
 huolen siitä, että tehdyt virheet tulivat esiin välittömästi koodia muuttaessa. 
 
+Tuotantoon vieminen
+-------------------
+Sovelluksen kehitys toteutettiin ajamalla sivustoa omalla koneella ja samalla viemällä erilaisia prototyyppejä kehitysversiosta tuotantoon näytettäväksi. Tuotantoa varten käytettiin `WebFactionin
+<http://www.webfaction.com/>`_ tarjoamaa hostauspalvelua. Syy tähän oli erittäin selkeä ja hyvä tuki Pyramidille. Sovelluksesta tehtiin yksinkertainen Python-paketti, joka asennettiin erilliseen
+virtuaaliseen Python-ympäristöön palvelimelle. Tuotantoon vietiin monesti erilaisia prototyyyppi versioita asiakkaalle näyettäväksi ennen varsinaista julkaisua.
+
 
 Ajankäyttö
 ----------
