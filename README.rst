@@ -178,10 +178,19 @@ toteutukseen ei kuitenkaan päästy, koska välineiden opettelussa täytyi kokei
 toteutettu testilähtöisesti. Testejen kirjoittamiseen käytettiin Pyramidin testikirjastoa sekä Webtest-kirjastoa. Kyseinen kirjasto on tarkoitettu erityisesti funktionaalisia testejä varten.:w
 
 Projektin alussa kirjoitettiin jonkin verran yksikkötestejä, mutta ne osoittautuivat omasta mielestäni hyvin aikaa vieviksi. Yksikkötestit siis jätettiin suurimmalta osalta pois ja siirryttiin 
-käyttämään funktionaalisia testejä. Funktionaaliset testit ovat korkeamman tason testejä, jotka testaavat jonkun isomman kokonaisuuden. Yksikkötestit testaavat usein jonkun tietyn algoritmin toimivuutta, mutta 
+käyttämään funktionaalisia testejä sekä integraatiotestejä. Funktionaaliset testit ovat korkeamman tason testejä, jotka testaavat jonkun isomman kokonaisuuden. Yksikkötestit testaavat usein jonkun tietyn algoritmin toimivuutta, mutta 
 funktionaaliset testit taas testaavat esimerkiksi napin painallusta sivustolla. Tätä varten funktionaalisissa testeissä "rakennetaan" aina ympäristö testaamista varten. Tässä tilanteessa siis kyseinen sivusto. 
 Funktionaaliset testit osoittautuivat hyvin mielekkäiksi kirjoittaa. Ne myös kävivät suuren osan koodia kerralla läpi sekä vastasivat suoraan asiakkaan vaatimuksia. Samalla ne kuvasivat sovelluksen yleistä
-toiminnallisuutta. Testit pystyttiin myös usein kuvaamaan suoraan asiakkaiden tarpeiden pohjalta ja ne helpottivat samalla seuraamaan projektin etenemistä ominaisuuksian näkökulmasta.
+toiminnallisuutta. Testit pystyttiin myös usein kuvaamaan suoraan asiakkaiden tarpeiden pohjalta ja ne helpottivat samalla seuraamaan projektin etenemistä ominaisuuksian näkökulmasta. 
+
+Funktionaalisissa testeissä oli myös seassa integraatiotestejä. Näiden kahden raja oli sovelluksen kehityksen aikana häilyvä, koska testeissä käytettiin kumpaakin sekaisin. Näitä ei siis jaoteltu erikseen, koska päämääränä oli testauslähtöinen kehitys,
+jossa kantaa ei niinkään otettu siihen onko kyseessä yksikkötestejä, funktionaalisia testejeä vai integraatiotestejä. Kuitenkin jälkiviisaana voisi sanoa, että testejä olisi voinut jaotella myös integraatiotesteihin. Tästä asiasta en Kuitenkaan välittänyt
+kehityksen aikana, vaan esittelin kummatkin "funktionaalisina testeinä". 
+
+Testauksessa oli myös vivahteita ATDD:n (Acceptance Test Driven Development) suuntaan, mutta todellisuudessa tätä testaus ei ollut. ATDD:hen kuuluu yleensä se, että asiakas määrittelee jollain tasolla ominaisuuksia testeinä. Tähän ei kuitenkaan missään vaiheessa
+päästy, vaan testit kirjoitettiin aina täysin kehittäjän toimesta. Asiakas ei myöskään ollut täysin varma mitä haluamistaan ominaisuuksista, joten tämän puolesta ATDD:n oikeaoppinen käyttäminen olisi tullut vastaan. Testejä kirjoitettin myös aina yksi kerrallaan ja 
+tämän jälkeen kirjoitettiin toiminnallisuus, jotta testi menisi läpi. ATDD:ssä yleensä kirjoitetaan kerralla useita testejä, jotka käyvät läpi sovelluksen toimintaa. Tämän jälkeen ohjelmakoodi kirjoitetaan siten, että kaikki testit menevät läpi. 
+Tässä projektissa testit kirjoitettiin kuitenkin usein kehittäjän toimesta siten, että ne vastaavat asiakkaan kanssa sovittuja toiminnallisuuksia, joten tältä osin päästiin lähelle ATDD:tä.
 
 Vaikka testit helpottivat suuresti projektin ohjelmakoodin hallintaa, osoittautuivat ne myös varsin työllistäviksin. Erityisesti tämä tuli esiin siinä vaiheessa, kun projektin hallinnan osalta oltiin liian
 ketteriä ja ennakoitiin asiakkaan vaatimuksia. Liika ketteryys johti välillä ominaisuuksien tekemiseen, joita ei lopulta tarvittukkaan. Tässä vaiheessa testit työllistivät runsaasti, koska
