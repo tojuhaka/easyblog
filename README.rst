@@ -162,8 +162,12 @@ käsittelyä ei tässä raportissa toteuteta.
 Sovelluksen rakenne
 -------------------
 
-Oliotietokannan ansiosta pystytään sovelluksen rakenne kuvaamaan selkeästi luokkakaaviona. Tämä siksi, koska sovellukseen luodut "mallit" kuvaavat sovelluksen rakennetta ja sen ylläpitämää
-tietoa. Mallit pitävät siis yllä sovelluksen tilaa ja tallentuvat näin oliotietokantaan. Seuraavassa kuvassa on määritelty tämän työn luokkakaavio, joissa kaikki sovelluksen mallit on esitelty.
+Oliotietokannan ansiosta pystytään sovelluksen rakenne kuvaamaan selkeästi luokkakaaviona. Tämä siksi, koska sovellukseen luodut mallit (model) kuvaavat sovelluksen rakennetta ja sen ylläpitämää
+tietoa. Mallit pitävät siis yllä sovelluksen tilaa ja tallentuvat näin oliotietokantaan. Luokkien rakenne toimii siten, että tietyt luokat toimivat säiliöinä ja muut tavallisina sisältöinä/objekteina. Oliotietokannassa hierarkia on tallennettu puuna, jossa on vanhempi- sekä lapsielementtjä.
+Esimerkiksi yksi blogikirjoitus kuuluu Blog -oliolle, joka toimii säiliönä jokaiselle blogikirjoitus-oliolle. Oliotietokannassa on aina juuri (root), josta lähdetään sanastoperiaatteella käymään
+puuta läpi. Jos menemme vaikka sivustolla "/blogs/blog-1/kirjoitus-1", menemme myös tietokannassa kyseiseen kohtaan. Jos tietokannasta löytyy kyseinen blogikirjoitus-olio, tarjotaan olion sisältö halutussa
+muodossa selaimelle. Tässä tapauksessa HTML-sivuna. Tätä toiminnallisuutta kutsutaan "Traversal" -nimellä. Seuraavassa kuvassa on määritelty projektin luokkakaavio, joissa kaikki sovelluksen mallit on esitelty. Kyseiset
+mallit esiintyvät siis myös sivuina sivustolla. 
 
 .. image:: https://github.com/tojuhaka/easyblog/raw/master/class_diagram.png
 
@@ -233,7 +237,7 @@ painoarvoltaan todellisuutta, joten ajankäytöstä saa hyvän kuvan alla olevas
     + koulutus (5h)
     + ylläpito (5h)
 
-Tavoitteiden onnistuminen
+Tavoitteiden toteutuminen
 -------------------------
 Varsinaiseen suunnitteluun ei käytetty aikaa juurikaan ja näin oli tarkoituskin. Erilaisia ominaisuuksia 
 yleensä kirjoitettiin suoraan, koska ne olivat yleensä melko suoraviivaisia ja selkeitä. Jos suunnitelua 
