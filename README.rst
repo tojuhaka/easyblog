@@ -93,6 +93,10 @@ sivuston painoarvo itsessään on jo hyvin suuri. Seuraavassa listaus vaatimuksi
   käyttäjien oikeuksia, jollain tasolla
 - Ulkoasun värimaailma tulisi olla syksyinen (oranssi/musta)
 
+Asiakaalla ei suoraan ollut selkeä kuvaa mitä sivun tulisi heille tarjota. Yllä esitellyistä
+vaatimuksista eivät kaikki tulleet suoraan projektin alussa, vaan ne lisääntyivät
+pikkuhiljaa projektin edetessä.
+
 
 Omat vaatimukset
 ----------------
@@ -229,6 +233,31 @@ painoarvoltaan todellisuutta, joten ajankäytöstä saa hyvän kuvan alla olevas
     + koulutus (5h)
     + ylläpito (5h)
 
+Tavoitteiden onnistuminen
+-------------------------
+Varsinaiseen suunnitteluun ei käytetty aikaa juurikaan ja näin oli tarkoituskin. Erilaisia ominaisuuksia 
+yleensä kirjoitettiin suoraan, koska ne olivat yleensä melko suoraviivaisia ja selkeitä. Jos suunnitelua 
+olisi ollut enemmän, uskoisin että projektin kehitys olisi hidastunut huomattavasti, koska projektilla
+ei ollut selkeitä vaatimuksia alussa. Vaatimukset lisääntyivät siis projektin aikana. Asiakkaalle oli muutenkin
+tärkeää, että sivustoa demottiin aina välillä, jotta heille tulisi selkämpi kuva siitä mitä he haluavat.
+
+Testejen osalta onnistuttiin varsin mallikkaasti. Testit kulkivat mukana koko projektin toteutuksen ajan ja projektin lopussa
+ne kattasivat lähes koko ohjelmakoodin. Kuitenkaan 100% testikattavuuten ei aivan päästy. Testit maksoivat itsensä takaisin 
+erityisesti kun ohjelmakoodia lähdettiin refaktoroimaan ja muuttamaan. 
+
+Refaktorointia tapahtui myös koko projektin ajan, mutta tämä koitui välillä hieman ongelmaksikin. Liiallinen "täydellisyyteen" pyrkiminen
+toi jonkin verran ylimääräisiä tunteja, joilta olisi voinut välttyä. Ei voida kuitenkaan sanoa, että nämä tunnit olisi ollut hukkaanheitettyä
+aikaa. Sorruin muutamaan otteeseen kuitenkin liialliseen ohjelmakoodin refaktorointiin. Sain kuitenkin omalta osaltani vähennettyä tätä verrattaen edellisiin projekteihini, 
+joten tässä tapahtui jonkinlaista kehitystä. Ohjelmakoodin dokumentointiin ja kommentointiin olisi voinut panostaa enemmän. Tätäkin on
+vaikea mitata, koska tällä hetkellä koodia on lukenut oikeastaan itse sen tekijä, eikä palautetta koodin selkeydestä ja kommentoinnista
+ole saatu ulkopuoliselta henkilöltä. Tavoitteena oli kuitenkin kommentoida epäselvät kohdat, joten uskon että tavoitteeseen päästiin. 
+
+Asiakkaalle olisi voinut näyttää vielä enemmän erilaisia prototyyppejä. Sivustoa demottiin asiakkaalle muutamaan otteeseen projektin aikana, mutta tämä ei oikeastaan
+koskaan lähtenyt itse asiakkaan suunnasta vaan omasta toimestani. Olisin odottanut asiakkaalta enemmän painostusta tämän suhteen, koska projektin onnistumisen kannalta
+on tärkeää, että asiakas on kiinnostunut mihin suuntaan projekti etenee. Prototyyppejen näyttäminen osoittautui erittäin toimivaksi, koska niiden kautta asiakkaalta
+saatiin aina selkeimpiä vaatimuksia. Samalla nähtiin myös suoraan, jos jokin ominaisuus ei asiakasta miellyttänyt.
+
+
 
 Mitä olisi pitänyt tehdä toisin?
 -------------------------------
@@ -245,7 +274,8 @@ Erilaisten sovelluksen osien nimeämiskäytäntöjä olisi voinut miettiä tarke
 Projekti pähkinänkuoressa
 -------------------------
 Ongelmia tuotti projekin hallinnollinen puoli, jossa asiakkaan speksejen kanssa olisi voinut
-olla tiukempi. Tästä koitui paljon lisätyötä, jolta olisi hyvin voinut välttyä. Testilähtöinen kehitys osoittautui erittäin tehokkaaksi, mutta samalla myös työlääksi. Silti voi sanoa, että kattavat testit tekivät sovelluksen kehittämisestä nopeaa ja varmaa. Sovellukseen tehtyjen muutoksien tuottamat bugit löytyivät välittömästi testejen avulla, joka taas puolestaan nopeutti kehitystä huomattavasti.
+olla tiukempi. Tästä koitui paljon lisätyötä, jolta olisi hyvin voinut välttyä. Asiakas olisi voinut myös olla paljon tietoisempi siitä mitä hän haluaa. Prototyyppejen esittely kuitenkin auttoi
+paljon selkeyttämään asiakkaan vaatimuksia. Testilähtöinen kehitys osoittautui erittäin tehokkaaksi, mutta samalla myös työlääksi. Silti voi sanoa, että kattavat testit tekivät sovelluksen kehittämisestä nopeaa ja varmaa. Sovellukseen tehtyjen muutoksien tuottamat bugit löytyivät välittömästi testejen avulla, joka taas puolestaan nopeutti kehitystä huomattavasti.
 
 Kehityksen aikana tuli myös huomattua, kuinka suuri osa ajasta menee kaikkeen muuhun kuin ohjelmointiin. Suunnittelu, välineiden opettelu sekä koulutus veivät oman aikansa ohjelmoinnin ohella. Vaikka sivusto ei ollut lopputoteutukseltaan kovin laaja, meni sen tekemiseen paljon odotettua enemmän aikaa. Erityisesti käyttökokemuksen viilaaminen, muutoksiin vastaaminen ja sovelluksen arkkitehtuurin hyvä toteutus veivät runsaasti aikaa. Se, että ohjelmakoodista haluaa tehdä nättiä, tuo erittäin paljon lisätyötä. Vähemmällä olisi luultavasti päässyt, jos ohjelmakoodin olisi jättänyt enemmän "sotkuiseksi". Tulevaisuuden kannalta tämä ei tosin olisi ollut kovinkaan järkevää.
 
