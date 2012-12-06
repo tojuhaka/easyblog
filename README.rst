@@ -166,10 +166,14 @@ Oliotietokannan ansiosta pystytään sovelluksen rakenne kuvaamaan selkeästi lu
 tietoa. Mallit pitävät siis yllä sovelluksen tilaa ja tallentuvat näin oliotietokantaan. Luokkien rakenne toimii siten, että tietyt luokat toimivat säiliöinä ja muut tavallisina sisältöinä/objekteina. Oliotietokannassa hierarkia on tallennettu puuna, jossa on vanhempi- sekä lapsielementtjä.
 Esimerkiksi yksi blogikirjoitus kuuluu Blog -oliolle, joka toimii säiliönä jokaiselle blogikirjoitus-oliolle. Oliotietokannassa on aina juuri (root), josta lähdetään sanastoperiaatteella käymään
 puuta läpi. Jos menemme vaikka sivustolla "/blogs/blog-1/kirjoitus-1", menemme myös tietokannassa kyseiseen kohtaan. Jos tietokannasta löytyy kyseinen blogikirjoitus-olio, tarjotaan olion sisältö halutussa
-muodossa selaimelle. Tässä tapauksessa HTML-sivuna. Tätä toiminnallisuutta kutsutaan "Traversal" -nimellä. Seuraavassa kuvassa on määritelty projektin luokkakaavio, joissa kaikki sovelluksen mallit on esitelty. Kyseiset
-mallit esiintyvät siis myös sivuina sivustolla. 
+muodossa selaimelle. Tässä tapauksessa HTML-sivuna. Tätä toiminnallisuutta kutsutaan "Traversal" -nimellä. Vaikka kutsumme alla olevaa kaaviota luokkakaavioksi, ei se kuvaa sovelluksen kaikkien luokkien ja suhdetta. Useita
+"epäolennaisia" luokkia on jätetty pois kaavion selkeyttämiseksi. Samalla notaatio on hyvin pelkistetty. Kaaviossa siis esitellään ainoastaan oliotietokannassa mallina esiintyvät luokat.
 
 .. image:: https://github.com/tojuhaka/easyblog/raw/master/class_diagram.png
+
+Kaaviossa kulmasulkeet kuvaavat perittyä "abstraktia" luokkaa. Pythonissa ei ole abstraktin luokan määritelmää kuten esimerkiski Javassa, mutta tätä ajattelutapaa voidaan hyödyntää. Content ja Container
+luokat pitävät huolen siitä, että ne tallentuvat oliotietokantaan eivätkä katoa sieltä requestin aikana. Nuolet kuvaavat lapsisuhdetta, jossa nuoli osoittaa aikuisesta lapsielementtiin. Tähti(*) kuvaa sitä, että
+luokan instansseja voi olla useita. Jos tähteä ei ole on luokasta vain yksi instanssi. 
 
 Testilähtöinen kehitys
 ----------------------
@@ -248,6 +252,10 @@ painoarvoltaan todellisuutta, joten ajankäytöstä saa hyvän kuvan alla olevas
 
 Tavoitteiden toteutuminen
 -------------------------
+
+Kehittäjä
+~~~~~~~~~
+
 Varsinaiseen suunnitteluun ei käytetty aikaa juurikaan ja näin oli tarkoituskin. Erilaisia ominaisuuksia 
 yleensä kirjoitettiin suoraan, koska ne olivat yleensä melko suoraviivaisia ja selkeitä. Jos suunnitelua 
 olisi ollut enemmän, uskoisin että projektin kehitys olisi hidastunut huomattavasti, koska projektilla
@@ -269,6 +277,23 @@ Asiakkaalle olisi voinut näyttää vielä enemmän erilaisia prototyyppejä. Si
 koskaan lähtenyt itse asiakkaan suunnasta vaan omasta toimestani. Olisin odottanut asiakkaalta enemmän painostusta tämän suhteen, koska projektin onnistumisen kannalta
 on tärkeää, että asiakas on kiinnostunut mihin suuntaan projekti etenee. Prototyyppejen näyttäminen osoittautui erittäin toimivaksi, koska niiden kautta asiakkaalta
 saatiin aina selkeimpiä vaatimuksia. Samalla nähtiin myös suoraan, jos jokin ominaisuus ei asiakasta miellyttänyt.
+
+Asiakas
+~~~~~~~
+
+Asiakkaan vaatimat ominaisuudet toteutettiin, niinkuin oli ajateltukkin lukuunottamatta etusivun informativiisuutta. Tarkempi info siirrettiin lopulta about-sivulle. Se millä tavalla ominaisuudet
+toteutettiin muuttui useita kertoja projektin aikana, mutta tähän ei oltu alunperin otettukkaan sen enempää kantaa.
+
+Asiakkaille tehdyssä koulutuksessa sivut osoittautuivat hyvin yksinkertaisiksi käyttää. Koulutuksessa toteutettiin pienimuotoinen koe, jossa puolelle porukasta
+jaettiin ohjeet sivuston käyttämiseen ja toiselle puolelle ei jaettu mitään ohjeita. Tämän jälkeen jokainen toteutti yksinkertaisia sisällönluomistehtäviä. Jokaisen henkilön
+kohdalla otettiin aikaa, kuinka kauan tehtävien tekoon meni. Tuloksista nähtiin, että aikaerot eivät olleet mitenkään suuria ryhmien välillä. Itseasiassa kahdella ohjeellisen ryhmän
+jäsenellä meni enemmän aikaa toteuttaa tehtävät (ohjeiden lukemiseen meni turhaa aikaa). Sivuston koko käytettävyys perustui siihen, että oikeasta yläkulmasta löytyi "Actions" -nappi,
+jonka tarjoamat toiminnot muuttuivat sivukohtaisesti. Koehenkilöt omaksuivat tämän toiminnallisuuden hyvin nopeasti. Eniten aikaa meni kyseisen napin löytämiseen.
+
+Tietoturvan puolesta luotettiin paljon Pyramidiin valmiiksi (ks. http://pyramid.readthedocs.org/en/latest/narr/security.html). Kuitenkin autentikointi jouduttiin
+toteuttamaan itse, mutta tämäkin toteutettiin "oikeaoppisesti" käyttämällä Pyramidissa tarkoitettuja autentikaation toteuttamiselle. Tietokantoihin kohdistettuja hyökkäyksiä 
+ei juurikaan ole mahdollista tehdä, koska kyseessä on oliotietokanta (esimerkiksi injektiot on tässä jo suljettu pois). Ainut tietoturvaongelma on tällä hetkellä, se että
+lähdekoodit näkyvät julkisesti githubissa (esimerkiksi suola näkyy avoimesti tällä hetkellä, mikä ei ole hyvä). Tämän ei pitäisi kuitenkaan tuottaa sivustolle haavoittuvuutta.
 
 
 
