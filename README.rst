@@ -172,8 +172,8 @@ muodossa selaimelle. Tässä tapauksessa HTML-sivuna. Tätä toiminnallisuutta k
 .. image:: https://github.com/tojuhaka/easyblog/raw/master/class_diagram.png
 
 Kaaviossa kulmasulkeet kuvaavat perittyä "abstraktia" luokkaa. Pythonissa ei ole abstraktin luokan määritelmää kuten esimerkiski Javassa, mutta tätä ajattelutapaa voidaan hyödyntää. Content ja Container
-luokat pitävät huolen siitä, että ne tallentuvat oliotietokantaan eivätkä katoa sieltä requestin aikana. Nuolet kuvaavat lapsisuhdetta, jossa nuoli osoittaa aikuisesta lapsielementtiin. Tähti(*) kuvaa sitä, että
-luokan instansseja voi olla useita. Jos tähteä ei ole on luokasta vain yksi instanssi. 
+luokat pitävät huolen siitä, että ne tallentuvat oliotietokantaan eivätkä katoa sieltä requestin aikana. Nuolet kuvaavat lapsisuhdetta, jossa nuoli osoittaa aikuisesta lapsielementtiin. Esimerkisi Main-luokka 
+sisältää Blogs-luokan, joka taas sisältää monta Blog-luokkaa. Tähti(*) kuvaa sitä, että luokan instansseja voi olla useita. Jos tähteä ei ole on luokasta vain yksi instanssi. 
 
 Testilähtöinen kehitys
 ----------------------
