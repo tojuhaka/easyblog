@@ -157,7 +157,7 @@ class MainView(BaseView):
             self.message += msg['content_forbidden']
 
         _dict = {
-            'url': self.request.application_url + '/login',
+            'url': self.request.application_url + 'login',
             'came_from': came_from,
             'username': username,
             'password': password,

@@ -14,3 +14,4 @@ pyramid_viewgroup
 babel
 lingua
 setuptools_hg
+zope.app.component

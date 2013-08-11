@@ -11,7 +11,7 @@
     <div tal:condition="message" class="alert alert-error">
         ${message}
     </div>
-    ${form.begin(request.resource_url(request.root, '/login'))}
+    ${form.begin(request.resource_url(request.root, 'login'))}
     ${form.csrf_token()}
     <div tal:condition="form.all_errors()" class="alert alert-error">
       ${form.errorlist()}
