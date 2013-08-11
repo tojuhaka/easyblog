@@ -45,7 +45,7 @@ def main(global_config, **settings):
 
     config.include('pyramid_viewgroup')
 
-    config.add_static_view('static', 'static', cache_max_age=3600)
+    config.add_static_view('static', 'easyblog:static/', cache_max_age=3600)
     config.scan()
 
     config.add_route('lang', '/lang-{code}')

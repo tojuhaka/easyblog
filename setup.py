@@ -22,7 +22,8 @@ requires = [
     'pyramid_viewgroup',
     'babel',
     'lingua',
-    'setuptools_hg'
+    'setuptools_hg',
+    'zope.app.component'
     ]
 
 setup(name='easyblog',
